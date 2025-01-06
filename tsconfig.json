@@ -1,0 +1,52 @@
+{
+  // "files": [],
+
+  "compilerOptions": {
+    "skipLibCheck": true, // assumed the third-party libraries you used are already well-tested, reducing type-checking workload
+    "module": "ESNext", // // the module system for the program
+    "lib": ["ES2020", "DOM", "DOM.Iterable"], // optimized for the browse; a list of library files to the compilation
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020", // the target ECMAScript version to transpile our code down to. If set to "ESnext", best combined with Webpack/Vite
+    "useDefineForClassFields": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler", // controls how TypeScript resolves module imports
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true, //  check for type errors (in dev mode) but will not produce any output files. Vite handles the emitting process.
+
+    /* Linting */
+    "strict": true, // inherently make each file in strict mode
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true, // prevents unexpected behavior in switch statements by enforcing an error if a casefalls through without an explicit break, return, or throw
+    "noUncheckedSideEffectImports": true,
+    "resolveJsonModule": true, // Allows importing modules with a .json extension. TypeScript automatically typing it as any.
+    "esModuleInterop": true, // Allows default imports from CommonJS modules. You can cleanly import default exports from CommonJS modules, making it easier to integrate libraries.
+    "allowSyntheticDefaultImports": true, // allows developers to use default import syntax even when a module does not explicitly have a default export. Useful when working with CommonJS modules or legacy JavaScript libraries.
+    "forceConsistentCasingInFileNames": true, // ensure no casing error in the file name when you import a file
+    "noImplicitAny": true, // Raises errors for declarations with an implied any type
+    "noUncheckedIndexedAccess": true, // Protect against undefined values in object lookups.
+    "preserveConstEnums": true, //  the enum exists at runtime and the numbers are still emitted, refer to https://www.typescriptlang.org/tsconfig/#preserveConstEnums
+    "noImplicitOverride": true, // any overridden method must use the override keyword
+    "baseUrl": ".", // Root of the project
+    "paths": {
+      "@/*": ["src/*"] // Alias for cleaner imports
+    },
+
+    /* Bundler mode */
+    "jsx": "react-jsx", //  Enables the new JSX Transform. Controls how JSX constructs are emitted in JavaScript files.
+
+    "allowUnreachableCode": false, // prevent unreachable code from sneaking into production, ensuring cleaner and more intentional code paths
+    "allowJs": true, // Allows JavaScript files in the project (if you're transitioning from JS to TS).
+
+    /* Performance */
+    "removeComments": true, // Strips all comments from TypeScript files when converting into JavaScript.
+
+    /* Debugging */
+    "sourceMap": true // Generates a .js.map file next to the corresponding .js output file, allow debuggers and other tools to display the original TypeScript source code when actually working with the emitted JavaScript files.
+  },
+  "include": ["src", "vite.config.ts", "types"],
+  "exclude": ["node_modules"]
+}
