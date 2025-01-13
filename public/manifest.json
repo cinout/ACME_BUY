@@ -1,9 +1,9 @@
 {
-  "short_name": "haitian-template",
-  "name": "haitian-template",
+  "short_name": "haitian-shoppingsite",
+  "name": "haitian-shoppingsite",
   "icons": [
     {
-      "src": "haitian-template.svg",
+      "src": "haitian-shoppingsite.svg",
       "sizes": "192x192",
       "type": "image/svg+xml"
     }

@@ -18,8 +18,8 @@
 
     /* Linting */
     "strict": true, // inherently make each file in strict mode
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false, // // let ESLint handle this (because TS cannot set warn level)
+    "noUnusedParameters": false, // let ESLint handle this (because TS cannot set warn level)
     "noFallthroughCasesInSwitch": true, // prevents unexpected behavior in switch statements by enforcing an error if a casefalls through without an explicit break, return, or throw
     "noUncheckedSideEffectImports": true,
     "resolveJsonModule": true, // Allows importing modules with a .json extension. TypeScript automatically typing it as any.

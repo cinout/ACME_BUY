@@ -3,7 +3,6 @@
 ## 🙊 Description
 
 This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
-TODO: replace all "haitian-template" with your project's own information
 
 ## 🏃‍➡️ How to Run
 
@@ -28,4 +27,4 @@ TODO: replace all "haitian-template" with your project's own information
 
 ## 📋 Coming Next
 
-- [ ] ...
+- [ ] Check which packages should be replaced with better alternatives: npm i apexcharts react-apexcharts axios jwt-decode moment react-hot-toast react-icons @reduxjs/toolkit react-redux react-spinners react-window redux-thunk socket.io-client
