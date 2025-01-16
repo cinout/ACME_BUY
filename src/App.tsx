@@ -1,27 +1,8 @@
-import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
-import NotFoundPage from "./pages/NotFoundPage";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import Router from "@/router/Router.tsx";
+import { publicRoutes } from "./router/routes/publicRoutes.tsx";
 
-function App() {
-  const [mylist, setMylist] = useState<number[]>([]);
-
-  useEffect(() => {
-    console.log("mylist");
-  }, [2]);
-
-  function change() {
-    mylist.push(2);
-    setMylist([...mylist]);
-  }
-
-  return (
-    <div>
-      <button onClick={change}>Click</button>
-    </div>
-  );
+export default function App() {
+  const [allRoutes, setAllRoutes] = useState(publicRoutes);
+  return <Router allRoutes={allRoutes} />;
 }
-
-export default App;

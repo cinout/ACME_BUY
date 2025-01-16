@@ -13,9 +13,12 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 
 - **Bundler**: Vite
 - **CSS**: TailwindCSS, PostCSS
-- **JS Framework**: ReactJS
+- **JS Framework**: ReactJS, Redux
 - **Type Check**: TypeSript
-- others...
+- **API Fetch**: Axios
+- **Charts**: apexcharts react-apexcharts
+- **Real-time Chat**: Socket.io
+- **Other Packages**: jwt-decode, date-fns (replace moment), react-hot-toast, react-spinners, react-window, react-icons
 
 ## 🦄 Unique Features
 
@@ -27,4 +30,7 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 
 ## 📋 Coming Next
 
-- [ ] Check which packages should be replaced with better alternatives: npm i apexcharts react-apexcharts axios jwt-decode moment react-hot-toast react-icons @reduxjs/toolkit react-redux react-spinners react-window redux-thunk socket.io-client
+- [ ] jsonwebtoken for server side (jwt-decode for client side)
+- [ ] compare apexcharts with Chart.js, D3.js
+- [ ] Content Security Policy (CSP) error with sign up page
+- [ ] Is other better way to handle forms?

@@ -11,10 +11,21 @@
   color-scheme: light dark;
 }
 
-html,
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
-  height: 100%; /* Ensure body takes full height */
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+#root {
+  height: 100%;
+  width: 100%;
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
