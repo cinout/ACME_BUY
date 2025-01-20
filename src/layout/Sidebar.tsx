@@ -1,0 +1,125 @@
+import { Link, useLocation } from "react-router-dom";
+import logo from "@/assets/images/company_logo.png";
+import { navOptions, NavOptionsProps } from "@/navigation/allNavs";
+import { Role } from "@/utils/enums";
+import { IoIosLogOut } from "react-icons/io";
+import { useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+
+// TODO: make it responsive (lg as breakpoint)
+interface Props {
+  showDashboard: boolean;
+  setShowDashboard: React.Dispatch<React.SetStateAction<boolean>>;
+  menuButtonRef: React.RefObject<HTMLButtonElement | null>;
+}
+
+function MenuContent({
+  panelOptions,
+  pathname,
+}: {
+  panelOptions: NavOptionsProps[];
+  pathname: string;
+}) {
+  return (
+    <>
+      <div className="mt-8">
+        {panelOptions.map((item) => (
+          <Link
+            to={item.path}
+            key={item.name}
+            className={`block pl-5 py-3 font-medium hover:bg-lime-500 hover:text-lime-200 transition-all duration-0 ${
+              pathname === item.path
+                ? "bg-lime-500 text-lime-200 shadow-lime-200"
+                : "text-lime-600"
+            }`}
+          >
+            <div className="duration-200 hover:translate-x-1 flex items-center">
+              <span className="mr-2 text-2xl">{item.icon}</span>
+              <span>{item.name}</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* TODO: implement log out */}
+      <button className="absolute bottom-6 left-0 pl-5 flex items-center font-medium text-lime-900 hover:bg-lime-500 hover:text-lime-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full">
+        <IoIosLogOut className="text-2xl m-2" />
+        <span>Logout</span>
+      </button>
+    </>
+  );
+}
+
+export default function Sidebar({
+  showDashboard,
+  setShowDashboard,
+  menuButtonRef,
+}: Props) {
+  const panelOptions = navOptions.filter((a) => a.role.includes(Role.Admin)); // TODO: other roles later
+  const { pathname } = useLocation();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu if clicked outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        menuRef.current &&
+        menuButtonRef.current &&
+        !(
+          menuRef.current.contains(event.target as Node) ||
+          menuButtonRef.current.contains(event.target as Node)
+        )
+      ) {
+        setShowDashboard(false);
+      }
+    }
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuButtonRef, setShowDashboard]);
+
+  return (
+    <>
+      {/* Large Screen */}
+      <div className="box-border fixed top-0 left-0 h-full w-dashbord-width bg-lime-200 z-50 hidden lg:block">
+        {/* TODO: handle to="/" attribute */}
+        <Link to="/" className="flex justify-center mt-6 mb-12">
+          <img src={logo} alt="company logo" className=" w-[12.5rem]" />
+        </Link>
+
+        <MenuContent panelOptions={panelOptions} pathname={pathname} />
+      </div>
+
+      {/* TODO: move to Header, and show it right next to the menu button, and the tl corner should be the circle curve */}
+      {/* Smaller Screen */}
+      <AnimatePresence>
+        {showDashboard && (
+          <motion.div
+            className={`flex flex-col flex-1 lg:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[31.25rem] bg-lime-200 `}
+            ref={menuRef}
+            initial={{ translateY: "-0.625rem", opacity: 0 }}
+            animate={{
+              translateY: 0,
+              opacity: 1,
+              transition: { duration: 0.3 },
+            }}
+            exit={{
+              translateY: "-0.625rem",
+              opacity: 0,
+              transition: { duration: 0.1 },
+            }}
+          >
+            <MenuContent panelOptions={panelOptions} pathname={pathname} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+
+    // TODO: add log out here
+  );
+}

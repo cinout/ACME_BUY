@@ -18,7 +18,7 @@ export default function Register() {
 
   return (
     <div className="bg-gradient-to-tr from-lime-100 to-sky-200 flex justify-center items-center min-w-full min-h-full">
-      <div className="w-[350px] max-w-full text-white bg-sky-500 rounded-lg p-6 shadow-xl">
+      <div className="w-[21.875rem] max-w-full text-white bg-sky-500 rounded-lg p-6 shadow-xl">
         {/* Header */}
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="w-4/5" />

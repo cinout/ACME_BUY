@@ -1,3 +1,4 @@
+// TODO: consider moving this file to utils folder
 import axios from "axios";
 
 // allows you to reuse the same base settings, headers, or other options across multiple requests

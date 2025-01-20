@@ -42,6 +42,19 @@ export default {
         "theme-blue-900": "#164964",
         "theme-blue-950": "#0e2f43",
       },
+      screens: {
+        stn: "360px", // super tiny
+        tn: "480px", // tiny
+      },
+      spacing: {
+        "dashbord-width": "15rem",
+        "header-height": "4.375rem",
+      },
+      backgroundImage: {
+        conic: "conic-gradient(from 0deg, var(--tw-gradient-stops))",
+        radial: "radial-gradient(circle, var(--tw-gradient-stops))",
+        "radial-ellipse": "radial-gradient(ellipse, var(--tw-gradient-stops))",
+      },
       animation: {
         // winnerJump: "winnerJump infinite 1s",
       },

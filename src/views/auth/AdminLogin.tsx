@@ -42,7 +42,7 @@ export default function AdminLogin() {
 
   return (
     <div className="bg-gradient-to-tr from-lime-800 to-sky-800 flex justify-center items-center min-w-full min-h-full">
-      <div className="w-[350px] max-w-full text-slate-900 bg-lime-200 rounded-lg p-6 shadow-xl">
+      <div className="w-[21.875rem] max-w-full text-slate-900 bg-lime-200 rounded-lg p-6 shadow-xl">
         {/* Header */}
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="w-4/5" />
