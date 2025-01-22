@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { FormInput, SignInOptionButton } from "@/components/FormInput";
+import {
+  FormInput,
+  SignInOptionButton,
+} from "@/views/shared_components/FormInput";
 import { useState } from "react";
 import logo from "@/assets/images/company_logo.png";
 
@@ -14,10 +17,11 @@ export default function Register() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // TODO: actually do something...
   }
 
   return (
-    <div className="bg-gradient-to-tr from-lime-100 to-sky-200 flex justify-center items-center min-w-full min-h-full">
+    <div className="bg-gradient-to-tr from-aqua-forest-100 to-sky-200 flex justify-center items-center min-w-full min-h-full">
       <div className="w-[21.875rem] max-w-full text-white bg-sky-500 rounded-lg p-6 shadow-xl">
         {/* Header */}
         <div className="flex justify-center mb-6">
@@ -85,16 +89,16 @@ export default function Register() {
 
           <div className="flex flex-col items-center">
             <Link to="/login" className="mb-2 w-72">
-              <SignInOptionButton additionalClass="bg-slate-100 w-full">
+              <SignInOptionButton additionalStyle="bg-slate-100 w-full">
                 ACME BUY Account
               </SignInOptionButton>
             </Link>
 
             <div className="flex justify-between w-72">
-              <SignInOptionButton additionalClass="bg-[#EA4335] w-32">
+              <SignInOptionButton additionalStyle="bg-[#EA4335] w-32">
                 <FaGoogle className="inline mr-2" /> Google
               </SignInOptionButton>
-              <SignInOptionButton additionalClass="bg-[#1877F2] w-32">
+              <SignInOptionButton additionalStyle="bg-[#1877F2] w-32">
                 <FaFacebook className="inline mr-2" /> Facebook
               </SignInOptionButton>
             </div>

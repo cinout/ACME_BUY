@@ -13,3 +13,15 @@ export enum PaymentStatus {
 export enum OrderStatus {
   Pending = "Pending",
 }
+
+// TODO: update them
+export enum WithdrawStatus {
+  Pending = "Pending",
+}
+
+// TODO: update them
+export enum SellerStatus {
+  Pending = "Pending",
+  Deactivated = "Deactivated",
+  Active = "Active",
+}

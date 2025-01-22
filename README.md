@@ -21,7 +21,8 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - **Animation**: motion
 - **Icons**: react-icons, react-spinners, headlessui
 - **Notification**: react-hot-toast
-- **Other Packages**: jwt-decode, date-fns (replace moment), react-window, faker
+- **Efficient Rendering Large Dataset**: react-window
+- **Other Packages**: jwt-decode, date-fns (replace moment), faker
 
 ## 🦄 Unique Features
 
@@ -32,6 +33,7 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - ...
 - Pagination
 - Routing
+- hover show information
 
 ## 📋 Coming Next
 
@@ -41,3 +43,5 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - [ ] Is other better way to handle forms?
 - [ ] check if every page is responsove
 - [ ] When to add imgs in src/asset, and when in public/?
+- [ ] Sellor Request and Live Chat sections should show notification icon
+- [ ] A nice default reminder when user puts in wrong route

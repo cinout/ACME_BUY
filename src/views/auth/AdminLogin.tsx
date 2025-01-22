@@ -1,4 +1,4 @@
-import { FormInput } from "@/components/FormInput";
+import { FormInput } from "@/views/shared_components/FormInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { admin_login, clearToastMsg } from "@/redux/reducers/authReducer";
 import { useState } from "react";
@@ -22,6 +22,7 @@ export default function AdminLogin() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // TODO: actually do something...
     dispatch(admin_login(user))
       .then(() => {
         // Do something?
@@ -41,8 +42,8 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="bg-gradient-to-tr from-lime-800 to-sky-800 flex justify-center items-center min-w-full min-h-full">
-      <div className="w-[21.875rem] max-w-full text-slate-900 bg-lime-200 rounded-lg p-6 shadow-xl">
+    <div className="bg-gradient-to-tr from-aqua-forest-800 to-sky-800 flex justify-center items-center min-w-full min-h-full">
+      <div className="w-[21.875rem] max-w-full text-slate-900 bg-aqua-forest-200 rounded-lg p-6 shadow-xl">
         {/* Header */}
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="w-4/5" />
@@ -58,7 +59,7 @@ export default function AdminLogin() {
             placeholder="Your Email"
             value={user.email}
             handleChange={onUserChange}
-            additionalStyle="bg-lime-800 text-lime-200 placeholder:text-zinc-800"
+            additionalStyle="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
           />
           <FormInput
             fieldName="Password"
@@ -67,12 +68,12 @@ export default function AdminLogin() {
             placeholder="Your Password"
             value={user.password}
             handleChange={onUserChange}
-            additionalStyle="bg-lime-800 text-lime-200 placeholder:text-zinc-800"
+            additionalStyle="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
           />
 
           <button
             disabled={showLoader}
-            className="bg-lime-600 rounded-md p-1 w-full h-8 mt-10 font-black block hover:bg-lime-500 transition duration-200"
+            className="bg-aqua-forest-600 rounded-md p-1 w-full h-8 mt-10 font-black block hover:bg-aqua-forest-500 transition duration-200"
           >
             {showLoader ? (
               <BeatLoader

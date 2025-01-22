@@ -3,25 +3,30 @@ import circleLogo from "@/assets/images/company_logo_circleonly.png";
 import imgAdmin from "@/assets/images/admin.png";
 import { Link } from "react-router-dom";
 import { Input } from "@headlessui/react";
+import { faker } from "@faker-js/faker";
 
 interface Props {
-  showDashboard: boolean;
-  setShowDashboard: React.Dispatch<React.SetStateAction<boolean>>;
+  showSidebar: boolean;
+  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   menuButtonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 export default function Header({
-  showDashboard,
-  setShowDashboard,
+  showSidebar,
+  setShowSidebar,
   menuButtonRef,
 }: Props) {
   return (
     // <div className="">
 
-    <div className="fixed top-4 left-4 right-4 lg:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border  h-header-height bg-lime-500 ">
+    <div className="fixed top-4 left-4 right-4 lg:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border  h-header-height bg-aqua-forest-500 ">
       {/* Logo & Menu Button */}
+      {/* TODO: what to do with the Link */}
       <div className="lg:hidden inline-flex items-center justify-center">
-        <Link to="/" className="w-[2.375rem] h-[2.375rem] ml-4">
+        <Link
+          to="/"
+          className="w-[2.7rem] h-[2.7rem] ml-4 flex justify-center items-center"
+        >
           <img
             src={circleLogo}
             alt="logo"
@@ -31,12 +36,12 @@ export default function Header({
 
         <button
           ref={menuButtonRef}
-          onClick={() => setShowDashboard((isopen) => !isopen)}
-          className={`box-content font-bold p-1 mx-2 sm:mx-6 text-[1.875rem] border-2 rounded-full hover:bg-lime-500 hover:border-white transition duration-200 ${
-            showDashboard
-              ? "bg-lime-500 border-white text-white"
-              : "text-lime-700 bg-lime-400 border-transparent"
-          }  `}
+          onClick={() => setShowSidebar((isopen) => !isopen)}
+          className={`box-content font-bold p-1 mx-2 sm:mx-6 text-[1.875rem] border-2 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200 ${
+            showSidebar
+              ? "bg-aqua-forest-500 border-white text-white"
+              : "text-aqua-forest-700 bg-aqua-forest-400 border-transparent"
+          }`}
         >
           <IoMenuSharp />
         </button>
@@ -59,9 +64,9 @@ export default function Header({
       {/* TODO: retrieve user image/role/name from server */}
       <div className="inline-flex justify-end items-center gap-3 mr-2 min-w-[3.25rem]">
         {/* name & role */}
-        <div className="hidden tn:flex flex-col items-end justify-center text-sky-700 leading-tight ">
+        <div className="hidden tn:flex flex-col items-end justify-center text-sky-100 leading-tight ">
           <span>
-            <em>John Smith</em>
+            <em>{faker.person.fullName()}</em>
           </span>
           <span>
             <b>Admin</b>
@@ -69,11 +74,14 @@ export default function Header({
         </div>
 
         {/* image */}
-        <img
-          src={imgAdmin}
-          alt="user image"
-          className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-lime-500 hover:border-white transition duration-200"
-        />
+        {/* TODO: by click or hover on the user image, some feature should happen */}
+        <button>
+          <img
+            src={imgAdmin}
+            alt="user image"
+            className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200"
+          />
+        </button>
       </div>
     </div>
 

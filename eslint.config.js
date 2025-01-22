@@ -44,7 +44,10 @@ export default tseslint.config({
     "@typescript-eslint/no-unused-vars": "warn",
     ...react.configs.recommended.rules,
     ...react.configs["jsx-runtime"].rules,
-    "@typescript-eslint/no-unsafe-assignment": "off", // too many false positives
+    "@typescript-eslint/no-unsafe-assignment": "warn", // too many false positives
+    "@typescript-eslint/no-unsafe-argument": "warn", // too many false positives
+    "@typescript-eslint/no-unsafe-member-access": "warn", // too many false positives
+    "@typescript-eslint/no-unsafe-call": "warn", // too many false positives
   },
 });
 

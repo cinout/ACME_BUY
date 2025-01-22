@@ -39,16 +39,16 @@ export function FormInput({
 
 export function SignInOptionButton({
   children,
-  additionalClass,
+  additionalStyle,
   handleClick,
 }: {
   children: ReactNode;
-  additionalClass?: string;
+  additionalStyle?: string;
   handleClick?: () => void;
 }) {
   return (
     <button
-      className={`rounded-md text-sky-900 border-sky-900 border-2 px-3 py-0.5 flex justify-center items-center ${additionalClass}`}
+      className={`rounded-md text-sky-900 border-sky-900 border-2 px-3 py-0.5 flex justify-center items-center ${additionalStyle}`}
       onClick={handleClick}
     >
       {children}

@@ -9,25 +9,25 @@ export const hightlightStats = [
   {
     name: "Sale",
     value: "$3434",
-    style: "bg-rose-300 text-rose-700",
+    style: "bg-rose-300 text-rose-700 hover:bg-rose-400 transition",
     logo: <GiMoneyStack />,
   },
   {
     name: "Products",
     value: "50",
-    style: "bg-orange-300 text-orange-700",
+    style: "bg-orange-300 text-orange-700 hover:bg-orange-400 transition",
     logo: <AiOutlineProduct />,
   },
   {
     name: "Sellers",
     value: "10",
-    style: "bg-purple-300 text-purple-700",
+    style: "bg-purple-300 text-purple-700 hover:bg-purple-400 transition",
     logo: <FaPeopleGroup />,
   },
   {
     name: "Orders",
     value: "54",
-    style: "bg-cyan-300 text-cyan-700",
+    style: "bg-cyan-300 text-cyan-700 hover:bg-cyan-400 transition",
     logo: <CiDeliveryTruck />,
   },
 ];

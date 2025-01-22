@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
-import { navOptions, NavOptionsProps } from "@/navigation/allNavs";
+import { navOptions, NavOptionsProps } from "@/views/allNavs";
 import { Role } from "@/utils/enums";
 import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
@@ -8,17 +8,19 @@ import { motion, AnimatePresence } from "motion/react";
 
 // TODO: make it responsive (lg as breakpoint)
 interface Props {
-  showDashboard: boolean;
-  setShowDashboard: React.Dispatch<React.SetStateAction<boolean>>;
+  showSidebar: boolean;
+  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   menuButtonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 function MenuContent({
   panelOptions,
   pathname,
+  setShowSidebar,
 }: {
   panelOptions: NavOptionsProps[];
   pathname: string;
+  setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <>
@@ -27,13 +29,15 @@ function MenuContent({
           <Link
             to={item.path}
             key={item.name}
-            className={`block pl-5 py-3 font-medium hover:bg-lime-500 hover:text-lime-200 transition-all duration-0 ${
+            className={`group block pl-5 py-3 font-medium hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-0 ${
               pathname === item.path
-                ? "bg-lime-500 text-lime-200 shadow-lime-200"
-                : "text-lime-600"
+                ? "bg-aqua-forest-500 text-aqua-forest-200 shadow-aqua-forest-200"
+                : "text-aqua-forest-600"
             }`}
+            // TODO: does pathname === item.path still wokr for admin/dsh/sellers/:sellerID ?
+            onClick={() => setShowSidebar && setShowSidebar(false)}
           >
-            <div className="duration-200 hover:translate-x-1 flex items-center">
+            <div className="duration-200 group-hover:translate-x-1 flex items-center">
               <span className="mr-2 text-2xl">{item.icon}</span>
               <span>{item.name}</span>
             </div>
@@ -42,7 +46,7 @@ function MenuContent({
       </div>
 
       {/* TODO: implement log out */}
-      <button className="absolute bottom-6 left-0 pl-5 flex items-center font-medium text-lime-900 hover:bg-lime-500 hover:text-lime-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full">
+      <button className="absolute bottom-6 left-0 pl-5 flex items-center font-medium text-aqua-forest-900 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full">
         <IoIosLogOut className="text-2xl m-2" />
         <span>Logout</span>
       </button>
@@ -51,8 +55,8 @@ function MenuContent({
 }
 
 export default function Sidebar({
-  showDashboard,
-  setShowDashboard,
+  showSidebar,
+  setShowSidebar,
   menuButtonRef,
 }: Props) {
   const panelOptions = navOptions.filter((a) => a.role.includes(Role.Admin)); // TODO: other roles later
@@ -70,7 +74,7 @@ export default function Sidebar({
           menuButtonRef.current.contains(event.target as Node)
         )
       ) {
-        setShowDashboard(false);
+        setShowSidebar(false);
       }
     }
 
@@ -81,12 +85,12 @@ export default function Sidebar({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [menuButtonRef, setShowDashboard]);
+  }, [menuButtonRef, setShowSidebar]);
 
   return (
     <>
       {/* Large Screen */}
-      <div className="box-border fixed top-0 left-0 h-full w-dashbord-width bg-lime-200 z-50 hidden lg:block">
+      <div className="box-border fixed top-0 left-0 h-full w-dashbord-width bg-aqua-forest-200 z-50 hidden lg:block shadow-2xl">
         {/* TODO: handle to="/" attribute */}
         <Link to="/" className="flex justify-center mt-6 mb-12">
           <img src={logo} alt="company logo" className=" w-[12.5rem]" />
@@ -98,15 +102,15 @@ export default function Sidebar({
       {/* TODO: move to Header, and show it right next to the menu button, and the tl corner should be the circle curve */}
       {/* Smaller Screen */}
       <AnimatePresence>
-        {showDashboard && (
+        {showSidebar && (
           <motion.div
-            className={`flex flex-col flex-1 lg:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[31.25rem] bg-lime-200 `}
+            className={`flex flex-col flex-1 lg:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[31.25rem] bg-aqua-forest-200 `}
             ref={menuRef}
             initial={{ translateY: "-0.625rem", opacity: 0 }}
             animate={{
               translateY: 0,
               opacity: 1,
-              transition: { duration: 0.3 },
+              transition: { duration: 0.1 },
             }}
             exit={{
               translateY: "-0.625rem",
@@ -114,7 +118,11 @@ export default function Sidebar({
               transition: { duration: 0.1 },
             }}
           >
-            <MenuContent panelOptions={panelOptions} pathname={pathname} />
+            <MenuContent
+              panelOptions={panelOptions}
+              pathname={pathname}
+              setShowSidebar={setShowSidebar}
+            />
           </motion.div>
         )}
       </AnimatePresence>
