@@ -1,4 +1,9 @@
-import { OrderStatus, PaymentStatus, WithdrawStatus } from "./enums";
+import {
+  OrderStatusEnum,
+  PaymentStatusEnum,
+  SellerStatusEnum,
+  WithdrawStatusEnum,
+} from "./enums";
 
 export interface CategoryEntity {
   id: string;
@@ -17,15 +22,15 @@ interface OrderDetailsEntity {
 export interface OrderEntity {
   id: string;
   price: string;
-  payment_status: PaymentStatus;
-  order_status: OrderStatus;
+  payment_status: PaymentStatusEnum;
+  order_status: OrderStatusEnum;
   details: OrderDetailsEntity[];
 }
 
 export interface WithdrawRequest {
   id: string;
   amount: string;
-  status: WithdrawStatus;
+  status: WithdrawStatusEnum;
   date: Date;
 }
 
@@ -38,6 +43,8 @@ export interface SellerEntity {
   city: string;
   zipCode: string;
   image: string;
+  status: SellerStatusEnum;
+  requestDate: Date;
   shops?: ShopEntity[];
 }
 

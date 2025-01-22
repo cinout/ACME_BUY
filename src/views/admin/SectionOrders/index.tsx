@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { faker } from "@faker-js/faker";
-import { OrderStatus, PaymentStatus } from "@/utils/enums";
+import { OrderStatusEnum, PaymentStatusEnum } from "@/utils/enums";
 import Pagination from "@/views/shared_components/Pagination";
 import Head from "./Head";
 import OrderTable from "./OrderTable";
@@ -12,8 +12,8 @@ import { OrderEntity } from "@/utils/entities";
 const orderStats: OrderEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
   price: faker.commerce.price(),
-  payment_status: PaymentStatus.Pending,
-  order_status: OrderStatus.Pending,
+  payment_status: PaymentStatusEnum.Pending,
+  order_status: OrderStatusEnum.Pending,
   details: Array.from({ length: 3 }, () => ({
     product_id: faker.string.uuid(),
     product_name: faker.commerce.product(),

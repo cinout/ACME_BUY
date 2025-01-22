@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");
+
 export default {
   content: [
     "./index.html", // Include the main HTML file
@@ -30,10 +32,18 @@ export default {
           900: "#173d2f",
           950: "#0c221b",
         },
+        active: colors.green,
+        pending: colors.violet,
+        deactivated: colors.rose,
       },
       screens: {
         stn: "360px", // super tiny
         tn: "480px", // tiny
+        // sm: 640px
+        // md: 768px
+        // lg: 1024px
+        // xl: 1280px
+        // 2xl: 1536px
       },
       spacing: {
         "dashbord-width": "15rem",

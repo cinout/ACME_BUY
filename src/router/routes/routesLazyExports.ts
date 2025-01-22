@@ -14,8 +14,8 @@ export const SectionCategories = lazy(
 export const SectionSellers = lazy(
   () => import("@/views/admin/SectionSellers")
 );
-export const SectionPaymentRequests = lazy(
-  () => import("@/views/admin/SectionPaymentRequests")
+export const SectionWithdrawRequests = lazy(
+  () => import("@/views/admin/SectionWithdrawRequests")
 );
 export const SectionSellerRequests = lazy(
   () => import("@/views/admin/SectionSellerRequests")

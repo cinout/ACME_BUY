@@ -16,14 +16,14 @@ export default function Head({
   itemsPerPageOptions,
 }: HeadProps) {
   return (
-    <div className="flex justify-between items-center flex-wrap ">
+    <div className="flex justify-between items-end flex-wrap ">
       {/* TODO: implement search function */}
       <Input
         placeholder="search sellers ..."
         name="search"
         type="text"
         className={
-          "md:justify-self-start  py-2 bg-transparent border-b-[1px] border-sky-200 px-2 text-sky-100 w-36 sm:w-64 ml-4 outline-none"
+          "md:justify-self-start bg-transparent border-b-[1px] border-sky-200 px-2 text-sky-100 w-36 sm:w-64 ml-4 outline-none"
         }
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}

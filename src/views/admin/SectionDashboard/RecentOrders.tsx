@@ -1,4 +1,4 @@
-import { OrderStatus, PaymentStatus } from "@/utils/enums";
+import { OrderStatusEnum, PaymentStatusEnum } from "@/utils/enums";
 import { joinUrl } from "@/utils/strings";
 import { faker } from "@faker-js/faker";
 import { Link, useLocation } from "react-router-dom";
@@ -8,20 +8,20 @@ const orderStats = [
   {
     id: faker.string.uuid(),
     price: faker.commerce.price(),
-    payment_status: PaymentStatus.Pending,
-    order_status: OrderStatus.Pending,
+    payment_status: PaymentStatusEnum.Pending,
+    order_status: OrderStatusEnum.Pending,
   },
   {
     id: faker.string.uuid(),
     price: faker.commerce.price(),
-    payment_status: PaymentStatus.Pending,
-    order_status: OrderStatus.Pending,
+    payment_status: PaymentStatusEnum.Pending,
+    order_status: OrderStatusEnum.Pending,
   },
   {
     id: faker.string.uuid(),
     price: faker.commerce.price(),
-    payment_status: PaymentStatus.Pending,
-    order_status: OrderStatus.Pending,
+    payment_status: PaymentStatusEnum.Pending,
+    order_status: OrderStatusEnum.Pending,
   },
 ];
 

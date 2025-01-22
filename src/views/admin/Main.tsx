@@ -23,7 +23,7 @@ export default function Main() {
       />
 
       {/* Loading different sections' panels */}
-      <div className="absolute top-[calc(theme('spacing.header-height')+1rem+1.25rem)] left-4 lg:left-[calc(theme('spacing.dashbord-width')+1rem)] right-4 bottom-4 overflow-y-auto bg-sky-800 rounded-lg p-4">
+      <div className="absolute top-[calc(theme('spacing.header-height')+1rem+1.25rem)] left-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] right-4 bottom-4 overflow-y-auto bg-sky-800 rounded-lg p-4">
         <Outlet />
       </div>
     </div>

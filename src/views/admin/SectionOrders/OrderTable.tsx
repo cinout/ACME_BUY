@@ -16,7 +16,7 @@ export default function OrderTable({
   detailShown,
 }: OrderTableProps) {
   return (
-    <div className="grid grid-cols-[6fr_2fr_2fr_2fr_1fr_1fr] w-full text-sm text-left mt-8 text-white">
+    <div className="grid grid-cols-[6fr_2fr_2fr_2fr_1fr_1fr] w-full  text-left mt-8 text-white text-xs sm:text-sm">
       <span className="font-bold">Order ID</span>
       <span className="font-bold">Price</span>
       <span className="font-bold">Payment Status</span>

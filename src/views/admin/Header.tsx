@@ -19,10 +19,10 @@ export default function Header({
   return (
     // <div className="">
 
-    <div className="fixed top-4 left-4 right-4 lg:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border  h-header-height bg-aqua-forest-500 ">
+    <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border  h-header-height bg-aqua-forest-500 ">
       {/* Logo & Menu Button */}
       {/* TODO: what to do with the Link */}
-      <div className="lg:hidden inline-flex items-center justify-center">
+      <div className="xl:hidden inline-flex items-center justify-center">
         <Link
           to="/"
           className="w-[2.7rem] h-[2.7rem] ml-4 flex justify-center items-center"
@@ -55,12 +55,11 @@ export default function Header({
           name="search"
           type="text"
           className={
-            "h-[2.375rem] bg-sky-800  rounded-full px-4 text-sky-100 w-40 lg:ml-10 sm:w-64"
+            "h-[2.375rem] bg-sky-800 outline-none  rounded-full px-4 text-sky-100 w-40 lg:ml-10 sm:w-64"
           }
         />
       </div>
 
-      {/* User Info */}
       {/* TODO: retrieve user image/role/name from server */}
       <div className="inline-flex justify-end items-center gap-3 mr-2 min-w-[3.25rem]">
         {/* name & role */}

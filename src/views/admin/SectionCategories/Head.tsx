@@ -20,14 +20,14 @@ export default function Head({
 }: HeadProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 justify-center justify-items-center gap-y-4 md:gap-y-0">
+    <div className="grid grid-cols-1 md:grid-cols-3 justify-center justify-items-center items-end content-end gap-y-4 md:gap-y-0">
       {/* TODO: implement search function */}
       <Input
         placeholder="search categories ..."
         name="search"
         type="text"
         className={
-          "md:justify-self-start  py-2 bg-transparent border-b-[1px] border-sky-200 px-2 text-sky-100 w-36 sm:w-64 ml-4 outline-none"
+          "md:justify-self-start bg-transparent border-b-[1px] border-sky-200 px-2 text-sky-100 w-36 sm:w-64 ml-4 outline-none"
         }
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
@@ -35,7 +35,7 @@ export default function Head({
 
       {/* TODO: implement add new category function, make it a pop-up */}
       <button
-        className="flex justify-center items-center gap-2 bg-sky-600 text-white h-8 w-32 rounded-md text-sm font-bold px-2 py-1 box-content border-2 hover:w-36 hover:bg-sky-500 transition-all"
+        className="flex justify-center items-center gap-2 bg-sky-600 text-white h-8 w-32 rounded-md text-sm font-bold px-2  box-content border-2 hover:w-36 hover:bg-sky-500 transition-all"
         onClick={() => setIsOpen(true)}
       >
         <IoMdAdd />

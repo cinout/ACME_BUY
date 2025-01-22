@@ -1,5 +1,5 @@
 // TODO: consider moving this to utils
-import { Role } from "@/utils/enums";
+import { RoleEnum } from "@/utils/enums";
 import { JSX } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiDeliveryTruck } from "react-icons/ci";
@@ -14,59 +14,60 @@ export interface NavOptionsProps {
   name: string;
   icon: JSX.Element;
   role: string[];
-  path: string;
+  goto: string;
 }
 
 // TODO: how to use the role attribute?
+// TODO: Do we need id fields?
 export const navOptions: NavOptionsProps[] = [
   {
-    id: 1, //TODO: do we need id?
+    id: 1,
     name: "Dashboard",
     icon: <AiOutlineDashboard />,
-    role: [Role.Admin],
-    path: "/admin/dashboard",
+    role: [RoleEnum.Admin],
+    goto: "/admin/dashboard",
   },
 
   {
     id: 2,
     name: "Categories",
     icon: <BiCategory />,
-    role: [Role.Admin],
-    path: "/admin/dashboard/categories",
+    role: [RoleEnum.Admin],
+    goto: "/admin/categories",
   },
   {
     id: 3,
     name: "Sellers",
     icon: <FaPeopleGroup />,
-    role: [Role.Admin],
-    path: "/admin/dashboard/sellers",
+    role: [RoleEnum.Admin],
+    goto: "/admin/sellers",
   },
   {
     id: 4,
     name: "Orders",
     icon: <CiDeliveryTruck />,
-    role: [Role.Admin],
-    path: "/admin/dashboard/orders",
+    role: [RoleEnum.Admin],
+    goto: "/admin/orders",
   },
   {
     id: 5,
     name: "Withdraw Requests",
     icon: <MdOutlinePayment />,
-    role: [Role.Admin],
-    path: "/admin/dashboard/payment-requests",
+    role: [RoleEnum.Admin],
+    goto: "/admin/withdraw-requests",
   },
   {
     id: 6,
     name: "Seller Requests",
     icon: <FaPerson />,
-    role: [Role.Admin],
-    path: "/admin/dashboard/seller-requests",
+    role: [RoleEnum.Admin],
+    goto: "/admin/seller-requests",
   },
   {
     id: 7,
     name: "Live Chat",
     icon: <IoChatboxEllipsesOutline />,
-    role: [Role.Admin],
-    path: "/admin/dashboard/chat",
+    role: [RoleEnum.Admin],
+    goto: "/admin/chat",
   },
 ];

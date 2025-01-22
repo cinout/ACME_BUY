@@ -7,6 +7,7 @@ import SellerInfo from "./SellerInfo";
 import { useParams } from "react-router-dom";
 import { SellerEntity, ShopEntity } from "@/utils/entities";
 import { getRandomInt } from "@/utils/numbers";
+import { SellerStatusEnum } from "@/utils/enums";
 
 // TODO: fetch from server
 const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
@@ -18,8 +19,10 @@ const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
   state: faker.location.state(),
   city: faker.location.city(),
   zipCode: faker.location.zipCode(),
+  status: SellerStatusEnum.Active,
+  requestDate: faker.date.recent(),
   shops: Array.from(
-    { length: getRandomInt(20, 40) },
+    { length: getRandomInt(0, 14) },
     () =>
       ({
         id: faker.string.uuid(),
@@ -31,6 +34,8 @@ const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 
+// TODO: need to provide filter/sort functionalities
+// TODO: only show activated and deactivated sellers, pending sellers are in Seller Request tab
 export default function SectionSellers() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");

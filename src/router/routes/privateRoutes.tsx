@@ -5,7 +5,7 @@ import {
   SectionOrders,
   SectionCategories,
   SectionSellers,
-  SectionPaymentRequests,
+  SectionWithdrawRequests,
   SectionSellerRequests,
   SectionChat,
 } from "./routesLazyExports";
@@ -23,32 +23,32 @@ export const privateRoutes: RouteObject[] = [
     // access: ["admin"], TODO: add later
   },
   {
-    path: "/admin/dashboard/orders",
+    path: "/admin/orders",
     element: <SectionOrders />,
     // access: ["admin"], TODO: add later
   },
   {
-    path: "/admin/dashboard/categories",
+    path: "/admin/categories",
     element: <SectionCategories />,
     // access: ["admin"], TODO: add later
   },
   {
-    path: "/admin/dashboard/sellers/:sellerId?",
+    path: "/admin/sellers/:sellerId?",
     element: <SectionSellers />,
     // access: ["admin"], TODO: add later
   },
   {
-    path: "/admin/dashboard/payment-requests",
-    element: <SectionPaymentRequests />,
+    path: "/admin/withdraw-requests",
+    element: <SectionWithdrawRequests />,
     // access: ["admin"], TODO: add later
   },
   {
-    path: "/admin/dashboard/seller-requests",
+    path: "/admin/seller-requests",
     element: <SectionSellerRequests />,
     // access: ["admin"], TODO: add later
   },
   {
-    path: "/admin/dashboard/chat",
+    path: "/admin/chat",
     element: <SectionChat />,
     // access: ["admin"], TODO: add later
   },

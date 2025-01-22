@@ -1,10 +1,13 @@
 import { joinUrl, shortenEnd, shortenMiddle } from "@/utils/strings";
 import { MdEmail } from "react-icons/md";
 import { IoInformationCircle } from "react-icons/io5";
-import HoverInfo from "@/views/shared_components/HoverInfo";
-import { IoIosRemoveCircle } from "react-icons/io";
+import { Tooltip } from "react-tooltip";
+import { IoIosRemoveCircle, IoIosAddCircle } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import { SellerEntity } from "@/utils/entities";
+import { SellerStatusEnum } from "@/utils/enums";
+import SellorStatusIndicator from "@/views/shared_components/SellorStatusIndicator";
+import CustomTooltip from "@/views/shared_components/CustomTooltip";
 
 // TODO: all these Props should be in one particular folder
 
@@ -22,14 +25,22 @@ export default function SellerTable({ sellerStats }: SellerTableProps) {
           key={seller.id}
           className="flex flex-col justify-start items-center gap-2"
         >
-          <img
-            src={seller.image}
-            alt={seller.name}
-            className="inline h-20 w-20 mt-10 rounded-md"
-          />
+          <Link to={joinUrl(pathname, seller.id)}>
+            <img
+              src={seller.image}
+              alt={seller.name}
+              className="inline h-20 w-20 mt-10 rounded-md"
+            />
+          </Link>
 
-          {/* Company Name */}
-          <div className="text-center">{shortenMiddle(seller.name, 40)}</div>
+          {/* Seller Name */}
+          <div className="flex justify-center items-start gap-x-2">
+            <SellorStatusIndicator
+              status={seller.status}
+              additionalStyle="w-3 h-3"
+            />
+            {shortenMiddle(seller.name, 40)}
+          </div>
 
           {/* District */}
           <div className="text-xs -mt-1 text-center">
@@ -38,32 +49,58 @@ export default function SellerTable({ sellerStats }: SellerTableProps) {
           </div>
 
           <div className="flex justify-center items-center gap-4 text-xl">
-            <HoverInfo content={`contact ${seller.email}`}>
-              <a
-                className="hover:scale-125 transition cursor-pointer"
-                href={`mailto:${seller.email}`}
-              >
-                <MdEmail />
-              </a>
-            </HoverInfo>
+            <a
+              className="hover:scale-125 transition cursor-pointer"
+              href={`mailto:${seller.email}`}
+              data-tooltip-id={`${seller.id}-tooltip-contact`}
+            >
+              <MdEmail />
+            </a>
 
             {/* TODO: implement the function of view information */}
-            <HoverInfo content="detailed info">
-              <Link
-                to={joinUrl(pathname, seller.id)}
-                className="hover:scale-125 transition"
-              >
-                <IoInformationCircle />
-              </Link>
-            </HoverInfo>
+
+            {/* <Link
+              to={joinUrl(pathname, seller.id)}
+              className="hover:scale-125 transition"
+              data-tooltip-id={`${seller.id}-tooltip-info`}
+            >
+              <IoInformationCircle />
+            </Link> */}
 
             {/* TODO: implement deactivate seller function */}
-            <HoverInfo content="deactivate the seller">
-              <button className="hover:scale-125 transition">
+            {/* TODO: if user is deactived, then show activate button */}
+            <button
+              className="hover:scale-125 transition"
+              data-tooltip-id={`${seller.id}-tooltip-deactivate`}
+            >
+              {seller.status === SellerStatusEnum.Active ? (
                 <IoIosRemoveCircle />
-              </button>
-            </HoverInfo>
+              ) : seller.status === SellerStatusEnum.Deactivated ? (
+                <IoIosAddCircle />
+              ) : (
+                <div />
+              )}
+            </button>
           </div>
+
+          <CustomTooltip
+            id={`${seller.id}-tooltip-contact`}
+            content={`contact ${seller.email}`}
+          />
+          {/* <CustomTooltip
+            id={`${seller.id}-tooltip-info`}
+            content="detailed info"
+          /> */}
+          <CustomTooltip
+            id={`${seller.id}-tooltip-deactivate`}
+            content={
+              seller.status === SellerStatusEnum.Active
+                ? "deactivate the seller"
+                : seller.status === SellerStatusEnum.Deactivated
+                ? "activate the seller"
+                : ""
+            }
+          />
         </div>
       ))}
     </div>

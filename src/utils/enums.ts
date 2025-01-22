@@ -1,26 +1,26 @@
-export enum Role {
+export enum RoleEnum {
   User = "User",
   Admin = "Admin",
   Seller = "Seller",
 }
 
 // TODO: update them
-export enum PaymentStatus {
+export enum PaymentStatusEnum {
   Pending = "Pending",
 }
 
 // TODO: update them
-export enum OrderStatus {
+export enum OrderStatusEnum {
   Pending = "Pending",
 }
 
 // TODO: update them
-export enum WithdrawStatus {
+export enum WithdrawStatusEnum {
   Pending = "Pending",
 }
 
 // TODO: update them
-export enum SellerStatus {
+export enum SellerStatusEnum {
   Pending = "Pending",
   Deactivated = "Deactivated",
   Active = "Active",
