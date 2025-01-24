@@ -29,7 +29,7 @@ export default function SellerTable({ sellerStats }: SellerTableProps) {
             <img
               src={seller.image}
               alt={seller.name}
-              className="inline h-20 w-20 mt-10 rounded-md"
+              className="inline box-content h-20 w-20 mt-10 rounded-md hover:brightness-75 hover:outline hover:outline-white transition-all"
             />
           </Link>
 

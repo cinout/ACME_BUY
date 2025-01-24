@@ -5,6 +5,8 @@ import Pagination from "@/views/shared_components/Pagination";
 import Head from "./Head";
 import OrderTable from "./OrderTable";
 import { OrderEntity } from "@/utils/entities";
+import { useParams } from "react-router-dom";
+import OrderDetails from "./OrderDetails";
 
 // TODO: can also add images and things later
 
@@ -33,6 +35,9 @@ export default function SectionOrders() {
 
   const start_index = (currentPage - 1) * itemsPerPage;
   const end_index = currentPage * itemsPerPage;
+
+  const { orderId } = useParams();
+  const currentOrder = orderStats.find((a) => a.id === orderId);
 
   function handleClickShowDetails(order_id: string) {
     setDetailShown((currentlyShown) => {
@@ -65,6 +70,8 @@ export default function SectionOrders() {
         handleClickShowDetails={handleClickShowDetails}
         detailShown={detailShown}
       />
+
+      {currentOrder && <OrderDetails order={currentOrder} />}
 
       {/* Pagination */}
       {/* TODO: is there a more efficient way to retrieve and display information according to current page? */}

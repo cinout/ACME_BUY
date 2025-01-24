@@ -1,13 +1,14 @@
-import { ReactNode } from "react";
-
-export function FormInput({
+export default function FormInput({
   fieldName,
   fieldId,
   placeholder,
   value,
   handleChange,
   required = false,
-  additionalStyle,
+  additionalStyleInput,
+  additionalStyleLabel,
+  additionalStyleWrapper,
+  showLabel = true,
 }: {
   fieldName: string;
   fieldId: string;
@@ -15,43 +16,33 @@ export function FormInput({
   required?: boolean;
   value: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  additionalStyle?: string;
+  additionalStyleInput?: string; // for the input field
+  additionalStyleLabel?: string; // for the input field
+  additionalStyleWrapper?: string; // for the input field
+  showLabel?: boolean;
 }) {
   return (
-    <div className="my-4">
-      <label htmlFor={fieldId} className="font-bold w-1/4 block mb-0.5">
-        {fieldName}:
-      </label>
+    <div className={`${additionalStyleWrapper}`}>
+      {showLabel && (
+        <label
+          htmlFor={fieldId}
+          className={`font-bold w-1/4 block mb-0.5 ${additionalStyleLabel}`}
+        >
+          {fieldName}:
+        </label>
+      )}
+
       <input
         type="text"
         id={fieldId}
         name={fieldId}
         placeholder={placeholder}
-        className={`w-full rounded-md h-8 outline-none py-2 px-4 placeholder:text-zinc-200 bg-sky-300 text-sky-900 ${additionalStyle}`}
+        className={`w-full rounded-md h-8 outline-none py-2 px-4 placeholder:text-zinc-200 bg-sky-300 text-sky-900 ${additionalStyleInput}`}
         required={required}
         autoComplete="on"
         value={value}
         onChange={handleChange}
       />
     </div>
-  );
-}
-
-export function SignInOptionButton({
-  children,
-  additionalStyle,
-  handleClick,
-}: {
-  children: ReactNode;
-  additionalStyle?: string;
-  handleClick?: () => void;
-}) {
-  return (
-    <button
-      className={`rounded-md text-sky-900 border-sky-900 border-2 px-3 py-0.5 flex justify-center items-center ${additionalStyle}`}
-      onClick={handleClick}
-    >
-      {children}
-    </button>
   );
 }

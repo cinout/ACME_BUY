@@ -4,12 +4,15 @@ import imgAdmin from "@/assets/images/admin.png";
 import { Link } from "react-router-dom";
 import { Input } from "@headlessui/react";
 import { faker } from "@faker-js/faker";
+import { RoleEnum } from "@/utils/enums";
 
 interface Props {
   showSidebar: boolean;
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   menuButtonRef: React.RefObject<HTMLButtonElement | null>;
 }
+
+const dummyName = faker.person.fullName();
 
 export default function Header({
   showSidebar,
@@ -65,10 +68,10 @@ export default function Header({
         {/* name & role */}
         <div className="hidden tn:flex flex-col items-end justify-center text-sky-100 leading-tight ">
           <span>
-            <em>{faker.person.fullName()}</em>
+            <em>{dummyName}</em>
           </span>
           <span>
-            <b>Admin</b>
+            <b>{RoleEnum.Seller}</b>
           </span>
         </div>
 

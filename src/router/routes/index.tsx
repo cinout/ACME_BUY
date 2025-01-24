@@ -1,4 +1,4 @@
-import Main from "@/views/admin/Main"; // TODO: lazy load it?
+import Main from "@/views/Main"; // TODO: lazy load it?
 import { privateRoutes } from "./privateRoutes";
 import { RouteObject } from "react-router-dom";
 

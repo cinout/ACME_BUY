@@ -1,4 +1,4 @@
-import { FormInput } from "@/views/shared_components/FormInput";
+import FormInput from "@/views/shared_components/FormInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { admin_login, clearToastMsg } from "@/redux/reducers/authReducer";
 import { useState } from "react";
@@ -59,7 +59,8 @@ export default function AdminLogin() {
             placeholder="Your Email"
             value={user.email}
             handleChange={onUserChange}
-            additionalStyle="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            additionalStyleWrapper="my-4"
           />
           <FormInput
             fieldName="Password"
@@ -68,7 +69,8 @@ export default function AdminLogin() {
             placeholder="Your Password"
             value={user.password}
             handleChange={onUserChange}
-            additionalStyle="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            additionalStyleWrapper="my-4"
           />
 
           <button

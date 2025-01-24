@@ -1,4 +1,4 @@
-import { SellerEntity, WithdrawRequest } from "@/utils/entities";
+import { SellerEntity } from "@/utils/entities";
 import { useEffect, useState } from "react";
 import { FixedSizeList } from "react-window";
 

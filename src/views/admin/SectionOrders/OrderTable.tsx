@@ -1,8 +1,9 @@
 import { Fragment } from "react";
 import { MdOutlineExpandCircleDown } from "react-icons/md";
 import { motion, AnimatePresence } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { OrderEntity } from "@/utils/entities";
+import { joinUrl } from "@/utils/strings";
 
 interface OrderTableProps {
   orderStats: OrderEntity[];
@@ -15,6 +16,7 @@ export default function OrderTable({
   orderStats,
   detailShown,
 }: OrderTableProps) {
+  const { pathname } = useLocation();
   return (
     <div className="grid grid-cols-[6fr_2fr_2fr_2fr_1fr_1fr] w-full  text-left mt-8 text-white text-xs sm:text-sm">
       <span className="font-bold">Order ID</span>
@@ -43,13 +45,12 @@ export default function OrderTable({
           </span>
           <span className="mt-2">
             <Link
-              to=""
+              to={joinUrl(pathname, order.id)}
               className="bg-slate-100 text-sky-900 border-2 border-slate-300 rounded-md px-1 hover:bg-sky-200 hover:border-sky-500"
             >
               View
             </Link>
           </span>
-          {/* TODO: need to implement view */}
 
           <AnimatePresence>
             {detailShown.includes(order.id) && (

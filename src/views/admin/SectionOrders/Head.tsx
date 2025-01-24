@@ -1,4 +1,5 @@
-import { Input, Select } from "@headlessui/react";
+import HeadSearch from "@/views/shared_components/HeadSearch";
+import HeadShowCount from "@/views/shared_components/HeadShowCount";
 
 interface HeadProps {
   searchValue: string;
@@ -18,33 +19,19 @@ export default function Head({
   return (
     <div className="flex justify-between flex-wrap items-end gap-3">
       {/* TODO: implement search function */}
-      <Input
+
+      <HeadSearch
         placeholder="search orders ..."
-        name="search"
-        type="text"
-        className={
-          "bg-transparent border-b-[1px] border-sky-200 px-2 text-sky-100 w-36 sm:w-64 ml-4 outline-none"
-        }
+        additionalStyle=""
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChangeValue={setSearchValue}
       />
-      <div className="text-white font-light">
-        <span>Show</span>
-        <Select
-          name="itemsPerPage"
-          className="mx-2 bg-transparent border-b-[1px] cursor-pointer"
-          value={itemsPerPage}
-          onChange={(e) => {
-            handleItemsPerPageChange(parseInt(e.target.value));
-          }}
-        >
-          {itemsPerPageOptions.map((a) => (
-            <option value={a} key={a}>
-              {a}
-            </option>
-          ))}
-        </Select>
-      </div>
+
+      <HeadShowCount
+        itemsPerPage={itemsPerPage}
+        itemsPerPageOptions={itemsPerPageOptions}
+        handleItemsPerPageChange={handleItemsPerPageChange}
+      />
     </div>
   );
 }

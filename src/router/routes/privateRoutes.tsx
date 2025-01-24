@@ -1,55 +1,87 @@
 import { RouteObject } from "react-router-dom";
 import {
-  SectionDashboard,
+  AdminSectionDashboard,
   Home,
-  SectionOrders,
-  SectionCategories,
-  SectionSellers,
-  SectionWithdrawRequests,
-  SectionSellerRequests,
-  SectionChat,
+  AdminSectionOrders,
+  AdminSectionCategories,
+  AdminSectionSellers,
+  AdminSectionWithdrawRequests,
+  AdminSectionSellerRequests,
+  AdminSectionChat,
+  SellerSectionDashboard,
+  SellerSectionChatCustomer,
+  SellerSectionOrders,
+  SellerSectionPayments,
+  SellerSectionProducts,
+  SellerSectionSupport,
 } from "./routesLazyExports";
 
-// TODO: whena are these used?
+// TODO: how to make each route only accessable to valid user?
 export const privateRoutes: RouteObject[] = [
+  /**
+   * COMMON for ADMIN and SELLER
+   */
   {
-    path: "/", //TODO: why just / ?
+    path: "/", //TODO: what is this route for?
     element: <Home />,
-    // access: ["admin", "seller"], //TODO: add later
   },
+  /**
+   * ADMIN
+   */
   {
     path: "/admin/dashboard",
-    element: <SectionDashboard />,
-    // access: ["admin"], TODO: add later
+    element: <AdminSectionDashboard />,
   },
   {
-    path: "/admin/orders",
-    element: <SectionOrders />,
-    // access: ["admin"], TODO: add later
+    path: "/admin/orders/:orderId?",
+    element: <AdminSectionOrders />,
   },
   {
     path: "/admin/categories",
-    element: <SectionCategories />,
-    // access: ["admin"], TODO: add later
+    element: <AdminSectionCategories />,
   },
   {
     path: "/admin/sellers/:sellerId?",
-    element: <SectionSellers />,
-    // access: ["admin"], TODO: add later
+    element: <AdminSectionSellers />,
   },
   {
     path: "/admin/withdraw-requests",
-    element: <SectionWithdrawRequests />,
-    // access: ["admin"], TODO: add later
+    element: <AdminSectionWithdrawRequests />,
   },
   {
     path: "/admin/seller-requests",
-    element: <SectionSellerRequests />,
-    // access: ["admin"], TODO: add later
+    element: <AdminSectionSellerRequests />,
   },
   {
-    path: "/admin/chat",
-    element: <SectionChat />,
-    // access: ["admin"], TODO: add later
+    path: "/admin/chat/:sellerId?",
+    element: <AdminSectionChat />,
+  },
+
+  /**
+   * SELLER
+   */
+  {
+    path: "/seller/dashboard",
+    element: <SellerSectionDashboard />,
+  },
+  {
+    path: "/seller/products/:productId?",
+    element: <SellerSectionProducts />,
+  },
+  {
+    path: "/seller/orders/:orderId?",
+    element: <SellerSectionOrders />,
+  },
+  {
+    path: "/seller/payments/:paymentId?",
+    element: <SellerSectionPayments />,
+  },
+  {
+    path: "/seller/chat-customer/:customerId?",
+    element: <SellerSectionChatCustomer />,
+  },
+  {
+    path: "/seller/support",
+    element: <SellerSectionSupport />,
   },
 ];

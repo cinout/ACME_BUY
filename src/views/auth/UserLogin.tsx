@@ -1,11 +1,9 @@
-import {
-  FormInput,
-  SignInOptionButton,
-} from "@/views/shared_components/FormInput";
+import FormInput from "@/views/shared_components/FormInput";
 import { useState } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
+import SignInOptionButton from "../shared_components/SignInOptionButton";
 
 // TODO: add ACME Buy logo
 export default function UserLogin() {
@@ -39,6 +37,7 @@ export default function UserLogin() {
             placeholder="Your Email"
             value={user.email}
             handleChange={onUserChange}
+            additionalStyleWrapper="my-4"
           />
           <FormInput
             fieldName="Password"
@@ -47,6 +46,7 @@ export default function UserLogin() {
             placeholder="Your Password"
             value={user.password}
             handleChange={onUserChange}
+            additionalStyleWrapper="my-4"
           />
 
           <button className="bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200">

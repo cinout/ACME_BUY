@@ -44,6 +44,7 @@ export default function SectionSellers() {
   const start_index = (currentPage - 1) * itemsPerPage;
   const end_index = currentPage * itemsPerPage;
   const { sellerId } = useParams();
+  const currentSeller = sellerStats.find((a) => a.id === sellerId);
 
   function handleItemsPerPageChange(value: number) {
     setItemsPerPage(value); // set value
@@ -63,9 +64,7 @@ export default function SectionSellers() {
 
       <SellerTable sellerStats={sellerStats.slice(start_index, end_index)} />
 
-      {sellerId && (
-        <SellerInfo seller={sellerStats.find((a) => a.id === sellerId)!} />
-      )}
+      {currentSeller && <SellerInfo seller={currentSeller} />}
 
       {/* Pagination */}
       {/* TODO: is there a more efficient way to retrieve and display information according to current page? */}

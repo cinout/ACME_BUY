@@ -47,3 +47,4 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - [ ] A nice default reminder when user puts in wrong route
 - [ ] Email Validation on creating account
 - [ ] Maybe add phone in application form as well????
+- [ ] Need a settings page for users/sellers to edit their profile

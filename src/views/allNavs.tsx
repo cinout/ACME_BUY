@@ -8,9 +8,10 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { MdOutlinePayment } from "react-icons/md";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { FaPerson } from "react-icons/fa6";
+import { MdOutlineSupportAgent } from "react-icons/md";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 
 export interface NavOptionsProps {
-  id: number;
   name: string;
   icon: JSX.Element;
   role: string[];
@@ -20,8 +21,10 @@ export interface NavOptionsProps {
 // TODO: how to use the role attribute?
 // TODO: Do we need id fields?
 export const navOptions: NavOptionsProps[] = [
+  /**
+   * ADMIN
+   */
   {
-    id: 1,
     name: "Dashboard",
     icon: <AiOutlineDashboard />,
     role: [RoleEnum.Admin],
@@ -29,45 +32,79 @@ export const navOptions: NavOptionsProps[] = [
   },
 
   {
-    id: 2,
     name: "Categories",
     icon: <BiCategory />,
     role: [RoleEnum.Admin],
     goto: "/admin/categories",
   },
   {
-    id: 3,
     name: "Sellers",
     icon: <FaPeopleGroup />,
     role: [RoleEnum.Admin],
     goto: "/admin/sellers",
   },
   {
-    id: 4,
     name: "Orders",
     icon: <CiDeliveryTruck />,
     role: [RoleEnum.Admin],
     goto: "/admin/orders",
   },
   {
-    id: 5,
     name: "Withdraw Requests",
     icon: <MdOutlinePayment />,
     role: [RoleEnum.Admin],
     goto: "/admin/withdraw-requests",
   },
   {
-    id: 6,
     name: "Seller Requests",
     icon: <FaPerson />,
     role: [RoleEnum.Admin],
     goto: "/admin/seller-requests",
   },
   {
-    id: 7,
     name: "Live Chat",
     icon: <IoChatboxEllipsesOutline />,
     role: [RoleEnum.Admin],
     goto: "/admin/chat",
+  },
+
+  /**
+   * SELLER
+   */
+  {
+    name: "Dashboard",
+    icon: <AiOutlineDashboard />,
+    role: [RoleEnum.Seller],
+    goto: "/seller/dashboard",
+  },
+  {
+    name: "Products",
+    icon: <HiOutlineShoppingBag />,
+    role: [RoleEnum.Seller],
+    goto: "/seller/products",
+  },
+  {
+    name: "Orders",
+    icon: <CiDeliveryTruck />,
+    role: [RoleEnum.Seller],
+    goto: "/seller/orders",
+  },
+  {
+    name: "Payments",
+    icon: <MdOutlinePayment />,
+    role: [RoleEnum.Seller],
+    goto: "/seller/payments",
+  },
+  {
+    name: "Chat Customer",
+    icon: <IoChatboxEllipsesOutline />,
+    role: [RoleEnum.Seller],
+    goto: "/seller/chat-customer",
+  },
+  {
+    name: "Support",
+    icon: <MdOutlineSupportAgent />,
+    role: [RoleEnum.Seller],
+    goto: "/seller/support",
   },
 ];

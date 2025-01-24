@@ -1,4 +1,4 @@
-import { Input } from "@headlessui/react";
+import HeadSearch from "@/views/shared_components/HeadSearch";
 
 interface HeadProps {
   searchValue: string;
@@ -9,15 +9,12 @@ export default function Head({ searchValue, setSearchValue }: HeadProps) {
   return (
     <div className="flex justify-between flex-wrap items-center gap-3">
       {/* TODO: implement search function */}
-      <Input
+
+      <HeadSearch
         placeholder="search requests ..."
-        name="search"
-        type="text"
-        className={
-          "bg-transparent border-b-[1px] border-sky-200 px-2 text-sky-100 w-36 sm:w-64 ml-4 outline-none"
-        }
+        additionalStyle=""
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChangeValue={setSearchValue}
       />
     </div>
   );

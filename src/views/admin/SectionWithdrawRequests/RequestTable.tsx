@@ -1,9 +1,9 @@
-import { WithdrawRequest } from "@/utils/entities";
+import { WithdrawRequestEntity } from "@/utils/entities";
 import { useEffect, useState } from "react";
 import { FixedSizeList } from "react-window";
 
 interface RequestTableProps {
-  requestStats: WithdrawRequest[];
+  requestStats: WithdrawRequestEntity[];
 }
 
 export default function RequestTable({ requestStats }: RequestTableProps) {

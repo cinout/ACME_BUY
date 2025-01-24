@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import {
-  FormInput,
-  SignInOptionButton,
-} from "@/views/shared_components/FormInput";
+import FormInput from "@/views/shared_components/FormInput";
 import { useState } from "react";
 import logo from "@/assets/images/company_logo.png";
+import SignInOptionButton from "../shared_components/SignInOptionButton";
 
 export default function Register() {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
@@ -42,6 +40,7 @@ export default function Register() {
             placeholder="Your Name"
             value={user.name}
             handleChange={onUserChange}
+            additionalStyleWrapper="my-4"
           />
           <FormInput
             fieldName="Email"
@@ -50,6 +49,7 @@ export default function Register() {
             placeholder="Your Email"
             value={user.email}
             handleChange={onUserChange}
+            additionalStyleWrapper="my-4"
           />
           <FormInput
             fieldName="Password"
@@ -58,6 +58,7 @@ export default function Register() {
             placeholder="Create Password"
             value={user.password}
             handleChange={onUserChange}
+            additionalStyleWrapper="my-4"
           />
 
           {/* Checkbox to terms and conditions */}
