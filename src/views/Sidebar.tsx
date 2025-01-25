@@ -60,7 +60,7 @@ export default function Sidebar({
   menuButtonRef,
 }: Props) {
   const panelOptions = navOptions.filter((a) =>
-    a.role.includes(RoleEnum.Seller)
+    a.role.includes(RoleEnum.Admin)
   ); // TODO: other roles later
 
   const { pathname } = useLocation();

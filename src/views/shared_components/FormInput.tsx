@@ -1,16 +1,19 @@
+{
+  /* FIXME: validation */
+}
 export default function FormInput({
   fieldName,
   fieldId,
   placeholder,
   value,
   handleChange,
-  required = false,
   additionalStyleInput,
   additionalStyleLabel,
   additionalStyleWrapper,
+  required = false,
   showLabel = true,
 }: {
-  fieldName: string;
+  fieldName?: string;
   fieldId: string;
   placeholder?: string;
   required?: boolean;

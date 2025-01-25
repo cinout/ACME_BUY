@@ -37,7 +37,7 @@ export const privateRoutes: RouteObject[] = [
     element: <AdminSectionOrders />,
   },
   {
-    path: "/admin/categories",
+    path: "/admin/categories/:categoryId?",
     element: <AdminSectionCategories />,
   },
   {

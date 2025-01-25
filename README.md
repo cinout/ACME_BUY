@@ -22,6 +22,7 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - **Icons**: react-icons, react-spinners, headlessui
 - **Notification**: react-hot-toast
 - **Efficient Rendering Large Dataset**: react-window
+- **Form Validation**: react-hook-form
 - **Other Packages**: jwt-decode, date-fns (replace moment), faker, react-tooltip
 
 ## 🦄 Unique Features
@@ -37,6 +38,7 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 
 ## 📋 Coming Next
 
+- [ ] Use https://react-hook-form.com/get-started for form validation
 - [ ] jsonwebtoken for server side (jwt-decode for client side)
 - [ ] compare apexcharts with Chart.js, D3.js
 - [ ] Content Security Policy (CSP) error with sign up page
