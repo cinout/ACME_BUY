@@ -30,7 +30,7 @@ export default function SectionChat() {
       {/* Left: Sellers */}
       <div className="hidden lg:block relative flex-[1] bg-white/50 h-full rounded-lg py-4 overflow-y-auto">
         <div className="sticky flex justify-center px-4 top-0">
-          <Input
+          <input
             placeholder="find seller..."
             name="search"
             type="text"

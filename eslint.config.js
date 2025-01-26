@@ -48,6 +48,7 @@ export default tseslint.config({
     "@typescript-eslint/no-unsafe-argument": "warn", // too many false positives
     "@typescript-eslint/no-unsafe-member-access": "warn", // too many false positives
     "@typescript-eslint/no-unsafe-call": "warn", // too many false positives
+    "@typescript-eslint/prefer-nullish-coalescing": "warn",
   },
 });
 

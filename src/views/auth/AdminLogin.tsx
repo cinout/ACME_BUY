@@ -1,11 +1,17 @@
 import FormInput from "@/views/shared_components/FormInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { admin_login, clearToastMsg } from "@/redux/reducers/authReducer";
-import { useState } from "react";
+
 import { BeatLoader } from "react-spinners";
 import logo from "@/assets/images/company_logo.png";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+interface FormInputProps {
+  email: string;
+  password: string;
+}
 
 export default function AdminLogin() {
   const dispatch = useAppDispatch();
@@ -14,20 +20,24 @@ export default function AdminLogin() {
   );
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({ email: "", password: "" });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormInputProps>();
 
-  function onUserChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function onSubmit(data: FormInputProps) {
     // TODO: actually do something...
-    dispatch(admin_login(user))
-      .then(() => {
-        // Do something?
-      })
-      .catch((e) => console.log(e)); //TODO: update this
+    console.log(data);
+
+    // dispatch(admin_login(user))
+    //   .then(() => {
+    //     // Do something?
+    //   })
+    //   .catch((e) => console.log(e)); //TODO: update this
+
+    reset();
   }
 
   // TODO: should I put them in useEffect?
@@ -50,27 +60,27 @@ export default function AdminLogin() {
         </div>
         <div className="text-lg font-black mb-1">Admin Log In</div>
         {/* Form */}
-        {/* // TODO: add validation to the field values */}
-        <form onSubmit={handleSubmit}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormInput
-            fieldName="Email"
-            fieldId="email"
-            required={true}
             placeholder="Your Email"
-            value={user.email}
-            handleChange={onUserChange}
-            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            type="email"
+            registration={register("email", {
+              required: "Please provide your email",
+            })}
+            error={errors.email}
             additionalStyleWrapper="my-4"
+            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
           />
           <FormInput
-            fieldName="Password"
-            fieldId="password"
-            required={true}
+            type="password"
             placeholder="Your Password"
-            value={user.password}
-            handleChange={onUserChange}
-            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            registration={register("password", {
+              required: "Please provide your password",
+            })}
+            error={errors.password}
             additionalStyleWrapper="my-4"
+            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
           />
 
           <button

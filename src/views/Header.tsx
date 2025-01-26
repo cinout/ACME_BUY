@@ -53,7 +53,7 @@ export default function Header({
       {/* Search Bar */}
       {/* TODO: what is this for? */}
       <div className="inline-flex justify-start">
-        <Input
+        <input
           placeholder="search ..."
           name="search"
           type="text"

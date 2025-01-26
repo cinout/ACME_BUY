@@ -14,7 +14,7 @@ export default function HeadSearch({
   onChangeValue,
 }: HeadSearchProps) {
   return (
-    <Input
+    <input
       placeholder={placeholder}
       name="search"
       type="text"

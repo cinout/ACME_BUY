@@ -111,7 +111,7 @@ export default function RightMessageContainer({
           className="lg:hidden relative justify-self-end h-full w-72 flex justify-center items-end gap-x-2"
           ref={listSearchRef}
         >
-          <Input
+          <input
             placeholder="find seller..."
             name="search"
             type="text"
@@ -160,7 +160,7 @@ export default function RightMessageContainer({
           {/* Type Message */}
           {/* TODO: implement message functionality */}
           <div className="h-10 flex justify-start items-center gap-x-3">
-            <Input
+            <input
               placeholder="Message..."
               name="message"
               type="text"

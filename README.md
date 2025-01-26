@@ -35,7 +35,9 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - Pagination
 - Routing
 - hover show information (resort to react-tooltip)
+- dropdown UI in chat section
 - react-hook-form validation with customized file-type input (see NewCategoryDialog.tsx)
+-
 
 ## 📋 Coming Next
 
@@ -51,3 +53,4 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - [ ] Email Validation on creating account
 - [ ] Maybe add phone in application form as well????
 - [ ] Need a settings page for users/sellers to edit their profile
+- [ ] login/register page should provide a goback button
