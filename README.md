@@ -34,7 +34,8 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - ...
 - Pagination
 - Routing
-- hover show information
+- hover show information (resort to react-tooltip)
+- react-hook-form validation with customized file-type input (see NewCategoryDialog.tsx)
 
 ## 📋 Coming Next
 

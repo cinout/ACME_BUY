@@ -1,9 +1,13 @@
 import AdminDialog from "@/views/shared_components/AdminDialog";
 import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { FaImage } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import {
+  VALID_NAME_GENERAL,
+  VALID_NAME_GENERAL_ERROR_MSG,
+} from "@/utils/strings";
 
 interface NewCategoryDialogProps {
   isOpen: boolean;
@@ -12,107 +16,136 @@ interface NewCategoryDialogProps {
 
 interface FormInput {
   name: string;
-  image: FileList;
+  image: FileList | null;
 }
 
-export default function NewCategoryDialog({
-  isOpen,
-}: // setIsOpen,
-NewCategoryDialogProps) {
-  const [categoryName, setCategoryName] = useState("");
-  const [file, setFile] = useState<File>();
+export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<FormInput>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<FormInput>();
 
-  function handleClick() {
+  const uploadedImage = watch("image")?.[0];
+
+  function handleClickImageUploadButton() {
     fileInputRef.current?.click();
   }
 
-  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const files = event.target.files;
-    // TODO: also need to warn user if they upload non-image type file
-    if (files?.[0]) {
-      const file = files[0];
-      setFile(file);
-    }
-  }
-
   function onSubmit(data: FormInput): void {
-    // e.preventDefault(); // It doesn't expect you to manually handle the event or call e.preventDefault(). React Hook Form takes care of that for you.
-
-    // // TODO: validate if fields are completed
-    // if (!file) {
-    //   // TODO: alter user that file needs to be uploaded
-    // }
-    console.log("Form Data:", data);
-
-    // TODO: create an entry in the backedn, and also udpate in the frontend
+    // TODO: create an entry in the backend, and also udpate in the frontend
     onCloseDialog();
   }
 
   function onCloseDialog() {
-    setCategoryName("");
-    setFile(undefined);
+    reset();
     void navigate(-1);
-    // setIsOpen(false);
   }
 
   return (
     <AdminDialog isOpen={isOpen} onClose={onCloseDialog}>
-      {/* Name */}
-      {/* TODO: should I wrap them with form tag? */}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="name" className="mr-4 font-semibold w-1/2">
+      <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-[30rem]"
+      >
+        {/* Name Section */}
+        <div className="flex justify-between gap-2 flex-wrap">
+          <label htmlFor="name" className="font-semibold">
             New Category Name:
           </label>
-          {/* FIXME: validation */}
-          <input
-            type="text"
-            id="name"
-            {...register("name")}
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
-            className="bg-sky-100 text-sky-700 px-2 w-44 rounded-md"
-            autoComplete="on"
-            required
-          />
+
+          <div className="w-full tn:w-1/2 flex flex-col items-start ">
+            <input
+              type="text"
+              id="name"
+              {...register("name", {
+                required: "Category name is required",
+                maxLength: {
+                  value: 20,
+                  message: "Name must be at most 20 characters",
+                },
+                minLength: {
+                  value: 2,
+                  message: "Name must be at least 2 characters",
+                },
+                pattern: {
+                  value: VALID_NAME_GENERAL,
+                  message: VALID_NAME_GENERAL_ERROR_MSG,
+                },
+              })}
+              className="bg-sky-100 text-sky-700 px-2 py-1 rounded-md"
+              autoComplete="on"
+            />
+
+            {errors.name && (
+              <p className="text-slate-300 text-sm italic">
+                {errors.name.message}
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* Image */}
-        {/* TODO: verify the uploaded file type, must be legit image type */}
-        {/* FIXME: validation */}
-        <div className="flex items-center mt-4">
-          <label htmlFor="image" className="font-semibold w-1/2">
+        {/* Image Section */}
+        <div className="flex justify-between gap-2 flex-wrap mt-4">
+          <label htmlFor="image" className="font-semibold">
             Upload an image:
           </label>
 
+          {/* Hidden */}
           <input
             type="file"
             id="image"
-            {...register("image")}
+            {...register("image", {
+              required: "Image is required",
+              validate: {
+                fileType: (files) =>
+                  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                  files?.[0]?.type.startsWith("image/") ||
+                  "Only image files are allowed",
+                fileSize: (files) =>
+                  (files?.[0]?.size ?? 0) < 2 * 1024 * 1024 ||
+                  "File must be smaller than 2MB",
+              },
+            })}
             ref={fileInputRef}
-            onChange={handleFileChange}
+            onChange={
+              (e) => setValue("image", e.target.files, { shouldValidate: true }) // Trigger validation
+            }
             className="hidden"
           />
 
-          <div className="flex flex-col justify-center items-center">
-            <div
-              className="flex justify-center items-center w-28 h-28 bg-sky-100 rounded-2xl text-sky-700 cursor-pointer"
-              onClick={handleClick}
+          <div className="flex flex-col justify-center items-center w-1/2">
+            <button
+              className="flex justify-center items-center w-28 h-28 bg-sky-100 rounded-2xl text-sky-700"
+              type="button"
+              onClick={handleClickImageUploadButton}
             >
-              {file?.type.startsWith("image/") ? (
+              {uploadedImage?.type.startsWith("image/") && !errors.image ? (
                 <img
-                  src={URL.createObjectURL(file)}
+                  src={URL.createObjectURL(uploadedImage)}
                   alt="Preview"
                   className="w-[inherit] h-[inherit] rounded-[inherit] shadow-2xl"
                 />
               ) : (
                 <FaImage className="text-2xl" />
               )}
-            </div>
-            <div className="text-sm w-44">{file?.name}</div>
+            </button>
+
+            {errors.image ? (
+              <p className="text-slate-300 text-sm italic">
+                {errors.image?.message}
+              </p>
+            ) : (
+              <div className="text-sm w-44 text-center">
+                {uploadedImage?.name}
+              </div>
+            )}
           </div>
         </div>
 
