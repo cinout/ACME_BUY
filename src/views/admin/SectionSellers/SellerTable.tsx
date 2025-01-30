@@ -28,7 +28,7 @@ export default function SellerTable({ sellerStats }: SellerTableProps) {
           <Link to={joinUrl(pathname, seller.id)}>
             <img
               src={seller.image}
-              alt={seller.name}
+              alt={seller.firstname}
               className="inline box-content h-20 w-20 mt-10 rounded-md hover:brightness-75 hover:outline hover:outline-white transition-all"
             />
           </Link>
@@ -39,7 +39,7 @@ export default function SellerTable({ sellerStats }: SellerTableProps) {
               status={seller.status}
               additionalStyle="w-3 h-3"
             />
-            {shortenMiddle(seller.name, 40)}
+            {shortenMiddle(seller.firstname, 40)}
           </div>
 
           {/* District */}

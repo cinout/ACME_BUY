@@ -19,7 +19,7 @@ export function shortenMiddle(input: string, length: number) {
     return (
       input.substring(0, length / 2) +
       "..." +
-      input.substring(length / 2 + 3, length)
+      input.substring(input.length - length / 2, input.length)
     );
   } else {
     return input;
@@ -44,6 +44,10 @@ export function capFirstLetter(input: string) {
 export const VALID_NAME_GENERAL = /^[a-z0-9][a-z0-9-\s]*$/i; // i flag allows a-z to match both uppercase and lowercase letters without explicitly writing A-Z
 export const VALID_NAME_GENERAL_ERROR_MSG =
   "must start with a character or digit, and contain only characters, digits, space, and hyphen (dash).";
+
+// export const VALID_NAME_BRAND = /^[a-z0-9_-\s]+$/i; // i flag allows a-z to match both uppercase and lowercase letters without explicitly writing A-Z
+// export const VALID_NAME_BRAND_ERROR_MSG =
+//   "must start with a character or digit, and contain only characters, digits, space, and hyphen (dash).";
 
 export const VALID_EMAIL =
   /^(([^<>()[]\\.,;:s@]+(.[^<>()[]\\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;

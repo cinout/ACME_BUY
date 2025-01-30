@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./reducers/rootReducer";
+
+import authReducer from "./reducers/authReducer";
+import userReducer from "./reducers/userReducer";
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    auth: authReducer,
+    user: userReducer,
+  },
 
   // TODO: how to understand
   middleware: (defaultMiddleware) => {

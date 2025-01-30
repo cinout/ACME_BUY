@@ -1,12 +1,11 @@
-import FormInput from "@/views/shared_components/FormInput";
+import FormInput from "@/views/shared_components/form/FormInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { admin_login, clearToastMsg } from "@/redux/reducers/authReducer";
-
-import { BeatLoader } from "react-spinners";
+// import { clearToastMsg } from "@/redux/reducers/authReducer";
 import logo from "@/assets/images/company_logo.png";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import LoadingIndicator from "../shared_components/LoadingIndicator";
 
 interface FormInputProps {
   email: string;
@@ -15,9 +14,7 @@ interface FormInputProps {
 
 export default function AdminLogin() {
   const dispatch = useAppDispatch();
-  const { showLoader, errorMessage, successMessage } = useAppSelector(
-    (state) => state.auth
-  );
+  const { showLoader } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const {
@@ -29,7 +26,6 @@ export default function AdminLogin() {
 
   function onSubmit(data: FormInputProps) {
     // TODO: actually do something...
-    console.log(data);
 
     // dispatch(admin_login(user))
     //   .then(() => {
@@ -38,17 +34,6 @@ export default function AdminLogin() {
     //   .catch((e) => console.log(e)); //TODO: update this
 
     reset();
-  }
-
-  // TODO: should I put them in useEffect?
-  if (errorMessage) {
-    toast.error(errorMessage);
-    dispatch(clearToastMsg());
-  }
-  if (successMessage) {
-    toast.success(successMessage);
-    dispatch(clearToastMsg());
-    void navigate("/"); // Safely navigate without awaiting the promise, since React Router generally ensures navigation reliability.
   }
 
   return (
@@ -70,7 +55,7 @@ export default function AdminLogin() {
             })}
             error={errors.email}
             additionalStyleWrapper="my-4"
-            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800 w-full"
           />
           <FormInput
             type="password"
@@ -80,25 +65,14 @@ export default function AdminLogin() {
             })}
             error={errors.password}
             additionalStyleWrapper="my-4"
-            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800"
+            additionalStyleInput="bg-aqua-forest-800 text-aqua-forest-200 placeholder:text-zinc-800 w-full"
           />
 
           <button
             disabled={showLoader}
             className="bg-aqua-forest-600 rounded-md p-1 w-full h-8 mt-10 font-black block hover:bg-aqua-forest-500 transition duration-200"
           >
-            {showLoader ? (
-              <BeatLoader
-                cssOverride={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                color="white"
-              />
-            ) : (
-              "Log In"
-            )}
+            {showLoader ? <LoadingIndicator /> : "Log In"}
           </button>
         </form>
       </div>

@@ -54,7 +54,7 @@ export default function RequestTable({ requestStats }: RequestTableProps) {
               <span>{request?.id}</span>
               <span>AU$ {request?.amount}</span>
               <span>{request?.status}</span>
-              <span>{request?.date.toDateString()}</span>
+              <span>{request?.createdAt.toDateString()}</span>
               <span className="justify-self-center">
                 {/* TODO: implement it */}
                 <button className="bg-slate-100 text-sky-900 border-2 border-slate-300 rounded-md text-xs px-1 py-[0.1rem] hover:bg-sky-200 hover:border-sky-500">

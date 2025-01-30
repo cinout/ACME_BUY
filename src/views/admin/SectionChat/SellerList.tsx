@@ -37,10 +37,10 @@ export default function SellerList({
         >
           <img
             src={seller?.image}
-            alt={seller?.name}
+            alt={seller?.firstname}
             className="w-10 h-10 rounded-md shadow-xl"
           />
-          <span className="hidden sm:block text-left">{seller?.name}</span>
+          <span className="hidden sm:block text-left">{seller?.firstname}</span>
         </button>
       ))}
     </>

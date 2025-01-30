@@ -25,7 +25,7 @@ export default function Head({
     <div className="grid grid-cols-1 md:grid-cols-3 justify-center justify-items-center items-end content-end gap-y-4 md:gap-y-0">
       {/* TODO: implement search function */}
       <HeadSearch
-        placeholder="search categories ..."
+        placeholder="search products ..."
         additionalStyle="md:justify-self-start"
         value={searchValue}
         onChangeValue={setSearchValue}

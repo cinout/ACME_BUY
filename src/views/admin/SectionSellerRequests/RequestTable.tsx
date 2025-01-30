@@ -60,12 +60,12 @@ export default function RequestTable({
               <div className="flex items-center gap-3">
                 <img
                   src={seller?.image}
-                  alt={seller?.name}
+                  alt={seller?.firstname}
                   className="w-10 h-10 rounded-md"
                 />
 
                 <div className="hidden sm:block">
-                  <div>{seller?.name}</div>
+                  <div>{seller?.firstname}</div>
                   <div className="italic text-xs text-sky-200">
                     {seller?.email}
                   </div>
@@ -78,7 +78,7 @@ export default function RequestTable({
               </div>
 
               {/* Date */}
-              <span>{seller?.requestDate.toDateString()}</span>
+              <span>{seller?.createdAt.toDateString()}</span>
 
               {/* Action */}
               <span className="justify-self-center">

@@ -7,29 +7,25 @@ import SellerInfo from "./SellerInfo";
 import { useParams } from "react-router-dom";
 import { SellerEntity, ShopEntity } from "@/utils/entities";
 import { getRandomInt } from "@/utils/numbers";
-import { SellerStatusEnum } from "@/utils/enums";
+import { SellerSignupMethodEnum, SellerStatusEnum } from "@/utils/enums";
 
 // TODO: fetch from server
 const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
-  image: faker.image.avatar(),
-  name: faker.person.fullName(),
+  createdAt: faker.date.recent(),
+
+  firstname: faker.person.firstName(),
+  lastname: faker.person.lastName(),
+  password: faker.internet.password(),
   email: faker.internet.email(),
   country: faker.location.country(),
   state: faker.location.state(),
   city: faker.location.city(),
   zipCode: faker.location.zipCode(),
-  status: SellerStatusEnum.Active,
-  requestDate: faker.date.recent(),
-  shops: Array.from(
-    { length: getRandomInt(0, 14) },
-    () =>
-      ({
-        id: faker.string.uuid(),
-        name: faker.company.name(),
-        image: faker.image.avatar(),
-      } as ShopEntity)
-  ),
+  status: SellerStatusEnum.Pending,
+  signupMethod: SellerSignupMethodEnum.Default,
+
+  image: faker.image.avatar(),
 }));
 
 const itemsPerPageOptions = [10, 20, 30, 40];

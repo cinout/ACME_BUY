@@ -1,25 +1,20 @@
-import FormInput from "@/views/shared_components/FormInput";
-import { useState } from "react";
+import FormInput from "@/views/shared_components/form/FormInput";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
 import SignInOptionButton from "../shared_components/SignInOptionButton";
 import { useForm } from "react-hook-form";
+import { FormSellerLoginProps } from "@/redux/reducers/authReducer";
 
-interface FormInputProps {
-  email: string;
-  password: string;
-}
-
-export default function UserLogin() {
+export default function SellerLogin() {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormInputProps>();
+  } = useForm<FormSellerLoginProps>();
 
-  function onSubmit(data: FormInputProps) {
+  function onSubmit(data: FormSellerLoginProps) {
     console.log(data);
     // TODO: actually do something...
     reset();
@@ -46,6 +41,7 @@ export default function UserLogin() {
               required: "Please provide your email",
             })}
             error={errors.email}
+            additionalStyleInput="w-full"
           />
           <FormInput
             additionalStyleWrapper="my-4"
@@ -55,6 +51,7 @@ export default function UserLogin() {
               required: "Please provide your password",
             })}
             error={errors.password}
+            additionalStyleInput="w-full"
           />
 
           <button className="bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200">
@@ -69,7 +66,7 @@ export default function UserLogin() {
         <div className="flex flex-col justify-center items-center text-sm mb-3">
           <div> Don&apos;t have an account?</div>
           <div>
-            <Link to="/register" className="underline">
+            <Link to="/seller/signup" className="underline">
               Create one
             </Link>{" "}
             now, or sign in with:

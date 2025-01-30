@@ -23,21 +23,27 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - **Notification**: react-hot-toast
 - **Efficient Rendering Large Dataset**: react-window
 - **Form Validation**: react-hook-form
-- **Other Packages**: jwt-decode, date-fns (replace moment), faker, react-tooltip
+- **Other Packages**: jwt-decode, date-fns (replace moment), faker, react-tooltip, country-state-city (dropdown options)
 
 ## 🦄 Unique Features
 
-- ...
+- show discounted price when set discount
+- carefully trim long strings
+- nice hover effect when hover onto images and select delete
+- modular, all reusable features are separately stored
+- elegantly handle single and multiple file upload
+- lazy loading pages
 
 ## 🏋️‍♀️ Challenges Faced
 
 - ...
 - Pagination
 - Routing
-- hover show information (resort to react-tooltip)
-- dropdown UI in chat section
-- react-hook-form validation with customized file-type input (see NewCategoryDialog.tsx)
--
+- hover show information (solution: resort to react-tooltip)
+- dropdown UI in chat section ()
+- react-hook-form validation with customized file-type input (solution: see NewCategoryDialog.tsx)
+- display error separately for each image in multiple file input (solution: show file names in the error message)
+- authentication security, store in cookie or localStorage
 
 ## 📋 Coming Next
 
@@ -54,3 +60,9 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - [ ] Maybe add phone in application form as well????
 - [ ] Need a settings page for users/sellers to edit their profile
 - [ ] login/register page should provide a goback button
+- [ ] Do I need to use React Query ?
+- [ ] Think about what the seller can see when they are deactivated
+- [ ] How to elegantly handle the interface when accessToken expired?
+- [ ] consider using auth0 for authentication
+- [ ] Do i need a "refresh token" to enhance security? see https://www.cyberchief.ai/2023/05/secure-jwt-token-storage.html
+- [ ]

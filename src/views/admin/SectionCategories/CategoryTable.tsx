@@ -1,7 +1,6 @@
 import { CategoryEntity } from "@/utils/entities";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { Tooltip } from "react-tooltip";
 
 interface CategoryTableProps {
   categoryStats: CategoryEntity[];

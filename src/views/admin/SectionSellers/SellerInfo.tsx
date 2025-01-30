@@ -45,7 +45,7 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
         <div className="flex flex-col items-center gap-4 w-40">
           <img
             src={seller.image}
-            alt={seller.name}
+            alt={seller.firstname}
             className="w-24 sm:w-32 lg:w-40 aspect-square rounded-2xl shadow-2xl"
           />
 
@@ -57,16 +57,17 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
 
         {/* Right */}
         <div className="flex flex-col gap-1 text-wrap">
-          <AttributeDisplay name="name" value={seller.name} />
+          <AttributeDisplay name="name" value={seller.firstname} />
           <AttributeDisplay name="email" value={seller.email} />
           <AttributeDisplay name="country" value={seller.country} />
           <AttributeDisplay name="state" value={seller.state} />
           <AttributeDisplay name="city" value={seller.city} />
           <AttributeDisplay name="zip code" value={seller.zipCode} />
-          <AttributeDisplay
+          {/* TODO: add other fields */}
+          {/* <AttributeDisplay
             name="requested"
-            value={seller.requestDate.toDateString()}
-          />
+            value={seller.createdAt.toDateString()}
+          /> */}
         </div>
       </div>
 
@@ -74,9 +75,9 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
       <div className="flex flex-col justify-center items-center w-full mt-8 text-sm md:text-base">
         <strong className="text-sky-200 mb-2">Owned Shops:</strong>
 
-        {seller.shops && seller.shops.length > 0 ? (
+        {/* TODO: should show products */}
+        {/* {seller.shops && seller.shops.length > 0 ? (
           <div className="bg-white/75 p-3 rounded-xl flex justify-start gap-2 overflow-x-auto">
-            {/* TODO: click on the image should lead to the shop page */}
             {seller.shops?.map((shop) => (
               <Fragment key={shop.id}>
                 <img
@@ -95,7 +96,7 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
           </div>
         ) : (
           <div>The seller hasn&apos;t created any shop yet.</div>
-        )}
+        )} */}
       </div>
       {/* Leave Button */}
       {/* TODO: implement the functionality */}

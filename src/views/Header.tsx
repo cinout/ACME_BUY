@@ -2,7 +2,6 @@ import { IoMenuSharp } from "react-icons/io5";
 import circleLogo from "@/assets/images/company_logo_circleonly.png";
 import imgAdmin from "@/assets/images/admin.png";
 import { Link } from "react-router-dom";
-import { Input } from "@headlessui/react";
 import { faker } from "@faker-js/faker";
 import { RoleEnum } from "@/utils/enums";
 
@@ -76,7 +75,8 @@ export default function Header({
         </div>
 
         {/* image */}
-        {/* TODO: by click or hover on the user image, some feature should happen */}
+        {/* TODO: click on the avatar should redirect to Profile page*/}
+        {/* TODO: see video Section 33 */}
         <button>
           <img
             src={imgAdmin}

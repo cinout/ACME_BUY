@@ -1,6 +1,5 @@
 import { SellerEntity } from "@/utils/entities";
 import { faker } from "@faker-js/faker";
-import { Input } from "@headlessui/react";
 import { Fragment, SetStateAction, useEffect, useRef } from "react";
 import SellerList from "./SellerList";
 import { IoMdArrowDropdownCircle, IoMdArrowDropupCircle } from "react-icons/io";
@@ -97,11 +96,11 @@ export default function RightMessageContainer({
             <div className="flex items-center gap-x-3">
               <img
                 src={seller.image}
-                alt={seller.name}
+                alt={seller.firstname}
                 className="h-10 w-10 rounded-md shadow-lg"
               />
 
-              <span className="font-light text-sky-50"> {seller.name}</span>
+              <span className="font-light text-sky-50">{seller.firstname}</span>
             </div>
           )}
         </div>
@@ -145,13 +144,13 @@ export default function RightMessageContainer({
               <Fragment key={i}>
                 <MessageSeller
                   message={faker.lorem.text()}
-                  image={seller.image}
-                  name={seller.name}
+                  image={seller.image || ""}
+                  name={seller.firstname}
                 />
                 <MessageAdmin
                   message={faker.lorem.text()}
-                  image={seller.image}
-                  name={seller.name}
+                  image={seller.image || ""}
+                  name={seller.firstname}
                 />
               </Fragment>
             ))}

@@ -13,10 +13,13 @@ import OrderDetails from "./OrderDetails";
 // TODO: fetch from backend
 const orderStats: OrderEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
+  createdAt: faker.date.recent(),
   price: faker.commerce.price(),
   payment_status: PaymentStatusEnum.Pending,
   order_status: OrderStatusEnum.Pending,
   details: Array.from({ length: 3 }, () => ({
+    id: faker.string.uuid(),
+    createdAt: faker.date.recent(),
     product_id: faker.string.uuid(),
     product_name: faker.commerce.product(),
     sellor_id: faker.string.uuid(),

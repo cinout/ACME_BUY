@@ -1,5 +1,3 @@
-import { Input } from "@headlessui/react";
-
 interface HeadSearchProps {
   placeholder?: string;
   additionalStyle?: string;

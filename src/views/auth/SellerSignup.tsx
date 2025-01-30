@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import FormInput from "@/views/shared_components/FormInput";
+import FormInput from "@/views/shared_components/form/FormInput";
 import logo from "@/assets/images/company_logo.png";
 import SignInOptionButton from "../shared_components/SignInOptionButton";
 import { useForm } from "react-hook-form";
@@ -10,29 +10,55 @@ import {
   VALID_NAME_GENERAL,
   VALID_NAME_GENERAL_ERROR_MSG,
 } from "@/utils/strings";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import LoadingIndicator from "../shared_components/LoadingIndicator";
+import {
+  FormSellerSignupProps,
+  seller_signup,
+} from "@/redux/reducers/authReducer";
+import { SellerSignupMethodEnum } from "@/utils/enums";
+import toast from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
+import { styleFormErrorMessage } from "@/utils/styles";
 
-interface FormInputProps {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  agree: boolean;
-}
+export default function SellerSignup() {
+  const dispatch = useAppDispatch();
+  const { showLoader } = useAppSelector((state) => state.auth);
 
-export default function Register() {
   const {
     register,
     handleSubmit,
-    // setValue,
-    // watch,
     formState: { errors },
     reset,
-  } = useForm<FormInputProps>();
+  } = useForm<FormSellerSignupProps>();
 
-  function onSubmit(data: FormInputProps) {
-    // TODO: actually do something...
-    console.log(data);
-    reset();
+  function onSubmit(data: FormSellerSignupProps) {
+    dispatch(
+      seller_signup({ ...data, signupMethod: SellerSignupMethodEnum.Default }) // TODO: update signupMethod for Google/Facebook login
+    )
+      .unwrap()
+      .then((result) => {
+        const { message, token } = result as { message: string; token: string };
+        // toast.success(message);
+
+        if (token) {
+          localStorage.setItem("accessToken", token); // TODO: think of a safer option
+          // TODO: you need to remove from localStorage when user log out
+
+          // Decode JWT token to get user info
+          const decodedToken = jwtDecode(token); // Decoding token to get user info
+          console.log("decodedToken", decodedToken);
+
+          // Dispatch to Redux store
+          // dispatch(setUser({ user, token }));
+        }
+
+        reset(); // reset form values
+        // TODO: other things after reset, like redirect or something
+      })
+      .catch((e) => {
+        toast.error(e); // show error
+      });
   }
 
   return (
@@ -43,9 +69,7 @@ export default function Register() {
           <img src={logo} alt="Logo" className="w-4/5" />
         </div>
         <div className="text-lg font-black">Sign Up with ACME BUY</div>
-        <div className="text-sm mb-6">
-          Register now to start shopping with us.
-        </div>
+        <div className="text-sm mb-6">Register now and become our seller.</div>
 
         {/* Form */}
         {/* // TODO: add validation to the field values */}
@@ -54,8 +78,8 @@ export default function Register() {
           <FormInput
             placeholder="Your First Name"
             label="First Name"
-            registration={register("firstName", {
-              required: "Name is required",
+            registration={register("firstname", {
+              required: "First name is required",
               maxLength: {
                 value: 30,
                 message: "Name must be at most 30 characters",
@@ -69,13 +93,14 @@ export default function Register() {
                 message: VALID_NAME_GENERAL_ERROR_MSG,
               },
             })}
-            error={errors.firstName}
+            error={errors.firstname}
+            additionalStyleInput="w-full"
           />
           <FormInput
             placeholder="Your Last Name"
             label="Last Name"
-            registration={register("lastName", {
-              required: "Name is required",
+            registration={register("lastname", {
+              required: "Last name is required",
               maxLength: {
                 value: 30,
                 message: "Name must be at most 30 characters",
@@ -89,7 +114,8 @@ export default function Register() {
                 message: VALID_NAME_GENERAL_ERROR_MSG,
               },
             })}
-            error={errors.lastName}
+            error={errors.lastname}
+            additionalStyleInput="w-full"
           />
           <FormInput
             placeholder="Your Email"
@@ -102,6 +128,7 @@ export default function Register() {
               },
             })}
             error={errors.email}
+            additionalStyleInput="w-full"
           />
 
           {/* strong password */}
@@ -116,6 +143,7 @@ export default function Register() {
               },
             })}
             error={errors.password}
+            additionalStyleInput="w-full"
           />
 
           {/* Checkbox to terms and conditions */}
@@ -135,15 +163,14 @@ export default function Register() {
           </div>
 
           {errors.agree && (
-            <p
-              className={`text-sm italic mt-2 text-rose-500 bg-white/40 px-2 border-rose-500 border`}
-            >
-              {errors.agree?.message}
-            </p>
+            <p className={styleFormErrorMessage}>{errors.agree?.message}</p>
           )}
 
-          <button className="bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200">
-            Sign Up
+          <button
+            className="h-8 bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200"
+            disabled={showLoader}
+          >
+            {showLoader ? <LoadingIndicator /> : "Sign Up"}
           </button>
         </form>
 
@@ -155,7 +182,7 @@ export default function Register() {
         </div>
 
         <div className="flex flex-col items-center">
-          <Link to="/login" className="mb-2 w-72">
+          <Link to="/seller/login" className="mb-2 w-72">
             <SignInOptionButton additionalStyle="bg-slate-100 w-full">
               ACME BUY Account
             </SignInOptionButton>

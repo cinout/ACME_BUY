@@ -10,6 +10,7 @@ const categoryStats: CategoryEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
   name: faker.commerce.product(),
   image: faker.image.avatar(),
+  createdAt: faker.date.recent(),
 }));
 
 const itemsPerPageOptions = [10, 20, 30, 40];

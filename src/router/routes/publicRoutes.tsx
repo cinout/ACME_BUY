@@ -1,15 +1,15 @@
 import { RouteObject } from "react-router-dom"; // for typing
-import { UserLogin, UserRegister, AdminLogin } from "./routesLazyExports.ts";
+import { SellerLogin, SellerSignup, AdminLogin } from "./routesLazyExports.ts";
 
 export const publicRoutes: RouteObject[] = [
   // Customer (User)
   {
-    path: "/login",
-    element: <UserLogin />,
+    path: "/seller/login",
+    element: <SellerLogin />,
   },
   {
-    path: "/register",
-    element: <UserRegister />,
+    path: "/seller/signup",
+    element: <SellerSignup />,
   },
 
   // Admin

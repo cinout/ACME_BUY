@@ -19,9 +19,14 @@ export enum WithdrawStatusEnum {
   Pending = "Pending",
 }
 
-// TODO: update them
 export enum SellerStatusEnum {
   Pending = "Pending",
   Deactivated = "Deactivated",
   Active = "Active",
+}
+
+export enum SellerSignupMethodEnum {
+  Default = "Default",
+  Google = "Google",
+  Facebook = "Facebook",
 }

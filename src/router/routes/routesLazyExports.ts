@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
-export const UserLogin = lazy(() => import("@/views/auth/UserLogin"));
-export const UserRegister = lazy(() => import("@/views/auth/UserRegister"));
+export const SellerLogin = lazy(() => import("@/views/auth/SellerLogin"));
+export const SellerSignup = lazy(() => import("@/views/auth/SellerSignup"));
 export const AdminLogin = lazy(() => import("@/views/auth/AdminLogin"));
 export const Home = lazy(() => import("@/views/Home"));
 

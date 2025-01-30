@@ -1,24 +1,30 @@
 import { SellerEntity } from "@/utils/entities";
-import { SellerStatusEnum } from "@/utils/enums";
+import { SellerSignupMethodEnum, SellerStatusEnum } from "@/utils/enums";
 import { faker } from "@faker-js/faker";
 import SellerList from "./SellerList";
 import RightMessageContainer from "./RightMessageContainer";
 import { useParams } from "react-router-dom";
-import { Input } from "@headlessui/react";
 import { useState } from "react";
 
 // TODO: fetch from server
 const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
-  image: faker.image.avatar(),
-  name: faker.person.fullName(),
+  createdAt: faker.date.recent(),
+
+  firstname: faker.person.firstName(),
+  lastname: faker.person.lastName(),
   email: faker.internet.email(),
+  password: faker.internet.password(),
+
   country: faker.location.country(),
   state: faker.location.state(),
   city: faker.location.city(),
   zipCode: faker.location.zipCode(),
+
   status: SellerStatusEnum.Active,
-  requestDate: faker.date.recent(),
+  signupMethod: SellerSignupMethodEnum.Default,
+
+  image: faker.image.avatar(),
 }));
 
 export default function SectionChat() {
