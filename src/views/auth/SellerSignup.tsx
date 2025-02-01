@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import FormInput from "@/views/shared_components/form/FormInput";
@@ -18,12 +18,12 @@ import {
 } from "@/redux/reducers/authReducer";
 import { SellerSignupMethodEnum } from "@/utils/enums";
 import toast from "react-hot-toast";
-import { jwtDecode } from "jwt-decode";
 import { styleFormErrorMessage } from "@/utils/styles";
 
 export default function SellerSignup() {
   const dispatch = useAppDispatch();
   const { showLoader } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -37,24 +37,9 @@ export default function SellerSignup() {
       seller_signup({ ...data, signupMethod: SellerSignupMethodEnum.Default }) // TODO: update signupMethod for Google/Facebook login
     )
       .unwrap()
-      .then((result) => {
-        const { message, token } = result as { message: string; token: string };
-        // toast.success(message);
-
-        if (token) {
-          localStorage.setItem("accessToken", token); // TODO: think of a safer option
-          // TODO: you need to remove from localStorage when user log out
-
-          // Decode JWT token to get user info
-          const decodedToken = jwtDecode(token); // Decoding token to get user info
-          console.log("decodedToken", decodedToken);
-
-          // Dispatch to Redux store
-          // dispatch(setUser({ user, token }));
-        }
-
+      .then(() => {
         reset(); // reset form values
-        // TODO: other things after reset, like redirect or something
+        void navigate("/"); // user will be redirected from "/"" based on their role
       })
       .catch((e) => {
         toast.error(e); // show error

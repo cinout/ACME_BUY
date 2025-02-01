@@ -1,32 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Router from "@/router/Router.tsx";
 import { publicRoutes } from "./router/routes/publicRoutes.tsx";
 import { getPrivateRoutes } from "./router/routes/index.tsx";
+import { useAppDispatch } from "./redux/hooks.ts";
+import { get_user, updateUserRole } from "./redux/reducers/authReducer.ts";
+import { RouteObject } from "react-router-dom";
+import LoadingPage from "./views/LoadingPage.tsx";
 
 export default function App() {
-  const [allRoutes, setAllRoutes] = useState([
-    ...publicRoutes,
-    getPrivateRoutes, // TODO: is this correct?
-  ]);
+  // const [allRoutes, setAllRoutes] = useState(publicRoutes);
+  const [routes, setRoutes] = useState<RouteObject[]>([]);
 
-  // TODO: Use useEffect to check for a JWT in the cookie and dispatch it to Redux.
-  // useEffect(() => {
-  //   const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+  const dispatch = useAppDispatch();
 
-  //   if (token) {
-  //     // Decode JWT token to get user info
-  //     const decodedToken: any = jwt_decode(token); // Decoding token to get user info
-  //     const user = { email: decodedToken.email, name: decodedToken.name }; // Assuming token contains email and name
+  useEffect(() => {
+    // TODO: check if this is called only on initial loading
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      // update role locally
+      dispatch(updateUserRole());
 
-  //     // Dispatch to Redux store
-  //     dispatch(setUser({ user, token }));
+      // fetch detailed user info from server
+      dispatch(get_user())
+        .unwrap()
+        .then(() => {
+          // load private routes (which requires to know your role)
+          setRoutes([...publicRoutes, getPrivateRoutes]);
+        })
+        .catch((e) => {
+          // TODO: what is there is error getting user info?
+        });
+    }
+  }, [dispatch]);
 
-  //     // Optionally redirect to a protected page
-  //     navigate("/dashboard");
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, [dispatch, navigate]);
-
-  return <Router allRoutes={allRoutes} />; // TODO: should I use RouterProvider, createBrowserRouter instead?
+  return routes.length > 0 ? (
+    <Router allRoutes={routes} /> // TODO: should I use RouterProvider, createBrowserRouter instead?
+  ) : (
+    <LoadingPage /> // TODO: should I show loading page for 2 seconds? and fade into the other component?
+  );
 }

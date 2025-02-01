@@ -1,12 +1,38 @@
 import { lazy } from "react";
 
+/**
+ * TODO: do I need to wrap all lazy-load components with Suspense?
+------------------------------
+import { lazy, Suspense } from "react";
+const Main = lazy(() => import("@/views/Main"));
+
+const LazyMain = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <Main />
+  </Suspense>
+);
+------------------------------
+*/
+
+/**
+ * Login & Signup
+ */
 export const SellerLogin = lazy(() => import("@/views/auth/SellerLogin"));
 export const SellerSignup = lazy(() => import("@/views/auth/SellerSignup"));
 export const AdminLogin = lazy(() => import("@/views/auth/AdminLogin"));
+
 export const Home = lazy(() => import("@/views/Home"));
+export const Main = lazy(() => import("@/views/Main")); // The seller/admin dashboard overall layout
 
 /**
- * ADMIN
+ * Error Pages
+ */
+export const UnauthorizedPage = lazy(
+  () => import("@/views/auth/UnauthorizedPage")
+);
+
+/**
+ * ADMIN Dashboard
  */
 export const AdminSectionDashboard = lazy(
   () => import("@/views/admin/SectionDashboard")
@@ -29,7 +55,7 @@ export const AdminSectionSellerRequests = lazy(
 export const AdminSectionChat = lazy(() => import("@/views/admin/SectionChat"));
 
 /**
- * SELLER
+ * SELLER Dashboard
  */
 export const SellerSectionDashboard = lazy(
   () => import("@/views/seller/SectionDashboard")
@@ -49,3 +75,7 @@ export const SellerSectionChatCustomer = lazy(
 export const SellerSectionSupport = lazy(
   () => import("@/views/seller/SectionSupport")
 );
+export const SellerDeactivated = lazy(
+  () => import("@/views/seller/SellerDeactivated")
+);
+export const SellerPending = lazy(() => import("@/views/seller/SellerPending"));

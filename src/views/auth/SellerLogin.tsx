@@ -1,12 +1,21 @@
 import FormInput from "@/views/shared_components/form/FormInput";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
 import SignInOptionButton from "../shared_components/SignInOptionButton";
 import { useForm } from "react-hook-form";
-import { FormSellerLoginProps } from "@/redux/reducers/authReducer";
+import {
+  FormSellerLoginProps,
+  seller_login,
+} from "@/redux/reducers/authReducer";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import LoadingIndicator from "../shared_components/LoadingIndicator";
+import toast from "react-hot-toast";
 
 export default function SellerLogin() {
+  const dispatch = useAppDispatch();
+  const { showLoader } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,9 +24,17 @@ export default function SellerLogin() {
   } = useForm<FormSellerLoginProps>();
 
   function onSubmit(data: FormSellerLoginProps) {
-    console.log(data);
-    // TODO: actually do something...
-    reset();
+    dispatch(
+      seller_login(data) // TODO: update signupMethod for Google/Facebook login
+    )
+      .unwrap()
+      .then(() => {
+        reset(); // reset form values
+        void navigate("/"); // user will be redirected from "/"" based on their role
+      })
+      .catch((e) => {
+        toast.error(e); // show error
+      });
   }
 
   return (
@@ -54,8 +71,11 @@ export default function SellerLogin() {
             additionalStyleInput="w-full"
           />
 
-          <button className="bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200">
-            Log In
+          <button
+            className="bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200"
+            disabled={showLoader}
+          >
+            {showLoader ? <LoadingIndicator /> : "Log In"}
           </button>
         </form>
 

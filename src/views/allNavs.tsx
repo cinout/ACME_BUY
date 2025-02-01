@@ -1,5 +1,5 @@
 // TODO: consider moving this to utils
-import { RoleEnum } from "@/utils/enums";
+import { RoleEnum, SellerStatusEnum } from "@/utils/enums";
 import { JSX } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiDeliveryTruck } from "react-icons/ci";
@@ -14,12 +14,11 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 export interface NavOptionsProps {
   name: string;
   icon: JSX.Element;
-  role: string[];
+  accessRoles: string[];
+  accessSellerStatus?: SellerStatusEnum[];
   goto: string;
 }
 
-// TODO: how to use the role attribute?
-// TODO: Do we need id fields?
 export const navOptions: NavOptionsProps[] = [
   /**
    * ADMIN
@@ -27,44 +26,44 @@ export const navOptions: NavOptionsProps[] = [
   {
     name: "Dashboard",
     icon: <AiOutlineDashboard />,
-    role: [RoleEnum.Admin],
+    accessRoles: [RoleEnum.Admin],
     goto: "/admin/dashboard",
   },
 
   {
     name: "Categories",
     icon: <BiCategory />,
-    role: [RoleEnum.Admin],
+    accessRoles: [RoleEnum.Admin],
     goto: "/admin/categories",
   },
   {
     name: "Sellers",
     icon: <FaPeopleGroup />,
-    role: [RoleEnum.Admin],
+    accessRoles: [RoleEnum.Admin],
     goto: "/admin/sellers",
   },
   {
     name: "Orders",
     icon: <CiDeliveryTruck />,
-    role: [RoleEnum.Admin],
+    accessRoles: [RoleEnum.Admin],
     goto: "/admin/orders",
   },
   {
     name: "Withdraw Requests",
     icon: <MdOutlinePayment />,
-    role: [RoleEnum.Admin],
+    accessRoles: [RoleEnum.Admin],
     goto: "/admin/withdraw-requests",
   },
   {
     name: "Seller Requests",
     icon: <FaPerson />,
-    role: [RoleEnum.Admin],
+    accessRoles: [RoleEnum.Admin],
     goto: "/admin/seller-requests",
   },
   {
     name: "Live Chat",
     icon: <IoChatboxEllipsesOutline />,
-    role: [RoleEnum.Admin],
+    accessRoles: [RoleEnum.Admin],
     goto: "/admin/chat",
   },
 
@@ -74,37 +73,47 @@ export const navOptions: NavOptionsProps[] = [
   {
     name: "Dashboard",
     icon: <AiOutlineDashboard />,
-    role: [RoleEnum.Seller],
+    accessRoles: [RoleEnum.Seller],
     goto: "/seller/dashboard",
+    accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Products",
     icon: <HiOutlineShoppingBag />,
-    role: [RoleEnum.Seller],
+    accessRoles: [RoleEnum.Seller],
     goto: "/seller/products",
+    accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Orders",
     icon: <CiDeliveryTruck />,
-    role: [RoleEnum.Seller],
+    accessRoles: [RoleEnum.Seller],
     goto: "/seller/orders",
+    accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Payments",
     icon: <MdOutlinePayment />,
-    role: [RoleEnum.Seller],
+    accessRoles: [RoleEnum.Seller],
     goto: "/seller/payments",
+    accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Chat Customer",
     icon: <IoChatboxEllipsesOutline />,
-    role: [RoleEnum.Seller],
+    accessRoles: [RoleEnum.Seller],
     goto: "/seller/chat-customer",
+    accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Support",
     icon: <MdOutlineSupportAgent />,
-    role: [RoleEnum.Seller],
+    accessRoles: [RoleEnum.Seller],
     goto: "/seller/support",
+    accessSellerStatus: [
+      SellerStatusEnum.Active,
+      SellerStatusEnum.Deactivated,
+      SellerStatusEnum.Pending,
+    ],
   },
 ];

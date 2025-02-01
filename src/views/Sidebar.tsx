@@ -5,8 +5,9 @@ import { RoleEnum } from "@/utils/enums";
 import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useAppSelector } from "@/redux/hooks";
+import { SellerEntity } from "@/utils/entities";
 
-// TODO: make it responsive (lg as breakpoint)
 interface Props {
   showSidebar: boolean;
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -59,12 +60,23 @@ export default function Sidebar({
   setShowSidebar,
   menuButtonRef,
 }: Props) {
-  const panelOptions = navOptions.filter((a) =>
-    a.role.includes(RoleEnum.Seller)
-  ); // TODO: other roles later
+  const { role, userInfo } = useAppSelector((state) => state.auth);
 
   const { pathname } = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const panelOptions = navOptions.filter((a) => {
+    if (role === RoleEnum.Seller) {
+      return (
+        a.accessRoles.includes(RoleEnum.Seller) &&
+        a.accessSellerStatus?.includes((userInfo as SellerEntity).status)
+      );
+    } else if (role === RoleEnum.Admin) {
+      return a.accessRoles.includes(RoleEnum.Admin);
+    }
+    return false;
+    // TODO: do we need to care about Customer Role?
+  });
 
   // Close menu if clicked outside
   useEffect(() => {
@@ -130,7 +142,5 @@ export default function Sidebar({
         )}
       </AnimatePresence>
     </>
-
-    // TODO: add log out here
   );
 }

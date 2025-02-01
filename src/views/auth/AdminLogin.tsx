@@ -1,16 +1,11 @@
 import FormInput from "@/views/shared_components/form/FormInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-// import { clearToastMsg } from "@/redux/reducers/authReducer";
 import logo from "@/assets/images/company_logo.png";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
-
-interface FormInputProps {
-  email: string;
-  password: string;
-}
+import { admin_login, FormAdminLoginProps } from "@/redux/reducers/authReducer";
 
 export default function AdminLogin() {
   const dispatch = useAppDispatch();
@@ -22,18 +17,20 @@ export default function AdminLogin() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormInputProps>();
+  } = useForm<FormAdminLoginProps>();
 
-  function onSubmit(data: FormInputProps) {
-    // TODO: actually do something...
-
-    // dispatch(admin_login(user))
-    //   .then(() => {
-    //     // Do something?
-    //   })
-    //   .catch((e) => console.log(e)); //TODO: update this
-
-    reset();
+  function onSubmit(data: FormAdminLoginProps) {
+    dispatch(
+      admin_login(data) // TODO: update signupMethod for Google/Facebook login
+    )
+      .unwrap()
+      .then(() => {
+        reset(); // reset form values
+        void navigate("/"); // user will be redirected from "/"" based on their role
+      })
+      .catch((e) => {
+        toast.error(e); // show error
+      });
   }
 
   return (

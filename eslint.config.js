@@ -50,6 +50,7 @@ export default tseslint.config({
     "@typescript-eslint/no-unsafe-call": "warn", // too many false positives
     "@typescript-eslint/prefer-nullish-coalescing": "warn",
     "prefer-const": "warn",
+    "@typescript-eslint/no-unnecessary-type-assertion": "warn",
   },
 });
 

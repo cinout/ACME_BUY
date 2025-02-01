@@ -1,10 +1,13 @@
-import Main from "@/views/Main"; // TODO: lazy load it?
 import { privateRoutes } from "./privateRoutes";
 import { RouteObject } from "react-router-dom";
+import ProtectRoute from "./ProtectRoute";
+import { Main } from "./routesLazyExports.ts";
 
-// TODO: why do I need this?
 export const getPrivateRoutes: RouteObject = {
   path: "/",
-  element: <Main />,
-  children: privateRoutes,
+  element: <Main />, // The dashboard overall layout
+  children: privateRoutes.map((route) => ({
+    ...route,
+    element: <ProtectRoute route={route}>{route.element}</ProtectRoute>,
+  })),
 };

@@ -33,12 +33,15 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - modular, all reusable features are separately stored
 - elegantly handle single and multiple file upload
 - lazy loading pages
+- Route protection based on user role
+- Loading page, unauthorized page
+- different seller views(UI) based on seller's status (active/deactivated/pending)
 
 ## 🏋️‍♀️ Challenges Faced
 
 - ...
 - Pagination
-- Routing
+- Routing and route protection
 - hover show information (solution: resort to react-tooltip)
 - dropdown UI in chat section ()
 - react-hook-form validation with customized file-type input (solution: see NewCategoryDialog.tsx)
@@ -65,4 +68,5 @@ This is a template for Vite + ReactJS + TypeScript + TailwindCSS + PostCSS
 - [ ] How to elegantly handle the interface when accessToken expired?
 - [ ] consider using auth0 for authentication
 - [ ] Do i need a "refresh token" to enhance security? see https://www.cyberchief.ai/2023/05/secure-jwt-token-storage.html
-- [ ]
+- [ ] Don't show sign in/ sign up options (in UI) when user is already logged in. If user goes to the login/signup page by manually typing in the URL, redirect them to the dashboard.
+- [ ] WHere to put admin sign up???
