@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
-import { admin_login, FormAdminLoginProps } from "@/redux/reducers/authReducer";
+import { adminLogin, FormAdminLoginProps } from "@/redux/reducers/authReducer";
 
 export default function AdminLogin() {
   const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ export default function AdminLogin() {
 
   function onSubmit(data: FormAdminLoginProps) {
     dispatch(
-      admin_login(data) // TODO: update signupMethod for Google/Facebook login
+      adminLogin(data) // TODO: update signupMethod for Google/Facebook login
     )
       .unwrap()
       .then(() => {

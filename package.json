@@ -4,18 +4,20 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "APOLLO_CLIENT_DEVTOOLS=false vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.12.9",
     "@headlessui/react": "^2.2.0",
     "@reduxjs/toolkit": "^2.5.0",
     "apexcharts": "^4.3.0",
     "axios": "^1.7.9",
     "country-state-city": "^3.2.1",
     "date-fns": "^4.1.0",
+    "graphql": "^16.10.0",
     "jwt-decode": "^4.0.0",
     "motion": "^11.18.1",
     "react": "^19.0.0",

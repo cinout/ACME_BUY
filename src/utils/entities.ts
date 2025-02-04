@@ -37,6 +37,7 @@ export interface SellerEntity extends Entity {
 export interface CategoryEntity extends Entity {
   name?: string;
   image?: string;
+  slug?: string;
 }
 export interface ProductEntity extends Entity {
   name: string;

@@ -4,6 +4,7 @@ import imgAdmin from "@/assets/images/admin.png";
 import { Link } from "react-router-dom";
 import { faker } from "@faker-js/faker";
 import { RoleEnum } from "@/utils/enums";
+import { useAppSelector } from "@/redux/hooks";
 
 interface Props {
   showSidebar: boolean;
@@ -18,6 +19,7 @@ export default function Header({
   setShowSidebar,
   menuButtonRef,
 }: Props) {
+  const { role } = useAppSelector((state) => state.auth);
   return (
     // <div className="">
 
@@ -70,7 +72,7 @@ export default function Header({
             <em>{dummyName}</em>
           </span>
           <span>
-            <b>{RoleEnum.Seller}</b>
+            <b>{role}</b>
           </span>
         </div>
 

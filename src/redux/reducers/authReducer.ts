@@ -21,8 +21,8 @@ export interface FormSellerLoginProps {
   password: string;
 }
 
-export const admin_login = createAsyncThunk<unknown, FormAdminLoginProps>(
-  "auth/admin_login",
+export const adminLogin = createAsyncThunk<unknown, FormAdminLoginProps>(
+  "auth/adminLogin",
   async (info, thunkAPI) => {
     try {
       const result = await api.post("auth/admin-login", info);
@@ -36,8 +36,8 @@ export const admin_login = createAsyncThunk<unknown, FormAdminLoginProps>(
 );
 
 // first type is return type, second type is input type
-export const seller_signup = createAsyncThunk<unknown, FormSellerSignupProps>(
-  "auth/seller_signup",
+export const sellerSignup = createAsyncThunk<unknown, FormSellerSignupProps>(
+  "auth/sellerSignup",
   async (info, thunkAPI) => {
     try {
       const result = await api.post("auth/seller-signup", info);
@@ -50,8 +50,8 @@ export const seller_signup = createAsyncThunk<unknown, FormSellerSignupProps>(
   }
 );
 
-export const seller_login = createAsyncThunk<unknown, FormSellerLoginProps>(
-  "auth/seller_login",
+export const sellerLogin = createAsyncThunk<unknown, FormSellerLoginProps>(
+  "auth/sellerLogin",
   async (info, thunkAPI) => {
     try {
       const result = await api.post("auth/seller-login", info);
@@ -65,8 +65,8 @@ export const seller_login = createAsyncThunk<unknown, FormSellerLoginProps>(
 );
 
 // TODO: update second "unknown"
-export const get_user = createAsyncThunk<unknown, void>(
-  "auth/get_user",
+export const getUser = createAsyncThunk<unknown, void>(
+  "auth/getUser",
   async (_, thunkAPI) => {
     try {
       const result = await api.get("auth/get-user");
@@ -85,7 +85,7 @@ interface CustomJwtPayload {
   role: RoleEnum;
 }
 
-function get_user_basic_info() {
+function getUserBasicInfo() {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
     const { exp, email, role } = jwtDecode<CustomJwtPayload>(accessToken);
@@ -116,7 +116,7 @@ const authReducer = createSlice({
   initialState,
   reducers: {
     updateUserRole: (state) => {
-      const info = get_user_basic_info();
+      const info = getUserBasicInfo();
       if (info) {
         state.role = info.role;
       }
@@ -125,69 +125,69 @@ const authReducer = createSlice({
   extraReducers: (builder) => {
     builder
       // Admin Login
-      .addCase(admin_login.pending, (state) => {
+      .addCase(adminLogin.pending, (state) => {
         state.showLoader = true;
       })
-      .addCase(admin_login.rejected, (state) => {
+      .addCase(adminLogin.rejected, (state) => {
         state.showLoader = false;
       })
-      .addCase(admin_login.fulfilled, (state, action) => {
+      .addCase(adminLogin.fulfilled, (state, action) => {
         state.showLoader = false;
         const accessToken = (action.payload as { accessToken: string })
           .accessToken;
         localStorage.setItem("accessToken", accessToken); // TODO: securer way to handle it?
-        const info = get_user_basic_info();
+        const info = getUserBasicInfo();
         if (info) {
           state.role = info.role;
         }
       })
 
       // Seller Signup
-      .addCase(seller_signup.pending, (state) => {
+      .addCase(sellerSignup.pending, (state) => {
         state.showLoader = true;
       })
-      .addCase(seller_signup.rejected, (state) => {
+      .addCase(sellerSignup.rejected, (state) => {
         state.showLoader = false;
       })
-      .addCase(seller_signup.fulfilled, (state, action) => {
+      .addCase(sellerSignup.fulfilled, (state, action) => {
         state.showLoader = false;
         // TODO: think of a safer option
         const accessToken = (action.payload as { accessToken: string })
           .accessToken;
         localStorage.setItem("accessToken", accessToken); // TODO: you need to remove from localStorage when user log out
-        const info = get_user_basic_info();
+        const info = getUserBasicInfo();
         if (info) {
           state.role = info.role;
         }
       })
 
       // Seller Login
-      .addCase(seller_login.pending, (state) => {
+      .addCase(sellerLogin.pending, (state) => {
         state.showLoader = true;
       })
-      .addCase(seller_login.rejected, (state) => {
+      .addCase(sellerLogin.rejected, (state) => {
         state.showLoader = false;
       })
-      .addCase(seller_login.fulfilled, (state, action) => {
+      .addCase(sellerLogin.fulfilled, (state, action) => {
         state.showLoader = false;
         const accessToken = (action.payload as { accessToken: string })
           .accessToken;
         localStorage.setItem("accessToken", accessToken);
-        const info = get_user_basic_info();
+        const info = getUserBasicInfo();
         if (info) {
           state.role = info.role;
         }
       })
 
       // Get User Info
-      .addCase(get_user.pending, (state) => {
+      .addCase(getUser.pending, (state) => {
         // state.showLoader = true;
       })
-      .addCase(get_user.rejected, (state) => {
+      .addCase(getUser.rejected, (state) => {
         // TODO: what is there is error getting user info?
         // state.showLoader = false;
       })
-      .addCase(get_user.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state, action) => {
         state.userInfo = (action.payload as { userInfo: unknown }).userInfo;
       });
   },

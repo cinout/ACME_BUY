@@ -10,15 +10,17 @@ import {
 import { imageMaxSizeMB } from "@/utils/numbers";
 import FormSingleImage from "@/views/shared_components/form/FormSingleImages";
 import FormInput from "@/views/shared_components/form/FormInput";
+import {
+  categoryAdd,
+  FormNewCategoryProps,
+} from "@/redux/reducers/categoryReducer";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
+import toast from "react-hot-toast";
 
 interface NewCategoryDialogProps {
   isOpen: boolean;
   // setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface FormInput {
-  name: string;
-  image: File | null;
 }
 
 export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
@@ -31,7 +33,10 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
     formState: { errors },
     reset,
     clearErrors,
-  } = useForm<FormInput>();
+  } = useForm<FormNewCategoryProps>();
+
+  const dispatch = useAppDispatch();
+  const { showLoader } = useAppSelector((state) => state.category);
 
   const uploadedImage = watch("image");
 
@@ -47,9 +52,15 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
     clearErrors("image");
   }
 
-  function onSubmit(data: FormInput): void {
-    // TODO: create an entry in the backend, and also udpate in the frontend
-    onCloseDialog();
+  function onSubmit(data: FormNewCategoryProps): void {
+    dispatch(categoryAdd(data))
+      .unwrap()
+      .then(() => {
+        onCloseDialog();
+      })
+      .catch((e) => {
+        toast.error(e);
+      });
   }
 
   function onCloseDialog() {
@@ -58,7 +69,11 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
   }
 
   return (
-    <AdminDialog isOpen={isOpen} onClose={onCloseDialog}>
+    <AdminDialog
+      isOpen={isOpen}
+      onClose={onCloseDialog}
+      disableClose={showLoader}
+    >
       {/* TODO: show header to indicate what this dialog is for */}
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -114,7 +129,13 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
         />
 
         {/* Submit */}
-        <AdminDialogButtons onCancel={onCloseDialog} submitText="Create" />
+        {showLoader ? (
+          <div className="flex justify-center mt-8">
+            <LoadingIndicator />
+          </div>
+        ) : (
+          <AdminDialogButtons onCancel={onCloseDialog} submitText="Create" />
+        )}
       </form>
     </AdminDialog>
   );

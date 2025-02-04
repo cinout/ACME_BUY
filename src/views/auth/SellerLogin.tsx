@@ -6,7 +6,7 @@ import SignInOptionButton from "../shared_components/SignInOptionButton";
 import { useForm } from "react-hook-form";
 import {
   FormSellerLoginProps,
-  seller_login,
+  sellerLogin,
 } from "@/redux/reducers/authReducer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
@@ -25,7 +25,7 @@ export default function SellerLogin() {
 
   function onSubmit(data: FormSellerLoginProps) {
     dispatch(
-      seller_login(data) // TODO: update signupMethod for Google/Facebook login
+      sellerLogin(data) // TODO: update signupMethod for Google/Facebook login
     )
       .unwrap()
       .then(() => {

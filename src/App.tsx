@@ -3,7 +3,7 @@ import Router from "@/router/Router.tsx";
 import { publicRoutes } from "./router/routes/publicRoutes.tsx";
 import { getPrivateRoutes } from "./router/routes/index.tsx";
 import { useAppDispatch } from "./redux/hooks.ts";
-import { get_user, updateUserRole } from "./redux/reducers/authReducer.ts";
+import { getUser, updateUserRole } from "./redux/reducers/authReducer.ts";
 import { RouteObject } from "react-router-dom";
 import LoadingPage from "./views/LoadingPage.tsx";
 
@@ -21,7 +21,7 @@ export default function App() {
       dispatch(updateUserRole());
 
       // fetch detailed user info from server
-      dispatch(get_user())
+      dispatch(getUser())
         .unwrap()
         .then(() => {
           // load private routes (which requires to know your role)

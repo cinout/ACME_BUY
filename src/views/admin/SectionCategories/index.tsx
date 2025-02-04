@@ -1,19 +1,31 @@
 import { useState } from "react";
-import { faker } from "@faker-js/faker";
 import Pagination from "@/views/shared_components/Pagination";
 import Head from "./Head";
 import CategoryTable from "./CategoryTable";
 import { CategoryEntity } from "@/utils/entities";
+import { gql, useQuery } from "@apollo/client";
+import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 
-// TODO: fetch from server
-const categoryStats: CategoryEntity[] = Array.from({ length: 34 }, () => ({
-  id: faker.string.uuid(),
-  name: faker.commerce.product(),
-  image: faker.image.avatar(),
-  createdAt: faker.date.recent(),
-}));
+// // fetch from server
+// const categoryStats: CategoryEntity[] = Array.from({ length: 34 }, () => ({
+//   id: faker.string.uuid(),
+//   name: faker.commerce.product(),
+//   image: faker.image.avatar(),
+//   createdAt: faker.date.recent(),
+// }));
 
 const itemsPerPageOptions = [10, 20, 30, 40];
+
+const GQL_QUERY_GET_ALL_CATEGORIES = gql`
+  query {
+    getAllCategories {
+      id
+      name
+      image
+      slug
+    }
+  }
+`;
 
 export default function SectionCategory() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,11 +35,19 @@ export default function SectionCategory() {
   const start_index = (currentPage - 1) * itemsPerPage;
   const end_index = currentPage * itemsPerPage;
 
+  const gql_result = useQuery(GQL_QUERY_GET_ALL_CATEGORIES);
+
   function handleItemsPerPageChange(value: number) {
     setItemsPerPage(value); // set value
     setCurrentPage(1); // default to page 1
     // setDetailShown([]); // hide all shown details
   }
+
+  if (gql_result.loading) {
+    return <LoadingIndicatorWithDiv />;
+  }
+
+  const allCategories = gql_result.data.getAllCategories as CategoryEntity[];
 
   return (
     <>
@@ -40,7 +60,7 @@ export default function SectionCategory() {
       />
 
       <CategoryTable
-        categoryStats={categoryStats.slice(start_index, end_index)}
+        categoryStats={allCategories.slice(start_index, end_index)}
       />
 
       {/* Pagination */}
@@ -49,7 +69,7 @@ export default function SectionCategory() {
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          totalPages={Math.ceil(categoryStats.length / itemsPerPage)}
+          totalPages={Math.ceil(allCategories.length / itemsPerPage)}
           maxPageOptionsCount={5}
         />
       </div>

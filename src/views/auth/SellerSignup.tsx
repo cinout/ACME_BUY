@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
 import {
   FormSellerSignupProps,
-  seller_signup,
+  sellerSignup,
 } from "@/redux/reducers/authReducer";
 import { SellerSignupMethodEnum } from "@/utils/enums";
 import toast from "react-hot-toast";
@@ -34,7 +34,7 @@ export default function SellerSignup() {
 
   function onSubmit(data: FormSellerSignupProps) {
     dispatch(
-      seller_signup({ ...data, signupMethod: SellerSignupMethodEnum.Default }) // TODO: update signupMethod for Google/Facebook login
+      sellerSignup({ ...data, signupMethod: SellerSignupMethodEnum.Default }) // TODO: update signupMethod for Google/Facebook login
     )
       .unwrap()
       .then(() => {
