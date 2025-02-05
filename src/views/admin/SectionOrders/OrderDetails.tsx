@@ -16,7 +16,7 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
   //  TODO: Need to show all details of the order, including each of their relationship with sellers/customers
   return (
     <div>
-      <AdminDialog isOpen={true} onClose={onCloseDialog} additionalStyle="">
+      <AdminDialog isOpen={true} onClose={onCloseDialog} header="Order Detail">
         <div>{order.id} Add details</div>
       </AdminDialog>
     </div>

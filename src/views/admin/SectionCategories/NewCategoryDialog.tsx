@@ -1,6 +1,6 @@
 import AdminDialog from "@/views/shared_components/AdminDialog";
 import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -10,18 +10,26 @@ import {
 import { imageMaxSizeMB } from "@/utils/numbers";
 import FormSingleImage from "@/views/shared_components/form/FormSingleImages";
 import FormInput from "@/views/shared_components/form/FormInput";
-import {
-  categoryAdd,
-  FormNewCategoryProps,
-} from "@/redux/reducers/categoryReducer";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { FormNewCategoryProps } from "@/redux/reducers/categoryReducer";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
+import { gql, useMutation } from "@apollo/client";
+import { getErrorMessage } from "@/utils/gql";
 
 interface NewCategoryDialogProps {
   isOpen: boolean;
-  // setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+// TODO: is there a way to abstract some repetitive query fields? (Fragment)?
+const GQL_CREATE_CATEGORY = gql`
+  mutation createCategory($name: String!, $image: Upload!) {
+    createCategory(name: $name, image: $image) {
+      id
+      name
+      imageUrl
+    }
+  }
+`;
 
 export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
   const navigate = useNavigate();
@@ -35,8 +43,24 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
     clearErrors,
   } = useForm<FormNewCategoryProps>();
 
-  const dispatch = useAppDispatch();
-  const { showLoader } = useAppSelector((state) => state.category);
+  // TODO: how to update cache after mutation?
+  // TODO: how to handle error?
+  const [createCategory, mutationResult] = useMutation(GQL_CREATE_CATEGORY, {
+    onError: (err) => {
+      setShowLoader(false);
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: (data) => {
+      // data is the query result, in the form of object, e.g., createCategory{ id ... }
+      setShowLoader(false);
+      onCloseDialog();
+    },
+  });
+
+  // const dispatch = useAppDispatch();
+  // const { showLoader } = useAppSelector((state) => state.category);
+  const [showLoader, setShowLoader] = useState(false);
 
   const uploadedImage = watch("image");
 
@@ -53,14 +77,17 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
   }
 
   function onSubmit(data: FormNewCategoryProps): void {
-    dispatch(categoryAdd(data))
-      .unwrap()
-      .then(() => {
-        onCloseDialog();
-      })
-      .catch((e) => {
-        toast.error(e);
-      });
+    setShowLoader(true);
+    void createCategory({ variables: { name: data.name, image: data.image } });
+    // .then(() => {
+    //   console.log(mutationResult);
+    //   setShowLoader(false);
+    //   onCloseDialog();
+    // })
+    // .catch((e) => {
+    //   setShowLoader(false);
+    //   // toast.error(e);
+    // });
   }
 
   function onCloseDialog() {
@@ -73,8 +100,10 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
       isOpen={isOpen}
       onClose={onCloseDialog}
       disableClose={showLoader}
+      header="Create New Category"
     >
       {/* TODO: show header to indicate what this dialog is for */}
+
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(onSubmit)}
@@ -97,6 +126,7 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
               message: VALID_NAME_GENERAL_ERROR_MSG,
             },
           })}
+          // TODO: vallidate -- not duplicate with exisiting ones
           error={errors.name}
           label="Category Name"
           additionalStyleWrapper="flex gap-2 flex-wrap"

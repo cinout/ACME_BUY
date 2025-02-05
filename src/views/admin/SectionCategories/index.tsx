@@ -16,13 +16,12 @@ import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorW
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 
-const GQL_QUERY_GET_ALL_CATEGORIES = gql`
+const GQL_GET_ALL_CATEGORIES = gql`
   query {
     getAllCategories {
       id
       name
-      image
-      slug
+      imageUrl
     }
   }
 `;
@@ -35,7 +34,7 @@ export default function SectionCategory() {
   const start_index = (currentPage - 1) * itemsPerPage;
   const end_index = currentPage * itemsPerPage;
 
-  const gql_result = useQuery(GQL_QUERY_GET_ALL_CATEGORIES);
+  const gql_result = useQuery(GQL_GET_ALL_CATEGORIES);
 
   function handleItemsPerPageChange(value: number) {
     setItemsPerPage(value); // set value

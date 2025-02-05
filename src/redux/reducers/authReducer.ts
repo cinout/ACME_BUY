@@ -111,6 +111,7 @@ const initialState: AuthState = {
   userInfo: undefined,
 };
 
+// TODO: should I move this to GQL as well?
 const authReducer = createSlice({
   name: "auth",
   initialState,

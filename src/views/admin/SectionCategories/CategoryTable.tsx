@@ -15,7 +15,7 @@ export default function CategoryTable({ categoryStats }: CategoryTableProps) {
           className="flex flex-col justify-start items-center gap-2"
         >
           <img
-            src={category.image}
+            src={category.imageUrl}
             alt={category.name}
             className="inline h-20 w-20 mt-10 rounded-md"
           />

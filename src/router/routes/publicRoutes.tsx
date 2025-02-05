@@ -8,10 +8,13 @@ import {
 } from "./routesLazyExports.ts";
 
 export const publicRoutes: RouteObject[] = [
+  // Home page
   {
     path: "/", // be redirected from here based on user role
     element: <Home />,
   },
+
+  // TODO: add customer login/signup later
 
   // Seller (User)
   {

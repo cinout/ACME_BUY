@@ -29,7 +29,7 @@ export default function ProtectRoute({ children, route }: ProtectRouteProps) {
           // this route is accessible based on the seller's status
           return children;
         } else {
-          // this route is inaccessible based on the seller's status
+          // this route is INaccessible based on the seller's status
 
           if (sellerStatus === SellerStatusEnum.Pending) {
             // pending sellers

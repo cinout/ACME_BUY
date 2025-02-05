@@ -8,13 +8,13 @@ import { RouteObject } from "react-router-dom";
 import LoadingPage from "./views/LoadingPage.tsx";
 
 export default function App() {
-  // const [allRoutes, setAllRoutes] = useState(publicRoutes);
   const [routes, setRoutes] = useState<RouteObject[]>([]);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     // TODO: check if this is called only on initial loading
+    // TODO: what to do for customers?
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       // update role locally
@@ -28,9 +28,10 @@ export default function App() {
           setRoutes([...publicRoutes, getPrivateRoutes]);
         })
         .catch((e) => {
-          // TODO: what is there is error getting user info?
+          // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
         });
     }
+    // TODO: user is currently locked in loading page if no access token is available
   }, [dispatch]);
 
   return routes.length > 0 ? (

@@ -38,6 +38,7 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
       isOpen={true}
       onClose={onCloseDialog}
       additionalStyle="w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-4 md:p-6 xl:p-8"
+      header="Seller"
     >
       {/* Top */}
       <div className="flex justify-around items-center w-full gap-x-12 gap-y-6 flex-wrap text-sm md:text-base">
