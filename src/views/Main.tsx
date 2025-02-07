@@ -1,9 +1,9 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getUser, updateUserRole } from "@/redux/reducers/authReducer";
+import { useRef, useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
+
 import LoadingPage from "./LoadingPage";
 
 function Content() {
@@ -46,6 +46,6 @@ export default function Main() {
   }
   // TODO: for customer?
 
-  // TODO: why does this conditional rendering saves the ProtectRoute?
+  // TODO: why does this conditional rendering saves the ProtectPrivateRoute?
   return userHydrationDoneOnFirstRender ? <Content /> : <LoadingPage />;
 }

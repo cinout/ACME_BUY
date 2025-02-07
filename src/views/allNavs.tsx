@@ -1,4 +1,3 @@
-// TODO: consider moving this to utils
 import { RoleEnum, SellerStatusEnum } from "@/utils/enums";
 import { JSX } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
@@ -10,6 +9,7 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { FaPerson } from "react-icons/fa6";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi";
+import { CgProfile } from "react-icons/cg";
 
 export interface NavOptionsProps {
   name: string;
@@ -66,6 +66,12 @@ export const navOptions: NavOptionsProps[] = [
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/chat",
   },
+  {
+    name: "Profile",
+    icon: <CgProfile />,
+    accessRoles: [RoleEnum.Admin],
+    goto: "/admin/profile",
+  },
 
   /**
    * SELLER
@@ -115,5 +121,11 @@ export const navOptions: NavOptionsProps[] = [
       SellerStatusEnum.Deactivated,
       SellerStatusEnum.Pending,
     ],
+  },
+  {
+    name: "Profile",
+    icon: <CgProfile />,
+    accessRoles: [RoleEnum.Seller],
+    goto: "/seller/profile",
   },
 ];

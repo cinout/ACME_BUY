@@ -6,6 +6,8 @@ import {
   Home,
   UnauthorizedPage,
 } from "./routesLazyExports.ts";
+import ProtectLoginSignupRoute from "./ProtectLoginSignupRoute.tsx";
+import { RoleEnum } from "@/utils/enums.ts";
 
 export const publicRoutes: RouteObject[] = [
   // Home page
@@ -15,21 +17,32 @@ export const publicRoutes: RouteObject[] = [
   },
 
   // TODO: add customer login/signup later
-
   // Seller (User)
   {
     path: "/login/seller",
-    element: <SellerLogin />,
+    element: (
+      <ProtectLoginSignupRoute routeRole={RoleEnum.Seller}>
+        <SellerLogin />
+      </ProtectLoginSignupRoute>
+    ),
   },
   {
     path: "/signup/seller",
-    element: <SellerSignup />,
+    element: (
+      <ProtectLoginSignupRoute routeRole={RoleEnum.Seller}>
+        <SellerSignup />
+      </ProtectLoginSignupRoute>
+    ),
   },
 
   // Admin
   {
     path: "/login/admin",
-    element: <AdminLogin />,
+    element: (
+      <ProtectLoginSignupRoute routeRole={RoleEnum.Admin}>
+        <AdminLogin />
+      </ProtectLoginSignupRoute>
+    ),
   },
 
   // Unauthorized Page

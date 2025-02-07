@@ -7,6 +7,7 @@ import {
   AdminSectionWithdrawRequests,
   AdminSectionSellerRequests,
   AdminSectionChat,
+  AdminSectionProfile,
 } from "./routesLazyExports";
 import { RoleEnum } from "@/utils/enums";
 
@@ -50,6 +51,11 @@ export const privateAdminRoutes: PrivateAdminRouteType[] = [
   {
     path: "/admin/chat/:sellerId?",
     element: <AdminSectionChat />,
+    accessRoles: [RoleEnum.Admin],
+  },
+  {
+    path: "/admin/profile",
+    element: <AdminSectionProfile />,
     accessRoles: [RoleEnum.Admin],
   },
 ];

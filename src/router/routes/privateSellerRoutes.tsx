@@ -8,6 +8,7 @@ import {
   SellerSectionSupport,
   SellerDeactivated,
   SellerPending,
+  SellerSectionProfile,
 } from "./routesLazyExports";
 import { RoleEnum, SellerStatusEnum } from "@/utils/enums";
 
@@ -72,5 +73,15 @@ export const privateSellerRoutes: PrivateSellerRouteType[] = [
     element: <SellerDeactivated />,
     accessRoles: [RoleEnum.Seller],
     accessSellerStatus: [SellerStatusEnum.Deactivated],
+  },
+  {
+    path: "/seller/profile",
+    element: <SellerSectionProfile />,
+    accessRoles: [RoleEnum.Seller],
+    accessSellerStatus: [
+      SellerStatusEnum.Active,
+      SellerStatusEnum.Deactivated,
+      SellerStatusEnum.Pending,
+    ],
   },
 ];

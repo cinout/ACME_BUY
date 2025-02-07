@@ -104,6 +104,7 @@ interface AuthState {
   role: RoleEnum | undefined;
   userInfo: unknown; // TODO: better type for it?
   userHydrationDoneOnFirstRender: boolean;
+  userRoleUpdatedOnFirstRender: boolean;
 }
 
 const initialState: AuthState = {
@@ -111,6 +112,7 @@ const initialState: AuthState = {
   role: undefined,
   userInfo: undefined,
   userHydrationDoneOnFirstRender: false,
+  userRoleUpdatedOnFirstRender: false,
 };
 
 // TODO: should I move this to GQL as well?
@@ -123,6 +125,7 @@ const authReducer = createSlice({
       if (info) {
         state.role = info.role;
       }
+      state.userRoleUpdatedOnFirstRender = true;
     },
   },
   extraReducers: (builder) => {
@@ -188,6 +191,7 @@ const authReducer = createSlice({
       })
       .addCase(getUser.rejected, (state) => {
         state.userHydrationDoneOnFirstRender = true;
+        // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.userHydrationDoneOnFirstRender = true;

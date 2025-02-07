@@ -53,6 +53,9 @@ export const AdminSectionSellerRequests = lazy(
   () => import("@/views/admin/SectionSellerRequests")
 );
 export const AdminSectionChat = lazy(() => import("@/views/admin/SectionChat"));
+export const AdminSectionProfile = lazy(
+  () => import("@/views/admin/SectionProfile")
+);
 
 /**
  * SELLER Dashboard
@@ -74,6 +77,9 @@ export const SellerSectionChatCustomer = lazy(
 );
 export const SellerSectionSupport = lazy(
   () => import("@/views/seller/SectionSupport")
+);
+export const SellerSectionProfile = lazy(
+  () => import("@/views/seller/SectionProfile")
 );
 export const SellerDeactivated = lazy(
   () => import("@/views/seller/SellerDeactivated")

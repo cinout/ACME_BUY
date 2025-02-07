@@ -6,13 +6,16 @@ import { Navigate } from "react-router-dom";
 import { PrivateAdminRouteType } from "./privateAdminRoutes";
 import { PrivateSellerRouteType } from "./privateSellerRoutes";
 
-interface ProtectRouteProps {
+interface ProtectPrivateRouteProps {
   children: ReactNode;
   route: PrivateAdminRouteType | PrivateSellerRouteType;
 }
 
 // TODO: why is this component loaded three times?
-export default function ProtectRoute({ children, route }: ProtectRouteProps) {
+export default function ProtectPrivateRoute({
+  children,
+  route,
+}: ProtectPrivateRouteProps) {
   const { role, userInfo } = useAppSelector((state) => state.auth);
 
   if (role) {

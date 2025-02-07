@@ -76,16 +76,24 @@ export default function Header({
           </span>
         </div>
 
-        {/* image */}
-        {/* TODO: click on the avatar should redirect to Profile page*/}
         {/* TODO: see video Section 33 */}
-        <button>
+        {/* TODO: should use user's uploaded image */}
+        {/* TODO: for customer role as well */}
+        <Link
+          to={
+            role === RoleEnum.Seller
+              ? "/seller/profile"
+              : role === RoleEnum.Admin
+              ? "/admin/profile"
+              : ""
+          }
+        >
           <img
             src={imgAdmin}
             alt="user image"
             className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200"
           />
-        </button>
+        </Link>
       </div>
     </div>
 
