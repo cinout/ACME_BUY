@@ -53,7 +53,7 @@ export default function SellerSignup() {
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="w-4/5" />
         </div>
-        <div className="text-lg font-black">Sign Up with ACME BUY</div>
+        <div className="text-lg font-black">Seller Sign Up</div>
         <div className="text-sm mb-6">Register now and become our seller.</div>
 
         {/* Form */}
@@ -167,7 +167,7 @@ export default function SellerSignup() {
         </div>
 
         <div className="flex flex-col items-center">
-          <Link to="/seller/login" className="mb-2 w-72">
+          <Link to="/login/seller" className="mb-2 w-72">
             <SignInOptionButton additionalStyle="bg-slate-100 w-full">
               ACME BUY Account
             </SignInOptionButton>

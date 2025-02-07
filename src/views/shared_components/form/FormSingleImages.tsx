@@ -22,7 +22,7 @@ interface FormProps {
   label?: string; // default to registration.name
   id?: string; // default to registration.name
   error?: FieldError | undefined;
-  uploadedImage: File | null;
+  uploadedImage: File | string | null;
   handleAddImage: (e: ChangeEvent<HTMLInputElement>) => void;
   handleRemoveImage: () => void;
   disabled?: boolean;
@@ -81,6 +81,14 @@ export default function FormSingleImage({
           onClick={handleClickImageUploadButton}
         >
           {uploadedImage ? (
+            // image read from backend
+            typeof uploadedImage === "string" ? (
+              <img
+                src={uploadedImage}
+                alt="Preview"
+                className={`${styleImagePreview}`}
+              />
+            ) : // image is uploaded by user, and of correct file type
             uploadedImage?.type.startsWith("image/") ? (
               <img
                 src={URL.createObjectURL(uploadedImage)}
@@ -114,7 +122,7 @@ export default function FormSingleImage({
         </button>
 
         {/* File Name */}
-        {uploadedImage?.name && (
+        {uploadedImage instanceof File && uploadedImage?.name && (
           <span className="text-xs text-center">
             {shortenMiddle(uploadedImage.name, 30)}
           </span>

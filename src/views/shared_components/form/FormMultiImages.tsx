@@ -21,7 +21,7 @@ interface FormInputProps {
   label?: string; // default to registration.name
   id?: string; // default to registration.name
   errorMessage?: string | undefined;
-  uploadedImages: { id: string; file: File }[];
+  uploadedImages: { id: string; file: File }[]; // TODO: support if images are of string type
   handleAddImages: (e: ChangeEvent<HTMLInputElement>) => void;
   handleRemoveImage: (removeIndex: string) => void;
   disabled?: boolean;

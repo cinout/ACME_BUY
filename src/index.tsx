@@ -25,8 +25,7 @@ const client = new ApolloClient({
 // TODO: we recommend wrapping this statement in a check for e.g. process.env.NODE_ENV === "development"
 const devtoolsRegistration = connectApolloClientToVSCodeDevTools(
   client,
-  // the default port of the VSCode DevTools is 7095
-  "ws://localhost:7095"
+  "ws://localhost:7095" // the default port of the VSCode DevTools is 7095
 );
 
 createRoot(document.getElementById("root")!).render(

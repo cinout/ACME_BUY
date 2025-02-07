@@ -1,12 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getUser, updateUserRole } from "@/redux/reducers/authReducer";
+import LoadingPage from "./LoadingPage";
 
-// TODO: whose layout is this for? For Dashboard?
-export default function Main() {
+function Content() {
   const [showSidebar, setShowSidebar] = useState(false);
-
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
@@ -28,4 +29,23 @@ export default function Main() {
       </div>
     </div>
   );
+}
+
+export default function Main() {
+  const { userHydrationDoneOnFirstRender } = useAppSelector(
+    (state) => state.auth
+  );
+
+  const { pathname } = useLocation();
+
+  if (["/admin", "/admin/"].includes(pathname)) {
+    return <Navigate replace to="/admin/dashboard" />;
+  }
+  if (["/seller", "/seller/"].includes(pathname)) {
+    return <Navigate replace to="/seller/dashboard" />;
+  }
+  // TODO: for customer?
+
+  // TODO: why does this conditional rendering saves the ProtectRoute?
+  return userHydrationDoneOnFirstRender ? <Content /> : <LoadingPage />;
 }

@@ -1,8 +1,7 @@
-import NewCategoryDialog from "./NewCategoryDialog";
 import HeadSearch from "@/views/shared_components/HeadSearch";
 import HeadShowCount from "@/views/shared_components/HeadShowCount";
 import ButtonCreateNew from "@/views/shared_components/ButtonCreateNew";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { joinUrl } from "@/utils/strings";
 
 interface HeadProps {
@@ -21,7 +20,7 @@ export default function Head({
   itemsPerPageOptions,
 }: HeadProps) {
   // const [isOpen, setIsOpen] = useState(false);
-  const { categoryId } = useParams();
+
   const { pathname } = useLocation();
 
   return (
@@ -38,8 +37,6 @@ export default function Head({
       <Link to={joinUrl(pathname, "new")}>
         <ButtonCreateNew content="New Category" />
       </Link>
-
-      <NewCategoryDialog isOpen={categoryId === "new"} />
 
       <HeadShowCount
         itemsPerPage={itemsPerPage}

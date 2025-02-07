@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 export interface FormNewCategoryProps {
   name: string;
-  image: File | null;
+  image: File | string | null;
 }
 
 export const categoryAdd = createAsyncThunk<unknown, FormNewCategoryProps>(

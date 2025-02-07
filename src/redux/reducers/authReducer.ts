@@ -89,10 +89,10 @@ function getUserBasicInfo() {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
     const { exp, email, role } = jwtDecode<CustomJwtPayload>(accessToken);
-    const expireTime = new Date(exp * 1000);
+    const expireTime = new Date(exp * 1000); // TODO: double check this code
     if (new Date() > expireTime) {
-      localStorage.removeItem("accessToken");
-      return; // TODO: how to use it?
+      localStorage.removeItem("accessToken"); // remove if expired
+      return; // TODO: need to do anything else?
     } else {
       return { email, role };
     }
@@ -103,12 +103,14 @@ interface AuthState {
   showLoader: boolean;
   role: RoleEnum | undefined;
   userInfo: unknown; // TODO: better type for it?
+  userHydrationDoneOnFirstRender: boolean;
 }
 
 const initialState: AuthState = {
   showLoader: false,
   role: undefined,
   userInfo: undefined,
+  userHydrationDoneOnFirstRender: false,
 };
 
 // TODO: should I move this to GQL as well?
@@ -185,10 +187,10 @@ const authReducer = createSlice({
         // state.showLoader = true;
       })
       .addCase(getUser.rejected, (state) => {
-        // TODO: what is there is error getting user info?
-        // state.showLoader = false;
+        state.userHydrationDoneOnFirstRender = true;
       })
       .addCase(getUser.fulfilled, (state, action) => {
+        state.userHydrationDoneOnFirstRender = true;
         state.userInfo = (action.payload as { userInfo: unknown }).userInfo;
       });
   },

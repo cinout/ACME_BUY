@@ -13,81 +13,117 @@ import FormInput from "@/views/shared_components/form/FormInput";
 import { FormNewCategoryProps } from "@/redux/reducers/categoryReducer";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
-import { gql, useMutation } from "@apollo/client";
-import { getErrorMessage } from "@/utils/gql";
+import { useMutation } from "@apollo/client";
+import {
+  GQL_CATEGORY_CREATE,
+  GQL_CATEGORIES_GET_ALL,
+  GQL_CATEGORY_UPDATE,
+} from "@/graphql/categoryGql";
+import { getErrorMessage } from "@/graphql";
+import { CategoryEntity } from "@/utils/entities";
 
-interface NewCategoryDialogProps {
+interface CategoryDialogProps {
   isOpen: boolean;
+  mode: "Create" | "Edit";
+  editCategoryInfo: CategoryEntity | undefined;
 }
 
-// TODO: is there a way to abstract some repetitive query fields? (Fragment)?
-const GQL_CREATE_CATEGORY = gql`
-  mutation createCategory($name: String!, $image: Upload!) {
-    createCategory(name: $name, image: $image) {
-      id
-      name
-      imageUrl
-    }
-  }
-`;
-
-export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
+export default function CategoryDialog({
+  isOpen,
+  mode,
+  editCategoryInfo,
+}: CategoryDialogProps) {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
     clearErrors,
-  } = useForm<FormNewCategoryProps>();
+  } = useForm<FormNewCategoryProps>({
+    defaultValues: {
+      name: mode === "Create" ? "" : editCategoryInfo?.name,
+      image: mode === "Create" ? null : editCategoryInfo?.imageUrl,
+    },
+  });
 
-  // TODO: how to update cache after mutation?
-  // TODO: how to handle error?
-  const [createCategory, mutationResult] = useMutation(GQL_CREATE_CATEGORY, {
+  const [createCategory] = useMutation(GQL_CATEGORY_CREATE, {
     onError: (err) => {
       setShowLoader(false);
       const errorMessage = getErrorMessage(err);
       toast.error(errorMessage);
     },
-    onCompleted: (data) => {
-      // data is the query result, in the form of object, e.g., createCategory{ id ... }
+    onCompleted: () => {
+      setShowLoader(false);
+      onCloseDialog();
+    },
+    update(cache, { data }) {
+      // Read the current data from the cache
+      const existingData = cache.readQuery<{
+        getAllCategories: FormNewCategoryProps[];
+      }>({
+        query: GQL_CATEGORIES_GET_ALL,
+      });
+
+      cache.writeQuery({
+        query: GQL_CATEGORIES_GET_ALL,
+        data: {
+          getAllCategories: [
+            ...(existingData?.getAllCategories ?? []),
+            data.createCategory,
+          ],
+        },
+      });
+    },
+  });
+
+  const [updateCategory] = useMutation(GQL_CATEGORY_UPDATE, {
+    onError: (err) => {
+      setShowLoader(false);
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
       setShowLoader(false);
       onCloseDialog();
     },
   });
 
-  // const dispatch = useAppDispatch();
-  // const { showLoader } = useAppSelector((state) => state.category);
   const [showLoader, setShowLoader] = useState(false);
-
   const uploadedImage = watch("image");
 
   function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
-      setValue("image", file, { shouldValidate: true });
+      setValue("image", file, { shouldValidate: true, shouldDirty: true });
     }
   }
 
   function handleRemoveImage() {
-    setValue("image", null);
+    setValue("image", null, { shouldDirty: true });
     clearErrors("image");
   }
 
   function onSubmit(data: FormNewCategoryProps): void {
     setShowLoader(true);
-    void createCategory({ variables: { name: data.name, image: data.image } });
-    // .then(() => {
-    //   console.log(mutationResult);
-    //   setShowLoader(false);
-    //   onCloseDialog();
-    // })
-    // .catch((e) => {
-    //   setShowLoader(false);
-    //   // toast.error(e);
-    // });
+    if (mode === "Create") {
+      // Create Mode
+      void createCategory({
+        variables: { name: data.name, image: data.image },
+      });
+    } else {
+      // Edit Mode
+      void updateCategory({
+        variables: {
+          id: editCategoryInfo!.id,
+          name: data.name,
+          image: data.image,
+        },
+      });
+    }
   }
 
   function onCloseDialog() {
@@ -100,10 +136,12 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
       isOpen={isOpen}
       onClose={onCloseDialog}
       disableClose={showLoader}
-      header="Create New Category"
+      header={
+        mode === "Create"
+          ? "Create New Category"
+          : `Edit Category ${editCategoryInfo?.name}`
+      }
     >
-      {/* TODO: show header to indicate what this dialog is for */}
-
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(onSubmit)}
@@ -126,7 +164,7 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
               message: VALID_NAME_GENERAL_ERROR_MSG,
             },
           })}
-          // TODO: vallidate -- not duplicate with exisiting ones
+          // TODO: validate -- not duplicate with exisiting ones
           error={errors.name}
           label="Category Name"
           additionalStyleWrapper="flex gap-2 flex-wrap"
@@ -141,9 +179,11 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
             validate: {
               fileType: (image) =>
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                typeof image === "string" ||
                 image?.type.startsWith("image/") ||
                 "Only image files are allowed",
               fileSize: (image) =>
+                typeof image === "string" ||
                 (image?.size ?? 0) < imageMaxSizeMB * 1024 * 1024 ||
                 `Image must be smaller than ${imageMaxSizeMB}MB`,
             },
@@ -164,7 +204,11 @@ export default function NewCategoryDialog({ isOpen }: NewCategoryDialogProps) {
             <LoadingIndicator />
           </div>
         ) : (
-          <AdminDialogButtons onCancel={onCloseDialog} submitText="Create" />
+          <AdminDialogButtons
+            onCancel={onCloseDialog}
+            submitText="Update"
+            isDirty={isDirty}
+          />
         )}
       </form>
     </AdminDialog>

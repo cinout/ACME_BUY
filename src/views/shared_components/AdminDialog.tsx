@@ -9,6 +9,7 @@ export interface AdminDialogProps {
   header: string;
 }
 
+// TODO: change name
 export default function AdminDialog({
   children,
   isOpen,

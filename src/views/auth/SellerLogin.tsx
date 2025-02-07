@@ -45,7 +45,7 @@ export default function SellerLogin() {
           <img src={logo} alt="Logo" className="w-4/5" />
         </div>
 
-        <div className="text-lg font-black mb-1">Log In</div>
+        <div className="text-lg font-black mb-1">Seller Log In</div>
         {/* Form */}
 
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
@@ -86,7 +86,7 @@ export default function SellerLogin() {
         <div className="flex flex-col justify-center items-center text-sm mb-3">
           <div> Don&apos;t have an account?</div>
           <div>
-            <Link to="/seller/signup" className="underline">
+            <Link to="/signup/seller" className="underline">
               Create one
             </Link>{" "}
             now, or sign in with:

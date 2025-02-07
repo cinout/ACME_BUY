@@ -18,17 +18,17 @@ export const publicRoutes: RouteObject[] = [
 
   // Seller (User)
   {
-    path: "/seller/login",
+    path: "/login/seller",
     element: <SellerLogin />,
   },
   {
-    path: "/seller/signup",
+    path: "/signup/seller",
     element: <SellerSignup />,
   },
 
   // Admin
   {
-    path: "/admin/login",
+    path: "/login/admin",
     element: <AdminLogin />,
   },
 

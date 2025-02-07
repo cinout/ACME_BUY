@@ -2,13 +2,15 @@ import { styleCancelButton, styleSubmitButton } from "@/utils/styles";
 
 interface AdminDialogButtonsProps {
   onCancel?: () => void;
-  onSubmit?: () => void;
+  onSubmit?: () => void; // if AdminDialogButtonsProps is wrapped in <form> tag, you don't need to pass onSubmit; let the form tag's onSubmit function handle that
   submitText?: string;
   showCancel?: boolean;
   showSubmit?: boolean;
   additionalStyleForSubmit?: string;
+  isDirty?: boolean;
 }
 
+// TODO: change name
 export default function AdminDialogButtons({
   onCancel,
   onSubmit,
@@ -16,6 +18,7 @@ export default function AdminDialogButtons({
   showCancel = true,
   showSubmit = true,
   additionalStyleForSubmit,
+  isDirty = true,
 }: AdminDialogButtonsProps) {
   return (
     <div className="flex justify-between items-center mt-8">
@@ -37,6 +40,7 @@ export default function AdminDialogButtons({
               onSubmit();
             }
           }}
+          disabled={!isDirty}
         >
           {submitText}
         </button>
