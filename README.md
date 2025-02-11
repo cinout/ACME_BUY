@@ -36,6 +36,7 @@
 - display error separately for each image in multiple file input (solution: show file names in the error message)
 - authentication security, store in cookie or localStorage
 - in the forms, image can be either string (read from server) or File ()
+- log out/ sign in, conflict between seller status and navigate (redirects)
 
 ## 🦄 Unique Features
 
@@ -55,6 +56,8 @@
 
 - Doesn't allow dialog to close during form submitting
 - Disable the Update button if the form fields has not changed. (isDirty does not detect file change, need to set shouldDirty:true when image field is updated)
+- When logged in and if user manually enter the login or signup route of their role, show a message telling them they are already logged in, and offer button for redirect.
+- Show loading page when preparing the dashboard.
 
 ## User Roles, User Authentication, and Routes Protection
 
@@ -62,14 +65,14 @@
 - User is authenticated using JWT token (after log in or sign up).
 - When logged in, user has access to the private routes. The private routes for different user roles are protected, which means user of role A cannot visit private routes of role B. If so, it leads to an "unauthorized" error page.
 - When logged in, sellers have different view and access to their private routes based on their status (pending, active, deactivated). Trying to access inaccessable routes will being redirected to the correct page.
-- [ ] When logged in, user has no access to all the log-in/sign-up pages of their role (either through user interface or manually entering the routes). If user manually enter the route, redirect them to the log-out page. Use must first log out to access those log-in/sign-up pages of their role.
+- [ ] When logged in, do not show the log-in/sign-up buttons of their role. If user manually enter the route, show a message telling them they are already logged in, and offer buttons for redirect. User must first log out to log in or sign-up again.
 - [ ] When logged out, all the user authentication information, including localStorage token, cookie, and the Apollo client cache, are removed from browser.
-  - Reset the cache using the resetStore method of an Apollo client object
 - [ ] Check all above points for customer role.
 
 ## 📋 Coming Next
 
 - [ ] how to handle manually put-in routes that are not serviced by our site?
+- [ ] Currently, when user is not logged in and refresh page, three API erros showing.
 - [ ] A nice default reminder when user puts in wrong route
 - [ ] compare apexcharts with Chart.js, D3.js
 - [ ] Content Security Policy (CSP) error with sign up page
@@ -86,3 +89,4 @@
 - [ ] consider using auth0 for authentication
 - [ ] Do i need a "refresh token" to enhance security? see https://www.cyberchief.ai/2023/05/secure-jwt-token-storage.html
 - [ ] WHere to put admin sign up???
+- [ ] where for the user to upload their images?

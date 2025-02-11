@@ -5,6 +5,7 @@ const GQL_FRAGMENT_CATEGORY_DETAILS = gql`
     id
     name
     imageUrl
+    imageName
   }
 `;
 
@@ -27,8 +28,8 @@ export const GQL_CATEGORY_CREATE = gql`
 `;
 
 export const GQL_CATEGORY_UPDATE = gql`
-  mutation updateCategory($id: ID!, $name: String!, $image: Upload!) {
-    updateCategory(id: $id, name: $name, image: $image) {
+  mutation updateCategory($id: ID!, $input: UpdateCategoryInput!) {
+    updateCategory(id: $id, input: $input) {
       ...CategoryDetails
     }
   }

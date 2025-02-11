@@ -11,6 +11,15 @@
   color-scheme: light dark;
 }
 
+@layer utilities {
+  .text-shadow-dark {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  .text-shadow-light {
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+  }
+}
+
 html {
   height: 100%;
   width: 100%;

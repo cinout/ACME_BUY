@@ -2,9 +2,9 @@ import { IoMenuSharp } from "react-icons/io5";
 import circleLogo from "@/assets/images/company_logo_circleonly.png";
 import imgAdmin from "@/assets/images/admin.png";
 import { Link } from "react-router-dom";
-import { faker } from "@faker-js/faker";
 import { RoleEnum } from "@/utils/enums";
 import { useAppSelector } from "@/redux/hooks";
+import { capFirstLetter } from "@/utils/strings";
 
 interface Props {
   showSidebar: boolean;
@@ -12,20 +12,15 @@ interface Props {
   menuButtonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
-const dummyName = faker.person.fullName();
-
 export default function Header({
   showSidebar,
   setShowSidebar,
   menuButtonRef,
 }: Props) {
-  const { role } = useAppSelector((state) => state.auth);
+  const { role, userInfo } = useAppSelector((state) => state.auth);
   return (
-    // <div className="">
-
     <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border  h-header-height bg-aqua-forest-500 ">
       {/* Logo & Menu Button */}
-      {/* TODO: what to do with the Link */}
       <div className="xl:hidden inline-flex items-center justify-center">
         <Link
           to="/"
@@ -52,7 +47,7 @@ export default function Header({
       </div>
 
       {/* Search Bar */}
-      {/* TODO: what is this for? */}
+      {/* TODO: implement this? */}
       <div className="inline-flex justify-start">
         <input
           placeholder="search ..."
@@ -69,7 +64,11 @@ export default function Header({
         {/* name & role */}
         <div className="hidden tn:flex flex-col items-end justify-center text-sky-100 leading-tight ">
           <span>
-            <em>{dummyName}</em>
+            <em>
+              {capFirstLetter(userInfo?.firstname) +
+                " " +
+                capFirstLetter(userInfo?.lastname)}
+            </em>
           </span>
           <span>
             <b>{role}</b>
@@ -77,7 +76,6 @@ export default function Header({
         </div>
 
         {/* TODO: see video Section 33 */}
-        {/* TODO: should use user's uploaded image */}
         {/* TODO: for customer role as well */}
         <Link
           to={
@@ -89,14 +87,12 @@ export default function Header({
           }
         >
           <img
-            src={imgAdmin}
+            src={userInfo?.image ?? imgAdmin} // TODO: should I store default image in frontend?
             alt="user image"
             className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200"
           />
         </Link>
       </div>
     </div>
-
-    // </div>
   );
 }

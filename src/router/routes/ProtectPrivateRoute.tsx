@@ -1,10 +1,10 @@
 import { useAppSelector } from "@/redux/hooks";
-import { SellerEntity } from "@/utils/entities";
 import { RoleEnum, SellerStatusEnum } from "@/utils/enums";
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { PrivateAdminRouteType } from "./privateAdminRoutes";
 import { PrivateSellerRouteType } from "./privateSellerRoutes";
+import { SellerEntity } from "@/utils/entities";
 
 interface ProtectPrivateRouteProps {
   children: ReactNode;
@@ -27,9 +27,10 @@ export default function ProtectPrivateRoute({
       if (role === RoleEnum.Seller) {
         // for sellers
 
-        if (userInfo) {
+        const sellerStatus = (userInfo as SellerEntity)?.status;
+
+        if (sellerStatus) {
           // user info is successfully hydrated
-          const sellerStatus = (userInfo as SellerEntity).status;
 
           if (
             (route as PrivateSellerRouteType).accessSellerStatus?.includes(
@@ -53,20 +54,15 @@ export default function ProtectPrivateRoute({
             }
           }
         } else {
-          // no userInfo
+          // use status is unknown
           return <Navigate to="/login/seller" replace />;
         }
-      } else {
+      } else if (role === RoleEnum.Admin) {
         // for Admin
-
-        if (userInfo) {
-          return children;
-        } else {
-          return <Navigate to="/login/admin" replace />;
-        }
+        return children;
+      } else {
+        // TODO: what about for Customer Role?
       }
-
-      // TODO: what about for Customer Role?
     } else {
       // user role does not match route's accessRoles
       return <Navigate to="/unauthorized" replace />;

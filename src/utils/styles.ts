@@ -19,7 +19,7 @@ export const styleImageUploadIndicator =
  * Dialog Buttons
  */
 export const styleCancelButton =
-  "text-white cursor-pointer w-fit bg-sky-900 px-3 py-1 rounded-full border-2 border-sky-100 hover:bg-sky-800 transition shadow-2xl hover:scale-110";
+  "text-white cursor-pointer w-fit bg-sky-900 px-3 py-1 rounded-full border-2 border-sky-100 not-disabled:hover:bg-sky-800 not-disabled:hover:scale-110 transition disabled:cursor-not-allowed disabled:bg-slate-300 shadow-2xl h-9";
 
 export const styleSubmitButton =
-  "text-white px-3 py-1 w-fit rounded-full border-2 border-sky-100 bg-aqua-forest-600 hover:bg-aqua-forest-500 hover:scale-110 transition shadow-2xl disabled:cursor-not-allowed disabled:hover:scale-100 disabled:bg-slate-300";
+  "text-white px-3 py-1 w-fit rounded-full border-2 border-sky-100 bg-aqua-forest-600 not-disabled:hover:bg-aqua-forest-500 not-disabled:hover:scale-110 transition shadow-2xl disabled:cursor-not-allowed disabled:bg-slate-300  h-9";

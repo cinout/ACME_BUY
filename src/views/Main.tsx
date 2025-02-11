@@ -3,8 +3,10 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { useRef, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
-
 import LoadingPage from "./LoadingPage";
+import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
+import { RoleEnum } from "@/utils/enums";
+import { SellerEntity } from "@/utils/entities";
 
 function Content() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -32,12 +34,14 @@ function Content() {
 }
 
 export default function Main() {
-  const { userHydrationDoneOnFirstRender } = useAppSelector(
+  const { role, updateUserRoleDoneOnFirstRender, userInfo } = useAppSelector(
     (state) => state.auth
   );
+  useHookGetUserInfo();
 
   const { pathname } = useLocation();
 
+  // redirect to dashboard
   if (["/admin", "/admin/"].includes(pathname)) {
     return <Navigate replace to="/admin/dashboard" />;
   }
@@ -46,6 +50,12 @@ export default function Main() {
   }
   // TODO: for customer?
 
-  // TODO: why does this conditional rendering saves the ProtectPrivateRoute?
-  return userHydrationDoneOnFirstRender ? <Content /> : <LoadingPage />;
+  // TODO: double-check this logicc (correct so far)
+  const conditionForShowingContent =
+    updateUserRoleDoneOnFirstRender &&
+    (role && role === RoleEnum.Seller
+      ? (userInfo as SellerEntity)?.status
+      : true);
+
+  return conditionForShowingContent ? <Content /> : <LoadingPage />;
 }

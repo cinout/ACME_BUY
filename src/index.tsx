@@ -10,6 +10,7 @@ import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
 import { connectApolloClientToVSCodeDevTools } from "@apollo/client-devtools-vscode";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
+// TODO: this causes error when user is not logged in
 const client = new ApolloClient({
   link: createUploadLink({
     uri: "http://localhost:8000/api/graphql", //TODO: what to do when prod env?

@@ -1,8 +1,15 @@
 import api from "@/utils/api";
-import { RoleEnum, SellerSignupMethodEnum } from "@/utils/enums";
+import {
+  RoleEnum,
+  SellerSignupMethodEnum,
+  SellerStatusEnum,
+} from "@/utils/enums";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { WritableDraft } from "immer";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
+import { AdminEntity, SellerEntity } from "@/utils/entities";
+
 export interface FormSellerSignupProps {
   firstname: string;
   lastname: string;
@@ -21,6 +28,9 @@ export interface FormSellerLoginProps {
   password: string;
 }
 
+/**
+ * Async Thunks
+ */
 export const adminLogin = createAsyncThunk<unknown, FormAdminLoginProps>(
   "auth/adminLogin",
   async (info, thunkAPI) => {
@@ -59,12 +69,11 @@ export const sellerLogin = createAsyncThunk<unknown, FormSellerLoginProps>(
     } catch (e) {
       return thunkAPI.rejectWithValue(
         ((e as AxiosError).response?.data as { error: string }).error
-      ); // "error" is a custom key, see src/controllers/authController.ts in backend
+      );
     }
   }
 );
 
-// TODO: update second "unknown"
 export const getUser = createAsyncThunk<unknown, void>(
   "auth/getUser",
   async (_, thunkAPI) => {
@@ -74,7 +83,21 @@ export const getUser = createAsyncThunk<unknown, void>(
     } catch (e) {
       return thunkAPI.rejectWithValue(
         ((e as AxiosError).response?.data as { error: string }).error
-      ); // "error" is a custom key, see src/controllers/authController.ts in backend
+      );
+    }
+  }
+);
+
+export const logout = createAsyncThunk<unknown, void>(
+  "auth/logout",
+  async (_, thunkAPI) => {
+    try {
+      const result = await api.post("auth/logout");
+      return thunkAPI.fulfillWithValue(result.data);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(
+        ((e as AxiosError).response?.data as { error: string }).error
+      );
     }
   }
 );
@@ -85,6 +108,9 @@ interface CustomJwtPayload {
   role: RoleEnum;
 }
 
+/**
+ * Reusable functions
+ */
 function getUserBasicInfo() {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
@@ -99,20 +125,28 @@ function getUserBasicInfo() {
   }
 }
 
+function afterSignupOrLogin(
+  state: WritableDraft<AuthState>,
+  action: { payload: unknown }
+) {
+  const accessToken = (action.payload as { accessToken: string }).accessToken;
+  localStorage.setItem("accessToken", accessToken);
+  const info = getUserBasicInfo();
+  if (info) {
+    state.role = info.role;
+  }
+}
+
 interface AuthState {
-  showLoader: boolean;
   role: RoleEnum | undefined;
-  userInfo: unknown; // TODO: better type for it?
-  userHydrationDoneOnFirstRender: boolean;
-  userRoleUpdatedOnFirstRender: boolean;
+  userInfo: SellerEntity | AdminEntity | undefined; // TODO: customer as well
+  updateUserRoleDoneOnFirstRender: boolean;
 }
 
 const initialState: AuthState = {
-  showLoader: false,
   role: undefined,
   userInfo: undefined,
-  userHydrationDoneOnFirstRender: false,
-  userRoleUpdatedOnFirstRender: false,
+  updateUserRoleDoneOnFirstRender: false,
 };
 
 // TODO: should I move this to GQL as well?
@@ -125,77 +159,44 @@ const authReducer = createSlice({
       if (info) {
         state.role = info.role;
       }
-      state.userRoleUpdatedOnFirstRender = true;
+      state.updateUserRoleDoneOnFirstRender = true;
     },
   },
   extraReducers: (builder) => {
     builder
       // Admin Login
-      .addCase(adminLogin.pending, (state) => {
-        state.showLoader = true;
-      })
-      .addCase(adminLogin.rejected, (state) => {
-        state.showLoader = false;
-      })
       .addCase(adminLogin.fulfilled, (state, action) => {
-        state.showLoader = false;
-        const accessToken = (action.payload as { accessToken: string })
-          .accessToken;
-        localStorage.setItem("accessToken", accessToken); // TODO: securer way to handle it?
-        const info = getUserBasicInfo();
-        if (info) {
-          state.role = info.role;
-        }
+        afterSignupOrLogin(state, action);
       })
 
       // Seller Signup
-      .addCase(sellerSignup.pending, (state) => {
-        state.showLoader = true;
-      })
-      .addCase(sellerSignup.rejected, (state) => {
-        state.showLoader = false;
-      })
       .addCase(sellerSignup.fulfilled, (state, action) => {
-        state.showLoader = false;
-        // TODO: think of a safer option
-        const accessToken = (action.payload as { accessToken: string })
-          .accessToken;
-        localStorage.setItem("accessToken", accessToken); // TODO: you need to remove from localStorage when user log out
-        const info = getUserBasicInfo();
-        if (info) {
-          state.role = info.role;
-        }
+        afterSignupOrLogin(state, action);
       })
 
       // Seller Login
-      .addCase(sellerLogin.pending, (state) => {
-        state.showLoader = true;
-      })
-      .addCase(sellerLogin.rejected, (state) => {
-        state.showLoader = false;
-      })
       .addCase(sellerLogin.fulfilled, (state, action) => {
-        state.showLoader = false;
-        const accessToken = (action.payload as { accessToken: string })
-          .accessToken;
-        localStorage.setItem("accessToken", accessToken);
-        const info = getUserBasicInfo();
-        if (info) {
-          state.role = info.role;
-        }
+        afterSignupOrLogin(state, action);
       })
 
       // Get User Info
-      .addCase(getUser.pending, (state) => {
-        // state.showLoader = true;
-      })
       .addCase(getUser.rejected, (state) => {
-        state.userHydrationDoneOnFirstRender = true;
         // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.userHydrationDoneOnFirstRender = true;
-        state.userInfo = (action.payload as { userInfo: unknown }).userInfo;
+        const { userInfo, role } = action.payload as {
+          userInfo: SellerEntity | AdminEntity;
+          role: RoleEnum;
+        };
+        state.userInfo = userInfo;
+        state.role = role;
+      })
+
+      // Log Out
+      .addCase(logout.fulfilled, (state) => {
+        localStorage.removeItem("accessToken");
+        state.role = undefined;
+        state.userInfo = undefined;
       });
   },
 });

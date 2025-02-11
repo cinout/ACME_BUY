@@ -37,8 +37,10 @@ export function joinUrl(...args: string[]) {
     .join("/");
 }
 
-export function capFirstLetter(input: string) {
-  return input ? input.charAt(0).toUpperCase() + input.slice(1) : "";
+export function capFirstLetter(input: string | undefined) {
+  return input
+    ? input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
+    : "";
 }
 
 export const VALID_NAME_GENERAL = /^[a-z0-9][a-z0-9-\s]*$/i; // i flag allows a-z to match both uppercase and lowercase letters without explicitly writing A-Z

@@ -10,10 +10,9 @@ import {
 import { imageMaxSizeMB } from "@/utils/numbers";
 import FormSingleImage from "@/views/shared_components/form/FormSingleImages";
 import FormInput from "@/views/shared_components/form/FormInput";
-import { FormNewCategoryProps } from "@/redux/reducers/categoryReducer";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
-import { useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import {
   GQL_CATEGORY_CREATE,
   GQL_CATEGORIES_GET_ALL,
@@ -25,16 +24,35 @@ import { CategoryEntity } from "@/utils/entities";
 interface CategoryDialogProps {
   isOpen: boolean;
   mode: "Create" | "Edit";
+  submitText: string;
   editCategoryInfo: CategoryEntity | undefined;
+}
+
+interface FormNewCategoryProps {
+  name: string;
+  image: { file: File | string | null; name: string | null };
 }
 
 export default function CategoryDialog({
   isOpen,
   mode,
   editCategoryInfo,
+  submitText,
 }: CategoryDialogProps) {
+  /**
+   * States
+   */
+  const [showLoader, setShowLoader] = useState(false);
+
+  /**
+   * Route
+   */
   const navigate = useNavigate();
 
+  /**
+   * RHF
+   */
+  const isCreateMode = mode === "Create";
   const {
     register,
     handleSubmit,
@@ -44,12 +62,24 @@ export default function CategoryDialog({
     reset,
     clearErrors,
   } = useForm<FormNewCategoryProps>({
-    defaultValues: {
-      name: mode === "Create" ? "" : editCategoryInfo?.name,
-      image: mode === "Create" ? null : editCategoryInfo?.imageUrl,
-    },
+    defaultValues: isCreateMode
+      ? {
+          name: "",
+          image: { file: null, name: null },
+        }
+      : {
+          name: editCategoryInfo?.name,
+          image: {
+            file: editCategoryInfo?.imageUrl,
+            name: editCategoryInfo?.imageName,
+          },
+        },
   });
+  const uploadedImage = watch("image");
 
+  /**
+   * GQLs
+   */
   const [createCategory] = useMutation(GQL_CATEGORY_CREATE, {
     onError: (err) => {
       setShowLoader(false);
@@ -92,18 +122,31 @@ export default function CategoryDialog({
     },
   });
 
-  const [showLoader, setShowLoader] = useState(false);
-  const uploadedImage = watch("image");
+  const client = useApolloClient();
+  const existingCategories = (client.readQuery({
+    query: GQL_CATEGORIES_GET_ALL,
+  }).getAllCategories || []) as CategoryEntity[];
+  const existingnames = existingCategories
+    .filter((a) => a.id !== editCategoryInfo?.id)
+    .map((a) => a.name);
+
+  /**
+   * Functions
+   */
 
   function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
-      setValue("image", file, { shouldValidate: true, shouldDirty: true });
+      setValue(
+        "image",
+        { file, name: file.name },
+        { shouldValidate: true, shouldDirty: true }
+      );
     }
   }
 
   function handleRemoveImage() {
-    setValue("image", null, { shouldDirty: true });
+    setValue("image", { file: null, name: null }, { shouldDirty: true });
     clearErrors("image");
   }
 
@@ -119,8 +162,10 @@ export default function CategoryDialog({
       void updateCategory({
         variables: {
           id: editCategoryInfo!.id,
-          name: data.name,
-          image: data.image,
+          input: {
+            name: data.name,
+            image: data.image,
+          },
         },
       });
     }
@@ -128,7 +173,7 @@ export default function CategoryDialog({
 
   function onCloseDialog() {
     reset();
-    void navigate(-1);
+    void navigate("/admin/categories");
   }
 
   return (
@@ -163,8 +208,19 @@ export default function CategoryDialog({
               value: VALID_NAME_GENERAL,
               message: VALID_NAME_GENERAL_ERROR_MSG,
             },
+            validate: (name) => {
+              // check duplicate name
+              if (
+                existingnames.some(
+                  (a) => a?.toLowerCase() === name.toLowerCase()
+                )
+              ) {
+                return "The category name already exists.";
+              }
+              return true;
+            },
           })}
-          // TODO: validate -- not duplicate with exisiting ones
+          // TODO: validate -- not duplicate with exisiting ones (case insensitive)
           error={errors.name}
           label="Category Name"
           additionalStyleWrapper="flex gap-2 flex-wrap"
@@ -175,16 +231,16 @@ export default function CategoryDialog({
         {/* Image Section */}
         <FormSingleImage
           registration={register("image", {
-            required: "Image is required",
             validate: {
+              required: (image) => !!image.file || "Image is required.",
               fileType: (image) =>
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                typeof image === "string" ||
-                image?.type.startsWith("image/") ||
+                typeof image.file === "string" ||
+                image.file?.type.startsWith("image/") ||
                 "Only image files are allowed",
               fileSize: (image) =>
-                typeof image === "string" ||
-                (image?.size ?? 0) < imageMaxSizeMB * 1024 * 1024 ||
+                typeof image.file === "string" ||
+                (image.file?.size ?? 0) < imageMaxSizeMB * 1024 * 1024 ||
                 `Image must be smaller than ${imageMaxSizeMB}MB`,
             },
           })}
@@ -206,7 +262,7 @@ export default function CategoryDialog({
         ) : (
           <AdminDialogButtons
             onCancel={onCloseDialog}
-            submitText="Update"
+            submitText={submitText}
             isDirty={isDirty}
           />
         )}

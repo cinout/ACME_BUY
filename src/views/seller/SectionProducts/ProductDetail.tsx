@@ -13,18 +13,30 @@ import { v7 } from "uuid";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { styleCancelButton, styleSubmitButton } from "@/utils/styles";
-import { ProductEntity } from "@/utils/entities";
+import { CategoryEntity, ProductEntity } from "@/utils/entities";
+import { useMutation, useQuery } from "@apollo/client";
+import { GQL_CATEGORIES_GET_ALL } from "@/graphql/categoryGql";
+import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
+import {
+  GQL_PRODUCT_CREATE,
+  GQL_PRODUCT_GET_ALL_BY_SELLER,
+  GQL_PRODUCT_UPDATE,
+} from "@/graphql/productGql";
+import { useAppSelector } from "@/redux/hooks";
+import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
+import { getErrorMessage } from "@/graphql";
+import toast from "react-hot-toast";
 
 interface FormInputProps {
   id: string;
   name: string;
   brand: string;
-  category: string;
+  categoryId: string;
   stock: number;
   price: number;
   discount: number;
   description: string;
-  images: { id: string; file: File }[];
+  images: { id: string; file: File | string; name: string }[];
 }
 
 interface ProductDetailProps {
@@ -32,58 +44,142 @@ interface ProductDetailProps {
   productStats: ProductEntity[];
 }
 
-// TODO: use real data
-const categoryOptions = [
-  { id: "computer", value: "computer", display: "Computer" },
-  { id: "home", value: "home", display: "Home" },
-  { id: "outdoor", value: "outdoor", display: "Outdoor" },
-];
-
 export default function ProductDetail({
   productId,
   productStats,
 }: ProductDetailProps) {
+  /**
+   *  State
+   */
   const [editMode, setEditMode] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+
+  /**
+   *  Routes
+   */
+  const navigate = useNavigate();
+
+  /**
+   *  Redux
+   */
+  const { userInfo } = useAppSelector((state) => state.auth);
+
+  /**
+   *  RHF
+   */
   const isCreatingNewProduct = productId === "new";
-
-  let defaulValues = {
-    discount: 0,
-    images: [],
-  };
-
-  if (!isCreatingNewProduct) {
-    const product = productStats.find((a) => a.id === productId);
-    if (product) {
-      const { images, ...rest } = product;
-      defaulValues = { ...rest, images: [] }; // TODO: add image back
-    }
-  }
-
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
     setValue,
-  } = useForm<FormInputProps>({ defaultValues: defaulValues });
-
-  const navigate = useNavigate();
-
+  } = useForm<FormInputProps>({
+    defaultValues: isCreatingNewProduct
+      ? {
+          discount: 0,
+          images: [],
+        }
+      : productStats.find((a) => a.id === productId),
+  });
   const uploadedImages = watch("images");
   const discount = watch("discount");
   const price = watch("price");
 
-  function onSubmit(data: FormInputProps): void {
-    // TODO: create an entry in the backend, and also udpate in the frontend
-    console.log(data);
-    closeAndLeave();
-  }
+  /**
+   *  GQL
+   */
 
-  function closeAndLeave() {
-    // TODO: if in editing mode, we need to be careful, and return values to initial state
-    reset();
-    void navigate(-1);
+  const [createProduct] = useMutation(GQL_PRODUCT_CREATE, {
+    onError: (err) => {
+      setShowLoader(false);
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      setShowLoader(false);
+      closeAndLeave();
+    },
+    update(cache, { data }) {
+      cache.updateQuery(
+        {
+          query: GQL_PRODUCT_GET_ALL_BY_SELLER,
+          variables: { sellerId: userInfo?.id },
+        },
+        ({ getAllProductsBySeller }) => {
+          return {
+            getAllProductsBySeller: (
+              getAllProductsBySeller as ProductEntity[]
+            ).concat((data as { createProduct: ProductEntity }).createProduct),
+          };
+        }
+      );
+    },
+  });
+
+  const [updateProduct] = useMutation(GQL_PRODUCT_UPDATE, {
+    onError: (err) => {
+      setShowLoader(false);
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      setShowLoader(false);
+      closeAndLeave();
+    },
+  });
+
+  const gql_query_result = useQuery(GQL_CATEGORIES_GET_ALL); // get categories
+  if (gql_query_result.loading) {
+    return <LoadingIndicatorWithDiv />;
+  }
+  const allCategories = gql_query_result.data
+    .getAllCategories as CategoryEntity[];
+  const categoryOptions = allCategories.map((a) => ({
+    id: a.id,
+    value: a.id,
+    display: a.name,
+  }));
+
+  /**
+   *  Functions
+   */
+  function onSubmit(data: FormInputProps): void {
+    setShowLoader(true);
+    if (editMode) {
+      void updateProduct({
+        variables: {
+          id: data.id,
+          // TODO: can I only include fields that have changed?
+          // TODO: same to updateCategory
+          input: {
+            name: data.name,
+            brand: data.brand,
+            price: data.price,
+            discount: data.discount,
+            description: data.description,
+            categoryId: data.categoryId,
+            stock: data.stock,
+            images: data.images,
+          },
+        },
+      });
+    } else {
+      void createProduct({
+        variables: {
+          name: data.name,
+          brand: data.brand,
+          images: data.images,
+          categoryId: data.categoryId,
+          sellerId: userInfo?.id,
+          stock: data.stock,
+          price: data.price,
+          discount: data.discount,
+          description: data.description,
+        },
+      });
+    }
   }
 
   // TODO: there is an error when add two same files consecutively
@@ -92,33 +188,36 @@ export default function ProductDetail({
       const images = Array.from(e.target.files).map((item) => ({
         id: v7(),
         file: item,
+        name: item.name,
       }));
 
       setValue("images", uploadedImages.concat(images), {
         shouldValidate: true,
+        shouldDirty: true,
       });
     }
   }
 
-  // console.log(errors.images);
-
   function handleRemoveImage(removeId: string) {
-    // const dataTransfer = new DataTransfer();
-
     if (uploadedImages) {
       setValue(
         "images",
         uploadedImages.filter((item) => item.id !== removeId),
-        { shouldValidate: true }
+        { shouldValidate: true, shouldDirty: true }
       );
     }
   }
 
   function handleToggleEditButton() {
     if (editMode) {
-      // TODO: reset values to initial state
+      reset(); // reset values to initial state
     }
     setEditMode((v) => !v);
+  }
+
+  function closeAndLeave() {
+    reset();
+    void navigate("/seller/products");
   }
 
   return (
@@ -127,8 +226,9 @@ export default function ProductDetail({
       <div className="flex gap-x-8 items-center mb-8">
         <button
           type="button" // to prevent trigger form submission if AdminDialogButtons is wrapped in <form> tag
-          className="cursor-pointer text-2xl text-sky-800 bg-sky-50 p-1 rounded-full border-2 border-sky-100 hover:bg-sky-200 hover:scale-110 transition shadow-2xl"
+          className="cursor-pointer text-2xl text-sky-800 bg-sky-50 p-1 rounded-full border-2 border-sky-100 not-disabled:hover:bg-sky-200 not-disabled:hover:scale-110 disabled:cursor-not-allowed disabled:bg-slate-300 transition shadow-2xl"
           onClick={closeAndLeave}
+          disabled={showLoader}
         >
           <IoArrowBackCircle />
         </button>
@@ -138,6 +238,7 @@ export default function ProductDetail({
             type="button"
             className={editMode ? styleCancelButton : styleSubmitButton}
             onClick={handleToggleEditButton}
+            disabled={showLoader}
           >
             {editMode ? "Cancel Editing" : "Edit"}
           </button>
@@ -169,7 +270,7 @@ export default function ProductDetail({
           additionalStyleInput="w-full sm:w-60 lg:w-80"
           error={errors.name}
           placeholder="Product Name"
-          disabled={!isCreatingNewProduct && !editMode}
+          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
           currentValue={watch("name")}
         />
 
@@ -189,21 +290,21 @@ export default function ProductDetail({
           additionalStyleInput="w-full sm:w-60 lg:w-80"
           error={errors.brand}
           placeholder="Brand Name"
-          disabled={!isCreatingNewProduct && !editMode}
+          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
           currentValue={watch("brand")}
         />
 
         <FormSelect
-          registration={register("category", {
+          registration={register("categoryId", {
             required: "Plase choose a category",
           })}
           label="Category"
           // additionalStyleInput="w-full sm:w-60 lg:w-80"
           options={categoryOptions}
           additionalStyleSelect="w-full sm:w-60 lg:w-80"
-          error={errors.category}
-          disabled={!isCreatingNewProduct && !editMode}
-          currentValue={watch("category")}
+          error={errors.categoryId}
+          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+          currentValue={watch("categoryId")}
         />
 
         <FormInput
@@ -218,7 +319,7 @@ export default function ProductDetail({
           type="number"
           min={0}
           placeholder="Stock Quantity"
-          disabled={!isCreatingNewProduct && !editMode}
+          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
           currentValue={watch("stock")}
         />
 
@@ -235,7 +336,7 @@ export default function ProductDetail({
           min={0}
           step={0.01}
           placeholder="Price"
-          disabled={!isCreatingNewProduct && !editMode}
+          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
           currentValue={watch("price")}
         />
 
@@ -256,7 +357,7 @@ export default function ProductDetail({
             min={0}
             max={100}
             step={0.1}
-            disabled={!isCreatingNewProduct && !editMode}
+            disabled={(!isCreatingNewProduct && !editMode) || showLoader}
             currentValue={watch("discount")}
           />
           {price >= 0 && discount >= 0 && (
@@ -279,10 +380,11 @@ export default function ProductDetail({
           error={errors.description}
           placeholder="Product Description"
           additionalStyleWrapper="col-span-1 sm:col-span-2 lg:col-span-3"
-          disabled={!isCreatingNewProduct && !editMode}
+          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
           currentValue={watch("description")}
         />
 
+        {/* TODO: need to set a maximum number of images */}
         <FormMultipleImages
           registration={register("images", {
             required: "Please upload at least one image",
@@ -290,7 +392,7 @@ export default function ProductDetail({
               isImage: (images) => {
                 const filesWithError: string[] = [];
                 images.forEach(({ file }) => {
-                  if (!file.type.startsWith("image/")) {
+                  if (file instanceof File && !file.type.startsWith("image/")) {
                     filesWithError.push(file.name);
                   }
                 });
@@ -304,7 +406,10 @@ export default function ProductDetail({
               isLessThan2MB: (images) => {
                 const filesWithError: string[] = [];
                 images.forEach(({ file }) => {
-                  if (file.size > imageMaxSizeMB * 1024 * 1024) {
+                  if (
+                    file instanceof File &&
+                    file.size > imageMaxSizeMB * 1024 * 1024
+                  ) {
                     filesWithError.push(file.name);
                   }
                 });
@@ -323,12 +428,22 @@ export default function ProductDetail({
           additionalStyleWrapper="col-span-1 sm:col-span-2 lg:col-span-3 justify-self-start"
           handleAddImages={handleAddImages}
           handleRemoveImage={handleRemoveImage}
-          disabled={!isCreatingNewProduct && !editMode}
+          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
         />
 
         {(isCreatingNewProduct || editMode) && (
-          <button type="submit" className={`mt-8 ${styleSubmitButton}`}>
-            {editMode ? "Update Product" : "Add Product"}
+          <button
+            type="submit"
+            className={`mt-8 ${styleSubmitButton}`}
+            disabled={showLoader || !isDirty}
+          >
+            {showLoader ? (
+              <LoadingIndicator />
+            ) : editMode ? (
+              "Update Product" // TODO: disable if not dirty
+            ) : (
+              "Add Product"
+            )}
           </button>
         )}
       </form>

@@ -22,7 +22,7 @@ export default function ProductTable({ productStats }: ProductTableProps) {
         >
           <Link to={joinUrl(pathname, product.id)}>
             <img
-              src={product.images?.[0]}
+              src={product.images?.[0]?.file}
               alt={product.name}
               className="inline h-20 w-20 mt-10 rounded-md hover:brightness-75 hover:outline hover:outline-white transition-all"
             />

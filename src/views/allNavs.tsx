@@ -127,5 +127,10 @@ export const navOptions: NavOptionsProps[] = [
     icon: <CgProfile />,
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/profile",
+    accessSellerStatus: [
+      SellerStatusEnum.Active,
+      SellerStatusEnum.Deactivated,
+      SellerStatusEnum.Pending,
+    ],
   },
 ];

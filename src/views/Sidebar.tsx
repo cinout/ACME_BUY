@@ -5,7 +5,10 @@ import { RoleEnum } from "@/utils/enums";
 import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout } from "@/redux/reducers/authReducer";
+import { useApolloClient } from "@apollo/client";
+import toast from "react-hot-toast";
 import { SellerEntity } from "@/utils/entities";
 
 interface Props {
@@ -22,6 +25,21 @@ function MenuContent({
   pathname: string;
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const dispatch = useAppDispatch();
+  const client = useApolloClient();
+
+  function handleLogout() {
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        void client.clearStore();
+        // redirected to login page due to ProtectRoute
+      })
+      .catch((e) => {
+        toast.error(e); // show error
+      });
+  }
+
   return (
     <>
       <div className="mt-8">
@@ -47,7 +65,10 @@ function MenuContent({
       </div>
 
       {/* TODO: implement log out */}
-      <button className="absolute bottom-6 left-0 pl-5 flex items-center font-medium text-aqua-forest-900 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full">
+      <button
+        className="absolute bottom-6 left-0 pl-5 flex items-center font-medium text-aqua-forest-900 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full"
+        onClick={handleLogout}
+      >
         <IoIosLogOut className="text-2xl m-2" />
         <span>Logout</span>
       </button>
@@ -69,7 +90,7 @@ export default function Sidebar({
     if (role === RoleEnum.Seller) {
       return (
         a.accessRoles.includes(RoleEnum.Seller) &&
-        a.accessSellerStatus?.includes((userInfo as SellerEntity).status)
+        a.accessSellerStatus?.includes((userInfo as SellerEntity)?.status)
       );
     } else if (role === RoleEnum.Admin) {
       return a.accessRoles.includes(RoleEnum.Admin);

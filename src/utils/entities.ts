@@ -30,25 +30,34 @@ export interface SellerEntity extends Entity {
   signupMethod: SellerSignupMethodEnum;
 
   image?: string;
-  // requestDate: Date;
-  // shops?: ShopEntity[]; // TODO: each seller can only own one shop, to ensure they don't abuse the platform
+}
+
+export interface AdminEntity extends Entity {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  image?: string;
 }
 
 export interface CategoryEntity extends Entity {
-  name?: string;
+  name: string;
   imageUrl?: string;
-  imageType?: string;
-  slug?: string;
+  imageName?: string;
 }
+
 export interface ProductEntity extends Entity {
   name: string;
   brand: string;
-  category: string;
+  category: string; //TODO: remoce this field
   stock: number;
   price: number;
   discount: number;
   description?: string;
-  images?: string[];
+  categoryId?: string;
+  sellerId?: string;
+  images?: { id: string; file: string; name: string }[];
+  rating?: number; // TODO: implement rating
 }
 
 interface OrderDetailsEntity extends Entity {

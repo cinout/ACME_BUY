@@ -1,51 +1,65 @@
 import { useState } from "react";
 import Head from "./Head";
-import { useParams } from "react-router-dom";
-import CreateProduct from "./ProductDetail";
+import { Navigate, useParams } from "react-router-dom";
+import ProductDetail from "./ProductDetail";
 import ProductTable from "./ProductTable";
-import { faker } from "@faker-js/faker";
 import { ProductEntity } from "@/utils/entities";
-import { getRandomInt } from "@/utils/numbers";
 import Pagination from "@/views/shared_components/Pagination";
+import { useQuery } from "@apollo/client";
+import { GQL_PRODUCT_GET_ALL_BY_SELLER } from "@/graphql/productGql";
+import { useAppSelector } from "@/redux/hooks";
+import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 
-// TODO: use real data
-const productStats: ProductEntity[] = Array.from({ length: 34 }, () => ({
-  id: faker.string.uuid(),
-  createdAt: faker.date.recent(),
-  name: faker.commerce.product(),
-  brand: faker.company.name(),
-  category: "outdoor",
-  stock: faker.number.int({ min: 0, max: 100 }),
-  price: Number(faker.commerce.price()),
-  discount: faker.number.float({ min: 0, max: 100, multipleOf: 0.1 }),
-  description: faker.lorem.sentences(),
-  images: Array.from({ length: getRandomInt(1, 9) }, () =>
-    faker.image.avatar()
-  ),
-}));
-
 // TODO: provide filtering by discounted status
 export default function SectionProducts() {
+  // Page
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchValue, setSearchValue] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
-
-  const { productId } = useParams();
-
   const start_index = (currentPage - 1) * itemsPerPage;
   const end_index = currentPage * itemsPerPage;
 
+  // Search Value
+  const [searchValue, setSearchValue] = useState("");
+
+  // Route
+  const { productId } = useParams();
+
+  // Redux
+  const { userInfo } = useAppSelector((state) => state.auth);
+
+  // GQL
+  // TODO: should I query only when userInfo is not null?
+  const gql_query_result = useQuery(GQL_PRODUCT_GET_ALL_BY_SELLER, {
+    variables: { sellerId: userInfo?.id },
+  });
+
+  if (gql_query_result.loading) {
+    return <LoadingIndicatorWithDiv />;
+  }
+
+  const allProductsBySeller = gql_query_result.data
+    .getAllProductsBySeller as ProductEntity[];
+
+  // Functions
   function handleItemsPerPageChange(value: number) {
     setItemsPerPage(value); // set value
     setCurrentPage(1); // default to page 1
   }
 
   return (
-    <div>
+    <>
       {productId ? (
-        <CreateProduct productId={productId} productStats={productStats} />
+        productId === "new" ||
+        allProductsBySeller.some((a) => a.id === productId) ? (
+          <ProductDetail
+            productId={productId}
+            productStats={allProductsBySeller}
+          />
+        ) : (
+          <Navigate to="/seller/products" replace />
+        )
       ) : (
         <>
           <Head
@@ -56,18 +70,18 @@ export default function SectionProducts() {
             itemsPerPageOptions={itemsPerPageOptions}
           />
           <ProductTable
-            productStats={productStats.slice(start_index, end_index)}
+            productStats={allProductsBySeller.slice(start_index, end_index)}
           />
           <div className="mt-12">
             <Pagination
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              totalPages={Math.ceil(productStats.length / itemsPerPage)}
+              totalPages={Math.ceil(allProductsBySeller.length / itemsPerPage)}
               maxPageOptionsCount={5}
             />
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }

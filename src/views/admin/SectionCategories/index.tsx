@@ -10,14 +10,6 @@ import DeleteCategoryDialog from "./DeleteCategoryDialog";
 import { useParams } from "react-router-dom";
 import CategoryDialog from "./CategoryDialog";
 
-// // fetch from server
-// const categoryStats: CategoryEntity[] = Array.from({ length: 34 }, () => ({
-//   id: faker.string.uuid(),
-//   name: faker.commerce.product(),
-//   image: faker.image.avatar(),
-//   createdAt: faker.date.recent(),
-// }));
-
 const itemsPerPageOptions = [10, 20, 30, 40];
 
 export default function SectionCategory() {
@@ -74,6 +66,7 @@ export default function SectionCategory() {
           isOpen={categoryId === "new" || !!validCategory}
           mode={categoryId === "new" ? "Create" : "Edit"}
           editCategoryInfo={validCategory}
+          submitText={categoryId === "new" ? "Create" : "Update"}
         />
       )}
 

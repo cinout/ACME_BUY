@@ -21,7 +21,7 @@ interface FormInputProps {
   label?: string; // default to registration.name
   id?: string; // default to registration.name
   errorMessage?: string | undefined;
-  uploadedImages: { id: string; file: File }[]; // TODO: support if images are of string type
+  uploadedImages: { id: string; file: File | string; name: string }[];
   handleAddImages: (e: ChangeEvent<HTMLInputElement>) => void;
   handleRemoveImage: (removeIndex: string) => void;
   disabled?: boolean;
@@ -40,7 +40,7 @@ export default function FormMultipleImages({
   uploadedImages,
   handleAddImages,
   handleRemoveImage,
-  disabled, // TODO: how to treat that?
+  disabled,
 }: FormInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -75,7 +75,7 @@ export default function FormMultipleImages({
         {/* Show Images */}
 
         {uploadedImages &&
-          Array.from(uploadedImages)?.map(({ id, file }) => (
+          Array.from(uploadedImages)?.map(({ id, file, name }) => (
             <div
               key={id}
               className="flex flex-col justify-start items-center w-28"
@@ -83,15 +83,18 @@ export default function FormMultipleImages({
               <button
                 className="relative w-[inherit] aspect-square group"
                 type="button"
+                disabled={disabled}
               >
-                {file.type.startsWith("image/") ? (
+                {typeof file === "string" ? (
+                  <img src={file} alt="Preview" className={styleImagePreview} />
+                ) : file.type.startsWith("image/") ? (
                   <img
                     src={URL.createObjectURL(file)}
                     alt="Preview"
                     className={styleImagePreview}
                   />
                 ) : (
-                  <div className="w-[inherit] aspect-square border border-sky-50 rounded-2xl shadow-2xl flex flex-col justify-center items-center bg-red-400 gap-y-2  group-hover:brightness-[30%]">
+                  <div className="w-[inherit] aspect-square border border-sky-50 rounded-2xl shadow-2xl flex flex-col justify-center items-center bg-red-400 gap-y-2 group-hover:brightness-[30%]">
                     <MdImageNotSupported className="text-[3rem]" />
                     <span className="text-sm">Unsupported </span>
                   </div>
@@ -100,7 +103,7 @@ export default function FormMultipleImages({
                 {/* DELETE */}
                 {!disabled && (
                   <div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-1 bg-rose-200 text-rose-900 hover:scale-110 transition"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-1 bg-rose-200 text-rose-900 not-disabled:hover:scale-110 transition"
                     onClick={() => handleRemoveImage(id)}
                   >
                     <MdDelete />
@@ -108,8 +111,10 @@ export default function FormMultipleImages({
                 )}
               </button>
 
+              {/* File Name */}
+
               <span className="text-xs text-center">
-                {shortenMiddle(file.name, 25)}
+                {shortenMiddle(name, 25)}
               </span>
             </div>
           ))}
@@ -120,6 +125,7 @@ export default function FormMultipleImages({
             className={`${styleImageUploadIndicator} ${additionalStyleButton}`}
             type="button"
             onClick={handleClickImageUploadButton}
+            disabled={disabled}
           >
             <IoIosAddCircle className="text-2xl group-hover:scale-110 transition" />
             <span className="text-sm">Click to upload multiple images</span>
