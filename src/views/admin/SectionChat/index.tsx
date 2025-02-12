@@ -23,6 +23,7 @@ const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
 
   status: SellerStatusEnum.Active,
   signupMethod: SellerSignupMethodEnum.Default,
+  shopName: faker.company.name(),
 
   image: faker.image.avatar(),
 }));

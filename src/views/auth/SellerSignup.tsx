@@ -46,7 +46,7 @@ export default function SellerSignup() {
     )
       .unwrap()
       .then(() => {
-        reset(); // reset form values
+        // reset(); // reset form values
         setShowLoader(false);
         void navigate("/seller/dashboard", { replace: true });
       })
@@ -109,6 +109,7 @@ export default function SellerSignup() {
               error={errors.firstname}
               additionalStyleInput="w-full"
             />
+
             <FormInput
               placeholder="Your Last Name"
               label="Last Name"
@@ -130,6 +131,7 @@ export default function SellerSignup() {
               error={errors.lastname}
               additionalStyleInput="w-full"
             />
+
             <FormInput
               placeholder="Your Email"
               type="email"
@@ -156,6 +158,28 @@ export default function SellerSignup() {
                 },
               })}
               error={errors.password}
+              additionalStyleInput="w-full"
+            />
+
+            <FormInput
+              placeholder="Your Shop Name"
+              label="Shop Name"
+              registration={register("shopName", {
+                required: "Required",
+                maxLength: {
+                  value: 30,
+                  message: "Name must be at most 30 characters",
+                },
+                minLength: {
+                  value: 1,
+                  message: "Name must be at least 1 character",
+                },
+                pattern: {
+                  value: VALID_NAME_GENERAL,
+                  message: VALID_NAME_GENERAL_ERROR_MSG,
+                },
+              })}
+              error={errors.shopName}
               additionalStyleInput="w-full"
             />
 

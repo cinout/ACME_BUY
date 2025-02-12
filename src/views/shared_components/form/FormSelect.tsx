@@ -7,7 +7,6 @@ import {
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 interface FormSelectProps {
-  // placeholder?: string;
   additionalStyleSelect?: string;
   additionalStyleLabel?: string;
   additionalStyleWrapper?: string;

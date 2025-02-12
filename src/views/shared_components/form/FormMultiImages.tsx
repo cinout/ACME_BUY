@@ -103,7 +103,7 @@ export default function FormMultipleImages({
                 {/* DELETE */}
                 {!disabled && (
                   <div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-1 bg-rose-200 text-rose-900 not-disabled:hover:scale-110 transition"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-1 bg-rose-200 text-rose-900 not-disabled:hover:scale-105 transition"
                     onClick={() => handleRemoveImage(id)}
                   >
                     <MdDelete />
@@ -127,7 +127,7 @@ export default function FormMultipleImages({
             onClick={handleClickImageUploadButton}
             disabled={disabled}
           >
-            <IoIosAddCircle className="text-2xl group-hover:scale-110 transition" />
+            <IoIosAddCircle className="text-2xl group-hover:scale-105 transition" />
             <span className="text-sm">Click to upload multiple images</span>
           </button>
         )}

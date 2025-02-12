@@ -24,7 +24,7 @@ export const navOptions: NavOptionsProps[] = [
    * ADMIN
    */
   {
-    name: "Dashboard",
+    name: "Dashboard (TODO:)",
     icon: <AiOutlineDashboard />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/dashboard",
@@ -37,37 +37,37 @@ export const navOptions: NavOptionsProps[] = [
     goto: "/admin/categories",
   },
   {
-    name: "Sellers",
+    name: "Sellers (TODO:)",
     icon: <FaPeopleGroup />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/sellers",
   },
   {
-    name: "Orders",
+    name: "Orders (TODO:)",
     icon: <CiDeliveryTruck />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/orders",
   },
   {
-    name: "Withdraw Requests",
+    name: "Withdraw Requests (TODO:)",
     icon: <MdOutlinePayment />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/withdraw-requests",
   },
   {
-    name: "Seller Requests",
+    name: "Seller Requests (TODO:)",
     icon: <FaPerson />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/seller-requests",
   },
   {
-    name: "Live Chat",
+    name: "Live Chat (TODO:)",
     icon: <IoChatboxEllipsesOutline />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/chat",
   },
   {
-    name: "Profile",
+    name: "Profile (TODO:)",
     icon: <CgProfile />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/profile",

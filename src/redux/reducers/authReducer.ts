@@ -1,14 +1,9 @@
 import api from "@/utils/api";
-import {
-  RoleEnum,
-  SellerSignupMethodEnum,
-  SellerStatusEnum,
-} from "@/utils/enums";
+import { RoleEnum, SellerSignupMethodEnum } from "@/utils/enums";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
-import { AdminEntity, SellerEntity } from "@/utils/entities";
 
 export interface FormSellerSignupProps {
   firstname: string;
@@ -17,6 +12,7 @@ export interface FormSellerSignupProps {
   password: string;
   agree: boolean;
   signupMethod: SellerSignupMethodEnum;
+  shopName: string;
 }
 
 export interface FormAdminLoginProps {

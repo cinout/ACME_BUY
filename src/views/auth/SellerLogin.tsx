@@ -36,7 +36,7 @@ export default function SellerLogin() {
     )
       .unwrap()
       .then(() => {
-        reset(); // reset form values
+        // reset(); // reset form values
         setShowLoader(false);
         void navigate("/seller/dashboard", { replace: true });
       })

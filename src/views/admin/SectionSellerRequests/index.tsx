@@ -21,6 +21,7 @@ const sellerRequestStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
   zipCode: faker.location.zipCode(),
   status: SellerStatusEnum.Pending,
   signupMethod: SellerSignupMethodEnum.Default,
+  shopName: faker.company.name(),
 
   image: faker.image.avatar(),
   // shops: Array.from(

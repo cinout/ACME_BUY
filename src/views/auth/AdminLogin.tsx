@@ -32,7 +32,7 @@ export default function AdminLogin() {
       .unwrap()
       .then(() => {
         setShowLoader(false);
-        reset(); // reset form values
+        // reset(); // reset form values
         void navigate("/admin/dashboard", { replace: true });
       })
       .catch((e) => {
@@ -53,7 +53,7 @@ export default function AdminLogin() {
           </div>
 
           <Link
-            className="border-b border-sky-700 text-sky-950 px-1 flex items-center gap-x-2"
+            className="border-b border-aqua-forest-300 text-aqua-forest-100 px-1 flex items-center gap-x-2"
             to={"/admin/dashboard"}
             replace
           >

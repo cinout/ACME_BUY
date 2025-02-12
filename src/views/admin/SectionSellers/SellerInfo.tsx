@@ -3,11 +3,8 @@ import { SellerStatusEnum } from "@/utils/enums";
 import { capFirstLetter } from "@/utils/strings";
 import AdminDialog from "@/views/shared_components/AdminDialog";
 import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
-import CustomTooltip from "@/views/shared_components/CustomTooltip";
-import SellorStatusIndicator from "@/views/shared_components/SellorStatusIndicator";
+import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicator";
 import { useNavigate } from "react-router-dom";
-import { Tooltip } from "react-tooltip";
-import { Fragment } from "react/jsx-runtime";
 
 interface SellerInfoProps {
   seller: SellerEntity;
@@ -52,7 +49,7 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
           />
 
           <div className="flex justify-center items-center gap-x-3">
-            <SellorStatusIndicator status={seller.status} />
+            <SellerStatusIndicator status={seller.status} />
             {seller.status}
           </div>
         </div>

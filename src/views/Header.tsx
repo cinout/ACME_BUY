@@ -1,10 +1,9 @@
 import { IoMenuSharp } from "react-icons/io5";
 import circleLogo from "@/assets/images/company_logo_circleonly.png";
-import imgAdmin from "@/assets/images/admin.png";
 import { Link } from "react-router-dom";
 import { RoleEnum } from "@/utils/enums";
 import { useAppSelector } from "@/redux/hooks";
-import { capFirstLetter } from "@/utils/strings";
+import { capFirstLetter, shortenEnd, shortenMiddle } from "@/utils/strings";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 
 interface Props {
@@ -61,16 +60,11 @@ export default function Header({
         />
       </div>
 
-      {/* TODO: retrieve user image/role/name from server */}
       <div className="inline-flex justify-end items-center gap-3 mr-2 min-w-[3.25rem]">
         {/* name & role */}
         <div className="hidden tn:flex flex-col items-end justify-center text-sky-100 leading-tight ">
           <span>
-            <em>
-              {capFirstLetter(userInfo?.firstname) +
-                " " +
-                capFirstLetter(userInfo?.lastname)}
-            </em>
+            <em>{capFirstLetter(userInfo?.firstname)}</em>
           </span>
           <span>
             <b>{role}</b>
@@ -88,11 +82,13 @@ export default function Header({
               : ""
           }
         >
-          <img
-            src={userInfo?.imageUrl ?? imgAdmin} // TODO: should I store default image in frontend?
-            alt="user image"
-            className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200"
-          />
+          <div className="w-[3rem]">
+            <img
+              src={userInfo?.imageUrl} // TODO: set default image in customer, seller, admin in backend when they signed up
+              alt="user image"
+              className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200"
+            />
+          </div>
         </Link>
       </div>
     </div>

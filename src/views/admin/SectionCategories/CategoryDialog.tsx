@@ -86,10 +86,6 @@ export default function CategoryDialog({
       const errorMessage = getErrorMessage(err);
       toast.error(errorMessage);
     },
-    onCompleted: () => {
-      setShowLoader(false);
-      onCloseDialog();
-    },
     update(cache, { data }) {
       // TODO: update to updateQuery
       const existingData = cache.readQuery<{
@@ -107,6 +103,10 @@ export default function CategoryDialog({
           ],
         },
       });
+    },
+    onCompleted: () => {
+      setShowLoader(false);
+      onCloseDialog();
     },
   });
 
@@ -171,15 +171,19 @@ export default function CategoryDialog({
     }
   }
 
-  function onCloseDialog() {
+  function onCancelEditingAndClose() {
     reset();
+    onCloseDialog();
+  }
+
+  function onCloseDialog() {
     void navigate("/admin/categories");
   }
 
   return (
     <AdminDialog
       isOpen={isOpen}
-      onClose={onCloseDialog}
+      onClose={onCancelEditingAndClose}
       disableClose={showLoader}
       header={
         mode === "Create"
@@ -261,7 +265,7 @@ export default function CategoryDialog({
           </div>
         ) : (
           <AdminDialogButtons
-            onCancel={onCloseDialog}
+            onCancel={onCancelEditingAndClose}
             submitText={submitText}
             isDirty={isDirty}
           />

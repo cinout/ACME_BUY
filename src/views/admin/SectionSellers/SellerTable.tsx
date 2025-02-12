@@ -1,12 +1,10 @@
 import { joinUrl, shortenEnd, shortenMiddle } from "@/utils/strings";
 import { MdEmail } from "react-icons/md";
-import { IoInformationCircle } from "react-icons/io5";
-import { Tooltip } from "react-tooltip";
 import { IoIosRemoveCircle, IoIosAddCircle } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import { SellerEntity } from "@/utils/entities";
 import { SellerStatusEnum } from "@/utils/enums";
-import SellorStatusIndicator from "@/views/shared_components/SellorStatusIndicator";
+import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicator";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 
 // TODO: all these Props should be in one particular folder
@@ -35,7 +33,7 @@ export default function SellerTable({ sellerStats }: SellerTableProps) {
 
           {/* Seller Name */}
           <div className="flex justify-center items-start gap-x-2">
-            <SellorStatusIndicator
+            <SellerStatusIndicator
               status={seller.status}
               additionalStyle="w-3 h-3"
             />

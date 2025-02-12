@@ -1,31 +1,30 @@
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/reducers/authReducer";
 import toast from "react-hot-toast";
-import { useApolloClient, useQuery } from "@apollo/client";
-import { GQL_SELLER_GET_CURRENT } from "@/graphql/sellerGql";
-import { SellerEntity } from "@/utils/entities";
-import { SellerStatusEnum } from "@/utils/enums";
-import { useForm } from "react-hook-form";
-import FormInput from "@/views/shared_components/form/FormInput";
+import { useApolloClient, useMutation } from "@apollo/client";
 import {
-  VALID_NAME_GENERAL,
-  VALID_NAME_PERSON,
-  VALID_NAME_PERSON_ERROR_MSG,
-} from "@/utils/strings";
-
-interface SellerFormInputProps {
-  firstname: string;
-  lastname: string;
-  image: { file: File | string; name: string };
-  email: string;
-  status: SellerStatusEnum;
-  country: string;
-  state: string;
-  city: string;
-  zipCode: string;
-}
+  GQL_SELLER_GET_CURRENT,
+  GQL_SELLER_UPDATE_CURRENT,
+} from "@/graphql/sellerGql";
+import { SellerEntity } from "@/utils/entities";
+import { useForm } from "react-hook-form";
+import FormSingleImage from "@/views/shared_components/form/FormSingleImages";
+import { imageMaxSizeMB } from "@/utils/numbers";
+import { ChangeEvent, useState } from "react";
+import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicator";
+import { SellerFormInputProps, SellerProfileEdit } from "./SellerProfileEdit";
+import { getErrorMessage } from "@/graphql";
+import { Country, State } from "country-state-city";
+import { MdEmail } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
 
 export default function SectionProfile() {
+  /**
+   * States
+   */
+  const [editProfileMode, setEditProfileMode] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+
   /**
    * GQL
    */
@@ -33,11 +32,19 @@ export default function SectionProfile() {
   const userInfo = client.readQuery({
     query: GQL_SELLER_GET_CURRENT,
   }).getCurrentSeller as SellerEntity;
+  const userCity = userInfo.city ? userInfo.city + ", " : "";
+  const userState = userInfo.state
+    ? State.getStateByCodeAndCountry(userInfo.state, userInfo.country)?.name +
+      ", "
+    : "";
+  const userCountry = userInfo.country
+    ? Country.getCountryByCode(userInfo.country)?.name
+    : "";
+  const userAddress = userCity + userState + userCountry;
 
   /**
    * RHF
    */
-
   const {
     register,
     handleSubmit,
@@ -45,12 +52,12 @@ export default function SectionProfile() {
     formState: { errors, isDirty },
     reset,
     setValue,
+    clearErrors,
   } = useForm<SellerFormInputProps>({
     defaultValues: {
       firstname: userInfo.firstname,
       lastname: userInfo.lastname,
-      email: userInfo.email,
-      status: userInfo.status,
+      shopName: userInfo.shopName,
       country: userInfo.country,
       state: userInfo.state,
       city: userInfo.city,
@@ -62,6 +69,29 @@ export default function SectionProfile() {
     },
   });
   const uploadedImage = watch("image");
+  const [updateSeller] = useMutation(GQL_SELLER_UPDATE_CURRENT, {
+    onError: (err) => {
+      setShowLoader(false);
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      setShowLoader(false);
+      handleCancelEditProfile();
+
+      // manually update the defaulValue, as the defaulValue is only initialized once
+      reset({
+        firstname: watch("firstname"),
+        lastname: watch("lastname"),
+        shopName: watch("shopName"),
+        country: watch("country"),
+        state: watch("state"),
+        city: watch("city"),
+        zipCode: watch("zipCode"),
+        image: watch("image"),
+      });
+    },
+  });
 
   /**
    * Redux
@@ -84,78 +114,140 @@ export default function SectionProfile() {
   }
 
   function onSubmit(data: SellerFormInputProps): void {
-    // setShowLoader(true);
-    // if (mode === "Create") {
-    //   // Create Mode
-    //   void createCategory({
-    //     variables: { name: data.name, image: data.image },
-    //   });
-    // } else {
-    //   // Edit Mode
-    //   void updateCategory({
-    //     variables: {
-    //       id: editCategoryInfo!.id,
-    //       input: {
-    //         name: data.name,
-    //         image: data.image,
-    //       },
-    //     },
-    //   });
-    // }
+    setShowLoader(true);
+    void updateSeller({
+      variables: {
+        input: {
+          firstname: data.firstname,
+          lastname: data.lastname,
+          shopName: data.shopName,
+          country: data.country,
+          state: data.state,
+          city: data.city,
+          zipCode: data.zipCode,
+          image: data.image,
+        },
+      },
+    });
+  }
+
+  function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setValue(
+        "image",
+        { file, name: file.name },
+        { shouldValidate: true, shouldDirty: true }
+      );
+    }
+  }
+
+  function handleRemoveImage() {
+    setValue("image", { file: null, name: null }, { shouldDirty: true });
+    clearErrors("image");
+  }
+
+  function handleCancelEditProfile() {
+    setEditProfileMode(false);
   }
 
   return (
-    <div>
-      <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-white"
-      >
-        <FormInput
-          registration={register("firstname", {
-            required: "Required",
-            maxLength: {
-              value: 30,
-              message: "Name must be at most 30 characters",
-            },
-            minLength: {
-              value: 1,
-              message: "Name must be at least 1 character",
-            },
-            pattern: {
-              value: VALID_NAME_PERSON,
-              message: VALID_NAME_PERSON_ERROR_MSG,
+    <>
+      {/* Header */}
+      <div className="flex flex-wrap gap-8 justify-center w-full">
+        <FormSingleImage
+          registration={register("image", {
+            validate: {
+              required: (image) => !!image.file || "Image is required.",
+              fileType: (image) =>
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                typeof image.file === "string" ||
+                image.file?.type.startsWith("image/") ||
+                "Only image files are allowed",
+              fileSize: (image) =>
+                typeof image.file === "string" ||
+                (image.file?.size ?? 0) < imageMaxSizeMB * 1024 * 1024 ||
+                `Image must be smaller than ${imageMaxSizeMB}MB`,
             },
           })}
-          error={errors.firstname}
-          additionalStyleContentWrapper="w-60"
+          label="Profile Image"
+          handleAddImage={handleAddImage}
+          handleRemoveImage={handleRemoveImage}
+          uploadedImage={uploadedImage}
+          error={errors.image}
+          hideImageName={true}
+          showLabel={false}
+          disabled={!editProfileMode} // TODO: update when changing password is implement
         />
 
-        <FormInput
-          registration={register("lastname", {
-            required: "Required",
-            maxLength: {
-              value: 30,
-              message: "Name must be at most 30 characters",
-            },
-            minLength: {
-              value: 1,
-              message: "Name must be at least 1 character",
-            },
-            pattern: {
-              value: VALID_NAME_PERSON,
-              message: VALID_NAME_PERSON_ERROR_MSG,
-            },
-          })}
-          error={errors.firstname}
-          additionalStyleContentWrapper="w-60"
-        />
-      </form>
+        <div className="flex flex-col justify-between text-white">
+          <div>
+            <div className="font-bold flex items-center flex-wrap">
+              {userInfo.firstname + " " + userInfo.lastname}
+              <SellerStatusIndicator
+                status={userInfo.status}
+                additionalStyle="mx-2"
+              />
+              <span className="font-light">({userInfo.status})</span>
+            </div>
+            <div className="font-light">{userInfo.shopName}</div>
+          </div>
 
-      <button className="bg-aqua-forest-200" onClick={handleLogout}>
-        Log out
-      </button>
-    </div>
+          <div>
+            <div className="text-sm font-light">
+              <MdEmail className="inline mr-2" />
+              {userInfo.email}
+            </div>
+            <div className="text-sm font-light">
+              <FaLocationDot className="inline mr-1" /> {userAddress}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex justify-center gap-2 mt-4">
+        {/* // TODO: update when changing password is implement */}
+        {!editProfileMode && (
+          <>
+            <button
+              className={`w-fit px-1 py-[0.1rem] text-sm font-medium rounded-md  not-disabled:hover:scale-105 transition bg-sky-200 text-sky-800`}
+              onClick={() => {
+                setEditProfileMode(true);
+              }}
+            >
+              Edit Profile
+            </button>
+
+            <button className="w-fit px-1 py-[0.1rem] text-sm font-medium rounded-md bg-rose-200 text-rose-800 hover:scale-105 transition">
+              Change Password
+            </button>
+
+            <button
+              className="w-fit px-1 py-[0.1rem] text-sm font-medium rounded-md bg-aqua-forest-200 text-aqua-forest-800 hover:scale-105 transition"
+              onClick={handleLogout}
+            >
+              Log out
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* // TODO: update when changing password is implement */}
+      {editProfileMode && (
+        <SellerProfileEdit
+          register={register}
+          errors={errors}
+          watch={watch}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          isDirty={isDirty}
+          handleCancelEditProfile={handleCancelEditProfile}
+          setValue={setValue}
+          showLoader={showLoader}
+        />
+      )}
+    </>
   );
 
   // TODO: change password functionality

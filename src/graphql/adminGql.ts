@@ -6,12 +6,6 @@ const GQL_FRAGMENT_ADMIN_DETAILS = gql`
     firstname
     lastname
     email
-    status
-    signupMethod
-    country
-    state
-    city
-    zipCode
     imageUrl
     imageName
   }

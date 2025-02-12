@@ -8,6 +8,7 @@ const GQL_FRAGMENT_SELLER_DETAILS = gql`
     email
     status
     signupMethod
+    shopName
     country
     state
     city
@@ -20,6 +21,15 @@ const GQL_FRAGMENT_SELLER_DETAILS = gql`
 export const GQL_SELLER_GET_CURRENT = gql`
   query {
     getCurrentSeller {
+      ...SellerDetails
+    }
+  }
+  ${GQL_FRAGMENT_SELLER_DETAILS}
+`;
+
+export const GQL_SELLER_UPDATE_CURRENT = gql`
+  mutation updateCurrentSeller($input: UpdateSellerInput!) {
+    updateCurrentSeller(input: $input) {
       ...SellerDetails
     }
   }

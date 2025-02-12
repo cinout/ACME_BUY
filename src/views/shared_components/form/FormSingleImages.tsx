@@ -39,6 +39,7 @@ interface FormProps {
   handleAddImage: (e: ChangeEvent<HTMLInputElement>) => void;
   handleRemoveImage: () => void;
   disabled?: boolean;
+  hideImageName?: boolean;
 }
 
 export default function FormSingleImage({
@@ -56,6 +57,7 @@ export default function FormSingleImage({
   handleRemoveImage,
   additionalStyleContentWrapper,
   disabled = false,
+  hideImageName = false,
 }: FormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -111,7 +113,9 @@ export default function FormSingleImage({
               />
             ) : (
               // Unspported format
-              <div className="w-[inherit] aspect-square border border-sky-50 rounded-2xl shadow-2xl flex flex-col justify-center items-center bg-red-400 gap-y-2  group-hover:brightness-[30%] text-white">
+              <div
+                className={`w-[inherit] aspect-square border border-sky-50 rounded-2xl shadow-2xl flex flex-col justify-center items-center bg-red-400 gap-y-2 text-white group-hover:brightness-[30%]`}
+              >
                 <MdImageNotSupported className="text-[3rem]" />
                 <span className="text-sm">Unsupported </span>
               </div>
@@ -119,7 +123,7 @@ export default function FormSingleImage({
           ) : (
             // Upload Indicator
             <div className={styleImageUploadIndicator}>
-              <IoIosAddCircle className="text-2xl  group-hover:scale-110 transition" />
+              <IoIosAddCircle className="text-2xl  group-hover:scale-105 transition" />
               <span className="text-sm">Click to upload an image</span>
             </div>
           )}
@@ -127,7 +131,7 @@ export default function FormSingleImage({
           {/* DELETE */}
           {uploadedImage.file && !disabled && (
             <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-1 bg-rose-200 text-rose-900 not-disabled:hover:scale-110 transition"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-1 bg-rose-200 text-rose-900 not-disabled:hover:scale-105 transition"
               onClick={() => handleRemoveImage()}
             >
               <MdDelete />
@@ -136,7 +140,7 @@ export default function FormSingleImage({
         </button>
 
         {/* File Name */}
-        {uploadedImage?.name && (
+        {!hideImageName && uploadedImage?.name && (
           <span className="text-xs text-center">
             {shortenMiddle(uploadedImage.name, 30)}
           </span>

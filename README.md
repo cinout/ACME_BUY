@@ -37,6 +37,7 @@
 - authentication security, store in cookie or localStorage
 - in the forms, image can be either string (read from server) or File ()
 - log out/ sign in, conflict between seller status and navigate (redirects)
+- RHF's defaultValue in profile section is only initialized once, but need to be updated. Use reset({variable:watch(variable)}) to manually update it.
 
 ## 🦄 Unique Features
 
@@ -92,3 +93,6 @@
 - [ ] WHere to put admin sign up???
 - [ ] where for the user to upload their images?
 - [ ] all the pages where a lot of items are displayed, we should provide search and filter functions
+- [ ] move FormInputProps and Entity to their gql file
+- [ ] Payment info for seller, customer
+- [ ] How to create Admin? and remeber that admin needs image by default

@@ -7,6 +7,7 @@ interface AdminDialogButtonsProps {
   showCancel?: boolean;
   showSubmit?: boolean;
   additionalStyleForSubmit?: string;
+  additionalStyleForWrapper?: string;
   isDirty?: boolean;
 }
 
@@ -18,10 +19,13 @@ export default function AdminDialogButtons({
   showCancel = true,
   showSubmit = true,
   additionalStyleForSubmit,
+  additionalStyleForWrapper,
   isDirty = true,
 }: AdminDialogButtonsProps) {
   return (
-    <div className="flex justify-between items-center mt-8">
+    <div
+      className={`flex flex-wrap justify-between items-center mt-8 ${additionalStyleForWrapper}`}
+    >
       {showCancel && (
         <button
           type="button" // to prevent trigger form submission if AdminDialogButtons is wrapped in <form> tag
@@ -35,11 +39,7 @@ export default function AdminDialogButtons({
       {showSubmit && (
         <button
           className={`${styleSubmitButton} ${additionalStyleForSubmit}`}
-          onClick={() => {
-            if (onSubmit) {
-              onSubmit();
-            }
-          }}
+          onClick={onSubmit}
           disabled={!isDirty}
         >
           {submitText}

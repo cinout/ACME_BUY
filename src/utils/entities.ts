@@ -27,6 +27,7 @@ export interface SellerEntity extends Entity {
 
   status: SellerStatusEnum;
   signupMethod: SellerSignupMethodEnum;
+  shopName: string;
 
   imageUrl?: string;
   imageName?: string;
