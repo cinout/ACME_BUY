@@ -1,5 +1,5 @@
-import AdminDialog from "@/views/shared_components/AdminDialog";
-import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
+import PopupDialog from "@/views/shared_components/PopupDialog";
+import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -181,7 +181,7 @@ export default function CategoryDialog({
   }
 
   return (
-    <AdminDialog
+    <PopupDialog
       isOpen={isOpen}
       onClose={onCancelEditingAndClose}
       disableClose={showLoader}
@@ -264,13 +264,13 @@ export default function CategoryDialog({
             <LoadingIndicator />
           </div>
         ) : (
-          <AdminDialogButtons
+          <PopupDialogButtons
             onCancel={onCancelEditingAndClose}
             submitText={submitText}
             isDirty={isDirty}
           />
         )}
       </form>
-    </AdminDialog>
+    </PopupDialog>
   );
 }

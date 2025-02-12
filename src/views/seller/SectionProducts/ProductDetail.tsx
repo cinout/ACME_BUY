@@ -216,7 +216,7 @@ export default function ProductDetail({
       {/* TODO: pop up confirming if user needs to leave */}
       <div className="flex gap-x-8 items-center mb-8">
         <button
-          type="button" // to prevent trigger form submission if AdminDialogButtons is wrapped in <form> tag
+          type="button" // to prevent trigger form submission if PopupDialogButtons is wrapped in <form> tag
           className="cursor-pointer text-2xl text-sky-800 bg-sky-50 p-1 rounded-full border-2 border-sky-100 not-disabled:hover:bg-sky-200 not-disabled:hover:scale-105 disabled:cursor-not-allowed disabled:bg-slate-300 transition shadow-2xl"
           onClick={closeAndLeave}
           disabled={showLoader}

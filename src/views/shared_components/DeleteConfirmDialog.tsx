@@ -1,5 +1,5 @@
-import AdminDialog from "@/views/shared_components/AdminDialog";
-import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
+import PopupDialog from "@/views/shared_components/PopupDialog";
+import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import { Dispatch, SetStateAction, useState } from "react";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
@@ -52,7 +52,7 @@ export default function DeleteConfirmDialog({
   }
 
   return (
-    <AdminDialog
+    <PopupDialog
       isOpen={isOpen}
       onClose={onCloseDialog}
       disableClose={showLoader}
@@ -67,12 +67,12 @@ export default function DeleteConfirmDialog({
           <LoadingIndicator />
         </div>
       ) : (
-        <AdminDialogButtons
+        <PopupDialogButtons
           onCancel={onCloseDialog}
           submitText="Delete"
           onSubmit={handleDelete}
         />
       )}
-    </AdminDialog>
+    </PopupDialog>
   );
 }

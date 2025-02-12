@@ -15,7 +15,7 @@ import {
 } from "react-hook-form";
 import { Country, State, City } from "country-state-city";
 import FormSelect from "@/views/shared_components/form/FormSelect";
-import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
+import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import { useEffect } from "react";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { usePrevious } from "@/customHooks/usePrevious";
@@ -222,7 +222,7 @@ export function SellerProfileEdit({
         </div>
       ) : (
         <div className="flex justify-center">
-          <AdminDialogButtons
+          <PopupDialogButtons
             submitText="Update"
             additionalStyleForWrapper="gap-x-20"
             isDirty={isDirty}

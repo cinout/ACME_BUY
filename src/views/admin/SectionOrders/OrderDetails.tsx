@@ -1,5 +1,5 @@
 import { OrderEntity } from "@/utils/entities";
-import AdminDialog from "@/views/shared_components/AdminDialog";
+import PopupDialog from "@/views/shared_components/PopupDialog";
 import { useNavigate } from "react-router-dom";
 
 interface OrderDetailsProps {
@@ -16,9 +16,9 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
   //  TODO: Need to show all details of the order, including each of their relationship with sellers/customers
   return (
     <div>
-      <AdminDialog isOpen={true} onClose={onCloseDialog} header="Order Detail">
+      <PopupDialog isOpen={true} onClose={onCloseDialog} header="Order Detail">
         <div>{order.id} Add details</div>
-      </AdminDialog>
+      </PopupDialog>
     </div>
   );
 }

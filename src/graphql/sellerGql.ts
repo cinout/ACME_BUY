@@ -27,6 +27,15 @@ export const GQL_SELLER_GET_CURRENT = gql`
   ${GQL_FRAGMENT_SELLER_DETAILS}
 `;
 
+export const GQL_SELLER_GET_ALL = gql`
+  query {
+    getAllSellers {
+      ...SellerDetails
+    }
+  }
+  ${GQL_FRAGMENT_SELLER_DETAILS}
+`;
+
 export const GQL_SELLER_UPDATE_CURRENT = gql`
   mutation updateCurrentSeller($input: UpdateSellerInput!) {
     updateCurrentSeller(input: $input) {
@@ -34,4 +43,13 @@ export const GQL_SELLER_UPDATE_CURRENT = gql`
     }
   }
   ${GQL_FRAGMENT_SELLER_DETAILS}
+`;
+
+export const GQL_SELLER_UPDATE_STATUS_BY_ADMIN = gql`
+  mutation updateSellerStatusByAdmin($id: ID!, $status: SellerStatusEnum!) {
+    updateSellerStatusByAdmin(id: $id, status: $status) {
+      id
+      status
+    }
+  }
 `;

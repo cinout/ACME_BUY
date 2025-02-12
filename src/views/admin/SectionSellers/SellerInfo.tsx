@@ -1,14 +1,11 @@
 import { SellerEntity } from "@/utils/entities";
 import { SellerStatusEnum } from "@/utils/enums";
 import { capFirstLetter } from "@/utils/strings";
-import AdminDialog from "@/views/shared_components/AdminDialog";
-import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
+import PopupDialog from "@/views/shared_components/PopupDialog";
+import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicator";
 import { useNavigate } from "react-router-dom";
 
-interface SellerInfoProps {
-  seller: SellerEntity;
-}
 interface AttributeDisplayProps {
   name: string;
   value: string;
@@ -22,8 +19,18 @@ function AttributeDisplay({ name, value }: AttributeDisplayProps) {
     </div>
   );
 }
+interface SellerInfoProps {
+  seller: SellerEntity;
+  updateSellerStatus: (
+    sellerId: string,
+    sellerStatus: SellerStatusEnum
+  ) => void;
+}
 
-export default function SellerInfo({ seller }: SellerInfoProps) {
+export default function SellerInfo({
+  seller,
+  updateSellerStatus,
+}: SellerInfoProps) {
   const navigate = useNavigate();
 
   function onCloseDialog() {
@@ -31,7 +38,7 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
   }
 
   return (
-    <AdminDialog
+    <PopupDialog
       isOpen={true}
       onClose={onCloseDialog}
       additionalStyle="w-full md:w-4/5 lg:w-2/3 xl:w-1/2"
@@ -42,6 +49,7 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
       <div className="flex justify-around items-center w-full gap-x-12 gap-y-6 flex-wrap text-sm md:text-base">
         {/* Left */}
         <div className="flex flex-col items-center gap-4 w-40">
+          {/* TODO:[1] to redirect to seller's page when click on image */}
           <img
             src={seller.imageUrl}
             alt={seller.firstname}
@@ -56,7 +64,11 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
 
         {/* Right */}
         <div className="flex flex-col gap-1 text-wrap">
-          <AttributeDisplay name="name" value={seller.firstname} />
+          <AttributeDisplay
+            name="name"
+            value={seller.firstname + " " + seller.lastname}
+          />
+          <AttributeDisplay name="shop" value={seller.shopName} />
           <AttributeDisplay name="email" value={seller.email} />
           <AttributeDisplay name="country" value={seller.country} />
           <AttributeDisplay name="state" value={seller.state} />
@@ -70,12 +82,12 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
         </div>
       </div>
 
-      {/* Bottom: Shops */}
-      <div className="flex flex-col justify-center items-center w-full mt-8 text-sm md:text-base">
-        <strong className="text-sky-200 mb-2">Owned Shops:</strong>
+      {/* TODO:[1] should show products */}
 
-        {/* TODO: should show products */}
-        {/* {seller.shops && seller.shops.length > 0 ? (
+      {/* <div className="flex flex-col justify-center items-center w-full mt-8 text-sm md:text-base"> */}
+      {/* <strong className="text-sky-200 mb-2">Owned Shops:</strong> */}
+
+      {/* {seller.shops && seller.shops.length > 0 ? (
           <div className="bg-white/75 p-3 rounded-xl flex justify-start gap-2 overflow-x-auto">
             {seller.shops?.map((shop) => (
               <Fragment key={shop.id}>
@@ -96,26 +108,36 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
         ) : (
           <div>The seller hasn&apos;t created any shop yet.</div>
         )} */}
-      </div>
-      {/* Leave Button */}
-      {/* TODO: implement the functionality */}
-      <AdminDialogButtons
-        submitText={
-          seller?.status === SellerStatusEnum.Active
-            ? "Deactivate"
-            : seller?.status === SellerStatusEnum.Deactivated
-            ? "Activate"
-            : ""
-        }
+      {/* </div> */}
+
+      {/* Buttons */}
+      <PopupDialogButtons
         onCancel={onCloseDialog}
-        additionalStyleForSubmit={
-          seller?.status === SellerStatusEnum.Active
-            ? "bg-deactivated-600 hover:bg-deactivated-500"
-            : seller?.status === SellerStatusEnum.Deactivated
-            ? "bg-active-600 hover:bg-active-500"
-            : ""
+        submitText={
+          seller.status === SellerStatusEnum.Deactivated
+            ? "Activate"
+            : "Deactivate"
         }
+        additionalStyleForSubmit={
+          seller.status === SellerStatusEnum.Deactivated
+            ? "bg-active-600"
+            : "bg-deactivated-600"
+        }
+        onSubmit={() =>
+          updateSellerStatus(
+            seller.id,
+            seller.status === SellerStatusEnum.Deactivated
+              ? SellerStatusEnum.Active
+              : SellerStatusEnum.Deactivated
+          )
+        }
+        showSecondarySubmitButton={seller.status === SellerStatusEnum.Pending}
+        secondarySubmitText="Activate"
+        onSecondarySubmit={() =>
+          updateSellerStatus(seller.id, SellerStatusEnum.Active)
+        }
+        additionalStyleForSecondarySubmit="bg-active-600"
       />
-    </AdminDialog>
+    </PopupDialog>
   );
 }

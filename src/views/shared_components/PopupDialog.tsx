@@ -1,6 +1,6 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 
-export interface AdminDialogProps {
+export interface PopupDialogProps {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
@@ -10,14 +10,14 @@ export interface AdminDialogProps {
 }
 
 // TODO: change name
-export default function AdminDialog({
+export default function PopupDialog({
   children,
   isOpen,
   onClose,
   additionalStyle,
   header,
   disableClose = false,
-}: AdminDialogProps) {
+}: PopupDialogProps) {
   function onDisableClose() {
     // do nothing
   }
