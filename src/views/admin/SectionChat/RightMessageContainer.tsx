@@ -95,7 +95,7 @@ export default function RightMessageContainer({
           {seller && (
             <div className="flex items-center gap-x-3">
               <img
-                src={seller.image}
+                src={seller.imageUrl}
                 alt={seller.firstname}
                 className="h-10 w-10 rounded-md shadow-lg"
               />
@@ -144,12 +144,12 @@ export default function RightMessageContainer({
               <Fragment key={i}>
                 <MessageSeller
                   message={faker.lorem.text()}
-                  image={seller.image || ""}
+                  image={seller.imageUrl || ""}
                   name={seller.firstname}
                 />
                 <MessageAdmin
                   message={faker.lorem.text()}
-                  image={seller.image || ""}
+                  image={seller.imageUrl || ""}
                   name={seller.firstname}
                 />
               </Fragment>

@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import { PrivateAdminRouteType } from "./privateAdminRoutes";
 import { PrivateSellerRouteType } from "./privateSellerRoutes";
 import { SellerEntity } from "@/utils/entities";
+import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 
 interface ProtectPrivateRouteProps {
   children: ReactNode;
@@ -16,7 +17,8 @@ export default function ProtectPrivateRoute({
   children,
   route,
 }: ProtectPrivateRouteProps) {
-  const { role, userInfo } = useAppSelector((state) => state.auth);
+  const { role } = useAppSelector((state) => state.auth);
+  const userInfo = useHookGetUserInfo();
 
   if (role) {
     // role is available

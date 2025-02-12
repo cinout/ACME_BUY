@@ -6,9 +6,12 @@ import ProductTable from "./ProductTable";
 import { ProductEntity } from "@/utils/entities";
 import Pagination from "@/views/shared_components/Pagination";
 import { useQuery } from "@apollo/client";
-import { GQL_PRODUCT_GET_ALL_BY_SELLER } from "@/graphql/productGql";
-import { useAppSelector } from "@/redux/hooks";
+import {
+  GQL_PRODUCT_DELETE,
+  GQL_PRODUCT_GET_ALL_BY_SELLER,
+} from "@/graphql/productGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
+import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 
@@ -19,28 +22,25 @@ export default function SectionProducts() {
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
   const start_index = (currentPage - 1) * itemsPerPage;
   const end_index = currentPage * itemsPerPage;
-
   // Search Value
   const [searchValue, setSearchValue] = useState("");
+  // delete ID
+  const [toDeleteItemId, setToDeleteItemId] = useState<string>("");
 
   // Route
   const { productId } = useParams();
 
-  // Redux
-  const { userInfo } = useAppSelector((state) => state.auth);
-
   // GQL
-  // TODO: should I query only when userInfo is not null?
-  const gql_query_result = useQuery(GQL_PRODUCT_GET_ALL_BY_SELLER, {
-    variables: { sellerId: userInfo?.id },
-  });
+  const gql_query_result = useQuery(GQL_PRODUCT_GET_ALL_BY_SELLER);
 
   if (gql_query_result.loading) {
     return <LoadingIndicatorWithDiv />;
   }
-
   const allProductsBySeller = gql_query_result.data
     .getAllProductsBySeller as ProductEntity[];
+  const toDeleteProduct = allProductsBySeller.find(
+    (a) => a.id == toDeleteItemId
+  );
 
   // Functions
   function handleItemsPerPageChange(value: number) {
@@ -71,6 +71,7 @@ export default function SectionProducts() {
           />
           <ProductTable
             productStats={allProductsBySeller.slice(start_index, end_index)}
+            setToDeleteItemId={setToDeleteItemId}
           />
           <div className="mt-12">
             <Pagination
@@ -80,6 +81,17 @@ export default function SectionProducts() {
               maxPageOptionsCount={5}
             />
           </div>
+
+          {toDeleteItemId && toDeleteProduct && (
+            <DeleteConfirmDialog
+              isOpen={!!toDeleteItemId}
+              id={toDeleteProduct.id}
+              name={toDeleteProduct.name}
+              deletionQuery={GQL_PRODUCT_DELETE}
+              setToDeleteItemId={setToDeleteItemId}
+              gqlType="Product"
+            />
+          )}
         </>
       )}
     </>

@@ -9,6 +9,8 @@ import {
   VALID_EMAIL,
   VALID_NAME_GENERAL,
   VALID_NAME_GENERAL_ERROR_MSG,
+  VALID_NAME_PERSON,
+  VALID_NAME_PERSON_ERROR_MSG,
 } from "@/utils/strings";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
@@ -90,7 +92,7 @@ export default function SellerSignup() {
               placeholder="Your First Name"
               label="First Name"
               registration={register("firstname", {
-                required: "First name is required",
+                required: "Required",
                 maxLength: {
                   value: 30,
                   message: "Name must be at most 30 characters",
@@ -100,8 +102,8 @@ export default function SellerSignup() {
                   message: "Name must be at least 1 character",
                 },
                 pattern: {
-                  value: VALID_NAME_GENERAL,
-                  message: VALID_NAME_GENERAL_ERROR_MSG,
+                  value: VALID_NAME_PERSON,
+                  message: VALID_NAME_PERSON_ERROR_MSG,
                 },
               })}
               error={errors.firstname}
@@ -111,7 +113,7 @@ export default function SellerSignup() {
               placeholder="Your Last Name"
               label="Last Name"
               registration={register("lastname", {
-                required: "Last name is required",
+                required: "Required",
                 maxLength: {
                   value: 30,
                   message: "Name must be at most 30 characters",
@@ -121,8 +123,8 @@ export default function SellerSignup() {
                   message: "Name must be at least 1 character",
                 },
                 pattern: {
-                  value: VALID_NAME_GENERAL,
-                  message: VALID_NAME_GENERAL_ERROR_MSG,
+                  value: VALID_NAME_PERSON,
+                  message: VALID_NAME_PERSON_ERROR_MSG,
                 },
               })}
               error={errors.lastname}
@@ -132,7 +134,7 @@ export default function SellerSignup() {
               placeholder="Your Email"
               type="email"
               registration={register("email", {
-                required: "Email is required",
+                required: "Required",
                 pattern: {
                   value: VALID_EMAIL,
                   message: "Invalid email format",
@@ -147,7 +149,7 @@ export default function SellerSignup() {
               type="password"
               placeholder="Create Password"
               registration={register("password", {
-                required: "Password is required",
+                required: "Required",
                 minLength: {
                   value: 8,
                   message: "Password must be at least 8 character",

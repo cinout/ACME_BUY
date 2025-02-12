@@ -1,16 +1,21 @@
 import { ProductEntity } from "@/utils/entities";
 import { joinUrl } from "@/utils/strings";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
+import { Dispatch, SetStateAction } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 interface ProductTableProps {
   productStats: ProductEntity[];
+  setToDeleteItemId: Dispatch<SetStateAction<string>>;
 }
 
 // TODO: provide functionality of filtering products
 
-export default function ProductTable({ productStats }: ProductTableProps) {
+export default function ProductTable({
+  productStats,
+  setToDeleteItemId,
+}: ProductTableProps) {
   const { pathname } = useLocation();
 
   return (
@@ -30,7 +35,6 @@ export default function ProductTable({ productStats }: ProductTableProps) {
 
           <div className="text-center">{product.name}</div>
 
-          {/* TODO: implement the function of the two buttons */}
           <div className="flex justify-center items-center gap-4 text-lg">
             {/* <button
               className="hover:scale-125 transition"
@@ -42,12 +46,15 @@ export default function ProductTable({ productStats }: ProductTableProps) {
             <button
               className="hover:scale-125 transition"
               data-tooltip-id={`${product.id}-tooltip-delete`}
+              onClick={() => {
+                setToDeleteItemId(product.id);
+              }}
             >
               <FaTrashAlt />
             </button>
           </div>
 
-          <CustomTooltip id={`${product.id}-tooltip-edit`} content="edit" />
+          {/* <CustomTooltip id={`${product.id}-tooltip-edit`} content="edit" /> */}
           <CustomTooltip id={`${product.id}-tooltip-delete`} content="delete" />
         </div>
       ))}

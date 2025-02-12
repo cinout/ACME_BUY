@@ -59,7 +59,7 @@ export default function RequestTable({
               {/* Info */}
               <div className="flex items-center gap-3">
                 <img
-                  src={seller?.image}
+                  src={seller?.imageUrl}
                   alt={seller?.firstname}
                   className="w-10 h-10 rounded-md"
                 />

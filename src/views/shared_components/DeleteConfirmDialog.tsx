@@ -3,26 +3,29 @@ import AdminDialogButtons from "@/views/shared_components/AdminDialogButtons";
 import { Dispatch, SetStateAction, useState } from "react";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
-import { useMutation } from "@apollo/client";
-import { GQL_CATEGORY_DELETE } from "@/graphql/categoryGql";
+import { DocumentNode, useMutation } from "@apollo/client";
 import { getErrorMessage } from "@/graphql";
-import { CategoryEntity } from "@/utils/entities";
 
-interface DeleteCategoryDialogProps {
+interface DeleteConfirmDialogProps {
   isOpen: boolean;
-  category: CategoryEntity;
   setToDeleteItemId: Dispatch<SetStateAction<string>>;
+  id: string;
+  name: string;
+  deletionQuery: DocumentNode;
+  gqlType: string;
 }
 
-export default function DeleteCategoryDialog({
+export default function DeleteConfirmDialog({
   isOpen,
-  category,
+  id,
+  name,
   setToDeleteItemId,
-}: DeleteCategoryDialogProps) {
-  const { id, name } = category;
+  deletionQuery,
+  gqlType,
+}: DeleteConfirmDialogProps) {
   const [showLoader, setShowLoader] = useState(false);
 
-  const [deleteCategory] = useMutation(GQL_CATEGORY_DELETE, {
+  const [deleteQuery] = useMutation(deletionQuery, {
     variables: { id },
     onError: (err) => {
       setShowLoader(false);
@@ -34,14 +37,14 @@ export default function DeleteCategoryDialog({
       onCloseDialog();
     },
     update: (cache) => {
-      cache.evict({ id: cache.identify({ __typename: "Category", id }) });
+      cache.evict({ id: cache.identify({ __typename: gqlType, id }) });
       cache.gc(); // Garbage collection to remove dangling references
     },
   });
 
   function handleDelete() {
     setShowLoader(true);
-    void deleteCategory();
+    void deleteQuery();
   }
 
   function onCloseDialog() {
@@ -56,7 +59,7 @@ export default function DeleteCategoryDialog({
       header="Deletion Confirmation"
     >
       <div>
-        Are you sure to delete category <b>{name}</b>?
+        Are you sure to delete <b>{name}</b>?
       </div>
 
       {showLoader ? (

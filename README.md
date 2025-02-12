@@ -58,6 +58,7 @@
 - Disable the Update button if the form fields has not changed. (isDirty does not detect file change, need to set shouldDirty:true when image field is updated)
 - When logged in and if user manually enter the login or signup route of their role, show a message telling them they are already logged in, and offer button for redirect.
 - Show loading page when preparing the dashboard.
+- Calculate the discounted price for customer.
 
 ## User Roles, User Authentication, and Routes Protection
 
@@ -90,3 +91,4 @@
 - [ ] Do i need a "refresh token" to enhance security? see https://www.cyberchief.ai/2023/05/secure-jwt-token-storage.html
 - [ ] WHere to put admin sign up???
 - [ ] where for the user to upload their images?
+- [ ] all the pages where a lot of items are displayed, we should provide search and filter functions

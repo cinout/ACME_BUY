@@ -34,10 +34,10 @@ function Content() {
 }
 
 export default function Main() {
-  const { role, updateUserRoleDoneOnFirstRender, userInfo } = useAppSelector(
+  const { role, updateUserRoleDoneOnFirstRender } = useAppSelector(
     (state) => state.auth
   );
-  useHookGetUserInfo();
+  const userInfo = useHookGetUserInfo();
 
   const { pathname } = useLocation();
 

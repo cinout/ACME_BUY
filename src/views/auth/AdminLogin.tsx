@@ -72,7 +72,7 @@ export default function AdminLogin() {
               placeholder="Your Email"
               type="email"
               registration={register("email", {
-                required: "Please provide your email",
+                required: "Required",
               })}
               error={errors.email}
               additionalStyleWrapper="my-4"
@@ -82,7 +82,7 @@ export default function AdminLogin() {
               type="password"
               placeholder="Your Password"
               registration={register("password", {
-                required: "Please provide your password",
+                required: "Required",
               })}
               error={errors.password}
               additionalStyleWrapper="my-4"

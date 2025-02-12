@@ -43,9 +43,13 @@ export function capFirstLetter(input: string | undefined) {
     : "";
 }
 
-export const VALID_NAME_GENERAL = /^[a-z0-9][a-z0-9-\s]*$/i; // i flag allows a-z to match both uppercase and lowercase letters without explicitly writing A-Z
+export const VALID_NAME_PERSON = /^[a-z'-]+(?: [a-z'-]+)*$/i;
+export const VALID_NAME_PERSON_ERROR_MSG =
+  "only support character, space, apostrophe (') and hyphen (-).";
+
+export const VALID_NAME_GENERAL = /^[a-z0-9'][a-z0-9-'\s]*$/i; // i flag allows a-z to match both uppercase and lowercase letters without explicitly writing A-Z
 export const VALID_NAME_GENERAL_ERROR_MSG =
-  "must start with a character or digit, and contain only characters, digits, space, and hyphen (dash).";
+  "must start with a character or digit, and contain only characters, digits, space, apostrophe (') and hyphen (-).";
 
 // export const VALID_NAME_BRAND = /^[a-z0-9_-\s]+$/i; // i flag allows a-z to match both uppercase and lowercase letters without explicitly writing A-Z
 // export const VALID_NAME_BRAND_ERROR_MSG =

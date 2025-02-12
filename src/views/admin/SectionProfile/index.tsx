@@ -13,7 +13,7 @@ export default function SectionProfile() {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        void client.clearStore();
+        void client.clearStore(); // TODO: should I leave something in cache?
         // redirected to login page due to ProtectRoute
       })
       .catch((e) => {

@@ -1,4 +1,5 @@
 // TODO: think about how to define each entity and their relationship
+// TODO: move each of them to their GQL file
 import {
   OrderStatusEnum,
   PaymentStatusEnum,
@@ -11,8 +12,6 @@ export interface Entity {
   id: string;
   createdAt: Date;
   updatedAt?: Date;
-  // createdBy?: string;
-  // updatedBy?: string;
 }
 
 export interface SellerEntity extends Entity {
@@ -29,7 +28,8 @@ export interface SellerEntity extends Entity {
   status: SellerStatusEnum;
   signupMethod: SellerSignupMethodEnum;
 
-  image?: string;
+  imageUrl?: string;
+  imageName?: string;
 }
 
 export interface AdminEntity extends Entity {
@@ -37,7 +37,8 @@ export interface AdminEntity extends Entity {
   lastname: string;
   email: string;
   password: string;
-  image?: string;
+  imageUrl?: string;
+  imageName?: string;
 }
 
 export interface CategoryEntity extends Entity {

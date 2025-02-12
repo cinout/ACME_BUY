@@ -5,38 +5,53 @@ import CategoryTable from "./CategoryTable";
 import { CategoryEntity } from "@/utils/entities";
 import { useQuery } from "@apollo/client";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
-import { GQL_CATEGORIES_GET_ALL } from "@/graphql/categoryGql";
-import DeleteCategoryDialog from "./DeleteCategoryDialog";
+import {
+  GQL_CATEGORIES_GET_ALL,
+  GQL_CATEGORY_DELETE,
+} from "@/graphql/categoryGql";
+import DeleteConfirmDialog from "../../shared_components/DeleteConfirmDialog";
 import { useParams } from "react-router-dom";
 import CategoryDialog from "./CategoryDialog";
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 
 export default function SectionCategory() {
-  const [currentPage, setCurrentPage] = useState(1);
+  /**
+   * State
+   */
+  // search value
   const [searchValue, setSearchValue] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
+  // delete ID
   const [toDeleteItemId, setToDeleteItemId] = useState<string>("");
-  const { categoryId } = useParams();
-
+  // page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
   const start_index = (currentPage - 1) * itemsPerPage;
   const end_index = currentPage * itemsPerPage;
 
+  /**
+   * Route
+   */
+  const { categoryId } = useParams();
+
+  /**
+   * GQL
+   */
   const gql_result = useQuery(GQL_CATEGORIES_GET_ALL);
-
-  function handleItemsPerPageChange(value: number) {
-    setItemsPerPage(value); // set value
-    setCurrentPage(1); // default to page 1
-    // setDetailShown([]); // hide all shown details
-  }
-
   if (gql_result.loading) {
     return <LoadingIndicatorWithDiv />;
   }
-
   const allCategories = gql_result.data.getAllCategories as CategoryEntity[];
   const toDeleteCategory = allCategories.find((a) => a.id == toDeleteItemId);
   const validCategory = allCategories.find((a) => a.id == categoryId);
+
+  /**
+   * Functions
+   */
+  function handleItemsPerPageChange(value: number) {
+    setItemsPerPage(value); // set value
+    setCurrentPage(1); // default to page 1
+  }
 
   return (
     <>
@@ -54,10 +69,13 @@ export default function SectionCategory() {
       />
 
       {toDeleteItemId && toDeleteCategory && (
-        <DeleteCategoryDialog
+        <DeleteConfirmDialog
           isOpen={!!toDeleteItemId}
-          category={toDeleteCategory}
+          id={toDeleteCategory.id}
+          name={toDeleteCategory.name}
+          deletionQuery={GQL_CATEGORY_DELETE}
           setToDeleteItemId={setToDeleteItemId}
+          gqlType="Category"
         />
       )}
 

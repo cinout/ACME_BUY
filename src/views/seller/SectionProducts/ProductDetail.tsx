@@ -22,7 +22,6 @@ import {
   GQL_PRODUCT_GET_ALL_BY_SELLER,
   GQL_PRODUCT_UPDATE,
 } from "@/graphql/productGql";
-import { useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
@@ -41,7 +40,7 @@ interface FormInputProps {
 
 interface ProductDetailProps {
   productId: string;
-  productStats: ProductEntity[];
+  productStats: ProductEntity[]; // TODO: pass in the product directly
 }
 
 export default function ProductDetail({
@@ -58,11 +57,6 @@ export default function ProductDetail({
    *  Routes
    */
   const navigate = useNavigate();
-
-  /**
-   *  Redux
-   */
-  const { userInfo } = useAppSelector((state) => state.auth);
 
   /**
    *  RHF
@@ -105,7 +99,6 @@ export default function ProductDetail({
       cache.updateQuery(
         {
           query: GQL_PRODUCT_GET_ALL_BY_SELLER,
-          variables: { sellerId: userInfo?.id },
         },
         ({ getAllProductsBySeller }) => {
           return {
@@ -172,7 +165,6 @@ export default function ProductDetail({
           brand: data.brand,
           images: data.images,
           categoryId: data.categoryId,
-          sellerId: userInfo?.id,
           stock: data.stock,
           price: data.price,
           discount: data.discount,
@@ -252,7 +244,7 @@ export default function ProductDetail({
       >
         <FormInput
           registration={register("name", {
-            required: "Please provide the product name",
+            required: "Required",
             pattern: {
               value: VALID_NAME_GENERAL,
               message: VALID_NAME_GENERAL_ERROR_MSG,
@@ -276,7 +268,7 @@ export default function ProductDetail({
 
         <FormInput
           registration={register("brand", {
-            required: "Please provide the brand name",
+            required: "Required",
             maxLength: {
               value: 40,
               message: "Must be at most 40 characters",
@@ -309,7 +301,7 @@ export default function ProductDetail({
 
         <FormInput
           registration={register("stock", {
-            required: "Please provide the stock quantity",
+            required: "Required",
             valueAsNumber: true, // Converts the value to a number when the form is submitted
             min: { value: 0, message: "Please provide a legit quantity (>=0)" },
           })}
@@ -325,7 +317,7 @@ export default function ProductDetail({
 
         <FormInput
           registration={register("price", {
-            required: "Please set the price",
+            required: "Required",
             valueAsNumber: true,
             min: { value: 0, message: "Please provide a legit price (>=0)" },
           })}
@@ -343,7 +335,7 @@ export default function ProductDetail({
         <div>
           <FormInput
             registration={register("discount", {
-              required: "Please set the discount",
+              required: "Please set a discount (default: 0, no discount)",
               valueAsNumber: true,
               min: {
                 value: 0,

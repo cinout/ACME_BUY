@@ -36,7 +36,7 @@ export default function SellerList({
           onClick={() => handleClick(seller.id)}
         >
           <img
-            src={seller?.image}
+            src={seller?.imageUrl}
             alt={seller?.firstname}
             className="w-10 h-10 rounded-md shadow-xl"
           />

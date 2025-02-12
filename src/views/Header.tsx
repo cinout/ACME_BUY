@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { RoleEnum } from "@/utils/enums";
 import { useAppSelector } from "@/redux/hooks";
 import { capFirstLetter } from "@/utils/strings";
+import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 
 interface Props {
   showSidebar: boolean;
@@ -17,7 +18,8 @@ export default function Header({
   setShowSidebar,
   menuButtonRef,
 }: Props) {
-  const { role, userInfo } = useAppSelector((state) => state.auth);
+  const { role } = useAppSelector((state) => state.auth);
+  const userInfo = useHookGetUserInfo();
   return (
     <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border  h-header-height bg-aqua-forest-500 ">
       {/* Logo & Menu Button */}
@@ -87,7 +89,7 @@ export default function Header({
           }
         >
           <img
-            src={userInfo?.image ?? imgAdmin} // TODO: should I store default image in frontend?
+            src={userInfo?.imageUrl ?? imgAdmin} // TODO: should I store default image in frontend?
             alt="user image"
             className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200"
           />

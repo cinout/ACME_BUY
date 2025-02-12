@@ -2,7 +2,6 @@ import { CategoryEntity } from "@/utils/entities";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import { Dispatch, SetStateAction } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import DeleteCategoryDialog from "./DeleteCategoryDialog";
 import { Link, useLocation } from "react-router-dom";
 import { joinUrl } from "@/utils/strings";
 

@@ -46,7 +46,7 @@ export default function SellerInfo({ seller }: SellerInfoProps) {
         {/* Left */}
         <div className="flex flex-col items-center gap-4 w-40">
           <img
-            src={seller.image}
+            src={seller.imageUrl}
             alt={seller.firstname}
             className="w-24 sm:w-32 lg:w-40 aspect-square rounded-2xl shadow-2xl"
           />

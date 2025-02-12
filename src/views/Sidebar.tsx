@@ -10,6 +10,7 @@ import { logout } from "@/redux/reducers/authReducer";
 import { useApolloClient } from "@apollo/client";
 import toast from "react-hot-toast";
 import { SellerEntity } from "@/utils/entities";
+import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 
 interface Props {
   showSidebar: boolean;
@@ -32,7 +33,7 @@ function MenuContent({
     dispatch(logout())
       .unwrap()
       .then(() => {
-        void client.clearStore();
+        void client.clearStore(); // TODO: should I leave something in cache?
         // redirected to login page due to ProtectRoute
       })
       .catch((e) => {
@@ -81,7 +82,8 @@ export default function Sidebar({
   setShowSidebar,
   menuButtonRef,
 }: Props) {
-  const { role, userInfo } = useAppSelector((state) => state.auth);
+  const { role } = useAppSelector((state) => state.auth);
+  const userInfo = useHookGetUserInfo();
 
   const { pathname } = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);

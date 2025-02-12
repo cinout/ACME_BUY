@@ -17,8 +17,8 @@ const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
 `;
 
 export const GQL_PRODUCT_GET_ALL_BY_SELLER = gql`
-  query getAllProductsBySeller($sellerId: ID!) {
-    getAllProductsBySeller(sellerId: $sellerId) {
+  query {
+    getAllProductsBySeller {
       ...ProductDetails
     }
   }
@@ -31,7 +31,6 @@ export const GQL_PRODUCT_CREATE = gql`
     $brand: String!
     $images: [ImageWithID!]!
     $categoryId: ID!
-    $sellerId: ID!
     $stock: Int!
     $price: Float!
     $discount: Float!
@@ -44,7 +43,6 @@ export const GQL_PRODUCT_CREATE = gql`
       discount: $discount
       description: $description
       categoryId: $categoryId
-      sellerId: $sellerId
       stock: $stock
       images: $images
     ) {
@@ -61,4 +59,10 @@ export const GQL_PRODUCT_UPDATE = gql`
     }
   }
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+export const GQL_PRODUCT_DELETE = gql`
+  mutation deleteProduct($id: ID!) {
+    deleteProduct(id: $id)
+  }
 `;

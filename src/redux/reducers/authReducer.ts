@@ -139,13 +139,13 @@ function afterSignupOrLogin(
 
 interface AuthState {
   role: RoleEnum | undefined;
-  userInfo: SellerEntity | AdminEntity | undefined; // TODO: customer as well
+  // userInfo: SellerEntity | AdminEntity | undefined; // TODO: customer as well
   updateUserRoleDoneOnFirstRender: boolean;
 }
 
 const initialState: AuthState = {
   role: undefined,
-  userInfo: undefined,
+  // userInfo: undefined,
   updateUserRoleDoneOnFirstRender: false,
 };
 
@@ -179,24 +179,24 @@ const authReducer = createSlice({
         afterSignupOrLogin(state, action);
       })
 
-      // Get User Info
-      .addCase(getUser.rejected, (state) => {
-        // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
-      })
-      .addCase(getUser.fulfilled, (state, action) => {
-        const { userInfo, role } = action.payload as {
-          userInfo: SellerEntity | AdminEntity;
-          role: RoleEnum;
-        };
-        state.userInfo = userInfo;
-        state.role = role;
-      })
+      // // Get User Info
+      // .addCase(getUser.rejected, (state) => {
+      //   // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
+      // })
+      // .addCase(getUser.fulfilled, (state, action) => {
+      //   const { userInfo, role } = action.payload as {
+      //     userInfo: SellerEntity | AdminEntity;
+      //     role: RoleEnum;
+      //   };
+      //   state.userInfo = userInfo;
+      //   state.role = role;
+      // })
 
       // Log Out
       .addCase(logout.fulfilled, (state) => {
         localStorage.removeItem("accessToken");
         state.role = undefined;
-        state.userInfo = undefined;
+        // state.userInfo = undefined;
       });
   },
 });

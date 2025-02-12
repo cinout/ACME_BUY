@@ -91,7 +91,7 @@ export default function CategoryDialog({
       onCloseDialog();
     },
     update(cache, { data }) {
-      // Read the current data from the cache
+      // TODO: update to updateQuery
       const existingData = cache.readQuery<{
         getAllCategories: FormNewCategoryProps[];
       }>({
@@ -195,7 +195,7 @@ export default function CategoryDialog({
         {/* Name Section */}
         <FormInput
           registration={register("name", {
-            required: "Category name is required",
+            required: "Required",
             maxLength: {
               value: 20,
               message: "Name must be at most 20 characters",

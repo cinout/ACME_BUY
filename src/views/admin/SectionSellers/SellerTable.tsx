@@ -27,7 +27,7 @@ export default function SellerTable({ sellerStats }: SellerTableProps) {
         >
           <Link to={joinUrl(pathname, seller.id)}>
             <img
-              src={seller.image}
+              src={seller.imageUrl}
               alt={seller.firstname}
               className="inline box-content h-20 w-20 mt-10 rounded-md hover:brightness-75 hover:outline hover:outline-white transition-all"
             />

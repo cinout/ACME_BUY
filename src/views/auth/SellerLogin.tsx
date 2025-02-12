@@ -80,7 +80,7 @@ export default function SellerLogin() {
               placeholder="Your Email"
               type="email"
               registration={register("email", {
-                required: "Please provide your email",
+                required: "Required",
               })}
               error={errors.email}
               additionalStyleInput="w-full"
@@ -90,7 +90,7 @@ export default function SellerLogin() {
               type="password"
               placeholder="Your Password"
               registration={register("password", {
-                required: "Please provide your password",
+                required: "Required",
               })}
               error={errors.password}
               additionalStyleInput="w-full"
