@@ -1,5 +1,3 @@
-import { useAppDispatch } from "@/redux/hooks";
-import { logout } from "@/redux/reducers/authReducer";
 import toast from "react-hot-toast";
 import { useApolloClient, useMutation } from "@apollo/client";
 import {
@@ -17,8 +15,16 @@ import { getErrorMessage } from "@/graphql";
 import { Country, State } from "country-state-city";
 import { MdEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
+import { useAppDispatch } from "@/redux/hooks";
+import { afterLogout } from "@/redux/reducers/authReducer";
 
 export default function SectionProfile() {
+  /**
+   * Redux
+   */
+  const dispatch = useAppDispatch();
+
   /**
    * States
    */
@@ -29,6 +35,17 @@ export default function SectionProfile() {
    * GQL
    */
   const client = useApolloClient();
+  const [gqlAuthLogOut] = useMutation(GQL_AUTH_LOG_OUT, {
+    onError: (err) => {
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      dispatch(afterLogout());
+      void client.clearStore(); // TODO: should I leave something in cache?
+      // redirected to login page due to ProtectRoute
+    },
+  });
   const userInfo = client.readQuery({
     query: GQL_SELLER_GET_CURRENT,
   }).getCurrentSeller as SellerEntity;
@@ -94,23 +111,10 @@ export default function SectionProfile() {
   });
 
   /**
-   * Redux
-   */
-  const dispatch = useAppDispatch();
-
-  /**
    * Functions
    */
   function handleLogout() {
-    dispatch(logout())
-      .unwrap()
-      .then(() => {
-        void client.clearStore(); // TODO: should I leave something in cache?
-        // redirected to login page due to ProtectRoute
-      })
-      .catch((e) => {
-        toast.error(e); // show error
-      });
+    void gqlAuthLogOut();
   }
 
   function onSubmit(data: SellerFormInputProps): void {

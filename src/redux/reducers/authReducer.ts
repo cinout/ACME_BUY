@@ -84,19 +84,19 @@ export const getUser = createAsyncThunk<unknown, void>(
   }
 );
 
-export const logout = createAsyncThunk<unknown, void>(
-  "auth/logout",
-  async (_, thunkAPI) => {
-    try {
-      const result = await api.post("auth/logout");
-      return thunkAPI.fulfillWithValue(result.data);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(
-        ((e as AxiosError).response?.data as { error: string }).error
-      );
-    }
-  }
-);
+// export const logout = createAsyncThunk<unknown, void>(
+//   "auth/logout",
+//   async (_, thunkAPI) => {
+//     try {
+//       const result = await api.post("auth/logout");
+//       return thunkAPI.fulfillWithValue(result.data);
+//     } catch (e) {
+//       return thunkAPI.rejectWithValue(
+//         ((e as AxiosError).response?.data as { error: string }).error
+//       );
+//     }
+//   }
+// );
 
 interface CustomJwtPayload {
   exp: number;
@@ -157,6 +157,11 @@ const authReducer = createSlice({
       }
       state.updateUserRoleDoneOnFirstRender = true;
     },
+    afterLogout: (state) => {
+      localStorage.removeItem("accessToken");
+      state.role = undefined;
+      // state.userInfo = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -173,29 +178,29 @@ const authReducer = createSlice({
       // Seller Login
       .addCase(sellerLogin.fulfilled, (state, action) => {
         afterSignupOrLogin(state, action);
-      })
-
-      // // Get User Info
-      // .addCase(getUser.rejected, (state) => {
-      //   // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
-      // })
-      // .addCase(getUser.fulfilled, (state, action) => {
-      //   const { userInfo, role } = action.payload as {
-      //     userInfo: SellerEntity | AdminEntity;
-      //     role: RoleEnum;
-      //   };
-      //   state.userInfo = userInfo;
-      //   state.role = role;
-      // })
-
-      // Log Out
-      .addCase(logout.fulfilled, (state) => {
-        localStorage.removeItem("accessToken");
-        state.role = undefined;
-        // state.userInfo = undefined;
       });
+
+    // // Get User Info
+    // .addCase(getUser.rejected, (state) => {
+    //   // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
+    // })
+    // .addCase(getUser.fulfilled, (state, action) => {
+    //   const { userInfo, role } = action.payload as {
+    //     userInfo: SellerEntity | AdminEntity;
+    //     role: RoleEnum;
+    //   };
+    //   state.userInfo = userInfo;
+    //   state.role = role;
+    // })
+
+    // // Log Out
+    // .addCase(logout.fulfilled, (state) => {
+    //   localStorage.removeItem("accessToken");
+    //   state.role = undefined;
+    //   // state.userInfo = undefined;
+    // });
   },
 });
 
-export const { updateUserRole } = authReducer.actions;
+export const { updateUserRole, afterLogout } = authReducer.actions;
 export default authReducer.reducer;

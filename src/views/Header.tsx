@@ -3,7 +3,7 @@ import circleLogo from "@/assets/images/company_logo_circleonly.png";
 import { Link } from "react-router-dom";
 import { RoleEnum } from "@/utils/enums";
 import { useAppSelector } from "@/redux/hooks";
-import { capFirstLetter, shortenEnd, shortenMiddle } from "@/utils/strings";
+import { capFirstLetter } from "@/utils/strings";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 
 interface Props {
@@ -20,27 +20,27 @@ export default function Header({
   const { role } = useAppSelector((state) => state.auth);
   const userInfo = useHookGetUserInfo();
   return (
-    <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border  h-header-height bg-aqua-forest-500 ">
+    <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border h-header-height bg-aqua-forest-200 ">
       {/* Logo & Menu Button */}
       <div className="xl:hidden inline-flex items-center justify-center">
         <Link
           to="/"
-          className="w-[2.7rem] h-[2.7rem] ml-4 flex justify-center items-center"
+          className="w-[2.6rem] h-[2.6rem] ml-4 flex justify-center items-center"
         >
           <img
             src={circleLogo}
             alt="logo"
-            className="box-content border-2 border-transparent rounded-full hover:border-white transition duration-200"
+            className="box-content border-2 border-transparent hover:brightness-90 transition duration-200"
           />
         </Link>
 
         <button
           ref={menuButtonRef}
           onClick={() => setShowSidebar((isopen) => !isopen)}
-          className={`box-content font-bold p-1 mx-2 sm:mx-6 text-[1.875rem] border-2 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200 ${
+          className={`box-content font-bold p-1 mx-2 sm:mx-6 text-[1.875rem] border-2 rounded-full hover:bg-aqua-forest-400  transition duration-200 ${
             showSidebar
-              ? "bg-aqua-forest-500 border-white text-white"
-              : "text-aqua-forest-700 bg-aqua-forest-400 border-transparent"
+              ? "bg-aqua-forest-400 border-white text-white"
+              : "text-aqua-forest-700 bg-aqua-forest-300 border-transparent"
           }`}
         >
           <IoMenuSharp />
@@ -62,7 +62,7 @@ export default function Header({
 
       <div className="inline-flex justify-end items-center gap-3 mr-2 min-w-[3.25rem]">
         {/* name & role */}
-        <div className="hidden tn:flex flex-col items-end justify-center text-sky-100 leading-tight ">
+        <div className="hidden tn:flex flex-col items-end justify-center text-aqua-forest-800 leading-tight ">
           <span>
             <em>{capFirstLetter(userInfo?.firstname)}</em>
           </span>

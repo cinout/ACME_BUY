@@ -16,7 +16,7 @@ const publicRoutesInWrapper: RouteObject[] = [
     element: <HomePage />,
   },
   {
-    path: "/categories",
+    path: "/categories/:category?",
     element: <CategoryPage />,
   },
   {

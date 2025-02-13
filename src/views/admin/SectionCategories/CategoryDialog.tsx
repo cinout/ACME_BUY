@@ -201,8 +201,8 @@ export default function CategoryDialog({
           registration={register("name", {
             required: "Required",
             maxLength: {
-              value: 20,
-              message: "Name must be at most 20 characters",
+              value: 15,
+              message: "Name must be at most 15 characters",
             },
             minLength: {
               value: 2,

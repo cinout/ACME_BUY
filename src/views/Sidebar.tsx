@@ -6,11 +6,13 @@ import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { logout } from "@/redux/reducers/authReducer";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
 import { SellerEntity } from "@/utils/entities";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
+import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
+import { getErrorMessage } from "@/graphql";
+import { afterLogout } from "@/redux/reducers/authReducer";
 
 interface Props {
   showSidebar: boolean;
@@ -26,19 +28,33 @@ function MenuContent({
   pathname: string;
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  /**
+   * Redux
+   */
   const dispatch = useAppDispatch();
+
+  /**
+   * GQL
+   */
   const client = useApolloClient();
 
+  const [gqlAuthLogOut] = useMutation(GQL_AUTH_LOG_OUT, {
+    onError: (err) => {
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      dispatch(afterLogout());
+      void client.clearStore(); // TODO: should I leave something in cache?
+      // redirected to login page due to ProtectRoute
+    },
+  });
+
+  /**
+   * Functions
+   */
   function handleLogout() {
-    dispatch(logout())
-      .unwrap()
-      .then(() => {
-        void client.clearStore(); // TODO: should I leave something in cache?
-        // redirected to login page due to ProtectRoute
-      })
-      .catch((e) => {
-        toast.error(e); // show error
-      });
+    void gqlAuthLogOut();
   }
 
   return (
@@ -130,7 +146,10 @@ export default function Sidebar({
       {/* Large Screen */}
       <div className="box-border fixed top-0 left-0 h-full w-dashbord-width bg-aqua-forest-200 z-50 hidden xl:block shadow-2xl">
         {/* TODO: handle to="/" attribute */}
-        <Link to="/" className="flex justify-center mt-6 mb-12">
+        <Link
+          to="/"
+          className="flex justify-center mt-6 mb-12 hover:brightness-90 transition"
+        >
           <img src={logo} alt="company logo" className=" w-[12.5rem]" />
         </Link>
 

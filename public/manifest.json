@@ -3,7 +3,7 @@
   "name": "haitian-shoppingsite",
   "icons": [
     {
-      "src": "haitian-shoppingsite.svg",
+      "src": "logo.svg",
       "sizes": "192x192",
       "type": "image/svg+xml"
     }

@@ -1,26 +1,40 @@
-import { useAppDispatch } from "@/redux/hooks";
-import { logout } from "@/redux/reducers/authReducer";
 import toast from "react-hot-toast";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
+import { getErrorMessage } from "@/graphql";
+import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
+import { useAppDispatch } from "@/redux/hooks";
+import { afterLogout } from "@/redux/reducers/authReducer";
 
 export default function SectionProfile() {
-  // TODO: update UI
-  const client = useApolloClient();
-
+  /**
+   * Redux
+   */
   const dispatch = useAppDispatch();
 
+  /**
+   * GQL
+   */
+  const client = useApolloClient();
+  const [gqlAuthLogOut] = useMutation(GQL_AUTH_LOG_OUT, {
+    onError: (err) => {
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      dispatch(afterLogout());
+      void client.clearStore(); // TODO: should I leave something in cache?
+      // redirected to login page due to ProtectRoute
+    },
+  });
+
+  /**
+   * Functions
+   */
   function handleLogout() {
-    dispatch(logout())
-      .unwrap()
-      .then(() => {
-        void client.clearStore(); // TODO: should I leave something in cache?
-        // redirected to login page due to ProtectRoute
-      })
-      .catch((e) => {
-        toast.error(e); // show error
-      });
+    void gqlAuthLogOut();
   }
 
+  // TODO: update UI
   return (
     <div>
       Admin Profile

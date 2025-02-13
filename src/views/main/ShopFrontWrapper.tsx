@@ -6,7 +6,7 @@ export default function ShopFrontWrapper() {
   return (
     <div className="flex flex-col min-h-full">
       <NavigationPanel />
-      <div className="flex-1">
+      <div className="flex-1 px-8">
         <Outlet />
       </div>
       <Footer />
