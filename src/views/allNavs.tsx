@@ -31,10 +31,10 @@ export const navOptions: NavOptionsProps[] = [
   },
 
   {
-    name: "Categories",
+    name: "Genres",
     icon: <BiCategory />,
     accessRoles: [RoleEnum.Admin],
-    goto: "/admin/categories",
+    goto: "/admin/genres",
   },
   {
     name: "Sellers",

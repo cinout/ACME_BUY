@@ -5,7 +5,7 @@ const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
     id
     name
     brand
-    categoryId
+    genreId
     sellerId
     stock
     price
@@ -30,7 +30,7 @@ export const GQL_PRODUCT_CREATE = gql`
     $name: String!
     $brand: String!
     $images: [ImageWithID!]!
-    $categoryId: ID!
+    $genreId: ID!
     $stock: Int!
     $price: Float!
     $discount: Float!
@@ -42,7 +42,7 @@ export const GQL_PRODUCT_CREATE = gql`
       price: $price
       discount: $discount
       description: $description
-      categoryId: $categoryId
+      genreId: $genreId
       stock: $stock
       images: $images
     ) {

@@ -2,8 +2,8 @@ import logo from "@/assets/images/company_logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { useQuery } from "@apollo/client";
-import { GQL_CATEGORIES_GET_ALL } from "@/graphql/categoryGql";
-import { CategoryEntity } from "@/utils/entities";
+import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
+import { GenreEntity } from "@/utils/entities";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -17,22 +17,21 @@ export default function NavigationPanel() {
   /**
    * Ref
    */
-  const categoryMenuRef = useRef<HTMLAnchorElement>(null);
-  const categoryMenuDropdownRef = useRef<HTMLDivElement>(null);
+  const genreMenuRef = useRef<HTMLAnchorElement>(null);
+  const genreMenuDropdownRef = useRef<HTMLDivElement>(null);
 
   /**
    * GQL
    */
-  const gqlCategoriesGetAll = useQuery(GQL_CATEGORIES_GET_ALL);
-  const allCategories = gqlCategoriesGetAll.data
-    ?.getAllCategories as CategoryEntity[];
+  const gqlGenresGetAll = useQuery(GQL_GENRES_GET_ALL);
+  const allGenres = gqlGenresGetAll.data?.getAllGenres as GenreEntity[];
 
   /**
    * Effect
    */
   useEffect(() => {
     function handleMouseAndDropdown(event: MouseEvent) {
-      if (categoryMenuDropdownRef.current && categoryMenuRef.current) {
+      if (genreMenuDropdownRef.current && genreMenuRef.current) {
         // Get the element under the cursor
         const cursorPosition = document.elementFromPoint(
           event.clientX,
@@ -40,8 +39,8 @@ export default function NavigationPanel() {
         );
 
         setShowDropdown(
-          categoryMenuDropdownRef.current?.contains(cursorPosition) ||
-            categoryMenuRef.current?.contains(cursorPosition)
+          genreMenuDropdownRef.current?.contains(cursorPosition) ||
+            genreMenuRef.current?.contains(cursorPosition)
         );
       }
     }
@@ -82,8 +81,8 @@ export default function NavigationPanel() {
         <div className="justify-self-end self-center">Login</div>
       </div>
 
-      {/* Categories  */}
-      {/* TODO:[3] implement each category page */}
+      {/* Genres  */}
+      {/* TODO:[3] implement each genre page */}
       {/* TODO:[3] only demonstrate a few popular options in navbar */}
       <div className="bg-aqua-forest-200 h-7 flex items-center relative">
         <AnimatePresence>
@@ -101,13 +100,13 @@ export default function NavigationPanel() {
               style={{
                 transitionTimingFunction: "linear", // Exactly match framer motion
               }}
-              ref={categoryMenuDropdownRef}
+              ref={genreMenuDropdownRef}
             >
               <div className="flex flex-col items-center">
-                {allCategories?.map((category) => (
+                {allGenres?.map((genre) => (
                   <NavLink
-                    to={`/categories/${category.name.toLowerCase()}`}
-                    key={category.id}
+                    to={`/genres/${genre.name.toLowerCase()}`}
+                    key={genre.id}
                     className={({ isActive }) =>
                       `w-full flex justify-center items-center hover:bg-aqua-forest-500 ${
                         isActive && "bg-aqua-forest-500 font-semibold h-"
@@ -115,7 +114,7 @@ export default function NavigationPanel() {
                     }
                     end
                   >
-                    {category.name}
+                    {genre.name}
                   </NavLink>
                 ))}
               </div>
@@ -124,7 +123,7 @@ export default function NavigationPanel() {
         </AnimatePresence>
 
         <NavLink
-          to="/categories"
+          to="/genres"
           className={({ isActive }) =>
             `hover:bg-aqua-forest-700 hover:text-aqua-forest-100 peer-hover/dropdown:bg-aqua-forest-700 peer-hover/dropdown:text-aqua-forest-100 transition-all duration-200 ease-linear h-full w-64 inline-flex justify-center items-center border-r border-aqua-forest-700 box-border ${
               isActive
@@ -135,15 +134,15 @@ export default function NavigationPanel() {
           onMouseEnter={() => setShowDropdown(true)}
           onMouseLeave={() => setTimeout(() => setShowDropdown(false), 200)} // Small delay to allow hovering to dropdown
           end
-          ref={categoryMenuRef}
+          ref={genreMenuRef}
         >
-          All Categories
+          All Genres
         </NavLink>
 
-        {allCategories?.map((category) => (
+        {allGenres?.map((genre) => (
           <NavLink
-            to={`/categories/${category.name.toLowerCase()}`}
-            key={category.id}
+            to={`/genres/${genre.name.toLowerCase()}`}
+            key={genre.id}
             className={({ isActive }) =>
               `hover:bg-aqua-forest-700 hover:text-aqua-forest-100 transition h-full w-28 inline-flex justify-center items-center border-aqua-forest-600 ${
                 isActive
@@ -153,7 +152,7 @@ export default function NavigationPanel() {
             }
             end
           >
-            {category.name}
+            {genre.name}
           </NavLink>
         ))}
       </div>

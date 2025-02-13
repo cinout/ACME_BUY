@@ -18,7 +18,7 @@ const LazyMain = () => (
  * Shop Front
  */
 export const HomePage = lazy(() => import("@/views/main/HomePage"));
-export const CategoryPage = lazy(() => import("@/views/main/CategoryPage"));
+export const GenrePage = lazy(() => import("@/views/main/GenrePage"));
 export const ContactPage = lazy(() => import("@/views/main/ContactPage"));
 
 /**
@@ -49,8 +49,8 @@ export const AdminSectionDashboard = lazy(
 export const AdminSectionOrders = lazy(
   () => import("@/views/admin/SectionOrders")
 );
-export const AdminSectionCategories = lazy(
-  () => import("@/views/admin/SectionCategories")
+export const AdminSectionGenres = lazy(
+  () => import("@/views/admin/SectionGenres")
 );
 export const AdminSectionSellers = lazy(
   () => import("@/views/admin/SectionSellers")

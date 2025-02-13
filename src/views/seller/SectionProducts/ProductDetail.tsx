@@ -13,9 +13,9 @@ import { v7 } from "uuid";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { styleCancelButton, styleSubmitButton } from "@/utils/styles";
-import { CategoryEntity, ProductEntity } from "@/utils/entities";
+import { GenreEntity, ProductEntity } from "@/utils/entities";
 import { useMutation, useQuery } from "@apollo/client";
-import { GQL_CATEGORIES_GET_ALL } from "@/graphql/categoryGql";
+import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import {
   GQL_PRODUCT_CREATE,
@@ -30,7 +30,7 @@ interface FormInputProps {
   id: string;
   name: string;
   brand: string;
-  categoryId: string;
+  genreId: string;
   stock: number;
   price: number;
   discount: number;
@@ -123,13 +123,12 @@ export default function ProductDetail({
     },
   });
 
-  const gql_query_result = useQuery(GQL_CATEGORIES_GET_ALL); // get categories
+  const gql_query_result = useQuery(GQL_GENRES_GET_ALL); // get genres
   if (gql_query_result.loading) {
     return <LoadingIndicatorWithDiv />;
   }
-  const allCategories = gql_query_result.data
-    .getAllCategories as CategoryEntity[];
-  const categoryOptions = allCategories.map((a) => ({
+  const allGenres = gql_query_result.data.getAllGenres as GenreEntity[];
+  const genreOptions = allGenres.map((a) => ({
     id: a.id,
     value: a.id,
     display: a.name,
@@ -145,14 +144,14 @@ export default function ProductDetail({
         variables: {
           id: data.id,
           // TODO: can I only include fields that have changed?
-          // TODO: same to updateCategory
+          // TODO: same to updateGenre
           input: {
             name: data.name,
             brand: data.brand,
             price: data.price,
             discount: data.discount,
             description: data.description,
-            categoryId: data.categoryId,
+            genreId: data.genreId,
             stock: data.stock,
             images: data.images,
           },
@@ -164,7 +163,7 @@ export default function ProductDetail({
           name: data.name,
           brand: data.brand,
           images: data.images,
-          categoryId: data.categoryId,
+          genreId: data.genreId,
           stock: data.stock,
           price: data.price,
           discount: data.discount,
@@ -286,16 +285,16 @@ export default function ProductDetail({
         />
 
         <FormSelect
-          registration={register("categoryId", {
-            required: "Plase choose a category",
+          registration={register("genreId", {
+            required: "Plase choose a genre",
           })}
-          label="Category"
+          label="Genre"
           // additionalStyleInput="w-full sm:w-60 lg:w-80"
-          options={categoryOptions}
+          options={genreOptions}
           additionalStyleSelect="w-full sm:w-60 lg:w-80"
-          error={errors.categoryId}
+          error={errors.genreId}
           disabled={(!isCreatingNewProduct && !editMode) || showLoader}
-          currentValue={watch("categoryId")}
+          currentValue={watch("genreId")}
         />
 
         <FormInput

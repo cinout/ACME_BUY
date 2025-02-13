@@ -32,7 +32,7 @@
 - Routing and route protection
 - hover show information (solution: resort to react-tooltip)
 - dropdown UI in chat section ()
-- react-hook-form validation with customized file-type input (solution: see CategoryDialog.tsx)
+- react-hook-form validation with customized file-type input (solution: see GenreDialog.tsx)
 - display error separately for each image in multiple file input (solution: show file names in the error message)
 - authentication security, store in cookie or localStorage
 - in the forms, image can be either string (read from server) or File ()

@@ -5,7 +5,7 @@ import {
   AdminLogin,
   HomePage,
   UnauthorizedPage,
-  CategoryPage,
+  GenrePage,
   ContactPage,
 } from "./routesLazyExports.ts";
 import ShopFrontWrapper from "@/views/main/ShopFrontWrapper.tsx";
@@ -16,8 +16,8 @@ const publicRoutesInWrapper: RouteObject[] = [
     element: <HomePage />,
   },
   {
-    path: "/categories/:category?",
-    element: <CategoryPage />,
+    path: "/genres/:genre?",
+    element: <GenrePage />,
   },
   {
     path: "/contact",

@@ -2,7 +2,7 @@ import { RouteObject } from "react-router-dom";
 import {
   AdminSectionDashboard,
   AdminSectionOrders,
-  AdminSectionCategories,
+  AdminSectionGenres,
   AdminSectionSellers,
   AdminSectionWithdrawRequests,
   AdminSectionChat,
@@ -28,8 +28,8 @@ export const privateAdminRoutes: PrivateAdminRouteType[] = [
     accessRoles: [RoleEnum.Admin],
   },
   {
-    path: "/admin/categories/:categoryId?",
-    element: <AdminSectionCategories />,
+    path: "/admin/genres/:genreId?",
+    element: <AdminSectionGenres />,
     accessRoles: [RoleEnum.Admin],
   },
   {

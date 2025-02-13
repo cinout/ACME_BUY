@@ -28,14 +28,14 @@ export default function Head({
       {/* TODO: implement search function */}
 
       <HeadSearch
-        placeholder="search categories ..."
+        placeholder="search genres ..."
         additionalStyle="md:justify-self-start"
         value={searchValue}
         onChangeValue={setSearchValue}
       />
 
       <Link to={joinUrl(pathname, "new")}>
-        <ButtonCreateNew content="New Category" />
+        <ButtonCreateNew content="New Genre" />
       </Link>
 
       <HeadShowCount

@@ -42,7 +42,7 @@ export interface AdminEntity extends Entity {
   imageName?: string;
 }
 
-export interface CategoryEntity extends Entity {
+export interface GenreEntity extends Entity {
   name: string;
   imageUrl?: string;
   imageName?: string;
@@ -51,12 +51,12 @@ export interface CategoryEntity extends Entity {
 export interface ProductEntity extends Entity {
   name: string;
   brand: string;
-  category: string; //TODO: remoce this field
+  genre: string; //TODO: remoce this field
   stock: number;
   price: number;
   discount: number;
   description?: string;
-  categoryId?: string;
+  genreId?: string;
   sellerId?: string;
   images?: { id: string; file: string; name: string }[];
   rating?: number; // TODO: implement rating

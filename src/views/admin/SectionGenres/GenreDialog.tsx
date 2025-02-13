@@ -14,31 +14,31 @@ import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
 import { useApolloClient, useMutation } from "@apollo/client";
 import {
-  GQL_CATEGORY_CREATE,
-  GQL_CATEGORIES_GET_ALL,
-  GQL_CATEGORY_UPDATE,
-} from "@/graphql/categoryGql";
+  GQL_GENRE_CREATE,
+  GQL_GENRES_GET_ALL,
+  GQL_GENRE_UPDATE,
+} from "@/graphql/genreGql";
 import { getErrorMessage } from "@/graphql";
-import { CategoryEntity } from "@/utils/entities";
+import { GenreEntity } from "@/utils/entities";
 
-interface CategoryDialogProps {
+interface GenreDialogProps {
   isOpen: boolean;
   mode: "Create" | "Edit";
   submitText: string;
-  editCategoryInfo: CategoryEntity | undefined;
+  editGenreInfo: GenreEntity | undefined;
 }
 
-interface FormNewCategoryProps {
+interface FormNewGenreProps {
   name: string;
   image: { file: File | string | null; name: string | null };
 }
 
-export default function CategoryDialog({
+export default function GenreDialog({
   isOpen,
   mode,
-  editCategoryInfo,
+  editGenreInfo,
   submitText,
-}: CategoryDialogProps) {
+}: GenreDialogProps) {
   /**
    * States
    */
@@ -61,17 +61,17 @@ export default function CategoryDialog({
     formState: { errors, isDirty },
     reset,
     clearErrors,
-  } = useForm<FormNewCategoryProps>({
+  } = useForm<FormNewGenreProps>({
     defaultValues: isCreateMode
       ? {
           name: "",
           image: { file: null, name: null },
         }
       : {
-          name: editCategoryInfo?.name,
+          name: editGenreInfo?.name,
           image: {
-            file: editCategoryInfo?.imageUrl,
-            name: editCategoryInfo?.imageName,
+            file: editGenreInfo?.imageUrl,
+            name: editGenreInfo?.imageName,
           },
         },
   });
@@ -80,7 +80,7 @@ export default function CategoryDialog({
   /**
    * GQLs
    */
-  const [createCategory] = useMutation(GQL_CATEGORY_CREATE, {
+  const [createGenre] = useMutation(GQL_GENRE_CREATE, {
     onError: (err) => {
       setShowLoader(false);
       const errorMessage = getErrorMessage(err);
@@ -89,17 +89,17 @@ export default function CategoryDialog({
     update(cache, { data }) {
       // TODO: update to updateQuery
       const existingData = cache.readQuery<{
-        getAllCategories: FormNewCategoryProps[];
+        getAllGenres: FormNewGenreProps[];
       }>({
-        query: GQL_CATEGORIES_GET_ALL,
+        query: GQL_GENRES_GET_ALL,
       });
 
       cache.writeQuery({
-        query: GQL_CATEGORIES_GET_ALL,
+        query: GQL_GENRES_GET_ALL,
         data: {
-          getAllCategories: [
-            ...(existingData?.getAllCategories ?? []),
-            data.createCategory,
+          getAllGenres: [
+            ...(existingData?.getAllGenres ?? []),
+            data.createGenre,
           ],
         },
       });
@@ -110,7 +110,7 @@ export default function CategoryDialog({
     },
   });
 
-  const [updateCategory] = useMutation(GQL_CATEGORY_UPDATE, {
+  const [updateGenre] = useMutation(GQL_GENRE_UPDATE, {
     onError: (err) => {
       setShowLoader(false);
       const errorMessage = getErrorMessage(err);
@@ -123,11 +123,11 @@ export default function CategoryDialog({
   });
 
   const client = useApolloClient();
-  const existingCategories = (client.readQuery({
-    query: GQL_CATEGORIES_GET_ALL,
-  }).getAllCategories || []) as CategoryEntity[];
-  const existingnames = existingCategories
-    .filter((a) => a.id !== editCategoryInfo?.id)
+  const existingGenres = (client.readQuery({
+    query: GQL_GENRES_GET_ALL,
+  }).getAllGenres || []) as GenreEntity[];
+  const existingnames = existingGenres
+    .filter((a) => a.id !== editGenreInfo?.id)
     .map((a) => a.name);
 
   /**
@@ -150,18 +150,18 @@ export default function CategoryDialog({
     clearErrors("image");
   }
 
-  function onSubmit(data: FormNewCategoryProps): void {
+  function onSubmit(data: FormNewGenreProps): void {
     setShowLoader(true);
     if (mode === "Create") {
       // Create Mode
-      void createCategory({
+      void createGenre({
         variables: { name: data.name, image: data.image },
       });
     } else {
       // Edit Mode
-      void updateCategory({
+      void updateGenre({
         variables: {
-          id: editCategoryInfo!.id,
+          id: editGenreInfo!.id,
           input: {
             name: data.name,
             image: data.image,
@@ -177,7 +177,7 @@ export default function CategoryDialog({
   }
 
   function onCloseDialog() {
-    void navigate("/admin/categories");
+    void navigate("/admin/genres");
   }
 
   return (
@@ -187,8 +187,8 @@ export default function CategoryDialog({
       disableClose={showLoader}
       header={
         mode === "Create"
-          ? "Create New Category"
-          : `Edit Category ${editCategoryInfo?.name}`
+          ? "Create New Genre"
+          : `Edit Genre ${editGenreInfo?.name}`
       }
     >
       <form
@@ -219,14 +219,14 @@ export default function CategoryDialog({
                   (a) => a?.toLowerCase() === name.toLowerCase()
                 )
               ) {
-                return "The category name already exists.";
+                return "The genre name already exists.";
               }
               return true;
             },
           })}
           // TODO: validate -- not duplicate with exisiting ones (case insensitive)
           error={errors.name}
-          label="Category Name"
+          label="Genre Name"
           additionalStyleWrapper="flex gap-2 flex-wrap"
           additionalStyleLabel="flex-1"
           additionalStyleContentWrapper="w-60"
