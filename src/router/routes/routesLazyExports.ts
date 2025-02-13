@@ -15,14 +15,18 @@ const LazyMain = () => (
 */
 
 /**
+ * Shop Front
+ */
+export const HomePage = lazy(() => import("@/views/main/HomePage"));
+export const CategoryPage = lazy(() => import("@/views/main/CategoryPage"));
+export const ContactPage = lazy(() => import("@/views/main/ContactPage"));
+
+/**
  * Login & Signup
  */
 export const SellerLogin = lazy(() => import("@/views/auth/SellerLogin"));
 export const SellerSignup = lazy(() => import("@/views/auth/SellerSignup"));
 export const AdminLogin = lazy(() => import("@/views/auth/AdminLogin"));
-
-export const Home = lazy(() => import("@/views/Home"));
-export const Main = lazy(() => import("@/views/Main")); // The seller/admin dashboard overall layout
 
 /**
  * Error Pages
@@ -30,6 +34,11 @@ export const Main = lazy(() => import("@/views/Main")); // The seller/admin dash
 export const UnauthorizedPage = lazy(
   () => import("@/views/auth/UnauthorizedPage")
 );
+
+/**
+ * Private Pages
+ */
+export const Main = lazy(() => import("@/views/Main")); // The seller/admin dashboard overall layout
 
 /**
  * ADMIN Dashboard
@@ -49,9 +58,9 @@ export const AdminSectionSellers = lazy(
 export const AdminSectionWithdrawRequests = lazy(
   () => import("@/views/admin/SectionWithdrawRequests")
 );
-export const AdminSectionSellerRequests = lazy(
-  () => import("@/views/admin/SectionSellerRequests")
-);
+// export const AdminSectionSellerRequests = lazy(
+//   () => import("@/views/admin/SectionSellerRequests")
+// );
 export const AdminSectionChat = lazy(() => import("@/views/admin/SectionChat"));
 export const AdminSectionProfile = lazy(
   () => import("@/views/admin/SectionProfile")

@@ -21,8 +21,7 @@ export default function SellerTable({
 }: SellerTableProps) {
   const { pathname } = useLocation();
 
-  // TODO:[2] Show a functionality to filter/sort sellers
-  // TODO:[3] Show a tab to highlight Pending Sellers, and show a red icon indicating the pending sellers
+  // TODO:[2] Show a functionality to sort sellers
   // TODO:[1] Show a confirmation dialog when admin changes the seller status
   return (
     <>

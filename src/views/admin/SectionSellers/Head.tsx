@@ -51,7 +51,6 @@ export default function Head({
             </option>
           ))}
         </select>
-        {/* TODO:[3] update this */}
         {numPendingSellers > 0 && (
           <div
             className="bg-pending-400 text-pending-950 h-6 w-6 rounded-full text-sm font-bold inline-flex justify-center items-center ml-2 cursor-pointer"

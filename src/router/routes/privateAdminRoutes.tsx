@@ -5,7 +5,6 @@ import {
   AdminSectionCategories,
   AdminSectionSellers,
   AdminSectionWithdrawRequests,
-  AdminSectionSellerRequests,
   AdminSectionChat,
   AdminSectionProfile,
 } from "./routesLazyExports";

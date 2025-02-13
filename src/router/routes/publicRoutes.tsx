@@ -3,19 +3,43 @@ import {
   SellerLogin,
   SellerSignup,
   AdminLogin,
-  Home,
+  HomePage,
   UnauthorizedPage,
+  CategoryPage,
+  ContactPage,
 } from "./routesLazyExports.ts";
+import ShopFrontWrapper from "@/views/main/ShopFrontWrapper.tsx";
+
+const publicRoutesInWrapper: RouteObject[] = [
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/categories",
+    element: <CategoryPage />,
+  },
+  {
+    path: "/contact",
+    element: <ContactPage />,
+  },
+];
 
 export const publicRoutes: RouteObject[] = [
-  // Home page
+  /**
+   * Home Page
+   */
   {
-    path: "/", // be redirected from here based on user role
-    element: <Home />,
+    path: "/",
+    element: <ShopFrontWrapper />,
+    children: publicRoutesInWrapper,
   },
 
   // TODO: add customer login/signup later
-  // Seller (User)
+  /**
+   * Sign Up & Log in
+   */
+  // Seller
   {
     path: "/login/seller",
     element: <SellerLogin />,
@@ -24,13 +48,16 @@ export const publicRoutes: RouteObject[] = [
     path: "/signup/seller",
     element: <SellerSignup />,
   },
-
   // Admin
   {
     path: "/login/admin",
     element: <AdminLogin />,
   },
+  // TODO: where should admin sign up?
 
+  /**
+   * Other Pages
+   */
   // Unauthorized Page
   {
     path: "/unauthorized",
