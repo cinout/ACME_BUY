@@ -30,6 +30,10 @@ export default function SectionSellers() {
   const end_index = currentPage * itemsPerPage;
   // search value
   const [searchValue, setSearchValue] = useState("");
+  // filter
+  const [sellerStatusFilter, setSellerStatusFilter] = useState<
+    SellerStatusEnum | "All"
+  >("All");
 
   /**
    * Routing
@@ -54,6 +58,12 @@ export default function SectionSellers() {
   }
   const allSellers = querySellers.data.getAllSellers as SellerEntity[];
   const currentSeller = allSellers.find((a) => a.id === sellerId);
+  const allSellersByStatus = allSellers.filter(
+    (a) => sellerStatusFilter === "All" || a.status === sellerStatusFilter
+  );
+  const numPendingSellers = allSellers.filter(
+    (a) => a.status === SellerStatusEnum.Pending
+  ).length;
 
   function updateSellerStatus(
     sellerId: string,
@@ -86,10 +96,13 @@ export default function SectionSellers() {
         itemsPerPage={itemsPerPage}
         handleItemsPerPageChange={handleItemsPerPageChange}
         itemsPerPageOptions={itemsPerPageOptions}
+        sellerStatusFilter={sellerStatusFilter}
+        setSellerStatusFilter={setSellerStatusFilter}
+        numPendingSellers={numPendingSellers}
       />
 
       <SellerTable
-        sellerStats={allSellers.slice(start_index, end_index)}
+        sellerStats={allSellersByStatus.slice(start_index, end_index)}
         updateSellerStatus={updateSellerStatus}
       />
 
@@ -106,7 +119,7 @@ export default function SectionSellers() {
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          totalPages={Math.ceil(allSellers.length / itemsPerPage)}
+          totalPages={Math.ceil(allSellersByStatus.length / itemsPerPage)}
           maxPageOptionsCount={5}
         />
       </div>

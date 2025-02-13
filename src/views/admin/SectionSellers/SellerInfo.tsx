@@ -74,7 +74,7 @@ export default function SellerInfo({
           <AttributeDisplay name="state" value={seller.state} />
           <AttributeDisplay name="city" value={seller.city} />
           <AttributeDisplay name="zip code" value={seller.zipCode} />
-          {/* TODO: add other fields */}
+          {/* TODO:[1] add other fields: Request Date*/}
           {/* <AttributeDisplay
             name="requested"
             value={seller.createdAt.toDateString()}

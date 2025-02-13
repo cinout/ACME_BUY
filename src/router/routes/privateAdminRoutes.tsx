@@ -43,11 +43,11 @@ export const privateAdminRoutes: PrivateAdminRouteType[] = [
     element: <AdminSectionWithdrawRequests />,
     accessRoles: [RoleEnum.Admin],
   },
-  {
-    path: "/admin/seller-requests",
-    element: <AdminSectionSellerRequests />,
-    accessRoles: [RoleEnum.Admin],
-  },
+  // {
+  //   path: "/admin/seller-requests",
+  //   element: <AdminSectionSellerRequests />,
+  //   accessRoles: [RoleEnum.Admin],
+  // },
   {
     path: "/admin/chat/:sellerId?",
     element: <AdminSectionChat />,

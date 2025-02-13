@@ -24,15 +24,16 @@ export default function CategoryTable({
             key={category.id}
             className="flex flex-col justify-start items-center gap-2"
           >
-            <img
-              src={category.imageUrl}
-              alt={category.name}
-              className="inline h-20 w-20 mt-10 rounded-md"
-            />
+            <Link to={joinUrl(pathname, category.id)}>
+              <img
+                src={category.imageUrl}
+                alt={category.name}
+                className="inline h-20 w-20 mt-10 rounded-md hover:brightness-75 hover:outline hover:outline-white transition-all"
+              />
+            </Link>
 
             <div className="text-center">{category.name}</div>
 
-            {/* TODO: implement the function of the two buttons */}
             <div className="flex justify-center items-center gap-4 text-lg">
               <Link
                 className="hover:scale-125 transition"

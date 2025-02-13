@@ -37,7 +37,7 @@ export const navOptions: NavOptionsProps[] = [
     goto: "/admin/categories",
   },
   {
-    name: "Sellers (TODO:)",
+    name: "Sellers",
     icon: <FaPeopleGroup />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/sellers",
@@ -49,17 +49,17 @@ export const navOptions: NavOptionsProps[] = [
     goto: "/admin/orders",
   },
   {
-    name: "Withdraw Requests (TODO:)",
+    name: "Withdraw Requests (TODO:[1])",
     icon: <MdOutlinePayment />,
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/withdraw-requests",
   },
-  {
-    name: "Seller Requests (TODO:)",
-    icon: <FaPerson />,
-    accessRoles: [RoleEnum.Admin],
-    goto: "/admin/seller-requests",
-  },
+  // {
+  //   name: "Seller Requests (TODO:)",
+  //   icon: <FaPerson />,
+  //   accessRoles: [RoleEnum.Admin],
+  //   goto: "/admin/seller-requests",
+  // },
   {
     name: "Live Chat (TODO:)",
     icon: <IoChatboxEllipsesOutline />,

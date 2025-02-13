@@ -60,6 +60,7 @@
 - When logged in and if user manually enter the login or signup route of their role, show a message telling them they are already logged in, and offer button for redirect.
 - Show loading page when preparing the dashboard.
 - Calculate the discounted price for customer.
+- Show icon for number of pending sellers in Admin/Sellers tab
 
 ## User Roles, User Authentication, and Routes Protection
 
@@ -96,5 +97,4 @@
 - [ ] move FormInputProps and Entity to their gql file
 - [ ] Payment info for seller, customer
 - [ ] How to create Admin? and remeber that admin needs image by default
-- [ ] when new message or seller request is there, show a notification icon on the navbar
 - [ ] Seller and customer needs button to remove themselves from the website
