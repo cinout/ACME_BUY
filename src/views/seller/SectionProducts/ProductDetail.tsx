@@ -1,4 +1,4 @@
-import { imageMaxSizeMB } from "@/utils/numbers";
+import { imageMaxSizeMB, yearOptions } from "@/utils/numbers";
 import {
   VALID_NAME_GENERAL,
   VALID_NAME_GENERAL_ERROR_MSG,
@@ -25,17 +25,22 @@ import {
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
+import { GradingEnum, MediaFormatEnum, ReleaseRegionEnum } from "@/utils/enums";
 
 interface FormInputProps {
   id: string;
   name: string;
-  brand: string;
+  artist: string;
   genreId: string;
   stock: number;
   price: number;
   discount: number;
   description: string;
   images: { id: string; file: File | string; name: string }[];
+  year: number;
+  format: MediaFormatEnum;
+  grading: GradingEnum;
+  region: ReleaseRegionEnum;
 }
 
 interface ProductDetailProps {
@@ -128,11 +133,19 @@ export default function ProductDetail({
     return <LoadingIndicatorWithDiv />;
   }
   const allGenres = gql_query_result.data.getAllGenres as GenreEntity[];
-  const genreOptions = allGenres.map((a) => ({
-    id: a.id,
-    value: a.id,
-    display: a.name,
-  }));
+  const genreOptions = allGenres
+    .slice()
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((a) => ({
+      id: a.id,
+      value: a.id,
+      display: a.name,
+    }));
+
+  /**
+   * Computed
+   */
+  const isDisabled = !isCreatingNewProduct && !editMode;
 
   /**
    *  Functions
@@ -143,17 +156,19 @@ export default function ProductDetail({
       void updateProduct({
         variables: {
           id: data.id,
-          // TODO: can I only include fields that have changed?
-          // TODO: same to updateGenre
           input: {
             name: data.name,
-            brand: data.brand,
+            artist: data.artist,
             price: data.price,
             discount: data.discount,
             description: data.description,
             genreId: data.genreId,
             stock: data.stock,
             images: data.images,
+            year: data.year,
+            format: data.format,
+            grading: data.grading,
+            region: data.region,
           },
         },
       });
@@ -161,13 +176,17 @@ export default function ProductDetail({
       void createProduct({
         variables: {
           name: data.name,
-          brand: data.brand,
+          artist: data.artist,
           images: data.images,
           genreId: data.genreId,
           stock: data.stock,
           price: data.price,
           discount: data.discount,
           description: data.description,
+          year: parseInt(data.year as unknown as string, 10),
+          format: data.format,
+          grading: data.grading,
+          region: data.region,
         },
       });
     }
@@ -256,45 +275,104 @@ export default function ProductDetail({
               message: "Must be at least 2 characters",
             },
           })}
-          label="Product Name"
+          label="Record Title"
           additionalStyleInput="w-full sm:w-60 lg:w-80"
           error={errors.name}
-          placeholder="Product Name"
-          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+          placeholder="Title"
+          disabled={isDisabled}
           currentValue={watch("name")}
         />
 
         <FormInput
-          registration={register("brand", {
+          registration={register("artist", {
             required: "Required",
             maxLength: {
-              value: 40,
-              message: "Must be at most 40 characters",
+              value: 50,
+              message: "Must be at most 50 characters",
             },
             minLength: {
-              value: 2,
-              message: "Must be at least 2 characters",
+              value: 1,
+              message: "Must be at least 1 character",
             },
           })}
-          label="Brand Name"
+          label="Artist"
           additionalStyleInput="w-full sm:w-60 lg:w-80"
-          error={errors.brand}
-          placeholder="Brand Name"
-          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
-          currentValue={watch("brand")}
+          error={errors.artist}
+          placeholder="Artist"
+          disabled={isDisabled}
+          currentValue={watch("artist")}
         />
 
         <FormSelect
           registration={register("genreId", {
-            required: "Plase choose a genre",
+            required: "Required",
           })}
           label="Genre"
-          // additionalStyleInput="w-full sm:w-60 lg:w-80"
           options={genreOptions}
           additionalStyleSelect="w-full sm:w-60 lg:w-80"
           error={errors.genreId}
-          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+          disabled={isDisabled}
           currentValue={watch("genreId")}
+        />
+
+        <FormSelect
+          registration={register("year", {
+            required: "Required",
+          })}
+          label="Release Year"
+          options={yearOptions}
+          additionalStyleSelect="w-full sm:w-60 lg:w-80"
+          error={errors.year}
+          disabled={isDisabled}
+          currentValue={watch("year")}
+        />
+
+        <FormSelect
+          registration={register("region", {
+            required: "Required",
+          })}
+          label="Release Region"
+          options={Object.values(ReleaseRegionEnum).map((a) => ({
+            id: a,
+            value: a,
+            display: a,
+          }))}
+          additionalStyleSelect="w-full sm:w-60 lg:w-80"
+          error={errors.region}
+          disabled={isDisabled}
+          currentValue={watch("region")}
+        />
+
+        <FormSelect
+          registration={register("format", {
+            required: "Required",
+          })}
+          label="Media Format"
+          options={Object.values(MediaFormatEnum).map((a) => ({
+            id: a,
+            value: a,
+            display: a,
+          }))}
+          additionalStyleSelect="w-full sm:w-60 lg:w-80"
+          error={errors.format}
+          disabled={isDisabled}
+          currentValue={watch("format")}
+        />
+
+        <FormSelect
+          registration={register("grading", {
+            required: "Required",
+          })}
+          label="Product Grading"
+          options={Object.values(GradingEnum).map((a) => ({
+            id: a,
+            value: a,
+            display: a,
+          }))}
+          additionalStyleSelect="w-full sm:w-60 lg:w-80"
+          error={errors.grading}
+          disabled={isDisabled}
+          currentValue={watch("grading")}
         />
 
         <FormInput
@@ -309,7 +387,7 @@ export default function ProductDetail({
           type="number"
           min={0}
           placeholder="Stock Quantity"
-          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+          disabled={isDisabled}
           currentValue={watch("stock")}
         />
 
@@ -326,7 +404,7 @@ export default function ProductDetail({
           min={0}
           step={0.01}
           placeholder="Price"
-          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+          disabled={isDisabled}
           currentValue={watch("price")}
         />
 
@@ -347,7 +425,7 @@ export default function ProductDetail({
             min={0}
             max={100}
             step={0.1}
-            disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+            disabled={isDisabled}
             currentValue={watch("discount")}
           />
           {price >= 0 && discount >= 0 && (
@@ -361,8 +439,8 @@ export default function ProductDetail({
         <FormTextarea
           registration={register("description", {
             maxLength: {
-              value: 500,
-              message: "Must be at most 500 characters",
+              value: 800,
+              message: "Must be at most 800 characters",
             },
           })}
           label="Product Description"
@@ -370,11 +448,10 @@ export default function ProductDetail({
           error={errors.description}
           placeholder="Product Description"
           additionalStyleWrapper="col-span-1 sm:col-span-2 lg:col-span-3"
-          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+          disabled={isDisabled}
           currentValue={watch("description")}
         />
 
-        {/* TODO: need to set a maximum number of images */}
         <FormMultipleImages
           registration={register("images", {
             required: "Please upload at least one image",
@@ -410,6 +487,12 @@ export default function ProductDetail({
                     .join(", ")}.`
                 );
               },
+              maxImageCount: (images) => {
+                return (
+                  images?.length <= 10 ||
+                  "You can upload maxium 10 images for the product."
+                );
+              },
             },
           })}
           label="Product Images"
@@ -418,7 +501,7 @@ export default function ProductDetail({
           additionalStyleWrapper="col-span-1 sm:col-span-2 lg:col-span-3 justify-self-start"
           handleAddImages={handleAddImages}
           handleRemoveImage={handleRemoveImage}
-          disabled={(!isCreatingNewProduct && !editMode) || showLoader}
+          disabled={isDisabled}
         />
 
         {(isCreatingNewProduct || editMode) && (

@@ -53,10 +53,6 @@ export const VALID_NAME_GENERAL_ERROR_MSG = "must not start or end with space";
 // export const VALID_NAME_GENERAL_ERROR_MSG =
 //   "must start with a character, digit, or apostrophe ('), and contain only characters, digits, space, apostrophe (') and hyphen (-).";
 
-// export const VALID_NAME_BRAND = /^[a-z0-9_-\s]+$/i; // i flag allows a-z to match both uppercase and lowercase letters without explicitly writing A-Z
-// export const VALID_NAME_BRAND_ERROR_MSG =
-//   "must start with a character or digit, and contain only characters, digits, space, and hyphen (dash).";
-
 export const VALID_EMAIL =
   /^(([^<>()[]\\.,;:s@]+(.[^<>()[]\\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
 

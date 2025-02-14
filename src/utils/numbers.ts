@@ -5,3 +5,15 @@ export function getRandomInt(min: number, max: number) {
 }
 
 export const imageMaxSizeMB = 2;
+
+const startYear = 1899;
+const endYear = new Date().getFullYear();
+const allYears = Array.from(
+  { length: endYear - startYear + 1 },
+  (_, i) => endYear - i
+);
+export const yearOptions = allYears.map((a) => ({
+  id: a.toString(),
+  value: a,
+  display: a === 1899 ? "Before 1900" : a.toString(),
+}));

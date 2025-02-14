@@ -55,7 +55,7 @@ export default function FormMultipleImages({
           // htmlFor={registration.name}
           className={`${styleFormLabel} ${additionalStyleLabel}`}
         >
-          {capFirstLetter(label ?? registration.name)}:
+          {label ?? capFirstLetter(registration.name)}:
         </label>
       )}
 

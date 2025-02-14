@@ -45,7 +45,7 @@ export default function FormSelect({
           htmlFor={registration.name}
           className={`${styleFormLabel} ${additionalStyleLabel}`}
         >
-          {capFirstLetter(label ?? registration.name)}:
+          {label ?? capFirstLetter(registration.name)}:
         </label>
       )}
 

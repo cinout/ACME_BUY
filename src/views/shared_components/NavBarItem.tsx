@@ -57,9 +57,9 @@ export default function NavBarItem({
             className={`peer absolute left-0 top-7 w-full bg-aqua-forest-700 text-aqua-forest-100 shadow-lg`}
             onMouseOver={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
-            initial={{ opacity: 0, width: "8rem" }} // Start hidden & slightly above
+            initial={{ opacity: 0, width: "40%" }} // Start hidden & slightly above
             animate={{ opacity: 1, width: "100%" }} // Fade in & slide down
-            exit={{ opacity: 0, width: "8rem" }} // Fade out & slide up
+            exit={{ opacity: 0, width: "40%" }} // Fade out & slide up
             transition={{
               duration: 0.2,
             }}
@@ -74,7 +74,7 @@ export default function NavBarItem({
                   to={`/${title.toLowerCase()}/${option.name.toLowerCase()}`}
                   key={option.id}
                   className={({ isActive }) =>
-                    `w-full flex justify-center items-center hover:bg-aqua-forest-500 ${
+                    `w-full flex justify-center items-center hover:bg-aqua-forest-500 h-6 overflow-x-hidden whitespace-nowrap ${
                       isActive && "bg-aqua-forest-500 font-bold"
                     }`
                   }

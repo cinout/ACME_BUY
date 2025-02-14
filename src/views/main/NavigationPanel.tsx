@@ -5,15 +5,15 @@ import { useQuery } from "@apollo/client";
 import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import { GenreEntity } from "@/utils/entities";
 import NavBarItem from "../shared_components/NavBarItem";
-import {
-  media_formats,
-  quality_condition,
-  release_region,
-  release_year_range,
-} from "@/utils/selectorOptions";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { useAppSelector } from "@/redux/hooks";
-import { RoleEnum } from "@/utils/enums";
+import {
+  GradingEnum,
+  MediaFormatEnum,
+  ReleaseRegionEnum,
+  ReleaseYearRangeEnum,
+  RoleEnum,
+} from "@/utils/enums";
 
 // TODO:[3] make it reponsive to screen size
 export default function NavigationPanel() {
@@ -94,7 +94,7 @@ export default function NavigationPanel() {
 
         <NavBarItem
           title="Format"
-          dropdownOptions={media_formats.map((a) => ({
+          dropdownOptions={Object.values(MediaFormatEnum).map((a) => ({
             id: a,
             name: a,
           }))}
@@ -102,7 +102,7 @@ export default function NavigationPanel() {
 
         <NavBarItem
           title="Year"
-          dropdownOptions={release_year_range.map((a) => ({
+          dropdownOptions={Object.values(ReleaseYearRangeEnum).map((a) => ({
             id: a,
             name: a,
           }))}
@@ -110,7 +110,7 @@ export default function NavigationPanel() {
 
         <NavBarItem
           title="Grading"
-          dropdownOptions={quality_condition.map((a) => ({
+          dropdownOptions={Object.values(GradingEnum).map((a) => ({
             id: a,
             name: a,
           }))}
@@ -118,7 +118,7 @@ export default function NavigationPanel() {
 
         <NavBarItem
           title="Region"
-          dropdownOptions={release_region.map((a) => ({
+          dropdownOptions={Object.values(ReleaseRegionEnum).map((a) => ({
             id: a,
             name: a,
           }))}

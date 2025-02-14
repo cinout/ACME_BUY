@@ -50,7 +50,7 @@ export interface GenreEntity extends Entity {
 
 export interface ProductEntity extends Entity {
   name: string;
-  brand: string;
+  artist: string;
   genre: string; //TODO: remoce this field
   stock: number;
   price: number;

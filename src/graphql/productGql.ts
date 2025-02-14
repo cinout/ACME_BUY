@@ -4,7 +4,7 @@ const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
   fragment ProductDetails on Product {
     id
     name
-    brand
+    artist
     genreId
     sellerId
     stock
@@ -13,6 +13,10 @@ const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
     images
     rating
     description
+    year
+    format
+    grading
+    region
   }
 `;
 
@@ -28,23 +32,31 @@ export const GQL_PRODUCT_GET_ALL_BY_SELLER = gql`
 export const GQL_PRODUCT_CREATE = gql`
   mutation createProduct(
     $name: String!
-    $brand: String!
+    $artist: String!
     $images: [ImageWithID!]!
     $genreId: ID!
     $stock: Int!
     $price: Float!
     $discount: Float!
     $description: String
+    $year: Int!
+    $format: String!
+    $grading: String!
+    $region: String!
   ) {
     createProduct(
       name: $name
-      brand: $brand
+      artist: $artist
       price: $price
       discount: $discount
       description: $description
       genreId: $genreId
       stock: $stock
       images: $images
+      year: $year
+      format: $format
+      grading: $grading
+      region: $region
     ) {
       ...ProductDetails
     }
