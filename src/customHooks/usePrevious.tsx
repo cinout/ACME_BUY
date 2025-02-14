@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+// Get the previous value
 export function usePrevious<T>(value: T): T | undefined {
   const ref = useRef<T>(undefined);
 

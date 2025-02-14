@@ -22,6 +22,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { Dialog } from "@headlessui/react";
 import Debug from "../FullScreenImage";
 import LoadingIndicator from "../LoadingIndicator";
+import useHookSingleImageLoading from "@/customHooks/useHookSingleImageLoading";
 
 interface FormProps {
   additionalStyleButton?: string;
@@ -71,26 +72,8 @@ export default function FormSingleImage({
     url: string;
     name: string;
   } | null>(null);
-  const imageGridRef = useRef<HTMLImageElement>(null);
-  const [imageGridRefOnLoad, setImageGridRefOnLoad] = useState<boolean>(false); // loading state checker
 
-  useEffect(() => {
-    if (imageGridRef.current) {
-      setImageGridRefOnLoad(true);
-
-      const handleLoad = () => {
-        setImageGridRefOnLoad(false);
-      };
-
-      const handleError = () => {
-        setImageGridRefOnLoad(false);
-      };
-
-      // Attach event listeners
-      imageGridRef.current.onload = handleLoad;
-      imageGridRef.current.onerror = handleError;
-    }
-  }, []);
+  const { imageGridRef, imageGridRefOnLoad } = useHookSingleImageLoading();
 
   // TODO: there is an error when add two same files consecutively
   function handleClickImageUploadButton() {

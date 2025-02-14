@@ -3,6 +3,7 @@ import { DialogPanel } from "@headlessui/react";
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import LoadingIndicatorWithDiv from "./LoadingIndicatorWithDiv";
+import useHookSingleImageLoading from "@/customHooks/useHookSingleImageLoading";
 
 interface Props {
   setFullScreenImage: (
@@ -20,39 +21,19 @@ export default function FullScreenImage({
   name,
   setFullScreenImage,
 }: Props) {
-  const fullScreenImageRef = useRef<HTMLImageElement>(null);
-  const [fullScreenImageRefOnLoad, setFullScreenImageRefOnLoad] =
-    useState(false);
-
-  useEffect(() => {
-    if (fullScreenImageRef.current) {
-      setFullScreenImageRefOnLoad(true);
-
-      const handleLoad = () => {
-        setFullScreenImageRefOnLoad(false);
-      };
-
-      const handleError = () => {
-        setFullScreenImageRefOnLoad(false);
-      };
-
-      // Attach event listeners
-      fullScreenImageRef.current.onload = handleLoad;
-      fullScreenImageRef.current.onerror = handleError;
-    }
-  }, [url]);
+  const { imageGridRef, imageGridRefOnLoad } = useHookSingleImageLoading();
 
   return (
     <div className="fixed inset-0 flex w-screen h-screen items-center justify-center bg-black/65">
       <DialogPanel className="flex flex-col">
-        {fullScreenImageRefOnLoad ? (
+        {imageGridRefOnLoad ? (
           <LoadingIndicatorWithDiv />
         ) : (
           <>
             <img
               src={url}
               alt="image"
-              ref={fullScreenImageRef}
+              ref={imageGridRef}
               className="border-8 border-aqua-forest-300/50 max-h-[90vh]"
             />
             <div className="flex justify-between text-white">

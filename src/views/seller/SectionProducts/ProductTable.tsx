@@ -1,10 +1,10 @@
+import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import { ProductEntity } from "@/utils/entities";
 import { albumCoverImageSmall, joinUrl } from "@/utils/strings";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
-import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 interface ProductTableProps {
@@ -20,54 +20,9 @@ export default function ProductTable({
 }: ProductTableProps) {
   const { pathname } = useLocation();
 
-  const imagesRef = useRef<Map<string, HTMLImageElement | null>>(null);
-  function getImageRefMap() {
-    if (!imagesRef.current) {
-      // Initialize the Map on first usage.
-      imagesRef.current = new Map();
-    }
-    return imagesRef.current;
-  }
-
-  const [imageGridOnLoad, setImageGridOnLoad] = useState<Map<string, boolean>>(
-    new Map(productStats.map((product) => [product.id, false]))
-  ); // loading state checker
-
-  useEffect(() => {
-    const map = getImageRefMap();
-
-    productStats.forEach((product) => {
-      const imageRef = map.get(product.id);
-
-      if (imageRef) {
-        setImageGridOnLoad((prevMap) => {
-          const newMap = new Map(prevMap); // Create a new Map instance
-          newMap.set(product.id, true); // Update the value
-          return newMap; // Return the new map to trigger re-render
-        });
-
-        const handleLoad = () => {
-          setImageGridOnLoad((prevMap) => {
-            const newMap = new Map(prevMap); // Create a new Map instance
-            newMap.set(product.id, false); // Update the value
-            return newMap; // Return the new map to trigger re-render
-          });
-        };
-
-        const handleError = () => {
-          setImageGridOnLoad((prevMap) => {
-            const newMap = new Map(prevMap); // Create a new Map instance
-            newMap.set(product.id, false); // Update the value
-            return newMap; // Return the new map to trigger re-render
-          });
-        };
-
-        // Attach event listeners
-        imageRef.onload = handleLoad;
-        imageRef.onerror = handleError;
-      }
-    });
-  }, [productStats]);
+  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
+    productStats.map((a) => a.id)
+  );
 
   return (
     <div className="grid grid-cols-1 stn:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 w-full text-sm text-left mt-5 text-white content-start items-start">
@@ -102,13 +57,6 @@ export default function ProductTable({
           <div className="text-center">{product.name}</div>
 
           <div className="flex justify-center items-center gap-4 text-lg">
-            {/* <button
-              className="hover:scale-125 transition"
-              data-tooltip-id={`${product.id}-tooltip-edit`}
-            >
-              <FaEdit />
-            </button> */}
-
             <button
               className="hover:scale-125 transition"
               data-tooltip-id={`${product.id}-tooltip-delete`}

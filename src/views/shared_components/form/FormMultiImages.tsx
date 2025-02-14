@@ -18,6 +18,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { Dialog } from "@headlessui/react";
 import Debug from "../FullScreenImage";
 import LoadingIndicator from "../LoadingIndicator";
+import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 
 interface FormInputProps {
   additionalStyleButton?: string; // for the input field
@@ -52,59 +53,14 @@ export default function FormMultipleImages({
 }: FormInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
+    uploadedImages.map((image) => image.id)
+  );
+
   const [fullScreenImage, setFullScreenImage] = useState<{
     url: string;
     name: string;
   } | null>(null);
-
-  const imagesRef = useRef<Map<string, HTMLImageElement | null>>(null);
-  function getImageRefMap() {
-    if (!imagesRef.current) {
-      // Initialize the Map on first usage.
-      imagesRef.current = new Map();
-    }
-    return imagesRef.current;
-  }
-
-  const [imageGridRefOnLoad, setImageGridRefOnLoad] = useState<
-    Map<string, boolean>
-  >(new Map(uploadedImages.map((image) => [image.id, false]))); // loading state checker
-
-  useEffect(() => {
-    const map = getImageRefMap();
-
-    uploadedImages.forEach((image) => {
-      const imageRef = map.get(image.id);
-
-      if (imageRef) {
-        setImageGridRefOnLoad((prevMap) => {
-          const newMap = new Map(prevMap); // Create a new Map instance
-          newMap.set(image.id, true); // Update the value
-          return newMap; // Return the new map to trigger re-render
-        });
-
-        const handleLoad = () => {
-          setImageGridRefOnLoad((prevMap) => {
-            const newMap = new Map(prevMap); // Create a new Map instance
-            newMap.set(image.id, false); // Update the value
-            return newMap; // Return the new map to trigger re-render
-          });
-        };
-
-        const handleError = () => {
-          setImageGridRefOnLoad((prevMap) => {
-            const newMap = new Map(prevMap); // Create a new Map instance
-            newMap.set(image.id, false); // Update the value
-            return newMap; // Return the new map to trigger re-render
-          });
-        };
-
-        // Attach event listeners
-        imageRef.onload = handleLoad;
-        imageRef.onerror = handleError;
-      }
-    });
-  }, [uploadedImages]);
 
   function handleClickImageUploadButton() {
     fileInputRef.current?.click();
@@ -149,7 +105,7 @@ export default function FormMultipleImages({
               >
                 {/* TODO:[2] Click on image to see details (not in edit mode) */}
                 {typeof file === "string" ? (
-                  imageGridRefOnLoad.get(id) ? (
+                  imageGridOnLoad.get(id) ? (
                     <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline">
                       <LoadingIndicator />
                     </div>
@@ -175,7 +131,7 @@ export default function FormMultipleImages({
                     />
                   )
                 ) : file.type.startsWith("image/") ? (
-                  imageGridRefOnLoad.get(id) ? (
+                  imageGridOnLoad.get(id) ? (
                     <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline">
                       <LoadingIndicator />
                     </div>

@@ -5,6 +5,7 @@ import { AdminEntity, SellerEntity } from "@/utils/entities";
 import { RoleEnum } from "@/utils/enums";
 import { useQuery } from "@apollo/client";
 
+// return user info based on role
 export function useHookGetUserInfo() {
   // const dispatch = useAppDispatch();
   const { role } = useAppSelector((state) => state.auth);
