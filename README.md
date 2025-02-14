@@ -61,6 +61,7 @@
 - Show loading page when preparing the dashboard.
 - Calculate the discounted price for customer.
 - Show icon for number of pending sellers in Admin/Sellers tab
+- detect whether full-screen image is on loading, and if so, show loader
 
 ## User Roles, User Authentication, and Routes Protection
 
@@ -75,6 +76,7 @@
 ## 📋 Coming Next
 
 - [ ] how to handle manually put-in routes that are not serviced by our site?
+- [ ] Email Verfication after signup
 - [ ] Currently, when user is not logged in and refresh page, three API erros showing.
 - [ ] A nice default reminder when user puts in wrong route
 - [ ] compare apexcharts with Chart.js, D3.js

@@ -20,7 +20,7 @@ export default function Header({
   const { role } = useAppSelector((state) => state.auth);
   const userInfo = useHookGetUserInfo();
   return (
-    <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border h-header-height bg-aqua-forest-200 ">
+    <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border h-header-height bg-aqua-forest-200 font-arsenal-spaced-1">
       {/* Logo & Menu Button */}
       <div className="xl:hidden inline-flex items-center justify-center">
         <Link

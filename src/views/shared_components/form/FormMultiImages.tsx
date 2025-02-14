@@ -1,15 +1,23 @@
-import { capFirstLetter, shortenMiddle } from "@/utils/strings";
+import {
+  albumCoverImageLarge,
+  albumCoverImageSmall,
+  capFirstLetter,
+  shortenMiddle,
+} from "@/utils/strings";
 import {
   styleFormErrorMessage,
   styleFormLabel,
   styleImagePreview,
   styleImageUploadIndicator,
 } from "@/utils/styles";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { MdDelete } from "react-icons/md";
 import { MdImageNotSupported } from "react-icons/md";
 import { IoIosAddCircle } from "react-icons/io";
+import { Dialog } from "@headlessui/react";
+import Debug from "../FullScreenImage";
+import LoadingIndicator from "../LoadingIndicator";
 
 interface FormInputProps {
   additionalStyleButton?: string; // for the input field
@@ -43,6 +51,60 @@ export default function FormMultipleImages({
   disabled,
 }: FormInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [fullScreenImage, setFullScreenImage] = useState<{
+    url: string;
+    name: string;
+  } | null>(null);
+
+  const imagesRef = useRef<Map<string, HTMLImageElement | null>>(null);
+  function getImageRefMap() {
+    if (!imagesRef.current) {
+      // Initialize the Map on first usage.
+      imagesRef.current = new Map();
+    }
+    return imagesRef.current;
+  }
+
+  const [imageGridRefOnLoad, setImageGridRefOnLoad] = useState<
+    Map<string, boolean>
+  >(new Map(uploadedImages.map((image) => [image.id, false]))); // loading state checker
+
+  useEffect(() => {
+    const map = getImageRefMap();
+
+    uploadedImages.forEach((image) => {
+      const imageRef = map.get(image.id);
+
+      if (imageRef) {
+        setImageGridRefOnLoad((prevMap) => {
+          const newMap = new Map(prevMap); // Create a new Map instance
+          newMap.set(image.id, true); // Update the value
+          return newMap; // Return the new map to trigger re-render
+        });
+
+        const handleLoad = () => {
+          setImageGridRefOnLoad((prevMap) => {
+            const newMap = new Map(prevMap); // Create a new Map instance
+            newMap.set(image.id, false); // Update the value
+            return newMap; // Return the new map to trigger re-render
+          });
+        };
+
+        const handleError = () => {
+          setImageGridRefOnLoad((prevMap) => {
+            const newMap = new Map(prevMap); // Create a new Map instance
+            newMap.set(image.id, false); // Update the value
+            return newMap; // Return the new map to trigger re-render
+          });
+        };
+
+        // Attach event listeners
+        imageRef.onload = handleLoad;
+        imageRef.onerror = handleError;
+      }
+    });
+  }, [uploadedImages]);
 
   function handleClickImageUploadButton() {
     fileInputRef.current?.click();
@@ -83,16 +145,61 @@ export default function FormMultipleImages({
               <button
                 className="relative w-[inherit] aspect-square group"
                 type="button"
-                disabled={disabled}
+                // disabled={disabled}
               >
+                {/* TODO:[2] Click on image to see details (not in edit mode) */}
                 {typeof file === "string" ? (
-                  <img src={file} alt="Preview" className={styleImagePreview} />
+                  imageGridRefOnLoad.get(id) ? (
+                    <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline">
+                      <LoadingIndicator />
+                    </div>
+                  ) : (
+                    <img
+                      src={albumCoverImageSmall(file)}
+                      alt="Preview"
+                      className={styleImagePreview}
+                      onClick={() =>
+                        setFullScreenImage({
+                          url: albumCoverImageLarge(file),
+                          name,
+                        })
+                      }
+                      ref={(node) => {
+                        const map = getImageRefMap();
+                        map.set(id, node);
+                        return () => {
+                          // called when removing
+                          map.delete(id);
+                        };
+                      }}
+                    />
+                  )
                 ) : file.type.startsWith("image/") ? (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt="Preview"
-                    className={styleImagePreview}
-                  />
+                  imageGridRefOnLoad.get(id) ? (
+                    <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline">
+                      <LoadingIndicator />
+                    </div>
+                  ) : (
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt="Preview"
+                      className={styleImagePreview}
+                      onClick={() =>
+                        setFullScreenImage({
+                          url: URL.createObjectURL(file),
+                          name,
+                        })
+                      }
+                      ref={(node) => {
+                        const map = getImageRefMap();
+                        map.set(id, node);
+                        return () => {
+                          // called when removing
+                          map.delete(id);
+                        };
+                      }}
+                    />
+                  )
                 ) : (
                   <div className="w-[inherit] aspect-square border border-sky-50 rounded-2xl shadow-2xl flex flex-col justify-center items-center bg-red-400 gap-y-2 group-hover:brightness-[30%]">
                     <MdImageNotSupported className="text-[3rem]" />
@@ -139,6 +246,20 @@ export default function FormMultipleImages({
           {errorMessage}
         </p>
       )}
+
+      <Dialog
+        open={!!(fullScreenImage && disabled)}
+        onClose={() => {
+          setFullScreenImage(null);
+        }}
+        className="relative z-[60]"
+      >
+        <Debug
+          setFullScreenImage={setFullScreenImage}
+          url={fullScreenImage?.url}
+          name={fullScreenImage?.name}
+        />
+      </Dialog>
     </div>
   );
 }

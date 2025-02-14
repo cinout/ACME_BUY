@@ -10,7 +10,7 @@ export const styleFormLabel = "font-bold block mb-0.5";
  * Form - Image
  */
 export const styleImagePreview =
-  "w-full aspect-square object-contain border border-sky-50 rounded-2xl shadow-2xl group-hover:brightness-[30%] group-disabled:brightness-100";
+  "w-full aspect-square object-contain border border-sky-50 rounded-2xl shadow-2xl group-hover:brightness-[30%]";
 
 export const styleImageUploadIndicator =
   "group flex flex-col justify-center items-center w-28 h-28 bg-sky-50 rounded-2xl text-sky-700 gap-y-2 hover:brightness-75 transition";

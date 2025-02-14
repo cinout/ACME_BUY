@@ -37,6 +37,7 @@ export default function NavigationPanel() {
   return (
     <div className="font-arsenal-spaced-1">
       {/* First Row: Logo, Search, Login */}
+      {/* TODO:[1] change color whne scroll up, hide color when scroll down */}
       <div className="grid grid-cols-[2fr_2fr_1fr] lg:grid-cols-3 py-6 px-8">
         <Link to="/" className="justify-self-start self-center">
           <img src={logo} alt="Company Logo" className="h-10" />
@@ -83,6 +84,7 @@ export default function NavigationPanel() {
 
       {/* Genres  */}
       {/* TODO:[3] implement each page */}
+      {/* TODO:[1] hide when scroll up, show again when scroll down */}
       <div className="bg-aqua-forest-200 h-7 flex items-center">
         <NavBarItem
           title="Genre"

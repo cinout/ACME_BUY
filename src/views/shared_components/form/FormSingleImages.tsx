@@ -1,11 +1,15 @@
-import { capFirstLetter, shortenMiddle } from "@/utils/strings";
+import {
+  albumCoverImageLarge,
+  capFirstLetter,
+  shortenMiddle,
+} from "@/utils/strings";
 import {
   styleFormErrorMessage,
   styleFormLabel,
   styleImagePreview,
   styleImageUploadIndicator,
 } from "@/utils/styles";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import {
   FieldError,
   FieldErrorsImpl,
@@ -15,6 +19,9 @@ import {
 import { MdDelete } from "react-icons/md";
 import { MdImageNotSupported } from "react-icons/md";
 import { IoIosAddCircle } from "react-icons/io";
+import { Dialog } from "@headlessui/react";
+import Debug from "../FullScreenImage";
+import LoadingIndicator from "../LoadingIndicator";
 
 interface FormProps {
   additionalStyleButton?: string;
@@ -60,6 +67,30 @@ export default function FormSingleImage({
   hideImageName = false,
 }: FormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fullScreenImage, setFullScreenImage] = useState<{
+    url: string;
+    name: string;
+  } | null>(null);
+  const imageGridRef = useRef<HTMLImageElement>(null);
+  const [imageGridRefOnLoad, setImageGridRefOnLoad] = useState<boolean>(false); // loading state checker
+
+  useEffect(() => {
+    if (imageGridRef.current) {
+      setImageGridRefOnLoad(true);
+
+      const handleLoad = () => {
+        setImageGridRefOnLoad(false);
+      };
+
+      const handleError = () => {
+        setImageGridRefOnLoad(false);
+      };
+
+      // Attach event listeners
+      imageGridRef.current.onload = handleLoad;
+      imageGridRef.current.onerror = handleError;
+    }
+  }, []);
 
   // TODO: there is an error when add two same files consecutively
   function handleClickImageUploadButton() {
@@ -94,23 +125,51 @@ export default function FormSingleImage({
           className={`relative group flex flex-col justify-center items-center w-28 h-28 rounded-2xl text-sky-700 gap-y-2 not-disabled:hover:brightness-75 transition ${additionalStyleButton}`}
           type="button"
           onClick={handleClickImageUploadButton}
-          disabled={disabled}
+          // disabled={disabled}
         >
           {uploadedImage.file ? (
             // image read from backend
             typeof uploadedImage.file === "string" ? (
-              <img
-                src={uploadedImage.file}
-                alt="Preview"
-                className={`${styleImagePreview}`}
-              />
+              imageGridRefOnLoad ? (
+                <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline outline-white">
+                  <LoadingIndicator />
+                </div>
+              ) : (
+                <img
+                  src={uploadedImage.file}
+                  alt="Preview"
+                  className={`${styleImagePreview}`}
+                  onClick={() =>
+                    setFullScreenImage({
+                      url: albumCoverImageLarge(uploadedImage.file as string),
+                      name: uploadedImage.name!,
+                    })
+                  }
+                  ref={imageGridRef}
+                />
+              )
             ) : // image is uploaded by user, and of correct file type
             uploadedImage.file?.type.startsWith("image/") ? (
-              <img
-                src={URL.createObjectURL(uploadedImage.file)}
-                alt="Preview"
-                className={`${styleImagePreview}`}
-              />
+              imageGridRefOnLoad ? (
+                <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline outline-white">
+                  <LoadingIndicator />
+                </div>
+              ) : (
+                <img
+                  src={URL.createObjectURL(uploadedImage.file)}
+                  alt="Preview"
+                  className={`${styleImagePreview}`}
+                  onClick={() =>
+                    setFullScreenImage({
+                      url: albumCoverImageLarge(
+                        URL.createObjectURL(uploadedImage.file as File)
+                      ),
+                      name: uploadedImage.name!,
+                    })
+                  }
+                  ref={imageGridRef}
+                />
+              )
             ) : (
               // Unspported format
               <div
@@ -153,6 +212,20 @@ export default function FormSingleImage({
           </p>
         )}
       </div>
+
+      <Dialog
+        open={!!(fullScreenImage && disabled)}
+        onClose={() => {
+          setFullScreenImage(null);
+        }}
+        className="relative z-[60]"
+      >
+        <Debug
+          setFullScreenImage={setFullScreenImage}
+          url={fullScreenImage?.url}
+          name={fullScreenImage?.name}
+        />
+      </Dialog>
     </div>
   );
 }

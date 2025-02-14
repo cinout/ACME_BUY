@@ -177,6 +177,10 @@ export default function SectionProfile() {
           label="Profile Image"
           handleAddImage={handleAddImage}
           handleRemoveImage={handleRemoveImage}
+          // uploadedImage={{
+          //   file: "http://coverartarchive.org/release/c9bb08ea-a797-43a9-b068-3876b77f8500/34857843791.jpg",
+          //   name: "hoho",
+          // }}
           uploadedImage={uploadedImage}
           error={errors.image}
           hideImageName={true}

@@ -65,7 +65,7 @@ function MenuContent({
             to={item.goto}
             key={item.name}
             className={({ isActive }) =>
-              `group block pl-5 py-3 font-medium hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-0 ${
+              `group block pl-5 py-3 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-0 ${
                 isActive
                   ? "bg-aqua-forest-500 text-aqua-forest-200 shadow-aqua-forest-200"
                   : "text-aqua-forest-600"
@@ -83,7 +83,7 @@ function MenuContent({
 
       {/* TODO: implement log out */}
       <button
-        className="absolute bottom-6 left-0 pl-5 flex items-center font-medium text-aqua-forest-900 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full"
+        className="absolute bottom-6 left-0 pl-5 flex items-center text-aqua-forest-900 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full"
         onClick={handleLogout}
       >
         <IoIosLogOut className="text-2xl m-2" />
@@ -144,7 +144,7 @@ export default function Sidebar({
   return (
     <>
       {/* Large Screen */}
-      <div className="box-border fixed top-0 left-0 h-full w-dashbord-width bg-aqua-forest-200 z-50 hidden xl:block shadow-2xl">
+      <div className="box-border fixed top-0 left-0 h-full w-dashbord-width bg-aqua-forest-200 z-50 hidden xl:block shadow-2xl font-arsenal-spaced-1">
         {/* TODO: handle to="/" attribute */}
         <Link
           to="/"
@@ -161,7 +161,7 @@ export default function Sidebar({
       <AnimatePresence>
         {showSidebar && (
           <motion.div
-            className={`flex flex-col flex-1 xl:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[31.25rem] bg-aqua-forest-200 `}
+            className={`flex flex-col flex-1 xl:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[31.25rem] bg-aqua-forest-200 font-arsenal-spaced-1`}
             ref={menuRef}
             initial={{ translateY: "-0.625rem", opacity: 0 }}
             animate={{

@@ -1,4 +1,35 @@
-export function shortenEnd(input: string | undefined, length: number) {
+/**
+ * Album Cover Image
+ */
+// TODO:[1] only used for dummy images. Remove them once real data is in
+export function albumCoverImageLarge(image: string | undefined | null) {
+  if (!image) {
+    return "";
+  }
+
+  if (image.includes("coverartarchive.org")) {
+    const parts = image.split(/.(jpg|png)$/);
+    return parts[0] + "-500" + parts[1];
+  } else {
+    return image;
+  }
+}
+
+// TODO:[1] only used for dummy images. Remove them once real data is in
+export function albumCoverImageSmall(image: string | undefined | null) {
+  if (!image) {
+    return "";
+  }
+
+  if (image.includes("coverartarchive.org")) {
+    const parts = image.split(/.(jpg|png)$/);
+    return parts[0] + "-250" + parts[1];
+  } else {
+    return image;
+  }
+}
+
+export function shortenEnd(input: string | undefined | null, length: number) {
   if (!input) {
     return "";
   }
@@ -10,7 +41,10 @@ export function shortenEnd(input: string | undefined, length: number) {
   }
 }
 
-export function shortenMiddle(input: string | undefined, length: number) {
+export function shortenMiddle(
+  input: string | undefined | null,
+  length: number
+) {
   if (!input) {
     return "";
   }
