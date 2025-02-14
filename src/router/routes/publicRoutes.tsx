@@ -15,10 +15,21 @@ const publicRoutesInWrapper: RouteObject[] = [
     path: "/",
     element: <HomePage />,
   },
+  /**
+   * NavBar
+   */
   {
-    path: "/genres/:genre?",
+    path: "/genre/:genre?",
     element: <GenrePage />,
   },
+  // {
+  //   path: "/format/:format?",
+  //   element: <FormatPage />,
+  // },
+
+  /**
+   * Footer
+   */
   {
     path: "/contact",
     element: <ContactPage />,

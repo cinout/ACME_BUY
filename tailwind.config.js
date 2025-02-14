@@ -69,6 +69,9 @@ export default {
         //   },
         // },
       },
+      fontFamily: {
+        arsenal: ["Arsenal", "serif"], // Add the Arsenal font
+      },
     },
   },
   plugins: [

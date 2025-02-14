@@ -57,9 +57,9 @@ export default function SellerSignup() {
   }
 
   return (
-    <div className="bg-gradient-to-tr from-aqua-forest-100 to-sky-200 flex justify-center items-center min-w-full min-h-full relative">
-      <Link className="absolute top-4 left-4 w-48" to="/">
-        <img src={logo} className="w-full" />
+    <div className="bg-gradient-to-tr from-aqua-forest-100 to-sky-200 flex justify-center items-center min-w-full min-h-full relative font-arsenal-spaced-1">
+      <Link className="absolute top-4 left-4 h-10" to="/">
+        <img src={logo} className="h-full" />
       </Link>
       {role === RoleEnum.Seller && !didSubmit ? (
         <div className="flex flex-col items-center gap-y-6">
@@ -194,7 +194,7 @@ export default function SellerSignup() {
                 className="w-6 h-6 mr-4"
               />
               <label htmlFor="agree" className="text-sm">
-                {`By ticking this box, I agree to ACME BUY's privacy policy & terms.`}
+                {`By ticking this box, I agree to SWAP SOUND's privacy policy & terms.`}
                 {/* TODO: add link to some random template privacy policy & terms  */}
               </label>
             </div>
@@ -221,7 +221,7 @@ export default function SellerSignup() {
           <div className="flex flex-col items-center">
             <Link to="/login/seller" className="mb-2 w-72">
               <SignInOptionButton additionalStyle="bg-slate-100 w-full">
-                ACME BUY Account
+                SWAP SOUND Account
               </SignInOptionButton>
             </Link>
 

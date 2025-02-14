@@ -1,3 +1,6 @@
+/* Arsenal Font */
+@import url("https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,6 +21,14 @@
   }
   .text-shadow-light {
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+  }
+  .font-arsenal-spaced-1 {
+    font-family: "Arsenal", serif;
+    letter-spacing: 1px;
+  }
+  .font-arsenal-spaced-2 {
+    font-family: "Arsenal", serif;
+    letter-spacing: 2px;
   }
 }
 

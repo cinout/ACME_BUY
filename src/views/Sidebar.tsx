@@ -150,7 +150,7 @@ export default function Sidebar({
           to="/"
           className="flex justify-center mt-6 mb-12 hover:brightness-90 transition"
         >
-          <img src={logo} alt="company logo" className=" w-[12.5rem]" />
+          <img src={logo} alt="company logo" className="w-[12.5rem]" />
         </Link>
 
         <MenuContent panelOptions={panelOptions} pathname={pathname} />

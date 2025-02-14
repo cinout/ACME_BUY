@@ -42,9 +42,9 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="bg-gradient-to-tr from-aqua-forest-800 to-sky-800 flex justify-center items-center min-w-full min-h-full relative">
-      <Link className="absolute top-4 left-4 w-48" to="/">
-        <img src={logo} className="w-full" />
+    <div className="bg-gradient-to-tr from-aqua-forest-800 to-sky-800 flex justify-center items-center min-w-full min-h-full relative font-arsenal-spaced-1">
+      <Link className="absolute top-4 left-4 h-10" to="/">
+        <img src={logo} className="h-full" />
       </Link>
       {role === RoleEnum.Admin && !didSubmit ? (
         <div className="flex flex-col items-center gap-y-6">

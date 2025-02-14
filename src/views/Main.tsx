@@ -13,7 +13,7 @@ function Content() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <div className="relative w-full bg-sky-100 min-h-screen overflow-y-auto ">
+    <div className="relative w-full bg-sky-100 min-h-screen overflow-y-auto">
       <Sidebar
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}

@@ -1,63 +1,43 @@
 import logo from "@/assets/images/company_logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { useQuery } from "@apollo/client";
 import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import { GenreEntity } from "@/utils/entities";
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import NavBarItem from "../shared_components/NavBarItem";
+import {
+  media_formats,
+  quality_condition,
+  release_region,
+  release_year_range,
+} from "@/utils/selectorOptions";
+import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
+import { useAppSelector } from "@/redux/hooks";
+import { RoleEnum } from "@/utils/enums";
 
 // TODO:[3] make it reponsive to screen size
 export default function NavigationPanel() {
   /**
-   * State
+   * Hooks (User Info)
    */
-  const [showDropDown, setShowDropdown] = useState(false);
-
-  /**
-   * Ref
-   */
-  const genreMenuRef = useRef<HTMLAnchorElement>(null);
-  const genreMenuDropdownRef = useRef<HTMLDivElement>(null);
+  const userInfo = useHookGetUserInfo();
+  const { role } = useAppSelector((state) => state.auth);
 
   /**
    * GQL
    */
   const gqlGenresGetAll = useQuery(GQL_GENRES_GET_ALL);
   const allGenres = gqlGenresGetAll.data?.getAllGenres as GenreEntity[];
-
-  /**
-   * Effect
-   */
-  useEffect(() => {
-    function handleMouseAndDropdown(event: MouseEvent) {
-      if (genreMenuDropdownRef.current && genreMenuRef.current) {
-        // Get the element under the cursor
-        const cursorPosition = document.elementFromPoint(
-          event.clientX,
-          event.clientY
-        );
-
-        setShowDropdown(
-          genreMenuDropdownRef.current?.contains(cursorPosition) ||
-            genreMenuRef.current?.contains(cursorPosition)
-        );
-      }
-    }
-
-    // Add event listener
-    document.addEventListener("mousemove", handleMouseAndDropdown);
-
-    // Cleanup event listener
-    return () => {
-      document.removeEventListener("mousemove", handleMouseAndDropdown);
-    };
-  }, []);
+  // Create a shallow copy and sort the copy
+  const sortedGenres =
+    allGenres && allGenres.length > 0
+      ? allGenres.slice().sort((a, b) => a.name.localeCompare(b.name))
+      : [];
 
   return (
-    <div>
+    <div className="font-arsenal-spaced-1">
       {/* First Row: Logo, Search, Login */}
-      <div className="grid grid-cols-3 py-2 px-8 bg-aqua-forest-100 ">
+      <div className="grid grid-cols-[2fr_2fr_1fr] lg:grid-cols-3 py-6 px-8">
         <Link to="/" className="justify-self-start self-center">
           <img src={logo} alt="Company Logo" className="h-10" />
         </Link>
@@ -65,11 +45,11 @@ export default function NavigationPanel() {
         {/* TODO:[2] implement search function */}
         <div className="gap-x-4 justify-self-center self-center flex items-center">
           <input
-            placeholder="find product..."
+            placeholder="dig some tunes..."
             name="search"
             type="text"
             className={
-              "h-8 w-80 bg-aqua-forest-50 border-white border-2 box-content rounded-md px-4 text-aqua-forest-700 outline-none placeholder:font-light placeholder:italic"
+              "h-8 w-44 md:w-60 lg:w-80 bg-aqua-forest-50 border-aqua-forest-600 border-2 box-content rounded-md px-4 text-aqua-forest-700 outline-none placeholder:font-light placeholder:italic"
             }
           />
           <button className="cursor-pointer text-2xl text-aqua-forest-700 hover:scale-110 transition">
@@ -77,84 +57,72 @@ export default function NavigationPanel() {
           </button>
         </div>
 
-        {/* TODO:[3] implement login*/}
-        <div className="justify-self-end self-center">Login</div>
+        <div className="justify-self-end self-center">
+          {userInfo ? (
+            <Link
+              to={
+                role === RoleEnum.Seller
+                  ? "/seller/dashboard"
+                  : role === RoleEnum.Admin
+                  ? "/admin/dashboard"
+                  : "/customer/dashboard"
+              }
+            >
+              <img
+                src={userInfo?.imageUrl} // TODO: set default image in customer, seller, admin in backend when they signed up
+                alt="user image"
+                className="h-[2.5rem] w-[2.5rem border-2 border-aqua-forest-600/60 rounded-full hover:border-aqua-forest-600 hover:brightness-110 transition duration-200"
+              />
+            </Link>
+          ) : (
+            // TODO:[3] implement Log in
+            <Link to="login/seller">Login</Link>
+          )}
+        </div>
       </div>
 
       {/* Genres  */}
-      {/* TODO:[3] implement each genre page */}
-      {/* TODO:[3] only demonstrate a few popular options in navbar */}
-      <div className="bg-aqua-forest-200 h-7 flex items-center relative">
-        <AnimatePresence>
-          {showDropDown && (
-            <motion.div
-              className="peer/dropdown absolute left-0 top-7 w-64 bg-aqua-forest-700 text-aqua-forest-100 shadow-lg"
-              onMouseOver={() => setShowDropdown(true)}
-              onMouseLeave={() => setShowDropdown(false)}
-              initial={{ opacity: 0, width: "12rem" }} // Start hidden & slightly above
-              animate={{ opacity: 1, width: "16rem" }} // Fade in & slide down
-              exit={{ opacity: 0, width: "12rem" }} // Fade out & slide up
-              transition={{
-                duration: 0.2,
-              }}
-              style={{
-                transitionTimingFunction: "linear", // Exactly match framer motion
-              }}
-              ref={genreMenuDropdownRef}
-            >
-              <div className="flex flex-col items-center">
-                {allGenres?.map((genre) => (
-                  <NavLink
-                    to={`/genres/${genre.name.toLowerCase()}`}
-                    key={genre.id}
-                    className={({ isActive }) =>
-                      `w-full flex justify-center items-center hover:bg-aqua-forest-500 ${
-                        isActive && "bg-aqua-forest-500 font-semibold h-"
-                      }`
-                    }
-                    end
-                  >
-                    {genre.name}
-                  </NavLink>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {/* TODO:[3] implement each page */}
+      <div className="bg-aqua-forest-200 h-7 flex items-center">
+        <NavBarItem
+          title="Genre"
+          dropdownOptions={sortedGenres.map((a) => ({
+            id: a.id,
+            name: a.name,
+          }))}
+        />
 
-        <NavLink
-          to="/genres"
-          className={({ isActive }) =>
-            `hover:bg-aqua-forest-700 hover:text-aqua-forest-100 peer-hover/dropdown:bg-aqua-forest-700 peer-hover/dropdown:text-aqua-forest-100 transition-all duration-200 ease-linear h-full w-64 inline-flex justify-center items-center border-r border-aqua-forest-700 box-border ${
-              isActive
-                ? "text-aqua-forest-700 font-semibold"
-                : "text-aqua-forest-600"
-            }}`
-          }
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setTimeout(() => setShowDropdown(false), 200)} // Small delay to allow hovering to dropdown
-          end
-          ref={genreMenuRef}
-        >
-          All Genres
-        </NavLink>
+        <NavBarItem
+          title="Format"
+          dropdownOptions={media_formats.map((a) => ({
+            id: a,
+            name: a,
+          }))}
+        />
 
-        {allGenres?.map((genre) => (
-          <NavLink
-            to={`/genres/${genre.name.toLowerCase()}`}
-            key={genre.id}
-            className={({ isActive }) =>
-              `hover:bg-aqua-forest-700 hover:text-aqua-forest-100 transition h-full w-28 inline-flex justify-center items-center border-aqua-forest-600 ${
-                isActive
-                  ? "text-aqua-forest-700 font-semibold"
-                  : "text-aqua-forest-600"
-              }`
-            }
-            end
-          >
-            {genre.name}
-          </NavLink>
-        ))}
+        <NavBarItem
+          title="Year"
+          dropdownOptions={release_year_range.map((a) => ({
+            id: a,
+            name: a,
+          }))}
+        />
+
+        <NavBarItem
+          title="Grading"
+          dropdownOptions={quality_condition.map((a) => ({
+            id: a,
+            name: a,
+          }))}
+        />
+
+        <NavBarItem
+          title="Region"
+          dropdownOptions={release_region.map((a) => ({
+            id: a,
+            name: a,
+          }))}
+        />
       </div>
     </div>
   );
