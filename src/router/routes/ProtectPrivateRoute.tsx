@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { PrivateAdminRouteType } from "./privateAdminRoutes";
 import { PrivateSellerRouteType } from "./privateSellerRoutes";
-import { SellerEntity } from "@/utils/entities";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 
 interface ProtectPrivateRouteProps {
@@ -29,7 +28,7 @@ export default function ProtectPrivateRoute({
       if (role === RoleEnum.Seller) {
         // for sellers
 
-        const sellerStatus = (userInfo as SellerEntity)?.status;
+        const sellerStatus = userInfo?.status;
 
         if (sellerStatus) {
           // user info is successfully hydrated
@@ -62,8 +61,6 @@ export default function ProtectPrivateRoute({
       } else if (role === RoleEnum.Admin) {
         // for Admin
         return children;
-      } else {
-        // TODO: what about for Customer Role?
       }
     } else {
       // user role does not match route's accessRoles
@@ -71,14 +68,6 @@ export default function ProtectPrivateRoute({
     }
   } else {
     // user role is not specified
-
-    if (route.path?.startsWith("/admin")) {
-      return <Navigate to="/login/admin" replace />;
-    } else if (route.path?.startsWith("/seller")) {
-      return <Navigate to="/login/seller" replace />;
-    } else {
-      return <Navigate to="/" replace />;
-    }
-    // TODO: implement customer as well
+    return <Navigate to="/login/seller" replace />;
   }
 }

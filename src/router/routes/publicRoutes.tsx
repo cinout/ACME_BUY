@@ -2,7 +2,6 @@ import { RouteObject } from "react-router-dom"; // for typing
 import {
   SellerLogin,
   SellerSignup,
-  AdminLogin,
   HomePage,
   UnauthorizedPage,
   GenrePage,
@@ -50,7 +49,6 @@ export const publicRoutes: RouteObject[] = [
   /**
    * Sign Up & Log in
    */
-  // Seller
   {
     path: "/login/seller",
     element: <SellerLogin />,
@@ -59,12 +57,6 @@ export const publicRoutes: RouteObject[] = [
     path: "/signup/seller",
     element: <SellerSignup />,
   },
-  // Admin
-  {
-    path: "/login/admin",
-    element: <AdminLogin />,
-  },
-  // TODO: where should admin sign up?
 
   /**
    * Other Pages

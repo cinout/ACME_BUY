@@ -26,7 +26,6 @@ export const ContactPage = lazy(() => import("@/views/main/ContactPage"));
  */
 export const SellerLogin = lazy(() => import("@/views/auth/SellerLogin"));
 export const SellerSignup = lazy(() => import("@/views/auth/SellerSignup"));
-export const AdminLogin = lazy(() => import("@/views/auth/AdminLogin"));
 
 /**
  * Error Pages

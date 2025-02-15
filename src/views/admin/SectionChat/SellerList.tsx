@@ -12,6 +12,7 @@ interface SellerListProps {
 // TODO: need to have a X button */}
 
 const baseUrl = "/admin/chat";
+
 export default function SellerList({
   sellerStats,
   setShowList,

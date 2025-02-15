@@ -72,19 +72,12 @@ export default function Header({
         </div>
 
         {/* TODO: see video Section 33 */}
-        {/* TODO: for customer role as well */}
         <Link
-          to={
-            role === RoleEnum.Seller
-              ? "/seller/profile"
-              : role === RoleEnum.Admin
-              ? "/admin/profile"
-              : ""
-          }
+          to={role === RoleEnum.Seller ? "/seller/profile" : "/admin/profile"}
         >
           <div className="w-[3rem]">
             <img
-              src={userInfo?.imageUrl} // TODO: set default image in customer, seller, admin in backend when they signed up
+              src={userInfo?.imageUrl}
               alt="user image"
               className="h-[3rem] w-[3rem] border-2 border-white/20 rounded-full hover:bg-aqua-forest-500 hover:border-white transition duration-200"
             />

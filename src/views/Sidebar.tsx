@@ -108,13 +108,12 @@ export default function Sidebar({
     if (role === RoleEnum.Seller) {
       return (
         a.accessRoles.includes(RoleEnum.Seller) &&
-        a.accessSellerStatus?.includes((userInfo as SellerEntity)?.status)
+        a.accessSellerStatus?.includes(userInfo!.status)
       );
     } else if (role === RoleEnum.Admin) {
       return a.accessRoles.includes(RoleEnum.Admin);
     }
     return false;
-    // TODO: do we need to care about Customer Role?
   });
 
   // Close menu if clicked outside

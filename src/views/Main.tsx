@@ -6,7 +6,6 @@ import { useAppSelector } from "@/redux/hooks";
 import LoadingPage from "./LoadingPage";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { RoleEnum } from "@/utils/enums";
-import { SellerEntity } from "@/utils/entities";
 
 function Content() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -48,14 +47,11 @@ export default function Main() {
   if (["/seller", "/seller/"].includes(pathname)) {
     return <Navigate replace to="/seller/dashboard" />;
   }
-  // TODO: for customer?
 
   // TODO: double-check this logicc (correct so far)
   const conditionForShowingContent =
     updateUserRoleDoneOnFirstRender &&
-    (role && role === RoleEnum.Seller
-      ? (userInfo as SellerEntity)?.status
-      : true);
+    (role && role === RoleEnum.Seller ? userInfo?.status : true);
 
   return conditionForShowingContent ? <Content /> : <LoadingPage />;
 }

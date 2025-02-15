@@ -15,10 +15,6 @@ export interface FormSellerSignupProps {
   shopName: string;
 }
 
-export interface FormAdminLoginProps {
-  email: string;
-  password: string;
-}
 export interface FormSellerLoginProps {
   email: string;
   password: string;
@@ -27,19 +23,6 @@ export interface FormSellerLoginProps {
 /**
  * Async Thunks
  */
-export const adminLogin = createAsyncThunk<unknown, FormAdminLoginProps>(
-  "auth/adminLogin",
-  async (info, thunkAPI) => {
-    try {
-      const result = await api.post("auth/admin-login", info);
-      return thunkAPI.fulfillWithValue(result.data);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(
-        ((e as AxiosError).response?.data as { error: string }).error
-      );
-    }
-  }
-);
 
 // first type is return type, second type is input type
 export const sellerSignup = createAsyncThunk<unknown, FormSellerSignupProps>(
@@ -135,7 +118,6 @@ function afterSignupOrLogin(
 
 interface AuthState {
   role: RoleEnum | undefined;
-  // userInfo: SellerEntity | AdminEntity | undefined; // TODO: customer as well
   updateUserRoleDoneOnFirstRender: boolean;
 }
 
@@ -165,11 +147,6 @@ const authReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Admin Login
-      .addCase(adminLogin.fulfilled, (state, action) => {
-        afterSignupOrLogin(state, action);
-      })
-
       // Seller Signup
       .addCase(sellerSignup.fulfilled, (state, action) => {
         afterSignupOrLogin(state, action);
@@ -179,26 +156,7 @@ const authReducer = createSlice({
       .addCase(sellerLogin.fulfilled, (state, action) => {
         afterSignupOrLogin(state, action);
       });
-
-    // // Get User Info
-    // .addCase(getUser.rejected, (state) => {
-    //   // TODO: what if there is error getting user info? (probably redirect to a page asking to login as either seller/customer/admib)
-    // })
-    // .addCase(getUser.fulfilled, (state, action) => {
-    //   const { userInfo, role } = action.payload as {
-    //     userInfo: SellerEntity | AdminEntity;
-    //     role: RoleEnum;
-    //   };
-    //   state.userInfo = userInfo;
-    //   state.role = role;
-    // })
-
-    // // Log Out
-    // .addCase(logout.fulfilled, (state) => {
-    //   localStorage.removeItem("accessToken");
-    //   state.role = undefined;
-    //   // state.userInfo = undefined;
-    // });
+    // TODO:[2] what if there is error getting user info? (probably redirect to a page asking to login as either
   },
 });
 

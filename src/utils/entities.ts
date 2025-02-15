@@ -33,15 +33,6 @@ export interface SellerEntity extends Entity {
   imageName?: string;
 }
 
-export interface AdminEntity extends Entity {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  imageUrl?: string;
-  imageName?: string;
-}
-
 export interface GenreEntity extends Entity {
   name: string;
   imageUrl?: string;

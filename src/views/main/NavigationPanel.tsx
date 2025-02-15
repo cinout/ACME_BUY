@@ -64,13 +64,11 @@ export default function NavigationPanel() {
               to={
                 role === RoleEnum.Seller
                   ? "/seller/dashboard"
-                  : role === RoleEnum.Admin
-                  ? "/admin/dashboard"
-                  : "/customer/dashboard"
+                  : "/admin/dashboard"
               }
             >
               <img
-                src={userInfo?.imageUrl} // TODO: set default image in customer, seller, admin in backend when they signed up
+                src={userInfo?.imageUrl}
                 alt="user image"
                 className="h-[2.5rem] w-[2.5rem border-2 border-aqua-forest-600/60 rounded-full hover:border-aqua-forest-600 hover:brightness-110 transition duration-200"
               />

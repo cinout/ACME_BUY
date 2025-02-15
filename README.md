@@ -102,3 +102,4 @@
 - [ ] How to create Admin? and remeber that admin needs image by default
 - [ ] Seller and customer needs button to remove themselves from the website
 - [ ] Support track list info adding
+- [ ] update signupMethod for Google/Facebook login
