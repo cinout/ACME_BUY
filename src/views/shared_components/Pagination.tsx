@@ -1,4 +1,4 @@
-import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
+import { iconLeftPagination, iconRightPagination } from "@/utils/icons";
 
 interface PaginationProps {
   currentPage: number;
@@ -32,7 +32,7 @@ export default function Pagination({
         disabled={currentPage === 1}
         className="disabled:text-slate-400 not-disabled:hover:scale-125 transition"
       >
-        <FaChevronCircleLeft />
+        {iconLeftPagination()}
       </button>
 
       {pageOptions.map((pageValue) => (
@@ -52,7 +52,7 @@ export default function Pagination({
         disabled={currentPage >= totalPages}
         className="disabled:text-slate-400 not-disabled:hover:scale-125 transition"
       >
-        <FaChevronCircleRight />
+        {iconRightPagination()}
       </button>
     </div>
   );

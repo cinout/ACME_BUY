@@ -1,9 +1,9 @@
 import { Fragment } from "react";
-import { MdOutlineExpandCircleDown } from "react-icons/md";
 import { motion, AnimatePresence } from "motion/react";
 import { Link, useLocation } from "react-router-dom";
 import { OrderEntity } from "@/utils/entities";
 import { joinUrl } from "@/utils/strings";
+import { iconDownWithCircle } from "@/utils/icons";
 
 interface OrderTableProps {
   orderStats: OrderEntity[];
@@ -40,7 +40,7 @@ export default function OrderTable({
               }`}
               onClick={() => handleClickShowDetails(order.id)}
             >
-              <MdOutlineExpandCircleDown />
+              {iconDownWithCircle()}
             </button>
           </span>
           <span className="mt-2">

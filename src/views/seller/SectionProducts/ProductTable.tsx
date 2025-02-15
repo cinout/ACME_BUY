@@ -1,10 +1,10 @@
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import { ProductEntity } from "@/utils/entities";
+import { iconTrashCan } from "@/utils/icons";
 import { albumCoverImageSmall, joinUrl } from "@/utils/strings";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import { Dispatch, SetStateAction } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 interface ProductTableProps {
@@ -64,7 +64,7 @@ export default function ProductTable({
                 setToDeleteItemId(product.id);
               }}
             >
-              <FaTrashAlt />
+              {iconTrashCan()}
             </button>
           </div>
 

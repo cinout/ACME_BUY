@@ -1,9 +1,10 @@
 import { GenreEntity } from "@/utils/entities";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import { Dispatch, SetStateAction } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+
 import { Link, useLocation } from "react-router-dom";
 import { joinUrl } from "@/utils/strings";
+import { iconEdit, iconTrashCan } from "@/utils/icons";
 
 interface GenreTableProps {
   genreStats: GenreEntity[];
@@ -40,7 +41,7 @@ export default function GenreTable({
                 data-tooltip-id={`${genre.id}-tooltip-edit`}
                 to={joinUrl(pathname, genre.id)}
               >
-                <FaEdit />
+                {iconEdit()}
               </Link>
 
               <button
@@ -50,7 +51,7 @@ export default function GenreTable({
                   setToDeleteItemId(genre.id);
                 }}
               >
-                <FaTrashAlt />
+                {iconTrashCan()}
               </button>
             </div>
 

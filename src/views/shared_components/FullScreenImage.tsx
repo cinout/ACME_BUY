@@ -1,9 +1,9 @@
 import { shortenMiddle } from "@/utils/strings";
 import { DialogPanel } from "@headlessui/react";
-import { SetStateAction, useEffect, useRef, useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
+import { SetStateAction } from "react";
 import LoadingIndicatorWithDiv from "./LoadingIndicatorWithDiv";
 import useHookSingleImageLoading from "@/customHooks/useHookSingleImageLoading";
+import { iconCrossClose } from "@/utils/icons";
 
 interface Props {
   setFullScreenImage: (
@@ -45,9 +45,9 @@ export default function FullScreenImage({
                   setFullScreenImage(null);
                 }}
               >
-                <IoCloseOutline className="text-2xl" />
+                {iconCrossClose("text-2xl")}
               </button>
-            </div>{" "}
+            </div>
           </>
         )}
       </DialogPanel>

@@ -61,7 +61,8 @@
 - Show loading page when preparing the dashboard.
 - Calculate the discounted price for customer.
 - Show icon for number of pending sellers in Admin/Sellers tab
-- detect whether full-screen image is on loading, and if so, show loader
+- detect whether image is loading, and if so, show loader (check .onCOmplete attribute, and write custom hook)
+- All reusable components are modularized, including icons, ....
 
 ## User Roles, User Authentication, and Routes Protection
 

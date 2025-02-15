@@ -13,11 +13,10 @@ import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicat
 import { SellerFormInputProps, SellerProfileEdit } from "./SellerProfileEdit";
 import { getErrorMessage } from "@/graphql";
 import { Country, State } from "country-state-city";
-import { MdEmail } from "react-icons/md";
-import { FaLocationDot } from "react-icons/fa6";
 import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
 import { useAppDispatch } from "@/redux/hooks";
 import { afterLogout } from "@/redux/reducers/authReducer";
+import { iconEmail, iconLocation } from "@/utils/icons";
 
 export default function SectionProfile() {
   /**
@@ -203,11 +202,11 @@ export default function SectionProfile() {
 
           <div>
             <div className="text-sm font-light">
-              <MdEmail className="inline mr-2" />
+              {iconEmail("inline mr-2")}
               {userInfo.email}
             </div>
             <div className="text-sm font-light">
-              <FaLocationDot className="inline mr-1" /> {userAddress}
+              {iconLocation("inline mr-1")} {userAddress}
             </div>
           </div>
         </div>

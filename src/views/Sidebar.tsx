@@ -2,7 +2,6 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
 import { navOptions, NavOptionsProps } from "@/views/allNavs";
 import { RoleEnum } from "@/utils/enums";
-import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -13,6 +12,7 @@ import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
 import { getErrorMessage } from "@/graphql";
 import { afterLogout } from "@/redux/reducers/authReducer";
+import { iconLogout } from "@/utils/icons";
 
 interface Props {
   showSidebar: boolean;
@@ -86,7 +86,7 @@ function MenuContent({
         className="absolute bottom-6 left-0 pl-5 flex items-center text-aqua-forest-900 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full"
         onClick={handleLogout}
       >
-        <IoIosLogOut className="text-2xl m-2" />
+        {iconLogout("text-2xl m-2")}
         <span>Logout</span>
       </button>
     </>

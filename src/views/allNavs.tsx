@@ -1,15 +1,17 @@
 import { RoleEnum, SellerStatusEnum } from "@/utils/enums";
 import { JSX } from "react";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { CiDeliveryTruck } from "react-icons/ci";
-import { BiCategory } from "react-icons/bi";
-import { FaPeopleGroup } from "react-icons/fa6";
-import { MdOutlinePayment } from "react-icons/md";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { FaPerson } from "react-icons/fa6";
-import { MdOutlineSupportAgent } from "react-icons/md";
-import { HiOutlineShoppingBag } from "react-icons/hi";
-import { CgProfile } from "react-icons/cg";
+
+import {
+  iconCategory,
+  iconChat,
+  iconDashboard,
+  iconDelivery,
+  iconPayment,
+  iconProducts,
+  iconProfile,
+  iconSellers,
+  iconSupportTeam,
+} from "@/utils/icons";
 
 export interface NavOptionsProps {
   name: string;
@@ -25,32 +27,32 @@ export const navOptions: NavOptionsProps[] = [
    */
   {
     name: "Dashboard (TODO:)",
-    icon: <AiOutlineDashboard />,
+    icon: iconDashboard(),
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/dashboard",
   },
 
   {
     name: "Genres",
-    icon: <BiCategory />,
+    icon: iconCategory(),
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/genres",
   },
   {
     name: "Sellers",
-    icon: <FaPeopleGroup />,
+    icon: iconSellers(),
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/sellers",
   },
   {
     name: "Orders (TODO:)",
-    icon: <CiDeliveryTruck />,
+    icon: iconDelivery(),
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/orders",
   },
   {
     name: "Withdraw Requests (TODO:[1])",
-    icon: <MdOutlinePayment />,
+    icon: iconPayment(),
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/withdraw-requests",
   },
@@ -62,13 +64,13 @@ export const navOptions: NavOptionsProps[] = [
   // },
   {
     name: "Live Chat (TODO:)",
-    icon: <IoChatboxEllipsesOutline />,
+    icon: iconChat(),
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/chat",
   },
   {
     name: "Profile (TODO:)",
-    icon: <CgProfile />,
+    icon: iconProfile(),
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/profile",
   },
@@ -78,42 +80,42 @@ export const navOptions: NavOptionsProps[] = [
    */
   {
     name: "Dashboard",
-    icon: <AiOutlineDashboard />,
+    icon: iconDashboard(),
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/dashboard",
     accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Products",
-    icon: <HiOutlineShoppingBag />,
+    icon: iconProducts(),
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/products",
     accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Orders",
-    icon: <CiDeliveryTruck />,
+    icon: iconDelivery(),
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/orders",
     accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Payments",
-    icon: <MdOutlinePayment />,
+    icon: iconPayment(),
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/payments",
     accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Chat Customer",
-    icon: <IoChatboxEllipsesOutline />,
+    icon: iconChat(),
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/chat-customer",
     accessSellerStatus: [SellerStatusEnum.Active],
   },
   {
     name: "Support",
-    icon: <MdOutlineSupportAgent />,
+    icon: iconSupportTeam(),
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/support",
     accessSellerStatus: [
@@ -124,7 +126,7 @@ export const navOptions: NavOptionsProps[] = [
   },
   {
     name: "Profile",
-    icon: <CgProfile />,
+    icon: iconProfile(),
     accessRoles: [RoleEnum.Seller],
     goto: "/seller/profile",
     accessSellerStatus: [

@@ -1,4 +1,4 @@
-import { IoMdAdd } from "react-icons/io";
+import { iconAddWithoutCircle } from "@/utils/icons";
 
 interface ButtonCreateNewProps {
   content: string;
@@ -17,7 +17,7 @@ export default function ButtonCreateNew({
         }
       }}
     >
-      <IoMdAdd />
+      {iconAddWithoutCircle()}
       <span>{content}</span>
     </button>
   );

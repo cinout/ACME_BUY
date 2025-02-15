@@ -1,8 +1,10 @@
 import { ReactNode } from "react";
-import { CiDeliveryTruck } from "react-icons/ci";
-import { FaPeopleGroup } from "react-icons/fa6";
-import { GiMoneyStack } from "react-icons/gi";
-import { AiOutlineProduct } from "react-icons/ai";
+import {
+  iconDelivery,
+  iconMoneyStack,
+  iconProducts,
+  iconSellers,
+} from "@/utils/icons";
 
 // TODO: fetch value from backend
 export const hightlightStats = [
@@ -10,25 +12,25 @@ export const hightlightStats = [
     name: "Sale",
     value: "$3434",
     style: "bg-rose-300 text-rose-700 hover:bg-rose-400 transition",
-    logo: <GiMoneyStack />,
+    logo: iconMoneyStack(),
   },
   {
     name: "Products",
     value: "50",
     style: "bg-orange-300 text-orange-700 hover:bg-orange-400 transition",
-    logo: <AiOutlineProduct />,
+    logo: iconProducts(),
   },
   {
     name: "Customers",
     value: "10",
     style: "bg-purple-300 text-purple-700 hover:bg-purple-400 transition",
-    logo: <FaPeopleGroup />,
+    logo: iconSellers(),
   },
   {
     name: "Orders",
     value: "54",
     style: "bg-cyan-300 text-cyan-700 hover:bg-cyan-400 transition",
-    logo: <CiDeliveryTruck />,
+    logo: iconDelivery(),
   },
 ];
 

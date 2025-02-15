@@ -1,6 +1,5 @@
 import logo from "@/assets/images/company_logo.png";
 import { Link } from "react-router-dom";
-import { IoIosSearch } from "react-icons/io";
 import { useQuery } from "@apollo/client";
 import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import { GenreEntity } from "@/utils/entities";
@@ -14,6 +13,7 @@ import {
   ReleaseYearRangeEnum,
   RoleEnum,
 } from "@/utils/enums";
+import { iconSearchMagnifier } from "@/utils/icons";
 
 // TODO:[3] make it reponsive to screen size
 export default function NavigationPanel() {
@@ -54,7 +54,7 @@ export default function NavigationPanel() {
             }
           />
           <button className="cursor-pointer text-2xl text-aqua-forest-700 hover:scale-110 transition">
-            <IoIosSearch />
+            {iconSearchMagnifier()}
           </button>
         </div>
 

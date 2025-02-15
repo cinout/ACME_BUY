@@ -1,10 +1,10 @@
-import { IoMenuSharp } from "react-icons/io5";
 import circleLogo from "@/assets/images/company_logo_circleonly.png";
 import { Link } from "react-router-dom";
 import { RoleEnum } from "@/utils/enums";
 import { useAppSelector } from "@/redux/hooks";
 import { capFirstLetter } from "@/utils/strings";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
+import { iconMenuHamburger } from "@/utils/icons";
 
 interface Props {
   showSidebar: boolean;
@@ -43,7 +43,7 @@ export default function Header({
               : "text-aqua-forest-700 bg-aqua-forest-300 border-transparent"
           }`}
         >
-          <IoMenuSharp />
+          {iconMenuHamburger()}
         </button>
       </div>
 

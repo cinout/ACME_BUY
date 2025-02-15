@@ -8,7 +8,7 @@ import LoadingIndicator from "../shared_components/LoadingIndicator";
 import { adminLogin, FormAdminLoginProps } from "@/redux/reducers/authReducer";
 import { useState } from "react";
 import { RoleEnum } from "@/utils/enums";
-import { GoArrowRight } from "react-icons/go";
+import { iconGoRightWithoutCircle } from "@/utils/icons";
 
 export default function AdminLogin() {
   const dispatch = useAppDispatch();
@@ -20,7 +20,6 @@ export default function AdminLogin() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormAdminLoginProps>();
 
   function onSubmit(data: FormAdminLoginProps) {
@@ -57,7 +56,7 @@ export default function AdminLogin() {
             to={"/admin/dashboard"}
             replace
           >
-            Dashboard <GoArrowRight className="inline" />
+            Dashboard {iconGoRightWithoutCircle("inline")}
           </Link>
         </div>
       ) : (

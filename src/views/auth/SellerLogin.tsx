@@ -1,5 +1,4 @@
 import FormInput from "@/views/shared_components/form/FormInput";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
 import SignInOptionButton from "../shared_components/SignInOptionButton";
@@ -13,7 +12,11 @@ import LoadingIndicator from "../shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { RoleEnum } from "@/utils/enums";
-import { GoArrowRight } from "react-icons/go";
+import {
+  iconFacebook,
+  iconGoogle,
+  iconGoRightWithoutCircle,
+} from "@/utils/icons";
 
 export default function SellerLogin() {
   const dispatch = useAppDispatch();
@@ -25,7 +28,6 @@ export default function SellerLogin() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormSellerLoginProps>();
 
   function onSubmit(data: FormSellerLoginProps) {
@@ -62,7 +64,7 @@ export default function SellerLogin() {
             to={"/seller/dashboard"}
             replace
           >
-            Dashboard <GoArrowRight className="inline" />
+            Dashboard {iconGoRightWithoutCircle("inline")}
           </Link>
         </div>
       ) : (
@@ -121,10 +123,10 @@ export default function SellerLogin() {
           <div className="flex flex-col items-center">
             <div className="flex justify-between w-72">
               <SignInOptionButton additionalStyle="bg-[#EA4335] w-32">
-                <FaGoogle className="inline mr-2" /> Google
+                {iconGoogle("inline mr-2")} Google
               </SignInOptionButton>
               <SignInOptionButton additionalStyle="bg-[#1877F2] w-32">
-                <FaFacebook className="inline mr-2" /> Facebook
+                {iconFacebook("inline mr-2")} Facebook
               </SignInOptionButton>
             </div>
           </div>

@@ -1,11 +1,14 @@
 import { joinUrl, shortenMiddle } from "@/utils/strings";
-import { MdEmail } from "react-icons/md";
-import { IoIosRemoveCircle, IoIosAddCircle } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import { SellerEntity } from "@/utils/entities";
 import { SellerStatusEnum } from "@/utils/enums";
 import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicator";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
+import {
+  iconAddWithCircle,
+  iconEmail,
+  iconRemoveWithCircle,
+} from "@/utils/icons";
 
 interface SellerTableProps {
   sellerStats: SellerEntity[];
@@ -60,7 +63,7 @@ export default function SellerTable({
                 href={`mailto:${seller.email}`}
                 data-tooltip-id={`${seller.id}-tooltip-contact`}
               >
-                <MdEmail />
+                {iconEmail()}
               </a>
 
               {seller.status === SellerStatusEnum.Active && (
@@ -71,7 +74,7 @@ export default function SellerTable({
                     updateSellerStatus(seller.id, SellerStatusEnum.Deactivated)
                   }
                 >
-                  <IoIosRemoveCircle />
+                  {iconRemoveWithCircle()}
                 </button>
               )}
 
@@ -83,7 +86,7 @@ export default function SellerTable({
                     updateSellerStatus(seller.id, SellerStatusEnum.Active)
                   }
                 >
-                  <IoIosAddCircle />
+                  {iconAddWithCircle()}
                 </button>
               )}
 
@@ -96,7 +99,7 @@ export default function SellerTable({
                       updateSellerStatus(seller.id, SellerStatusEnum.Active)
                     }
                   >
-                    <IoIosAddCircle />
+                    {iconAddWithCircle()}
                   </button>
 
                   <button
@@ -109,7 +112,7 @@ export default function SellerTable({
                       )
                     }
                   >
-                    <IoIosRemoveCircle />
+                    {iconRemoveWithCircle()}
                   </button>
                 </>
               )}

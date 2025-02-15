@@ -2,7 +2,7 @@ import { SellerEntity } from "@/utils/entities";
 import { faker } from "@faker-js/faker";
 import { Fragment, SetStateAction, useEffect, useRef } from "react";
 import SellerList from "./SellerList";
-import { IoMdArrowDropdownCircle, IoMdArrowDropupCircle } from "react-icons/io";
+import { iconDownWithCircle, iconUpWithCircle } from "@/utils/icons";
 
 interface RightMessageContainerProps {
   sellerStats: SellerEntity[];
@@ -123,7 +123,7 @@ export default function RightMessageContainer({
             className="z-50 text-[2.3rem] text-aqua-forest-400 hover:text-aqua-forest-500 transition "
             onClick={() => setShowList((v) => !v)}
           >
-            {showList ? <IoMdArrowDropupCircle /> : <IoMdArrowDropdownCircle />}
+            {showList ? iconUpWithCircle() : iconDownWithCircle()}
           </button>
 
           {showList && (

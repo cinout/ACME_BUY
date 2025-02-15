@@ -10,15 +10,17 @@ import {
   styleImagePreview,
   styleImageUploadIndicator,
 } from "@/utils/styles";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { MdDelete } from "react-icons/md";
-import { MdImageNotSupported } from "react-icons/md";
-import { IoIosAddCircle } from "react-icons/io";
 import { Dialog } from "@headlessui/react";
 import Debug from "../FullScreenImage";
 import LoadingIndicator from "../LoadingIndicator";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
+import {
+  iconAddWithCircle,
+  iconImageNotSupported,
+  iconTrashCan,
+} from "@/utils/icons";
 
 interface FormInputProps {
   additionalStyleButton?: string; // for the input field
@@ -158,7 +160,7 @@ export default function FormMultipleImages({
                   )
                 ) : (
                   <div className="w-[inherit] aspect-square border border-sky-50 rounded-2xl shadow-2xl flex flex-col justify-center items-center bg-red-400 gap-y-2 group-hover:brightness-[30%]">
-                    <MdImageNotSupported className="text-[3rem]" />
+                    {iconImageNotSupported("text-[3rem]")}
                     <span className="text-sm">Unsupported </span>
                   </div>
                 )}
@@ -166,10 +168,10 @@ export default function FormMultipleImages({
                 {/* DELETE */}
                 {!disabled && (
                   <div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-1 bg-rose-200 text-rose-900 not-disabled:hover:scale-105 transition"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden group-hover:inline-flex text-[3rem] border-2 shadow-2xl rounded-full p-4 bg-rose-200 text-rose-900 not-disabled:hover:scale-105 transition"
                     onClick={() => handleRemoveImage(id)}
                   >
-                    <MdDelete />
+                    {iconTrashCan()}
                   </div>
                 )}
               </button>
@@ -190,7 +192,7 @@ export default function FormMultipleImages({
             onClick={handleClickImageUploadButton}
             disabled={disabled}
           >
-            <IoIosAddCircle className="text-2xl group-hover:scale-105 transition" />
+            {iconAddWithCircle("text-2xl group-hover:scale-105 transition")}
             <span className="text-sm">Click to upload multiple images</span>
           </button>
         )}

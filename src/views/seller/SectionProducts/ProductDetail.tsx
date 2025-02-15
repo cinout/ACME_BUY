@@ -10,7 +10,6 @@ import FormTextarea from "@/views/shared_components/form/FormTextarea";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v7 } from "uuid";
-import { IoArrowBackCircle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { styleCancelButton, styleSubmitButton } from "@/utils/styles";
 import { GenreEntity, ProductEntity } from "@/utils/entities";
@@ -26,6 +25,7 @@ import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import { GradingEnum, MediaFormatEnum, ReleaseRegionEnum } from "@/utils/enums";
+import { iconGoLeftWithCircle } from "@/utils/icons";
 
 interface FormInputProps {
   id: string;
@@ -239,7 +239,7 @@ export default function ProductDetail({
           onClick={closeAndLeave}
           disabled={showLoader}
         >
-          <IoArrowBackCircle />
+          {iconGoLeftWithCircle()}
         </button>
 
         {productId !== "new" && (
