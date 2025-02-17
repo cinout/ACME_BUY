@@ -36,7 +36,7 @@
 - display error separately for each image in multiple file input (solution: show file names in the error message)
 - authentication security, store in cookie or localStorage
 - in the forms, image can be either string (read from server) or File ()
-- log out/ sign in, conflict between seller status and navigate (redirects)
+- log out/ sign in, conflict between user status and navigate (redirects)
 - RHF's defaultValue in profile section is only initialized once, but need to be updated. Use reset({variable:watch(variable)}) to manually update it.
 
 ## 🦄 Unique Features
@@ -49,8 +49,8 @@
 - lazy loading pages
 - Route protection based on user role
 - Loading page, unauthorized page
-- different seller views(UI) based on seller's status (active/deactivated/pending)
-- Seller's view is based on their status
+- different user views(UI) based on user's status (active/deactivated/pending)
+- User's view is based on their status
 - All forms are validated with react-hook-form
 
 ## 🦄 Attention to Details
@@ -60,16 +60,16 @@
 - When logged in and if user manually enter the login or signup route of their role, show a message telling them they are already logged in, and offer button for redirect.
 - Show loading page when preparing the dashboard.
 - Calculate the discounted price for customer.
-- Show icon for number of pending sellers in Admin/Sellers tab
+- Show icon for number of pending users in Admin/Users tab
 - detect whether image is loading, and if so, show loader (check .onCOmplete attribute, and write custom hook)
 - All reusable components are modularized, including icons, ....
 
 ## User Roles, User Authentication, and Routes Protection
 
-- User can be (1) Customer (2) Seller (3) Admin. Each is provided with separate log-in and sign-up pages.
+- User can be (1) Customer (2) User (3) Admin. Each is provided with separate log-in and sign-up pages.
 - User is authenticated using JWT token (after log in or sign up).
 - When logged in, user has access to the private routes. The private routes for different user roles are protected, which means user of role A cannot visit private routes of role B. If so, it leads to an "unauthorized" error page.
-- When logged in, sellers have different view and access to their private routes based on their status (pending, active, deactivated). Trying to access inaccessable routes will being redirected to the correct page.
+- When logged in, users have different view and access to their private routes based on their status (pending, active, deactivated). Trying to access inaccessable routes will being redirected to the correct page.
 - [ ] When logged in, do not show the log-in/sign-up buttons of their role. If user manually enter the route, show a message telling them they are already logged in, and offer buttons for redirect. User must first log out to log in or sign-up again.
 - [ ] When logged out, all the user authentication information, including localStorage token, cookie, and the Apollo client cache, are removed from browser.
 - [ ] Check all above points for customer role.
@@ -87,10 +87,10 @@
 - [ ] Sellor Request and Live Chat sections should show notification icon
 - [ ] Email Validation on creating account
 - [ ] Maybe add phone in application form as well????
-- [ ] Need a settings page for users/sellers to edit their profile
+- [ ] Need a settings page for users/users to edit their profile
 - [ ] login/register page should provide a goback button
 - [ ] Do I need to use React Query ?
-- [ ] Think about what the seller can see when they are deactivated
+- [ ] Think about what the user can see when they are deactivated
 - [ ] How to elegantly handle the interface when accessToken expired?
 - [ ] consider using auth0 for authentication
 - [ ] Do i need a "refresh token" to enhance security? see https://www.cyberchief.ai/2023/05/secure-jwt-token-storage.html
@@ -98,8 +98,8 @@
 - [ ] where for the user to upload their images?
 - [ ] all the pages where a lot of items are displayed, we should provide search and filter functions
 - [ ] move FormInputProps and Entity to their gql file
-- [ ] Payment info for seller, customer
+- [ ] Payment info for user, customer
 - [ ] How to create Admin? and remeber that admin needs image by default
-- [ ] Seller and customer needs button to remove themselves from the website
+- [ ] User and customer needs button to remove themselves from the website
 - [ ] Support track list info adding
 - [ ] update signupMethod for Google/Facebook login

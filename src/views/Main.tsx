@@ -44,14 +44,14 @@ export default function Main() {
   if (["/admin", "/admin/"].includes(pathname)) {
     return <Navigate replace to="/admin/dashboard" />;
   }
-  if (["/seller", "/seller/"].includes(pathname)) {
-    return <Navigate replace to="/seller/dashboard" />;
+  if (["/user", "/user/"].includes(pathname)) {
+    return <Navigate replace to="/user/dashboard" />;
   }
 
   // TODO: double-check this logicc (correct so far)
   const conditionForShowingContent =
     updateUserRoleDoneOnFirstRender &&
-    (role && role === RoleEnum.Seller ? userInfo?.status : true);
+    (role && role === RoleEnum.User ? userInfo?.status : true);
 
   return conditionForShowingContent ? <Content /> : <LoadingPage />;
 }

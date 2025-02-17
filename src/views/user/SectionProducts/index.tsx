@@ -8,7 +8,7 @@ import Pagination from "@/views/shared_components/Pagination";
 import { useQuery } from "@apollo/client";
 import {
   GQL_PRODUCT_DELETE,
-  GQL_PRODUCT_GET_ALL_BY_SELLER,
+  GQL_PRODUCT_GET_ALL_BY_USER,
 } from "@/graphql/productGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";
@@ -31,16 +31,14 @@ export default function SectionProducts() {
   const { productId } = useParams();
 
   // GQL
-  const gql_query_result = useQuery(GQL_PRODUCT_GET_ALL_BY_SELLER);
+  const gql_query_result = useQuery(GQL_PRODUCT_GET_ALL_BY_USER);
 
   if (gql_query_result.loading) {
     return <LoadingIndicatorWithDiv />;
   }
-  const allProductsBySeller = gql_query_result.data
-    .getAllProductsBySeller as ProductEntity[];
-  const toDeleteProduct = allProductsBySeller.find(
-    (a) => a.id == toDeleteItemId
-  );
+  const allProductsByUser = gql_query_result.data
+    .getAllProductsByUser as ProductEntity[];
+  const toDeleteProduct = allProductsByUser.find((a) => a.id == toDeleteItemId);
 
   // Functions
   function handleItemsPerPageChange(value: number) {
@@ -52,13 +50,13 @@ export default function SectionProducts() {
     <>
       {productId ? (
         productId === "new" ||
-        allProductsBySeller.some((a) => a.id === productId) ? (
+        allProductsByUser.some((a) => a.id === productId) ? (
           <ProductDetail
             productId={productId}
-            productStats={allProductsBySeller}
+            productStats={allProductsByUser}
           />
         ) : (
-          <Navigate to="/seller/products" replace />
+          <Navigate to="/user/products" replace />
         )
       ) : (
         <>
@@ -70,14 +68,14 @@ export default function SectionProducts() {
             itemsPerPageOptions={itemsPerPageOptions}
           />
           <ProductTable
-            productStats={allProductsBySeller.slice(start_index, end_index)}
+            productStats={allProductsByUser.slice(start_index, end_index)}
             setToDeleteItemId={setToDeleteItemId}
           />
           <div className="mt-12">
             <Pagination
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              totalPages={Math.ceil(allProductsBySeller.length / itemsPerPage)}
+              totalPages={Math.ceil(allProductsByUser.length / itemsPerPage)}
               maxPageOptionsCount={5}
             />
           </div>

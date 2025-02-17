@@ -71,12 +71,12 @@ export default function FormMultipleImages({
   return (
     <div className={`${additionalStyleWrapper}`}>
       {showLabel && (
-        <label
+        <div
           // htmlFor={registration.name}
           className={`${styleFormLabel} ${additionalStyleLabel}`}
         >
           {label ?? capFirstLetter(registration.name)}:
-        </label>
+        </div>
       )}
 
       {/* HIDDEN */}
@@ -133,31 +133,50 @@ export default function FormMultipleImages({
                     />
                   )
                 ) : file.type.startsWith("image/") ? (
-                  imageGridOnLoad.get(id) ? (
-                    <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline">
-                      <LoadingIndicator />
-                    </div>
-                  ) : (
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt="Preview"
-                      className={styleImagePreview}
-                      onClick={() =>
-                        setFullScreenImage({
-                          url: URL.createObjectURL(file),
-                          name,
-                        })
-                      }
-                      ref={(node) => {
-                        const map = getImageRefMap();
-                        map.set(id, node);
-                        return () => {
-                          // called when removing
-                          map.delete(id);
-                        };
-                      }}
-                    />
-                  )
+                  // imageGridOnLoad.get(id) ? (
+                  //   <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline">
+                  //     <LoadingIndicator />
+                  //   </div>
+                  // ) : (
+                  //   <img
+                  //     src={URL.createObjectURL(file)}
+                  //     alt="Preview"
+                  //     className={styleImagePreview}
+                  //     onClick={() =>
+                  //       setFullScreenImage({
+                  //         url: URL.createObjectURL(file),
+                  //         name,
+                  //       })
+                  //     }
+                  //     ref={(node) => {
+                  //       const map = getImageRefMap();
+                  //       map.set(id, node);
+                  //       return () => {
+                  //         // called when removing
+                  //         map.delete(id);
+                  //       };
+                  //     }}
+                  //   />
+                  // )
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="Preview"
+                    className={styleImagePreview}
+                    onClick={() =>
+                      setFullScreenImage({
+                        url: URL.createObjectURL(file),
+                        name,
+                      })
+                    }
+                    // ref={(node) => {
+                    //   const map = getImageRefMap();
+                    //   map.set(id, node);
+                    //   return () => {
+                    //     // called when removing
+                    //     map.delete(id);
+                    //   };
+                    // }}
+                  />
                 ) : (
                   <div className="w-[inherit] aspect-square border border-sky-50 rounded-2xl shadow-2xl flex flex-col justify-center items-center bg-red-400 gap-y-2 group-hover:brightness-[30%]">
                     {iconImageNotSupported("text-[3rem]")}

@@ -85,12 +85,12 @@ export default function FormSingleImage({
   return (
     <div className={`${additionalStyleWrapper}`}>
       {showLabel && (
-        <label
+        <div
           // htmlFor={registration.name}
           className={`${styleFormLabel} ${additionalStyleLabel}`}
         >
           {label ?? capFirstLetter(registration.name)}:
-        </label>
+        </div>
       )}
 
       {/* HIDDEN */}
@@ -135,26 +135,40 @@ export default function FormSingleImage({
               )
             ) : // image is uploaded by user, and of correct file type
             uploadedImage.file?.type.startsWith("image/") ? (
-              imageGridRefOnLoad ? (
-                <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline outline-white">
-                  <LoadingIndicator />
-                </div>
-              ) : (
-                <img
-                  src={URL.createObjectURL(uploadedImage.file)}
-                  alt="Preview"
-                  className={`${styleImagePreview}`}
-                  onClick={() =>
-                    setFullScreenImage({
-                      url: albumCoverImageLarge(
-                        URL.createObjectURL(uploadedImage.file as File)
-                      ),
-                      name: uploadedImage.name!,
-                    })
-                  }
-                  ref={imageGridRef}
-                />
-              )
+              // imageGridRefOnLoad ? (
+              //   <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline outline-white">
+              //     <LoadingIndicator />
+              //   </div>
+              // ) : (
+              //   <img
+              //     src={URL.createObjectURL(uploadedImage.file)}
+              //     alt="Preview"
+              //     className={`${styleImagePreview}`}
+              //     onClick={() =>
+              //       setFullScreenImage({
+              //         url: albumCoverImageLarge(
+              //           URL.createObjectURL(uploadedImage.file as File)
+              //         ),
+              //         name: uploadedImage.name!,
+              //       })
+              //     }
+              //     ref={imageGridRef}
+              //   />
+              // )
+              <img
+                src={URL.createObjectURL(uploadedImage.file)}
+                alt="Preview"
+                className={`${styleImagePreview}`}
+                onClick={() =>
+                  setFullScreenImage({
+                    url: albumCoverImageLarge(
+                      URL.createObjectURL(uploadedImage.file as File)
+                    ),
+                    name: uploadedImage.name!,
+                  })
+                }
+                // ref={imageGridRef}
+              />
             ) : (
               // Unspported format
               <div

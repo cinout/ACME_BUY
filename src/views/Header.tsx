@@ -72,9 +72,7 @@ export default function Header({
         </div>
 
         {/* TODO: see video Section 33 */}
-        <Link
-          to={role === RoleEnum.Seller ? "/seller/profile" : "/admin/profile"}
-        >
+        <Link to={role === RoleEnum.User ? "/user/profile" : "/admin/profile"}>
           <div className="w-[3rem]">
             <img
               src={userInfo?.imageUrl}

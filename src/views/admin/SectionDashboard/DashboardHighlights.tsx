@@ -3,7 +3,7 @@ import {
   iconDelivery,
   iconMoneyStack,
   iconProducts,
-  iconSellers,
+  iconUsers,
 } from "@/utils/icons";
 
 // TODO: fetch value from backend
@@ -21,10 +21,10 @@ export const hightlightStats = [
     logo: iconProducts(),
   },
   {
-    name: "Sellers",
+    name: "Users",
     value: "10",
     style: "bg-purple-300 text-purple-700 hover:bg-purple-400 transition",
-    logo: iconSellers(),
+    logo: iconUsers(),
   },
   {
     name: "Orders",

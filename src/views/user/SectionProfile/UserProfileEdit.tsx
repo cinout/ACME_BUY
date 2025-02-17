@@ -1,4 +1,4 @@
-import { SellerStatusEnum } from "@/utils/enums";
+import { UserStatusEnum } from "@/utils/enums";
 import {
   VALID_NAME_GENERAL,
   VALID_NAME_GENERAL_ERROR_MSG,
@@ -20,29 +20,29 @@ import { useEffect } from "react";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { usePrevious } from "@/customHooks/usePrevious";
 
-export interface SellerFormInputProps {
+export interface UserFormInputProps {
   firstname: string;
   lastname: string;
   shopName: string;
   image: { file: File | string | null; name: string | null };
   email: string;
-  status: SellerStatusEnum;
+  status: UserStatusEnum;
   country: string;
   state: string;
   city: string;
   zipCode: string;
 }
 
-interface SellerProfileEditProps {
-  register: UseFormRegister<SellerFormInputProps>;
-  watch: UseFormWatch<SellerFormInputProps>;
-  errors: FieldErrors<SellerFormInputProps>;
-  handleSubmit: UseFormHandleSubmit<SellerFormInputProps, undefined>;
+interface UserProfileEditProps {
+  register: UseFormRegister<UserFormInputProps>;
+  watch: UseFormWatch<UserFormInputProps>;
+  errors: FieldErrors<UserFormInputProps>;
+  handleSubmit: UseFormHandleSubmit<UserFormInputProps, undefined>;
   handleCancelEditProfile: () => void;
-  onSubmit: (data: SellerFormInputProps) => void;
+  onSubmit: (data: UserFormInputProps) => void;
   isDirty: boolean;
   showLoader: boolean;
-  setValue: UseFormSetValue<SellerFormInputProps>;
+  setValue: UseFormSetValue<UserFormInputProps>;
 }
 
 const countryOptions = Country.getAllCountries().map((a) => ({
@@ -51,7 +51,7 @@ const countryOptions = Country.getAllCountries().map((a) => ({
   display: a.name,
 }));
 
-export function SellerProfileEdit({
+export function UserProfileEdit({
   register,
   errors,
   watch,
@@ -61,7 +61,7 @@ export function SellerProfileEdit({
   handleCancelEditProfile,
   setValue,
   showLoader,
-}: SellerProfileEditProps) {
+}: UserProfileEditProps) {
   /**
    * RHF
    */

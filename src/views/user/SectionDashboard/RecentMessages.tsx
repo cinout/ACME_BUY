@@ -1,4 +1,4 @@
-import seller from "@/assets/images/seller.png";
+import user from "@/assets/images/user.png";
 import { shortenEnd } from "@/utils/strings";
 import { faker } from "@faker-js/faker";
 import { Link } from "react-router-dom";
@@ -7,21 +7,21 @@ import { Link } from "react-router-dom";
 const messageStats = [
   {
     id: "sample_id_1",
-    image: seller,
+    image: user,
     firstname: faker.person.firstName(),
     lastname: faker.person.lastName(),
     message: faker.lorem.lines(2),
   },
   {
     id: "sample_id_2",
-    image: seller,
+    image: user,
     firstname: faker.person.firstName(),
     lastname: faker.person.lastName(),
     message: faker.lorem.lines(2),
   },
   {
     id: "sample_id_3",
-    image: seller,
+    image: user,
     firstname: faker.person.firstName(),
     lastname: faker.person.lastName(),
     message: "Ok.",
@@ -43,7 +43,7 @@ function Message({ image, firstname, lastname, message }: MessageProps) {
       <div className="w-1/5 inline-flex flex-col justify-start items-center">
         <img
           src={image}
-          alt="seller image"
+          alt="user image"
           className="w-[2.375rem] h-[2.375rem] rounded-full "
         />
         <span className="text-xs">{shortenEnd(firstname, 20)}</span>
@@ -63,7 +63,7 @@ export default function RecentMessages() {
     <div className="w-full lg:flex-1 bg-white/5 rounded-2xl px-4 py-2">
       <div className="text-white font-semibold flex justify-between">
         <span>Recent Customer Messages</span>
-        <Link to="/seller/chat-customer">View all</Link>
+        <Link to="/user/chat-customer">View all</Link>
       </div>
 
       <div>

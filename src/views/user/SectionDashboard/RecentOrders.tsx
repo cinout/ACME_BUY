@@ -32,7 +32,7 @@ export default function RecentOrders() {
       <div className="flex justify-between font-semibold mb-3">
         <span>Recent Orders</span>
 
-        <Link to="/seller/orders">View all</Link>
+        <Link to="/user/orders">View all</Link>
         {/* TODO: implement View all */}
       </div>
 
@@ -60,7 +60,7 @@ export default function RecentOrders() {
               <td className="py-2">{order.order_status}</td>
               <td className="py-2">
                 <Link
-                  to={joinUrl("/seller/orders", order.id)}
+                  to={joinUrl("/user/orders", order.id)}
                   className="bg-slate-100 text-sky-900 border-2 border-slate-300 rounded-md px-1 hover:bg-sky-200 hover:border-sky-500"
                 >
                   View

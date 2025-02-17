@@ -3,8 +3,9 @@
 import {
   OrderStatusEnum,
   PaymentStatusEnum,
-  SellerSignupMethodEnum,
-  SellerStatusEnum,
+  RoleEnum,
+  UserSignupMethodEnum,
+  UserStatusEnum,
   WithdrawStatusEnum,
 } from "./enums";
 
@@ -14,7 +15,7 @@ export interface Entity {
   updatedAt?: Date;
 }
 
-export interface SellerEntity extends Entity {
+export interface UserEntity extends Entity {
   firstname: string;
   lastname: string;
   email: string;
@@ -25,9 +26,10 @@ export interface SellerEntity extends Entity {
   city: string;
   zipCode: string;
 
-  status: SellerStatusEnum;
-  signupMethod: SellerSignupMethodEnum;
-  shopName: string;
+  status: UserStatusEnum;
+  signupMethod: UserSignupMethodEnum;
+  shopName?: string;
+  role: RoleEnum;
 
   imageUrl?: string;
   imageName?: string;
@@ -48,8 +50,8 @@ export interface ProductEntity extends Entity {
   discount: number;
   description?: string;
   genreId?: string;
-  sellerId?: string;
-  images?: { id: string; file: string; name: string }[];
+  userId?: string;
+  images: { id: string; file: string; name: string }[];
   rating?: number; // TODO: implement rating
 }
 
@@ -73,13 +75,3 @@ export interface WithdrawRequestEntity extends Entity {
   status?: WithdrawStatusEnum;
   date?: Date;
 }
-
-// Each seller can have multiple shops
-export interface ShopEntity extends Entity {
-  name?: string;
-  image?: string;
-}
-
-// export interface MessageEntity extends Entity {
-
-// }

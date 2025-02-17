@@ -1,14 +1,14 @@
 import { useAppSelector } from "@/redux/hooks";
-import { RoleEnum, SellerStatusEnum } from "@/utils/enums";
+import { RoleEnum, UserStatusEnum } from "@/utils/enums";
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { PrivateAdminRouteType } from "./privateAdminRoutes";
-import { PrivateSellerRouteType } from "./privateSellerRoutes";
+import { PrivateUserRouteType } from "./privateUserRoutes";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 
 interface ProtectPrivateRouteProps {
   children: ReactNode;
-  route: PrivateAdminRouteType | PrivateSellerRouteType;
+  route: PrivateAdminRouteType | PrivateUserRouteType;
 }
 
 // TODO: why is this component loaded three times?
@@ -25,38 +25,38 @@ export default function ProtectPrivateRoute({
     if (route.accessRoles.includes(role)) {
       // user role matches the route's accessRoles
 
-      if (role === RoleEnum.Seller) {
-        // for sellers
+      if (role === RoleEnum.User) {
+        // for users
 
-        const sellerStatus = userInfo?.status;
+        const userStatus = userInfo?.status;
 
-        if (sellerStatus) {
+        if (userStatus) {
           // user info is successfully hydrated
 
           if (
-            (route as PrivateSellerRouteType).accessSellerStatus?.includes(
-              sellerStatus
+            (route as PrivateUserRouteType).accessUserStatus?.includes(
+              userStatus
             )
           ) {
-            // this route is accessible based on the seller's status
+            // this route is accessible based on the user's status
             return children;
           } else {
-            // this route is INaccessible based on the seller's status
+            // this route is INaccessible based on the user's status
 
-            if (sellerStatus === SellerStatusEnum.Pending) {
-              // pending sellers
-              return <Navigate to="/seller/account-pending" replace />;
-            } else if (sellerStatus === SellerStatusEnum.Deactivated) {
-              // deactivated sellers
-              return <Navigate to="/seller/account-deactivated" replace />;
+            if (userStatus === UserStatusEnum.Pending) {
+              // pending users
+              return <Navigate to="/user/account-pending" replace />;
+            } else if (userStatus === UserStatusEnum.Deactivated) {
+              // deactivated users
+              return <Navigate to="/user/account-deactivated" replace />;
             } else {
-              // active sellers
-              return <Navigate to="/seller/dashboard" replace />;
+              // active users
+              return <Navigate to="/user/dashboard" replace />;
             }
           }
         } else {
           // use status is unknown
-          return <Navigate to="/login/seller" replace />;
+          return <Navigate to="/login" replace />;
         }
       } else if (role === RoleEnum.Admin) {
         // for Admin
@@ -68,6 +68,6 @@ export default function ProtectPrivateRoute({
     }
   } else {
     // user role is not specified
-    return <Navigate to="/login/seller" replace />;
+    return <Navigate to="/login" replace />;
   }
 }

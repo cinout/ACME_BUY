@@ -3,7 +3,7 @@ import Router from "@/router/Router.tsx";
 import { publicRoutes } from "./router/routes/publicRoutes.tsx";
 import {
   getPrivateAdminRoutes,
-  getPrivateSellerRoutes,
+  getPrivateUserRoutes,
 } from "./router/routes/privateRoutes.tsx";
 import { useAppDispatch } from "./redux/hooks.ts";
 import { updateUserRole } from "./redux/reducers/authReducer.ts";
@@ -19,11 +19,7 @@ export default function App() {
   // TODO: what to do for customer routes?
   return (
     <Router
-      allRoutes={[
-        ...publicRoutes,
-        getPrivateAdminRoutes,
-        getPrivateSellerRoutes,
-      ]}
+      allRoutes={[...publicRoutes, getPrivateAdminRoutes, getPrivateUserRoutes]}
     />
   );
 }

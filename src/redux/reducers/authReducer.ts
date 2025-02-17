@@ -1,21 +1,20 @@
 import api from "@/utils/api";
-import { RoleEnum, SellerSignupMethodEnum } from "@/utils/enums";
+import { RoleEnum, UserSignupMethodEnum } from "@/utils/enums";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 
-export interface FormSellerSignupProps {
+export interface FormUserSignupProps {
   firstname: string;
   lastname: string;
   email: string;
   password: string;
   agree: boolean;
-  signupMethod: SellerSignupMethodEnum;
-  shopName: string;
+  signupMethod: UserSignupMethodEnum;
 }
 
-export interface FormSellerLoginProps {
+export interface FormUserLoginProps {
   email: string;
   password: string;
 }
@@ -25,11 +24,11 @@ export interface FormSellerLoginProps {
  */
 
 // first type is return type, second type is input type
-export const sellerSignup = createAsyncThunk<unknown, FormSellerSignupProps>(
-  "auth/sellerSignup",
+export const userSignup = createAsyncThunk<unknown, FormUserSignupProps>(
+  "auth/userSignup",
   async (info, thunkAPI) => {
     try {
-      const result = await api.post("auth/seller-signup", info);
+      const result = await api.post("auth/user-signup", info);
       return thunkAPI.fulfillWithValue(result.data);
     } catch (e) {
       return thunkAPI.rejectWithValue(
@@ -39,11 +38,11 @@ export const sellerSignup = createAsyncThunk<unknown, FormSellerSignupProps>(
   }
 );
 
-export const sellerLogin = createAsyncThunk<unknown, FormSellerLoginProps>(
-  "auth/sellerLogin",
+export const userLogin = createAsyncThunk<unknown, FormUserLoginProps>(
+  "auth/userLogin",
   async (info, thunkAPI) => {
     try {
-      const result = await api.post("auth/seller-login", info);
+      const result = await api.post("auth/user-login", info);
       return thunkAPI.fulfillWithValue(result.data);
     } catch (e) {
       return thunkAPI.rejectWithValue(
@@ -147,13 +146,13 @@ const authReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Seller Signup
-      .addCase(sellerSignup.fulfilled, (state, action) => {
+      // User Signup
+      .addCase(userSignup.fulfilled, (state, action) => {
         afterSignupOrLogin(state, action);
       })
 
-      // Seller Login
-      .addCase(sellerLogin.fulfilled, (state, action) => {
+      // User Login
+      .addCase(userLogin.fulfilled, (state, action) => {
         afterSignupOrLogin(state, action);
       });
     // TODO:[2] what if there is error getting user info? (probably redirect to a page asking to login as either

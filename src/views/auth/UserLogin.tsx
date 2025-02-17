@@ -3,10 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
 import SignInOptionButton from "../shared_components/SignInOptionButton";
 import { useForm } from "react-hook-form";
-import {
-  FormSellerLoginProps,
-  sellerLogin,
-} from "@/redux/reducers/authReducer";
+import { FormUserLoginProps, userLogin } from "@/redux/reducers/authReducer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
@@ -17,8 +14,9 @@ import {
   iconGoogle,
   iconGoRightWithoutCircle,
 } from "@/utils/icons";
+import store from "@/redux/store";
 
-export default function SellerLogin() {
+export default function UserLogin() {
   const dispatch = useAppDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const { role } = useAppSelector((state) => state.auth);
@@ -28,19 +26,25 @@ export default function SellerLogin() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormSellerLoginProps>();
+  } = useForm<FormUserLoginProps>();
 
-  function onSubmit(data: FormSellerLoginProps) {
+  function onSubmit(data: FormUserLoginProps) {
     setShowLoader(true);
     setDidSubmit(true);
     dispatch(
-      sellerLogin(data) // TODO: update signupMethod for Google/Facebook login
+      userLogin(data) // TODO: update signupMethod for Google/Facebook login
     )
       .unwrap()
       .then(() => {
         // reset(); // reset form values
         setShowLoader(false);
-        void navigate("/seller/dashboard", { replace: true });
+        const updatedRole = store.getState().auth.role;
+        void navigate(
+          updatedRole === RoleEnum.User
+            ? "/user/dashboard"
+            : "/admin/dashboard",
+          { replace: true }
+        );
       })
       .catch((e) => {
         setShowLoader(false);
@@ -53,15 +57,13 @@ export default function SellerLogin() {
       <Link className="absolute top-4 left-4 h-10" to="/">
         <img src={logo} className="h-full" />
       </Link>
-      {role === RoleEnum.Seller && !didSubmit ? (
+      {role && !didSubmit ? (
         <div className="flex flex-col items-center gap-y-6">
-          <div className="text-sky-700 text-lg">
-            You are already logged in as a <b>seller</b>.
-          </div>
+          <div className="text-sky-700 text-lg">You are already logged in.</div>
 
           <Link
             className="border-b border-sky-700 text-sky-950 px-1 flex items-center gap-x-2"
-            to={"/seller/dashboard"}
+            to={role === RoleEnum.User ? "/user/dashboard" : "/admin/dashboard"}
             replace
           >
             Dashboard {iconGoRightWithoutCircle("inline")}
@@ -70,7 +72,7 @@ export default function SellerLogin() {
       ) : (
         <div className="w-[21.875rem] max-w-full text-white bg-sky-400 rounded-lg p-6 shadow-xl">
           <div className="text-xl font-light mb-1 text-shadow-dark flex justify-center">
-            Seller Log In
+            Log In
           </div>
 
           {/* Form */}
@@ -113,7 +115,7 @@ export default function SellerLogin() {
           <div className="flex flex-col justify-center items-center text-sm mb-3">
             <div> Don&apos;t have an account?</div>
             <div>
-              <Link to="/signup/seller" className="underline">
+              <Link to="/signup" className="underline">
                 Create one
               </Link>{" "}
               now, or sign in with:

@@ -148,7 +148,7 @@ export const iconCategory = (style?: string) => (
   <BiCategory className={style} />
 );
 // https://react-icons.github.io/react-icons/search/#q=FaPeopleGroup
-export const iconSellers = (style?: string) => (
+export const iconUsers = (style?: string) => (
   <FaPeopleGroup className={style} />
 );
 // https://react-icons.github.io/react-icons/search/#q=MdOutlinePayment

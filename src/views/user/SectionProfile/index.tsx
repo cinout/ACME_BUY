@@ -1,16 +1,16 @@
 import toast from "react-hot-toast";
 import { useApolloClient, useMutation } from "@apollo/client";
 import {
-  GQL_SELLER_GET_CURRENT,
-  GQL_SELLER_UPDATE_CURRENT,
-} from "@/graphql/sellerGql";
-import { SellerEntity } from "@/utils/entities";
+  GQL_USER_GET_CURRENT,
+  GQL_USER_UPDATE_CURRENT,
+} from "@/graphql/userGql";
+import { UserEntity } from "@/utils/entities";
 import { useForm } from "react-hook-form";
 import FormSingleImage from "@/views/shared_components/form/FormSingleImages";
 import { imageMaxSizeMB } from "@/utils/numbers";
 import { ChangeEvent, useState } from "react";
-import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicator";
-import { SellerFormInputProps, SellerProfileEdit } from "./SellerProfileEdit";
+import UserStatusIndicator from "@/views/shared_components/UserStatusIndicator";
+import { UserFormInputProps, UserProfileEdit } from "./UserProfileEdit";
 import { getErrorMessage } from "@/graphql";
 import { Country, State } from "country-state-city";
 import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
@@ -46,8 +46,8 @@ export default function SectionProfile() {
     },
   });
   const userInfo = client.readQuery({
-    query: GQL_SELLER_GET_CURRENT,
-  }).getCurrentSeller as SellerEntity;
+    query: GQL_USER_GET_CURRENT,
+  }).getCurrentUser as UserEntity;
   const userCity = userInfo.city ? userInfo.city + ", " : "";
   const userState = userInfo.state
     ? State.getStateByCodeAndCountry(userInfo.state, userInfo.country)?.name +
@@ -69,7 +69,7 @@ export default function SectionProfile() {
     reset,
     setValue,
     clearErrors,
-  } = useForm<SellerFormInputProps>({
+  } = useForm<UserFormInputProps>({
     defaultValues: {
       firstname: userInfo.firstname,
       lastname: userInfo.lastname,
@@ -85,7 +85,7 @@ export default function SectionProfile() {
     },
   });
   const uploadedImage = watch("image");
-  const [updateSeller] = useMutation(GQL_SELLER_UPDATE_CURRENT, {
+  const [updateUser] = useMutation(GQL_USER_UPDATE_CURRENT, {
     onError: (err) => {
       setShowLoader(false);
       const errorMessage = getErrorMessage(err);
@@ -116,9 +116,9 @@ export default function SectionProfile() {
     void gqlAuthLogOut();
   }
 
-  function onSubmit(data: SellerFormInputProps): void {
+  function onSubmit(data: UserFormInputProps): void {
     setShowLoader(true);
-    void updateSeller({
+    void updateUser({
       variables: {
         input: {
           firstname: data.firstname,
@@ -191,13 +191,15 @@ export default function SectionProfile() {
           <div>
             <div className="font-bold flex items-center flex-wrap">
               {userInfo.firstname + " " + userInfo.lastname}
-              <SellerStatusIndicator
+              <UserStatusIndicator
                 status={userInfo.status}
                 additionalStyle="mx-2"
               />
               <span className="font-light">({userInfo.status})</span>
             </div>
-            <div className="font-light">{userInfo.shopName}</div>
+            {userInfo.shopName && (
+              <div className="font-light">{userInfo.shopName}</div>
+            )}
           </div>
 
           <div>
@@ -242,7 +244,7 @@ export default function SectionProfile() {
 
       {/* // TODO: update when changing password is implement */}
       {editProfileMode && (
-        <SellerProfileEdit
+        <UserProfileEdit
           register={register}
           errors={errors}
           watch={watch}

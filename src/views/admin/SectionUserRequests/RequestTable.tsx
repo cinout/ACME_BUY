@@ -1,15 +1,13 @@
-import { SellerEntity } from "@/utils/entities";
+import { UserEntity } from "@/utils/entities";
 import { useEffect, useState } from "react";
 import { FixedSizeList } from "react-window";
 
 interface RequestTableProps {
-  sellerRequestStats: SellerEntity[];
+  userRequestStats: UserEntity[];
 }
 
 // TODO: rethink about the layout and user logic
-export default function RequestTable({
-  sellerRequestStats,
-}: RequestTableProps) {
+export default function RequestTable({ userRequestStats }: RequestTableProps) {
   const [itemSize, setItemSize] = useState(50); // Default item size
 
   // Adjust itemSize based on the window width
@@ -45,11 +43,11 @@ export default function RequestTable({
         height={520}
         itemSize={itemSize}
         width="100%"
-        itemCount={sellerRequestStats.length}
+        itemCount={userRequestStats.length}
         className="mt-2"
       >
         {(props: { index: number; style: React.CSSProperties }) => {
-          const seller = sellerRequestStats[props.index];
+          const user = userRequestStats[props.index];
 
           return (
             <div
@@ -59,26 +57,26 @@ export default function RequestTable({
               {/* Info */}
               <div className="flex items-center gap-3">
                 <img
-                  src={seller?.imageUrl}
-                  alt={seller?.firstname}
+                  src={user?.imageUrl}
+                  alt={user?.firstname}
                   className="w-10 h-10 rounded-md"
                 />
 
                 <div className="hidden sm:block">
-                  <div>{seller?.firstname}</div>
+                  <div>{user?.firstname}</div>
                   <div className="italic text-xs text-sky-200">
-                    {seller?.email}
+                    {user?.email}
                   </div>
                 </div>
               </div>
 
               {/* District */}
               <div className="flex flex-col items-start">
-                {seller?.city + ", " + seller?.state + ", " + seller?.country}
+                {user?.city + ", " + user?.state + ", " + user?.country}
               </div>
 
               {/* Date */}
-              <span>{seller?.createdAt.toDateString()}</span>
+              <span>{user?.createdAt.toDateString()}</span>
 
               {/* Action */}
               <span className="justify-self-center">

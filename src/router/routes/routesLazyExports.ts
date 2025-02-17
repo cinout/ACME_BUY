@@ -24,8 +24,8 @@ export const ContactPage = lazy(() => import("@/views/main/ContactPage"));
 /**
  * Login & Signup
  */
-export const SellerLogin = lazy(() => import("@/views/auth/SellerLogin"));
-export const SellerSignup = lazy(() => import("@/views/auth/SellerSignup"));
+export const UserLogin = lazy(() => import("@/views/auth/UserLogin"));
+export const UserSignup = lazy(() => import("@/views/auth/UserSignup"));
 
 /**
  * Error Pages
@@ -37,7 +37,7 @@ export const UnauthorizedPage = lazy(
 /**
  * Private Pages
  */
-export const Main = lazy(() => import("@/views/Main")); // The seller/admin dashboard overall layout
+export const Main = lazy(() => import("@/views/Main")); // The user/admin dashboard overall layout
 
 /**
  * ADMIN Dashboard
@@ -51,14 +51,14 @@ export const AdminSectionOrders = lazy(
 export const AdminSectionGenres = lazy(
   () => import("@/views/admin/SectionGenres")
 );
-export const AdminSectionSellers = lazy(
-  () => import("@/views/admin/SectionSellers")
+export const AdminSectionUsers = lazy(
+  () => import("@/views/admin/SectionUsers")
 );
 export const AdminSectionWithdrawRequests = lazy(
   () => import("@/views/admin/SectionWithdrawRequests")
 );
-// export const AdminSectionSellerRequests = lazy(
-//   () => import("@/views/admin/SectionSellerRequests")
+// export const AdminSectionUserRequests = lazy(
+//   () => import("@/views/admin/SectionUserRequests")
 // );
 export const AdminSectionChat = lazy(() => import("@/views/admin/SectionChat"));
 export const AdminSectionProfile = lazy(
@@ -66,30 +66,30 @@ export const AdminSectionProfile = lazy(
 );
 
 /**
- * SELLER Dashboard
+ * USER Dashboard
  */
-export const SellerSectionDashboard = lazy(
-  () => import("@/views/seller/SectionDashboard")
+export const UserSectionDashboard = lazy(
+  () => import("@/views/user/SectionDashboard")
 );
-export const SellerSectionProducts = lazy(
-  () => import("@/views/seller/SectionProducts")
+export const UserSectionProducts = lazy(
+  () => import("@/views/user/SectionProducts")
 );
-export const SellerSectionOrders = lazy(
-  () => import("@/views/seller/SectionOrders")
+export const UserSectionOrders = lazy(
+  () => import("@/views/user/SectionOrders")
 );
-export const SellerSectionPayments = lazy(
-  () => import("@/views/seller/SectionPayments")
+export const UserSectionPayments = lazy(
+  () => import("@/views/user/SectionPayments")
 );
-export const SellerSectionChatCustomer = lazy(
-  () => import("@/views/seller/SectionChatCustomer")
+export const UserSectionChatCustomer = lazy(
+  () => import("@/views/user/SectionChatCustomer")
 );
-export const SellerSectionSupport = lazy(
-  () => import("@/views/seller/SectionSupport")
+export const UserSectionSupport = lazy(
+  () => import("@/views/user/SectionSupport")
 );
-export const SellerSectionProfile = lazy(
-  () => import("@/views/seller/SectionProfile")
+export const UserSectionProfile = lazy(
+  () => import("@/views/user/SectionProfile")
 );
-export const SellerDeactivated = lazy(
-  () => import("@/views/seller/SellerDeactivated")
+export const UserDeactivated = lazy(
+  () => import("@/views/user/UserDeactivated")
 );
-export const SellerPending = lazy(() => import("@/views/seller/SellerPending"));
+export const UserPending = lazy(() => import("@/views/user/UserPending"));

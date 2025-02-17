@@ -5,18 +5,13 @@ import SignInOptionButton from "../shared_components/SignInOptionButton";
 import { useForm } from "react-hook-form";
 import {
   VALID_EMAIL,
-  VALID_NAME_GENERAL,
-  VALID_NAME_GENERAL_ERROR_MSG,
   VALID_NAME_PERSON,
   VALID_NAME_PERSON_ERROR_MSG,
 } from "@/utils/strings";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
-import {
-  FormSellerSignupProps,
-  sellerSignup,
-} from "@/redux/reducers/authReducer";
-import { RoleEnum, SellerSignupMethodEnum } from "@/utils/enums";
+import { FormUserSignupProps, userSignup } from "@/redux/reducers/authReducer";
+import { RoleEnum, UserSignupMethodEnum } from "@/utils/enums";
 import toast from "react-hot-toast";
 import { styleFormErrorMessage } from "@/utils/styles";
 import { useState } from "react";
@@ -26,7 +21,7 @@ import {
   iconGoRightWithoutCircle,
 } from "@/utils/icons";
 
-export default function SellerSignup() {
+export default function UserSignup() {
   const dispatch = useAppDispatch();
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
@@ -37,20 +32,19 @@ export default function SellerSignup() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm<FormSellerSignupProps>();
+  } = useForm<FormUserSignupProps>();
 
-  function onSubmit(data: FormSellerSignupProps) {
+  function onSubmit(data: FormUserSignupProps) {
     setShowLoader(true);
     setDidSubmit(true);
     dispatch(
-      sellerSignup({ ...data, signupMethod: SellerSignupMethodEnum.Default }) // TODO: update signupMethod for Google/Facebook login
+      userSignup({ ...data, signupMethod: UserSignupMethodEnum.Default }) // TODO: update signupMethod for Google/Facebook login
     )
       .unwrap()
       .then(() => {
         // reset(); // reset form values
         setShowLoader(false);
-        void navigate("/seller/dashboard", { replace: true });
+        void navigate("/user/dashboard", { replace: true });
       })
       .catch((e) => {
         setShowLoader(false);
@@ -63,15 +57,13 @@ export default function SellerSignup() {
       <Link className="absolute top-4 left-4 h-10" to="/">
         <img src={logo} className="h-full" />
       </Link>
-      {role === RoleEnum.Seller && !didSubmit ? (
+      {role && !didSubmit ? (
         <div className="flex flex-col items-center gap-y-6">
-          <div className="text-sky-700 text-lg">
-            You are already logged in as a <b>seller</b>.
-          </div>
+          <div className="text-sky-700 text-lg">You are already logged in.</div>
 
           <Link
             className="border-b border-sky-700 text-sky-950 px-1 flex items-center gap-x-2"
-            to={"/seller/dashboard"}
+            to={role === RoleEnum.User ? "/user/dashboard" : "/admin/dashboard"}
             replace
           >
             Dashboard {iconGoRightWithoutCircle("inline")}
@@ -80,10 +72,10 @@ export default function SellerSignup() {
       ) : (
         <div className="w-[21.875rem] max-w-full text-white bg-sky-400 rounded-lg p-6 shadow-xl">
           <div className="text-xl font-light mb-1 text-shadow-dark text-center">
-            Seller Sign Up
+            Sign Up
           </div>
           <div className="text-sm mb-4 text-center">
-            Register now and become our seller.
+            Register now and become our member.
           </div>
 
           {/* Form */}
@@ -163,7 +155,7 @@ export default function SellerSignup() {
               additionalStyleInput="w-full"
             />
 
-            <FormInput
+            {/* <FormInput
               placeholder="Your Shop Name"
               label="Shop Name"
               registration={register("shopName", {
@@ -183,7 +175,7 @@ export default function SellerSignup() {
               })}
               error={errors.shopName}
               additionalStyleInput="w-full"
-            />
+            /> */}
 
             {/* Checkbox to terms and conditions */}
             <div className="flex items-center mt-4">
@@ -194,6 +186,7 @@ export default function SellerSignup() {
                     "You must agree to the terms and conditions before signing up",
                 })}
                 className="w-6 h-6 mr-4"
+                id="agree"
               />
               <label htmlFor="agree" className="text-sm">
                 {`By ticking this box, I agree to SWAP SOUND's privacy policy & terms.`}
@@ -221,7 +214,7 @@ export default function SellerSignup() {
           </div>
 
           <div className="flex flex-col items-center">
-            <Link to="/login/seller" className="mb-2 w-72">
+            <Link to="/login" className="mb-2 w-72">
               <SignInOptionButton additionalStyle="bg-slate-100 w-full">
                 SWAP SOUND Account
               </SignInOptionButton>

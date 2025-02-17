@@ -18,7 +18,7 @@ import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import {
   GQL_PRODUCT_CREATE,
-  GQL_PRODUCT_GET_ALL_BY_SELLER,
+  GQL_PRODUCT_GET_ALL_BY_USER,
   GQL_PRODUCT_UPDATE,
 } from "@/graphql/productGql";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
@@ -99,12 +99,12 @@ export default function ProductDetail({
     update(cache, { data }) {
       cache.updateQuery(
         {
-          query: GQL_PRODUCT_GET_ALL_BY_SELLER,
+          query: GQL_PRODUCT_GET_ALL_BY_USER,
         },
-        ({ getAllProductsBySeller }) => {
+        ({ getAllProductsByUser }) => {
           return {
-            getAllProductsBySeller: (
-              getAllProductsBySeller as ProductEntity[]
+            getAllProductsByUser: (
+              getAllProductsByUser as ProductEntity[]
             ).concat((data as { createProduct: ProductEntity }).createProduct),
           };
         }
@@ -226,7 +226,7 @@ export default function ProductDetail({
   }
 
   function closeAndLeave() {
-    void navigate("/seller/products");
+    void navigate("/user/products");
   }
 
   return (
@@ -235,7 +235,7 @@ export default function ProductDetail({
       <div className="flex gap-x-8 items-center mb-8">
         <button
           type="button" // to prevent trigger form submission if PopupDialogButtons is wrapped in <form> tag
-          className="cursor-pointer text-2xl text-sky-800 bg-sky-50 p-1 rounded-full border-2 border-sky-100 not-disabled:hover:bg-sky-200 not-disabled:hover:scale-105 disabled:cursor-not-allowed disabled:bg-slate-300 transition shadow-2xl"
+          className="cursor-pointer text-2xl text-sky-800 bg-sky-50 p-1 rounded-full border-2 border-sky-100 not-disabled:hover:scale-105 disabled:cursor-not-allowed disabled:bg-slate-300 transition shadow-2xl"
           onClick={closeAndLeave}
           disabled={showLoader}
         >

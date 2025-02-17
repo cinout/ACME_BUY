@@ -48,12 +48,9 @@ export default function FormInput({
   return (
     <div className={`${additionalStyleWrapper}`}>
       {showLabel && (
-        <label
-          htmlFor={registration.name}
-          className={`${styleFormLabel} ${additionalStyleLabel}`}
-        >
+        <div className={`${styleFormLabel} ${additionalStyleLabel}`}>
           {label ?? capFirstLetter(registration.name)}:
-        </label>
+        </div>
       )}
 
       <div className={`flex flex-col ${additionalStyleContentWrapper}`}>

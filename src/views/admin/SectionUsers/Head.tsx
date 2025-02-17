@@ -1,4 +1,4 @@
-import { SellerStatusEnum } from "@/utils/enums";
+import { UserStatusEnum } from "@/utils/enums";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import HeadSearch from "@/views/shared_components/HeadSearch";
 import HeadShowCount from "@/views/shared_components/HeadShowCount";
@@ -10,9 +10,9 @@ interface HeadProps {
   itemsPerPage: number;
   handleItemsPerPageChange: (value: number) => void;
   itemsPerPageOptions: number[];
-  sellerStatusFilter: "All" | SellerStatusEnum;
-  setSellerStatusFilter: Dispatch<SetStateAction<"All" | SellerStatusEnum>>;
-  numPendingSellers: number;
+  userStatusFilter: "All" | UserStatusEnum;
+  setUserStatusFilter: Dispatch<SetStateAction<"All" | UserStatusEnum>>;
+  numPendingUsers: number;
 }
 
 export default function Head({
@@ -21,15 +21,15 @@ export default function Head({
   itemsPerPage,
   handleItemsPerPageChange,
   itemsPerPageOptions,
-  sellerStatusFilter,
-  setSellerStatusFilter,
-  numPendingSellers,
+  userStatusFilter,
+  setUserStatusFilter,
+  numPendingUsers,
 }: HeadProps) {
   return (
     <div className="flex justify-between items-end flex-wrap ">
       {/* TODO: implement search function */}
       <HeadSearch
-        placeholder="search sellers ..."
+        placeholder="search users ..."
         additionalStyle=""
         value={searchValue}
         onChangeValue={setSearchValue}
@@ -38,26 +38,26 @@ export default function Head({
       <label className="text-white font-light">
         Status
         <select
-          name="sellerStatusFilter"
+          name="userStatusFilter"
           className="ml-2 bg-transparent border-b-[1px] cursor-pointer"
-          value={sellerStatusFilter}
+          value={userStatusFilter}
           onChange={(e) => {
-            setSellerStatusFilter(e.target.value as "All" | SellerStatusEnum);
+            setUserStatusFilter(e.target.value as "All" | UserStatusEnum);
           }}
         >
-          {["All", ...Object.values(SellerStatusEnum)].map((a) => (
+          {["All", ...Object.values(UserStatusEnum)].map((a) => (
             <option value={a} key={a}>
               {a}
             </option>
           ))}
         </select>
-        {numPendingSellers > 0 && (
+        {numPendingUsers > 0 && (
           <div
             className="bg-pending-400 text-pending-950 h-6 w-6 rounded-full text-sm font-bold inline-flex justify-center items-center ml-2 cursor-pointer"
-            data-tooltip-id={`tooltip-pending-sellers`}
-            onClick={() => setSellerStatusFilter(SellerStatusEnum.Pending)}
+            data-tooltip-id={`tooltip-pending-users`}
+            onClick={() => setUserStatusFilter(UserStatusEnum.Pending)}
           >
-            {numPendingSellers > 99 ? "99+" : numPendingSellers}
+            {numPendingUsers > 99 ? "99+" : numPendingUsers}
           </div>
         )}
       </label>
@@ -69,8 +69,8 @@ export default function Head({
       />
 
       <CustomTooltip
-        id={`tooltip-pending-sellers`}
-        content={`${numPendingSellers} pending sellers`}
+        id={`tooltip-pending-users`}
+        content={`${numPendingUsers} pending users`}
       />
     </div>
   );

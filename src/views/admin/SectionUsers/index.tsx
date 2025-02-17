@@ -1,25 +1,25 @@
 import { useState } from "react";
 import Pagination from "@/views/shared_components/Pagination";
 import Head from "./Head";
-import SellerTable from "./SellerTable";
-import SellerInfo from "./SellerInfo";
+import UserTable from "./UserTable";
+import UserInfo from "./UserInfo";
 import { Navigate, useParams } from "react-router-dom";
-import { SellerEntity } from "@/utils/entities";
+import { UserEntity } from "@/utils/entities";
 import { useMutation, useQuery } from "@apollo/client";
 import {
-  GQL_SELLER_GET_ALL,
-  GQL_SELLER_UPDATE_STATUS_BY_ADMIN,
-} from "@/graphql/sellerGql";
+  GQL_USER_GET_ALL,
+  GQL_USER_UPDATE_STATUS_BY_ADMIN,
+} from "@/graphql/userGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
-import { SellerStatusEnum } from "@/utils/enums";
+import { UserStatusEnum } from "@/utils/enums";
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 
 // TODO: need to provide filter/sort functionalities
-// TODO: only show activated and deactivated sellers, pending sellers are in Seller Request tab
-export default function SectionSellers() {
+// TODO: only show activated and deactivated users, pending users are in User Request tab
+export default function SectionUsers() {
   /**
    * State
    */
@@ -31,20 +31,20 @@ export default function SectionSellers() {
   // search value
   const [searchValue, setSearchValue] = useState("");
   // filter
-  const [sellerStatusFilter, setSellerStatusFilter] = useState<
-    SellerStatusEnum | "All"
+  const [userStatusFilter, setUserStatusFilter] = useState<
+    UserStatusEnum | "All"
   >("All");
 
   /**
    * Routing
    */
-  const { sellerId } = useParams();
+  const { userId } = useParams();
 
   /**
    * GQL
    */
-  const [updateSellerStatusByAdmin] = useMutation(
-    GQL_SELLER_UPDATE_STATUS_BY_ADMIN,
+  const [updateUserStatusByAdmin] = useMutation(
+    GQL_USER_UPDATE_STATUS_BY_ADMIN,
     {
       onError: (err) => {
         const errorMessage = getErrorMessage(err);
@@ -52,26 +52,23 @@ export default function SectionSellers() {
       },
     }
   );
-  const querySellers = useQuery(GQL_SELLER_GET_ALL);
-  if (querySellers.loading) {
+  const queryUsers = useQuery(GQL_USER_GET_ALL);
+  if (queryUsers.loading) {
     return <LoadingIndicatorWithDiv />;
   }
-  const allSellers = querySellers.data.getAllSellers as SellerEntity[];
-  const currentSeller = allSellers.find((a) => a.id === sellerId);
-  const allSellersByStatus = allSellers.filter(
-    (a) => sellerStatusFilter === "All" || a.status === sellerStatusFilter
+  const allUsers = queryUsers.data.getAllUsers as UserEntity[];
+  const currentUser = allUsers.find((a) => a.id === userId);
+  const allUsersByStatus = allUsers.filter(
+    (a) => userStatusFilter === "All" || a.status === userStatusFilter
   );
-  const numPendingSellers = allSellers.filter(
-    (a) => a.status === SellerStatusEnum.Pending
+  const numPendingUsers = allUsers.filter(
+    (a) => a.status === UserStatusEnum.Pending
   ).length;
 
-  function updateSellerStatus(
-    sellerId: string,
-    targetStatus: SellerStatusEnum
-  ) {
-    void updateSellerStatusByAdmin({
+  function updateUserStatus(userId: string, targetStatus: UserStatusEnum) {
+    void updateUserStatusByAdmin({
       variables: {
-        id: sellerId,
+        id: userId,
         status: targetStatus,
       },
     });
@@ -84,8 +81,8 @@ export default function SectionSellers() {
   }
 
   // redirect if wrong id
-  if (sellerId && !currentSeller) {
-    return <Navigate to="/admin/sellers" replace />;
+  if (userId && !currentUser) {
+    return <Navigate to="/admin/users" replace />;
   }
 
   return (
@@ -96,21 +93,18 @@ export default function SectionSellers() {
         itemsPerPage={itemsPerPage}
         handleItemsPerPageChange={handleItemsPerPageChange}
         itemsPerPageOptions={itemsPerPageOptions}
-        sellerStatusFilter={sellerStatusFilter}
-        setSellerStatusFilter={setSellerStatusFilter}
-        numPendingSellers={numPendingSellers}
+        userStatusFilter={userStatusFilter}
+        setUserStatusFilter={setUserStatusFilter}
+        numPendingUsers={numPendingUsers}
       />
 
-      <SellerTable
-        sellerStats={allSellersByStatus.slice(start_index, end_index)}
-        updateSellerStatus={updateSellerStatus}
+      <UserTable
+        userStats={allUsersByStatus.slice(start_index, end_index)}
+        updateUserStatus={updateUserStatus}
       />
 
-      {currentSeller && (
-        <SellerInfo
-          seller={currentSeller}
-          updateSellerStatus={updateSellerStatus}
-        />
+      {currentUser && (
+        <UserInfo user={currentUser} updateUserStatus={updateUserStatus} />
       )}
 
       {/* Pagination */}
@@ -119,7 +113,7 @@ export default function SectionSellers() {
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          totalPages={Math.ceil(allSellersByStatus.length / itemsPerPage)}
+          totalPages={Math.ceil(allUsersByStatus.length / itemsPerPage)}
           maxPageOptionsCount={5}
         />
       </div>

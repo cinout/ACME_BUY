@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useApolloClient, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
-import { SellerEntity } from "@/utils/entities";
+import { UserEntity } from "@/utils/entities";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
 import { getErrorMessage } from "@/graphql";
@@ -105,10 +105,10 @@ export default function Sidebar({
   const menuRef = useRef<HTMLDivElement>(null);
 
   const panelOptions = navOptions.filter((a) => {
-    if (role === RoleEnum.Seller) {
+    if (role === RoleEnum.User) {
       return (
-        a.accessRoles.includes(RoleEnum.Seller) &&
-        a.accessSellerStatus?.includes(userInfo!.status)
+        a.accessRoles.includes(RoleEnum.User) &&
+        a.accessUserStatus?.includes(userInfo!.status)
       );
     } else if (role === RoleEnum.Admin) {
       return a.accessRoles.includes(RoleEnum.Admin);

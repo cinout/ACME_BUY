@@ -1,13 +1,13 @@
-import { SellerEntity } from "@/utils/entities";
-import { SellerSignupMethodEnum, SellerStatusEnum } from "@/utils/enums";
+import { UserEntity } from "@/utils/entities";
+import { RoleEnum, UserSignupMethodEnum, UserStatusEnum } from "@/utils/enums";
 import { faker } from "@faker-js/faker";
-import SellerList from "./SellerList";
+import UserList from "./UserList";
 import RightMessageContainer from "./RightMessageContainer";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 // TODO: fetch from server
-const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
+const userStats: UserEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
   createdAt: faker.date.recent(),
 
@@ -21,24 +21,25 @@ const sellerStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
   city: faker.location.city(),
   zipCode: faker.location.zipCode(),
 
-  status: SellerStatusEnum.Active,
-  signupMethod: SellerSignupMethodEnum.Default,
+  status: UserStatusEnum.Active,
+  signupMethod: UserSignupMethodEnum.Default,
   shopName: faker.company.name(),
+  role: RoleEnum.User,
 
   image: faker.image.avatar(),
 }));
 
 export default function SectionChat() {
-  const { sellerId } = useParams();
+  const { userId } = useParams();
   const [showList, setShowList] = useState(false);
 
   return (
     <div className="flex w-full h-full gap-x-4">
-      {/* Left: Sellers */}
+      {/* Left: Users */}
       <div className="hidden lg:block relative flex-[1] bg-white/50 h-full rounded-lg py-4 overflow-y-auto">
         <div className="sticky flex justify-center px-4 top-0">
           <input
-            placeholder="find seller..."
+            placeholder="find user..."
             name="search"
             type="text"
             className={
@@ -47,15 +48,15 @@ export default function SectionChat() {
           />
         </div>
         <div className="mt-6">
-          <SellerList sellerStats={sellerStats} />
+          <UserList userStats={userStats} />
         </div>
       </div>
 
       {/* Right: Messages */}
       <div className="flex-[4] h-full rounded-lg flex flex-col gap-y-4">
         <RightMessageContainer
-          sellerId={sellerId}
-          sellerStats={sellerStats}
+          userId={userId}
+          userStats={userStats}
           showList={showList}
           setShowList={setShowList}
         />

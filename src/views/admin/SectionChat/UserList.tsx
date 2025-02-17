@@ -1,10 +1,10 @@
-import { SellerEntity } from "@/utils/entities";
+import { UserEntity } from "@/utils/entities";
 import { joinUrl } from "@/utils/strings";
 import { SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface SellerListProps {
-  sellerStats: SellerEntity[];
+interface UserListProps {
+  userStats: UserEntity[];
   setShowList?: React.Dispatch<SetStateAction<boolean>>;
 }
 
@@ -13,10 +13,7 @@ interface SellerListProps {
 
 const baseUrl = "/admin/chat";
 
-export default function SellerList({
-  sellerStats,
-  setShowList,
-}: SellerListProps) {
+export default function UserList({ userStats, setShowList }: UserListProps) {
   const navigate = useNavigate();
 
   function handleClick(id: string) {
@@ -30,18 +27,18 @@ export default function SellerList({
 
   return (
     <>
-      {sellerStats.map((seller) => (
+      {userStats.map((user) => (
         <button
-          key={seller.id}
+          key={user.id}
           className="flex w-full p-2 items-center gap-x-1 lg:gap-x-3 text-xs lg:text-sm hover:bg-sky-100 rounded-md"
-          onClick={() => handleClick(seller.id)}
+          onClick={() => handleClick(user.id)}
         >
           <img
-            src={seller?.imageUrl}
-            alt={seller?.firstname}
+            src={user?.imageUrl}
+            alt={user?.firstname}
             className="w-10 h-10 rounded-md shadow-xl"
           />
-          <span className="hidden sm:block text-left">{seller?.firstname}</span>
+          <span className="hidden sm:block text-left">{user?.firstname}</span>
         </button>
       ))}
     </>

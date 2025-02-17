@@ -1,17 +1,17 @@
-import { SellerEntity } from "@/utils/entities";
+import { UserEntity } from "@/utils/entities";
 import { faker } from "@faker-js/faker";
 import { Fragment, SetStateAction, useEffect, useRef } from "react";
-import SellerList from "./SellerList";
+import UserList from "./UserList";
 import { iconDownWithCircle, iconUpWithCircle } from "@/utils/icons";
 
 interface RightMessageContainerProps {
-  sellerStats: SellerEntity[];
-  sellerId: string | undefined;
+  userStats: UserEntity[];
+  userId: string | undefined;
   showList: boolean;
   setShowList: React.Dispatch<SetStateAction<boolean>>;
 }
 
-function MessageSeller({
+function MessageUser({
   message,
   image,
   name,
@@ -58,12 +58,12 @@ function MessageAdmin({
 }
 
 export default function RightMessageContainer({
-  sellerStats,
-  sellerId,
+  userStats,
+  userId,
   showList,
   setShowList,
 }: RightMessageContainerProps) {
-  const seller = sellerStats.find((a) => a.id === sellerId);
+  const user = userStats.find((a) => a.id === userId);
 
   const listSearchRef = useRef<HTMLDivElement>(null);
 
@@ -92,15 +92,15 @@ export default function RightMessageContainer({
       {/* Head */}
       <div className="h-10 grid grid-cols-2 gap-x-3 px-4">
         <div>
-          {seller && (
+          {user && (
             <div className="flex items-center gap-x-3">
               <img
-                src={seller.imageUrl}
-                alt={seller.firstname}
+                src={user.imageUrl}
+                alt={user.firstname}
                 className="h-10 w-10 rounded-md shadow-lg"
               />
 
-              <span className="font-light text-sky-50">{seller.firstname}</span>
+              <span className="font-light text-sky-50">{user.firstname}</span>
             </div>
           )}
         </div>
@@ -111,7 +111,7 @@ export default function RightMessageContainer({
           ref={listSearchRef}
         >
           <input
-            placeholder="find seller..."
+            placeholder="find user..."
             name="search"
             type="text"
             className={
@@ -128,29 +128,29 @@ export default function RightMessageContainer({
 
           {showList && (
             <div className="absolute w-full top-0 left-0 h-[60vh] pt-14 bg-sky-50/90 overflow-y-auto rounded-md">
-              <SellerList sellerStats={sellerStats} setShowList={setShowList} />
+              <UserList userStats={userStats} setShowList={setShowList} />
             </div>
           )}
         </div>
       </div>
 
       {/* Message Body */}
-      {seller && (
+      {user && (
         <>
           <div className="flex-1 bg-sky-950 rounded-2xl p-4 text-sky-50 overflow-y-auto flex flex-col gap-y-6">
             {/* TODO: use real data */}
             {/* TODO: show the latest messages in the container, and scroll down to see eallier messages, like WeChat */}
             {Array.from({ length: 12 }, (v, i) => (
               <Fragment key={i}>
-                <MessageSeller
+                <MessageUser
                   message={faker.lorem.text()}
-                  image={seller.imageUrl || ""}
-                  name={seller.firstname}
+                  image={user.imageUrl || ""}
+                  name={user.firstname}
                 />
                 <MessageAdmin
                   message={faker.lorem.text()}
-                  image={seller.imageUrl || ""}
-                  name={seller.firstname}
+                  image={user.imageUrl || ""}
+                  name={user.firstname}
                 />
               </Fragment>
             ))}

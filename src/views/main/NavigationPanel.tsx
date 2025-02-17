@@ -14,14 +14,23 @@ import {
   RoleEnum,
 } from "@/utils/enums";
 import { iconSearchMagnifier } from "@/utils/icons";
+import { motion, AnimatePresence } from "motion/react";
+
+interface Props {
+  isScrollUp: boolean;
+}
+
+const cssHeaderRowBg =
+  "absolute top-0 left-0 h-full w-full -z-10 transition-all duration-500 backdrop-blur-md";
 
 // TODO:[3] make it reponsive to screen size
-export default function NavigationPanel() {
+// TODO:[2] show current steps (Home > Genre > Rock)
+export default function NavigationPanel({ isScrollUp }: Props) {
   /**
    * Hooks (User Info)
    */
-  const userInfo = useHookGetUserInfo();
   const { role } = useAppSelector((state) => state.auth);
+  const userInfo = useHookGetUserInfo();
 
   /**
    * GQL
@@ -35,10 +44,32 @@ export default function NavigationPanel() {
       : [];
 
   return (
-    <div className="font-arsenal-spaced-1">
+    <div className="font-arsenal-spaced-1 z-50 w-full fixed">
       {/* First Row: Logo, Search, Login */}
-      {/* TODO:[1] change color whne scroll up, hide color when scroll down */}
-      <div className="grid grid-cols-[2fr_2fr_1fr] lg:grid-cols-3 py-6 px-8">
+      <div
+        className={`relative grid grid-cols-[2fr_2fr_1fr] lg:grid-cols-3 py-6 px-8`}
+      >
+        {/* <div
+          className={`bg-white/80 ${
+            isScrollUp ? "opacity-0" : "opacity-100"
+          } ${cssHeaderRowBg}`}
+        />
+
+        <div
+          className={`bg-gradient-to-b from-aqua-forest-50/80 to-aqua-forest-200/80 shadow-2xl ${
+            isScrollUp ? "opacity-100" : "opacity-0"
+          } ${cssHeaderRowBg}`}
+        /> */}
+
+        <div
+          className={`${cssHeaderRowBg} ${
+            isScrollUp
+              ? "bg-aqua-forest-200/80 shadow-2xl"
+              : // ? "bg-gradient-to-b from-aqua-forest-50/80 to-aqua-forest-200/80 shadow-2xl"
+                "bg-white/80"
+          }`}
+        />
+
         <Link to="/" className="justify-self-start self-center">
           <img src={logo} alt="Company Logo" className="h-10" />
         </Link>
@@ -62,9 +93,7 @@ export default function NavigationPanel() {
           {userInfo ? (
             <Link
               to={
-                role === RoleEnum.Seller
-                  ? "/seller/dashboard"
-                  : "/admin/dashboard"
+                role === RoleEnum.User ? "/user/dashboard" : "/admin/dashboard"
               }
             >
               <img
@@ -75,55 +104,73 @@ export default function NavigationPanel() {
             </Link>
           ) : (
             // TODO:[3] implement Log in
-            <Link to="login/seller">Login</Link>
+            <Link to="/login">Login</Link>
           )}
         </div>
       </div>
 
-      {/* Genres  */}
+      {/* Second Row  */}
       {/* TODO:[3] implement each page */}
       {/* TODO:[1] hide when scroll up, show again when scroll down */}
-      <div className="bg-aqua-forest-200 h-7 flex items-center">
-        <NavBarItem
-          title="Genre"
-          dropdownOptions={sortedGenres.map((a) => ({
-            id: a.id,
-            name: a.name,
-          }))}
-        />
 
-        <NavBarItem
-          title="Format"
-          dropdownOptions={Object.values(MediaFormatEnum).map((a) => ({
-            id: a,
-            name: a,
-          }))}
-        />
+      <AnimatePresence>
+        {!isScrollUp && (
+          <motion.div
+            className="bg-aqua-forest-200 h-7 flex items-center"
+            initial={{ translateY: "-1rem", opacity: 0 }}
+            animate={{
+              translateY: 0,
+              opacity: 1,
+              transition: { duration: 0.4, ease: "easeOut" },
+            }}
+            exit={{
+              translateY: "-1rem",
+              opacity: 0,
+              transition: { duration: 0.4, ease: "easeIn" },
+            }}
+          >
+            <NavBarItem
+              title="Genre"
+              dropdownOptions={sortedGenres.map((a) => ({
+                id: a.id,
+                name: a.name,
+              }))}
+            />
 
-        <NavBarItem
-          title="Year"
-          dropdownOptions={Object.values(ReleaseYearRangeEnum).map((a) => ({
-            id: a,
-            name: a,
-          }))}
-        />
+            <NavBarItem
+              title="Format"
+              dropdownOptions={Object.values(MediaFormatEnum).map((a) => ({
+                id: a,
+                name: a,
+              }))}
+            />
 
-        <NavBarItem
-          title="Grading"
-          dropdownOptions={Object.values(GradingEnum).map((a) => ({
-            id: a,
-            name: a,
-          }))}
-        />
+            <NavBarItem
+              title="Year"
+              dropdownOptions={Object.values(ReleaseYearRangeEnum).map((a) => ({
+                id: a,
+                name: a,
+              }))}
+            />
 
-        <NavBarItem
-          title="Region"
-          dropdownOptions={Object.values(ReleaseRegionEnum).map((a) => ({
-            id: a,
-            name: a,
-          }))}
-        />
-      </div>
+            <NavBarItem
+              title="Grading"
+              dropdownOptions={Object.values(GradingEnum).map((a) => ({
+                id: a,
+                name: a,
+              }))}
+            />
+
+            <NavBarItem
+              title="Region"
+              dropdownOptions={Object.values(ReleaseRegionEnum).map((a) => ({
+                id: a,
+                name: a,
+              }))}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

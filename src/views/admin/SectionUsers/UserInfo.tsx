@@ -1,10 +1,11 @@
-import { SellerEntity } from "@/utils/entities";
-import { SellerStatusEnum } from "@/utils/enums";
+import { UserEntity } from "@/utils/entities";
+import { UserStatusEnum } from "@/utils/enums";
 import { capFirstLetter } from "@/utils/strings";
 import PopupDialog from "@/views/shared_components/PopupDialog";
 import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
-import SellerStatusIndicator from "@/views/shared_components/SellerStatusIndicator";
+import UserStatusIndicator from "@/views/shared_components/UserStatusIndicator";
 import { useNavigate } from "react-router-dom";
+import { Country, State } from "country-state-city";
 
 interface AttributeDisplayProps {
   name: string;
@@ -19,18 +20,12 @@ function AttributeDisplay({ name, value }: AttributeDisplayProps) {
     </div>
   );
 }
-interface SellerInfoProps {
-  seller: SellerEntity;
-  updateSellerStatus: (
-    sellerId: string,
-    sellerStatus: SellerStatusEnum
-  ) => void;
+interface UserInfoProps {
+  user: UserEntity;
+  updateUserStatus: (userId: string, userStatus: UserStatusEnum) => void;
 }
 
-export default function SellerInfo({
-  seller,
-  updateSellerStatus,
-}: SellerInfoProps) {
+export default function UserInfo({ user, updateUserStatus }: UserInfoProps) {
   const navigate = useNavigate();
 
   function onCloseDialog() {
@@ -43,22 +38,22 @@ export default function SellerInfo({
       onClose={onCloseDialog}
       additionalStyle="w-full md:w-4/5 lg:w-2/3 xl:w-1/2"
       // additionalStyle="w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-4 md:p-6 xl:p-8"
-      header="Seller Info"
+      header="User Info"
     >
       {/* Top */}
       <div className="flex justify-around items-center w-full gap-x-12 gap-y-6 flex-wrap text-sm md:text-base">
         {/* Left */}
         <div className="flex flex-col items-center gap-4 w-40">
-          {/* TODO:[1] to redirect to seller's page when click on image */}
+          {/* TODO:[1] to redirect to user's page when click on image */}
           <img
-            src={seller.imageUrl}
-            alt={seller.firstname}
+            src={user.imageUrl}
+            alt={user.firstname}
             className="w-24 sm:w-32 lg:w-40 aspect-square rounded-2xl shadow-2xl"
           />
 
           <div className="flex justify-center items-center gap-x-3">
-            <SellerStatusIndicator status={seller.status} />
-            {seller.status}
+            <UserStatusIndicator status={user.status} />
+            {user.status}
           </div>
         </div>
 
@@ -66,18 +61,33 @@ export default function SellerInfo({
         <div className="flex flex-col gap-1 text-wrap">
           <AttributeDisplay
             name="name"
-            value={seller.firstname + " " + seller.lastname}
+            value={user.firstname + " " + user.lastname}
           />
-          <AttributeDisplay name="shop" value={seller.shopName} />
-          <AttributeDisplay name="email" value={seller.email} />
-          <AttributeDisplay name="country" value={seller.country} />
-          <AttributeDisplay name="state" value={seller.state} />
-          <AttributeDisplay name="city" value={seller.city} />
-          <AttributeDisplay name="zip code" value={seller.zipCode} />
+          <AttributeDisplay name="shop" value={user?.shopName ?? ""} />
+          <AttributeDisplay name="email" value={user.email} />
+          <AttributeDisplay
+            name="country"
+            value={
+              user.country
+                ? Country.getCountryByCode(user.country)?.name ?? ""
+                : ""
+            }
+          />
+          <AttributeDisplay
+            name="state"
+            value={
+              user.state
+                ? State.getStateByCodeAndCountry(user.state, user.country)
+                    ?.name ?? ""
+                : ""
+            }
+          />
+          <AttributeDisplay name="city" value={user.city} />
+          <AttributeDisplay name="zip code" value={user.zipCode} />
           {/* TODO:[1] add other fields: Request Date*/}
           {/* <AttributeDisplay
             name="requested"
-            value={seller.createdAt.toDateString()}
+            value={user.createdAt.toDateString()}
           /> */}
         </div>
       </div>
@@ -87,9 +97,9 @@ export default function SellerInfo({
       {/* <div className="flex flex-col justify-center items-center w-full mt-8 text-sm md:text-base"> */}
       {/* <strong className="text-sky-200 mb-2">Owned Shops:</strong> */}
 
-      {/* {seller.shops && seller.shops.length > 0 ? (
+      {/* {user.shops && user.shops.length > 0 ? (
           <div className="bg-white/75 p-3 rounded-xl flex justify-start gap-2 overflow-x-auto">
-            {seller.shops?.map((shop) => (
+            {user.shops?.map((shop) => (
               <Fragment key={shop.id}>
                 <img
                   src={shop.image}
@@ -106,7 +116,7 @@ export default function SellerInfo({
             ))}
           </div>
         ) : (
-          <div>The seller hasn&apos;t created any shop yet.</div>
+          <div>The user hasn&apos;t created any shop yet.</div>
         )} */}
       {/* </div> */}
 
@@ -114,27 +124,25 @@ export default function SellerInfo({
       <PopupDialogButtons
         onCancel={onCloseDialog}
         submitText={
-          seller.status === SellerStatusEnum.Deactivated
-            ? "Activate"
-            : "Deactivate"
+          user.status === UserStatusEnum.Deactivated ? "Activate" : "Deactivate"
         }
         additionalStyleForSubmit={
-          seller.status === SellerStatusEnum.Deactivated
+          user.status === UserStatusEnum.Deactivated
             ? "bg-active-600"
             : "bg-deactivated-600"
         }
         onSubmit={() =>
-          updateSellerStatus(
-            seller.id,
-            seller.status === SellerStatusEnum.Deactivated
-              ? SellerStatusEnum.Active
-              : SellerStatusEnum.Deactivated
+          updateUserStatus(
+            user.id,
+            user.status === UserStatusEnum.Deactivated
+              ? UserStatusEnum.Active
+              : UserStatusEnum.Deactivated
           )
         }
-        showSecondarySubmitButton={seller.status === SellerStatusEnum.Pending}
+        showSecondarySubmitButton={user.status === UserStatusEnum.Pending}
         secondarySubmitText="Activate"
         onSecondarySubmit={() =>
-          updateSellerStatus(seller.id, SellerStatusEnum.Active)
+          updateUserStatus(user.id, UserStatusEnum.Active)
         }
         additionalStyleForSecondarySubmit="bg-active-600"
       />

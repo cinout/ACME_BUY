@@ -41,12 +41,9 @@ export default function FormSelect({
   return (
     <div className={`${additionalStyleWrapper}`}>
       {showLabel && (
-        <label
-          htmlFor={registration.name}
-          className={`${styleFormLabel} ${additionalStyleLabel}`}
-        >
+        <div className={`${styleFormLabel} ${additionalStyleLabel}`}>
           {label ?? capFirstLetter(registration.name)}:
-        </label>
+        </div>
       )}
 
       {/* TODO: allow user to type and search */}

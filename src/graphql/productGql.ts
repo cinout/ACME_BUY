@@ -6,7 +6,7 @@ const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
     name
     artist
     genreId
-    sellerId
+    userId
     stock
     price
     discount
@@ -20,15 +20,30 @@ const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
   }
 `;
 
-export const GQL_PRODUCT_GET_ALL_BY_SELLER = gql`
+/**
+ * GET (Query)
+ */
+export const GQL_PRODUCT_GET_ALL_BY_USER = gql`
   query {
-    getAllProductsBySeller {
+    getAllProductsByUser {
       ...ProductDetails
     }
   }
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
+export const GQL_PRODUCT_GET_NEWEST = gql`
+  query getNewestProducts($count: Int!) {
+    getNewestProducts(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+/**
+ * Create
+ */
 export const GQL_PRODUCT_CREATE = gql`
   mutation createProduct(
     $name: String!
@@ -64,6 +79,9 @@ export const GQL_PRODUCT_CREATE = gql`
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
+/**
+ * Update
+ */
 export const GQL_PRODUCT_UPDATE = gql`
   mutation updateProduct($id: ID!, $input: UpdateProductInput!) {
     updateProduct(id: $id, input: $input) {
@@ -73,6 +91,9 @@ export const GQL_PRODUCT_UPDATE = gql`
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
+/**
+ * Delete
+ */
 export const GQL_PRODUCT_DELETE = gql`
   mutation deleteProduct($id: ID!) {
     deleteProduct(id: $id)

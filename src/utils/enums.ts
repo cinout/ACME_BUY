@@ -1,6 +1,6 @@
 export enum RoleEnum {
   Admin = "Admin",
-  Seller = "Seller",
+  User = "User",
 }
 
 // TODO: update them
@@ -18,13 +18,13 @@ export enum WithdrawStatusEnum {
   Pending = "Pending",
 }
 
-export enum SellerStatusEnum {
+export enum UserStatusEnum {
   Pending = "Pending",
   Deactivated = "Deactivated",
   Active = "Active",
 }
 
-export enum SellerSignupMethodEnum {
+export enum UserSignupMethodEnum {
   Default = "Default",
   Google = "Google",
   Facebook = "Facebook",

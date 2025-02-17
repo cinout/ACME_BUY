@@ -3,7 +3,7 @@ import {
   AdminSectionDashboard,
   AdminSectionOrders,
   AdminSectionGenres,
-  AdminSectionSellers,
+  AdminSectionUsers,
   AdminSectionWithdrawRequests,
   AdminSectionChat,
   AdminSectionProfile,
@@ -33,8 +33,8 @@ export const privateAdminRoutes: PrivateAdminRouteType[] = [
     accessRoles: [RoleEnum.Admin],
   },
   {
-    path: "/admin/sellers/:sellerId?",
-    element: <AdminSectionSellers />,
+    path: "/admin/users/:userId?",
+    element: <AdminSectionUsers />,
     accessRoles: [RoleEnum.Admin],
   },
   {
@@ -43,12 +43,12 @@ export const privateAdminRoutes: PrivateAdminRouteType[] = [
     accessRoles: [RoleEnum.Admin],
   },
   // {
-  //   path: "/admin/seller-requests",
-  //   element: <AdminSectionSellerRequests />,
+  //   path: "/admin/user-requests",
+  //   element: <AdminSectionUserRequests />,
   //   accessRoles: [RoleEnum.Admin],
   // },
   {
-    path: "/admin/chat/:sellerId?",
+    path: "/admin/chat/:userId?",
     element: <AdminSectionChat />,
     accessRoles: [RoleEnum.Admin],
   },

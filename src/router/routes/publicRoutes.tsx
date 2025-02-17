@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom"; // for typing
 import {
-  SellerLogin,
-  SellerSignup,
+  UserLogin,
+  UserSignup,
   HomePage,
   UnauthorizedPage,
   GenrePage,
@@ -50,12 +50,12 @@ export const publicRoutes: RouteObject[] = [
    * Sign Up & Log in
    */
   {
-    path: "/login/seller",
-    element: <SellerLogin />,
+    path: "/login",
+    element: <UserLogin />,
   },
   {
-    path: "/signup/seller",
-    element: <SellerSignup />,
+    path: "/signup",
+    element: <UserSignup />,
   },
 
   /**

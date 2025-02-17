@@ -1,5 +1,5 @@
 import { privateAdminRoutes } from "./privateAdminRoutes.tsx";
-import { privateSellerRoutes } from "./privateSellerRoutes.tsx";
+import { privateUserRoutes } from "./privateUserRoutes.tsx";
 import { RouteObject } from "react-router-dom";
 import ProtectPrivateRoute from "./ProtectPrivateRoute.tsx";
 import { Main } from "./routesLazyExports.ts";
@@ -15,10 +15,10 @@ export const getPrivateAdminRoutes: RouteObject = {
   })),
 };
 
-export const getPrivateSellerRoutes: RouteObject = {
-  path: "/seller",
+export const getPrivateUserRoutes: RouteObject = {
+  path: "/user",
   element: <Main />, // The dashboard overall layout
-  children: privateSellerRoutes.map((route) => ({
+  children: privateUserRoutes.map((route) => ({
     ...route,
     element: (
       <ProtectPrivateRoute route={route}>{route.element}</ProtectPrivateRoute>

@@ -3,7 +3,7 @@ import StatsChart from "./StatsChart";
 import RecentMessages from "./RecentMessages";
 import RecentOrders from "./RecentOrders";
 
-export default function SellerSectionDashboard() {
+export default function UserSectionDashboard() {
   return (
     <>
       {/* Statistics highlight */}

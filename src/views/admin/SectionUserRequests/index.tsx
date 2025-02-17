@@ -2,12 +2,11 @@ import { useState } from "react";
 import { faker } from "@faker-js/faker";
 import Head from "./Head";
 import RequestTable from "./RequestTable";
-import { SellerSignupMethodEnum, SellerStatusEnum } from "@/utils/enums";
-import { SellerEntity, ShopEntity } from "@/utils/entities";
-import { getRandomInt } from "@/utils/numbers";
+import { RoleEnum, UserSignupMethodEnum, UserStatusEnum } from "@/utils/enums";
+import { UserEntity } from "@/utils/entities";
 
 // TODO: fetch from server
-const sellerRequestStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
+const userRequestStats: UserEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
   createdAt: faker.date.recent(),
 
@@ -19,9 +18,10 @@ const sellerRequestStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
   state: faker.location.state(),
   city: faker.location.city(),
   zipCode: faker.location.zipCode(),
-  status: SellerStatusEnum.Pending,
-  signupMethod: SellerSignupMethodEnum.Default,
+  status: UserStatusEnum.Pending,
+  signupMethod: UserSignupMethodEnum.Default,
   shopName: faker.company.name(),
+  role: RoleEnum.User,
 
   image: faker.image.avatar(),
   // shops: Array.from(
@@ -35,13 +35,13 @@ const sellerRequestStats: SellerEntity[] = Array.from({ length: 34 }, () => ({
   // ),
 }));
 
-export default function SectionSellerRequests() {
+export default function SectionUserRequests() {
   const [searchValue, setSearchValue] = useState("");
 
   return (
     <>
       <Head searchValue={searchValue} setSearchValue={setSearchValue} />
-      <RequestTable sellerRequestStats={sellerRequestStats} />
+      <RequestTable userRequestStats={userRequestStats} />
     </>
   );
 }
