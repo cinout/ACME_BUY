@@ -38,7 +38,7 @@ export default function ShopFrontWrapper() {
   return (
     <div className="flex flex-col h-full overflow-scroll" ref={scrollRef}>
       <NavigationPanel isScrollUp={isScrollUp} />
-      <div className="flex-1 p-8 mt-32">
+      <div className="flex-1 p-2 sm:p-4 lg:p-8 mt-32">
         <Outlet />
       </div>
       <Footer />

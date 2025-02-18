@@ -29,7 +29,7 @@ export default function GenreTable({
               <img
                 src={genre.imageUrl}
                 alt={genre.name}
-                className="inline h-20 w-20 mt-10 rounded-md hover:brightness-75 hover:outline hover:outline-white transition-all"
+                className="inline h-20 w-20 object-cover mt-10 rounded-md hover:brightness-75 hover:outline hover:outline-white transition-all"
               />
             </Link>
 

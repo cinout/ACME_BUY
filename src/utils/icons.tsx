@@ -6,11 +6,12 @@ import {
   FaEdit,
   FaTrashAlt,
   FaGoogle,
+  FaInstagram,
   FaFacebook,
   FaChevronCircleLeft,
   FaChevronCircleRight,
 } from "react-icons/fa";
-import { FaPeopleGroup, FaLocationDot } from "react-icons/fa6";
+import { FaPeopleGroup, FaLocationDot, FaXTwitter } from "react-icons/fa6";
 import { GoArrowRight } from "react-icons/go";
 import { GiMoneyStack } from "react-icons/gi";
 import {
@@ -131,6 +132,12 @@ export const iconGoogle = (style?: string) => <FaGoogle className={style} />;
 export const iconFacebook = (style?: string) => (
   <FaFacebook className={style} />
 );
+// https://react-icons.github.io/react-icons/search/#q=FaInstagram
+export const iconInstagram = (style?: string) => (
+  <FaInstagram className={style} />
+);
+// https://react-icons.github.io/react-icons/search/#q=FaXTwitter
+export const iconTwitter = (style?: string) => <FaXTwitter className={style} />;
 
 /**
  * Dashboard Section Icons

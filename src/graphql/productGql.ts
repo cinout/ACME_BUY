@@ -41,6 +41,68 @@ export const GQL_PRODUCT_GET_NEWEST = gql`
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
+export const GQL_PRODUCT_GET_NEWEST_VINYLS = gql`
+  query getNewVinyls($count: Int!) {
+    getNewVinyls(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+export const GQL_PRODUCT_GET_NEWEST_CDS = gql`
+  query getNewCDs($count: Int!) {
+    getNewCDs(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+export const GQL_PRODUCT_GET_NEWEST_CASSETTES = gql`
+  query getNewCassettes($count: Int!) {
+    getNewCassettes(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+export const GQL_PRODUCT_GET_NEW_RELEASE = gql`
+  query getNewReleases($count: Int!) {
+    getNewReleases(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+export const GQL_PRODUCT_GET_OLD_RELEASE = gql`
+  query getOldReleases($count: Int!) {
+    getOldReleases(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+export const GQL_PRODUCT_GET_DISCOUNTED = gql`
+  query getDiscounted($count: Int!) {
+    getDiscounted(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+export const GQL_PRODUCT_GET_MINT = gql`
+  query getMint($count: Int!) {
+    getMint(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
 /**
  * Create
  */

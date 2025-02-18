@@ -61,6 +61,7 @@ export default {
       spacing: {
         "dashbord-width": "15rem",
         "header-height": "4.375rem",
+        "navbar-top-height": "88px",
       },
       backgroundImage: {
         conic: "conic-gradient(from 0deg, var(--tw-gradient-stops))",
@@ -84,6 +85,7 @@ export default {
       },
       fontFamily: {
         arsenal: ["Arsenal", "serif"], // Add the Arsenal font
+        lato: ["Lato", "serif"], // Add the Lato font
       },
     },
   },

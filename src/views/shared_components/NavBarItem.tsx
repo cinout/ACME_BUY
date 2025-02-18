@@ -6,10 +6,8 @@ interface NavBarItemProps {
   dropdownOptions: { id: string; name: string }[];
   title: string;
 }
-export default function NavBarItem({
-  dropdownOptions,
-  title,
-}: NavBarItemProps) {
+
+function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
   /**
    * State
    */
@@ -18,7 +16,7 @@ export default function NavBarItem({
   /**
    * Ref
    */
-  const menuRef = useRef<HTMLAnchorElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const menuDropdownRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -48,9 +46,8 @@ export default function NavBarItem({
       document.removeEventListener("mousemove", handleMouseAndDropdown);
     };
   }, []);
-
   return (
-    <div className="relative h-full w-44 md:w-52">
+    <>
       <AnimatePresence>
         {showDropDown && (
           <motion.div
@@ -88,20 +85,64 @@ export default function NavBarItem({
         )}
       </AnimatePresence>
 
-      <NavLink
-        to={`/${title.toLowerCase()}`}
-        className={({ isActive }) =>
-          `hover:bg-aqua-forest-700 hover:text-aqua-forest-100 transition-all duration-200 ease-linear h-full w-full inline-flex justify-center items-center peer-hover:bg-aqua-forest-700 peer-hover:text-aqua-forest-100 ${
-            isActive ? "text-aqua-forest-700 font-bold" : "text-aqua-forest-600"
-          }}`
-        }
+      <div
+        className={`hover:bg-aqua-forest-700 hover:text-aqua-forest-100 transition-all duration-200 ease-linear h-full w-full inline-flex justify-center items-center peer-hover:bg-aqua-forest-700 peer-hover:text-aqua-forest-100 text-aqua-forest-600 cursor-pointer`}
         onMouseEnter={() => setShowDropdown(true)}
         onMouseLeave={() => setShowDropdown(false)}
-        end
         ref={menuRef}
       >
         {title}
-      </NavLink>
+      </div>
+    </>
+  );
+}
+
+function ContentSmallSreen({ dropdownOptions, title }: NavBarItemProps) {
+  return (
+    <div>
+      <div
+        className={`bg-aqua-forest-700 text-aqua-forest-100 w-full flex justify-center items-center`}
+      >
+        {title}
+      </div>
+
+      <div className={`w-full text-aqua-forest-700 flex gap-2 flex-wrap`}>
+        {dropdownOptions?.map((option) => (
+          <NavLink
+            to={`/${title.toLowerCase()}/${option.name.toLowerCase()}`}
+            key={option.id}
+            className={({ isActive }) =>
+              `p-[0.1rem] ${
+                isActive
+                  ? "bg-aqua-forest-500 text-aqua-forest-50 font-bold"
+                  : "text-aqua-forest-700"
+              }`
+            }
+            end
+          >
+            {option.name}
+          </NavLink>
+        ))}
+      </div>
     </div>
+  );
+}
+
+export default function NavBarItem({
+  dropdownOptions,
+  title,
+}: NavBarItemProps) {
+  return (
+    <>
+      {/* >= md screen */}
+      <div className="hidden md:block relative h-full w-44 md:w-52">
+        <ContentLargeScreen dropdownOptions={dropdownOptions} title={title} />
+      </div>
+
+      {/* <md screen */}
+      <div className="block md:hidden relative w-full">
+        <ContentSmallSreen dropdownOptions={dropdownOptions} title={title} />
+      </div>
+    </>
   );
 }

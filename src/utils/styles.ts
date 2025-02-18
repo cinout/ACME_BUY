@@ -1,3 +1,5 @@
+import { ThinStar } from "@smastrom/react-rating";
+
 /**
  * Form
  */
@@ -26,3 +28,12 @@ export const styleSubmitButton =
 
 export const styleSecondSubmitButton =
   "text-white px-3 py-1 w-fit rounded-full border-2 border-sky-100 bg-aqua-forest-600 not-disabled:hover:brightness-110 not-disabled:hover:scale-105 transition shadow-2xl disabled:cursor-not-allowed disabled:bg-slate-300 h-9";
+
+/**
+ * Rating
+ */
+export const ratingStyle = {
+  itemShapes: ThinStar,
+  activeFillColor: "#f59e0b",
+  inactiveFillColor: "#ffedd5",
+};

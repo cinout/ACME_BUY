@@ -1,5 +1,7 @@
 /* Arsenal Font */
 @import url("https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+/* Lato Font */
+@import url("https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -29,6 +31,24 @@
   .font-arsenal-spaced-2 {
     font-family: "Arsenal", serif;
     letter-spacing: 2px;
+  }
+  .gradient-border {
+    border-image: radial-gradient(
+      circle,
+      theme("colors.aqua-forest.400"),
+      theme("colors.aqua-forest.300"),
+      theme("colors.aqua-forest.100")
+    ); /* Apply gradient to the border */
+    border-image-slice: 1; /* Ensure the gradient is applied across the entire border */
+  }
+  .gradient-border:hover {
+    border-image: radial-gradient(
+      circle,
+      theme("colors.sky.400"),
+      theme("colors.sky.300"),
+      theme("colors.sky.100")
+    );
+    border-image-slice: 1; /* Ensure the gradient is applied across the entire border */
   }
 }
 

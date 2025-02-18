@@ -62,6 +62,7 @@
 - Calculate the discounted price for customer.
 - Show icon for number of pending users in Admin/Users tab
 - detect whether image is loading, and if so, show loader (check .onCOmplete attribute, and write custom hook)
+- Every page is responsive
 - All reusable components are modularized, including icons, ....
 
 ## User Roles, User Authentication, and Routes Protection
@@ -77,6 +78,7 @@
 ## 📋 Coming Next
 
 - [ ] how to handle manually put-in routes that are not serviced by our site?
+- [ ] each product can have up to 3 genres
 - [ ] Email Verfication after signup
 - [ ] Currently, when user is not logged in and refresh page, three API erros showing.
 - [ ] A nice default reminder when user puts in wrong route

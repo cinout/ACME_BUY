@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
 import { connectApolloClientToVSCodeDevTools } from "@apollo/client-devtools-vscode";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import "@smastrom/react-rating/style.css"; // react rating
 
 // TODO: this causes error when user is not logged in
 const client = new ApolloClient({
