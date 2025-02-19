@@ -4,7 +4,7 @@
 // TODO:[1] only used for dummy images. Remove them once real data is in
 export function albumCoverImageLarge(image: string | undefined | null) {
   if (!image) {
-    return "";
+    return undefined;
   }
 
   if (image.includes("coverartarchive.org")) {
@@ -18,7 +18,7 @@ export function albumCoverImageLarge(image: string | undefined | null) {
 // TODO:[1] only used for dummy images. Remove them once real data is in
 export function albumCoverImageSmall(image: string | undefined | null) {
   if (!image) {
-    return "";
+    return undefined;
   }
 
   if (image.includes("coverartarchive.org")) {

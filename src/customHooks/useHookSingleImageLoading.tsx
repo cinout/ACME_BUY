@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function useHookSingleImageLoading() {
-  const imageGridRef = useRef<HTMLImageElement>(null);
+  const imageGridRef = useRef<HTMLImageElement | null>(null);
   const [imageGridRefOnLoad, setImageGridRefOnLoad] = useState<boolean>(false); // loading state checker
 
   useEffect(() => {
     let imgElement: HTMLImageElement;
-    if (imageGridRef.current && !imageGridRef.current.complete) {
+
+    // TODO:[2] this is weird
+    // if (imageGridRef.current && !imageGridRef.current.complete) {
+    if (imageGridRef.current) {
       setImageGridRefOnLoad(true);
       imgElement = imageGridRef.current;
 

@@ -4,6 +4,7 @@ import { ProductEntity } from "@/utils/entities";
 import { iconGoRightWithoutCircle } from "@/utils/icons";
 import { albumCoverImageLarge, shortenMiddle } from "@/utils/strings";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   data: ProductEntity[];
@@ -17,7 +18,7 @@ const cssTextSizeWithScreen =
 const cssContainerSizeWithScreen =
   "h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 lg:h-44 lg:w-44 xl:w-56 xl:h-56 2xl:w-64 2xl:h-64";
 
-const cssContainerPlaceholder = `${cssContainerSizeWithScreen} bg-radial from-aqua-forest-400 via-aqua-forest-300 to-aqua-forest-100`;
+const cssContainerPlaceholder = `h-full w-full bg-aqua-forest-50`;
 
 // TODO:[1] float fade in effect
 export default function DisplayRow({ data, count, title }: Props) {
@@ -70,13 +71,15 @@ export default function DisplayRow({ data, count, title }: Props) {
       {/* Options */}
       <div className="flex-1 flex justify-around">
         {(data || Array.from({ length: count }))?.map((product, index) => (
-          <button
+          <Link
+            to={`/product/${product?.id}`}
             key={product ? product.id : index}
             className={`group relative overflow-hidden rounded-none bg-radial from-aqua-forest-400 via-aqua-forest-300 to-aqua-forest-100 transition-all duration-300 ${cssContainerSizeWithScreen} ${
               inView ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
             } ${index === 3 && "hidden sm:inline-block"} ${
               index === 2 && "hidden tn:inline-block"
             }`}
+
             // onMouseEnter={() => {
             //   const spanTitle = getSpanTitleRefMap().get(product.id);
             //   const spanArtist = getSpanArtistRefMap().get(product.id);
@@ -117,7 +120,9 @@ export default function DisplayRow({ data, count, title }: Props) {
                 <div className={cssContainerPlaceholder} />
               ) : (
                 <>
-                  <div className="w-full h-full bg-white flex justify-center items-center">
+                  <div
+                    className={`w-full h-full bg-white flex justify-center items-center`}
+                  >
                     <img
                       src={albumCoverImageLarge(product.images[0]?.file)}
                       alt={product.name}
@@ -170,7 +175,7 @@ export default function DisplayRow({ data, count, title }: Props) {
             ) : (
               <div className={cssContainerPlaceholder} />
             )}
-          </button>
+          </Link>
         ))}
       </div>
     </div>

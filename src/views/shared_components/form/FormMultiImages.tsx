@@ -13,7 +13,7 @@ import {
 import { ChangeEvent, useRef, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { Dialog } from "@headlessui/react";
-import Debug from "../FullScreenImage";
+import FullScreenImage from "../FullScreenImage";
 import LoadingIndicator from "../LoadingIndicator";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import {
@@ -60,8 +60,8 @@ export default function FormMultipleImages({
   );
 
   const [fullScreenImage, setFullScreenImage] = useState<{
-    url: string;
-    name: string;
+    url: string | undefined;
+    name: string | undefined;
   } | null>(null);
 
   function handleClickImageUploadButton() {
@@ -231,7 +231,7 @@ export default function FormMultipleImages({
         }}
         className="relative z-[60]"
       >
-        <Debug
+        <FullScreenImage
           setFullScreenImage={setFullScreenImage}
           url={fullScreenImage?.url}
           name={fullScreenImage?.name}

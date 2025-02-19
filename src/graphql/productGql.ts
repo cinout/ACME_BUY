@@ -32,6 +32,7 @@ export const GQL_PRODUCT_GET_ALL_BY_USER = gql`
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
+// Home Page Queries with COUNT limit
 export const GQL_PRODUCT_GET_NEWEST = gql`
   query getNewestProducts($count: Int!) {
     getNewestProducts(count: $count) {
@@ -94,9 +95,20 @@ export const GQL_PRODUCT_GET_DISCOUNTED = gql`
   }
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
+
 export const GQL_PRODUCT_GET_MINT = gql`
   query getMint($count: Int!) {
     getMint(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+// Specific Product Query
+export const GQL_PRODUCT_GET_BY_ID = gql`
+  query getById($id: ID!) {
+    getById(id: $id) {
       ...ProductDetails
     }
   }

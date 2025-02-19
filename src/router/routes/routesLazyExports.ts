@@ -19,6 +19,7 @@ const LazyMain = () => (
  */
 export const HomePage = lazy(() => import("@/views/main/HomePage"));
 export const GenrePage = lazy(() => import("@/views/main/GenrePage"));
+export const ProductPage = lazy(() => import("@/views/main/ProductPage"));
 export const ContactPage = lazy(() => import("@/views/main/ContactPage"));
 
 /**

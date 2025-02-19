@@ -8,8 +8,8 @@ import { iconCrossClose } from "@/utils/icons";
 interface Props {
   setFullScreenImage: (
     value: SetStateAction<{
-      url: string;
-      name: string;
+      url: string | undefined;
+      name: string | undefined;
     } | null>
   ) => void;
   url: string | undefined;

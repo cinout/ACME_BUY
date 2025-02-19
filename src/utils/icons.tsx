@@ -1,6 +1,6 @@
 import { AiOutlineDashboard } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
-import { CiDeliveryTruck } from "react-icons/ci";
+import { CiDeliveryTruck, CiShoppingCart } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
 import {
   FaEdit,
@@ -64,6 +64,10 @@ export const iconLocation = (style?: string) => (
 // https://react-icons.github.io/react-icons/search/#q=IoIosSearch
 export const iconSearchMagnifier = (style?: string) => (
   <IoIosSearch className={style} />
+);
+// https://react-icons.github.io/react-icons/search/#q=CiShoppingCart
+export const iconShoppingCart = (style?: string) => (
+  <CiShoppingCart className={style} />
 );
 
 /**

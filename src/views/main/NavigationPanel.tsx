@@ -14,7 +14,11 @@ import {
   ReleaseYearRangeEnum,
   RoleEnum,
 } from "@/utils/enums";
-import { iconSearchMagnifier } from "@/utils/icons";
+import {
+  iconProducts,
+  iconSearchMagnifier,
+  iconShoppingCart,
+} from "@/utils/icons";
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 
@@ -117,12 +121,14 @@ export default function NavigationPanel({ isScrollUp }: Props) {
         <div
           className={`relative grid grid-cols-[1fr_1fr] md:grid-cols-[2fr_2fr_1fr] lg:grid-cols-3 py-6 px-8 h-navbar-top-height`}
         >
+          {/* Background */}
           <div
             className={`absolute top-0 left-0 h-full w-full -z-10 transition-all duration-500 backdrop-blur-md shadow-2xl md:shadow-none ${
               isScrollUp ? "bg-aqua-forest-200/80 md:shadow-2xl" : "bg-white/80"
             }`}
           />
 
+          {/* Left */}
           <Link
             to="/"
             className="hidden tn:block justify-self-start self-center w-56"
@@ -140,11 +146,13 @@ export default function NavigationPanel({ isScrollUp }: Props) {
             />
           </Link>
 
+          {/* Middle */}
           <div className="hidden md:flex gap-x-4 justify-self-center items-center">
             <SearchBar />
           </div>
 
-          <div className="justify-self-end self-center flex gap-x-8">
+          {/* Right */}
+          <div className="justify-self-end self-center flex items-center gap-x-8">
             {userInfo ? (
               <Link
                 to={
@@ -152,16 +160,22 @@ export default function NavigationPanel({ isScrollUp }: Props) {
                     ? "/user/dashboard"
                     : "/admin/dashboard"
                 }
+                className="h-[2.5rem] w-[2.5rem]"
               >
                 <img
                   src={userInfo?.imageUrl}
                   alt="user image"
-                  className="h-[2.5rem] w-[2.5rem border-2 border-aqua-forest-600/60 rounded-full hover:border-aqua-forest-600 hover:brightness-110 transition duration-200"
+                  className="h-full w-full border-2 border-aqua-forest-600/60 rounded-full hover:border-aqua-forest-600 hover:brightness-110 transition duration-200"
                 />
               </Link>
             ) : (
-              <Link to="/login">Login</Link>
+              <Link to="/login" className="text-aqua-forest-800">
+                Login
+              </Link>
             )}
+
+            {/* TODO:[2] implement shopping cart */}
+            <button className="text-[2rem]">{iconShoppingCart()}</button>
 
             {/* Menu Icon < md screen */}
             <div className="block md:hidden justify-self-end self-center">

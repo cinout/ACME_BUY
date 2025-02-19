@@ -5,7 +5,7 @@ import {
   HomePage,
   UnauthorizedPage,
   GenrePage,
-  ContactPage,
+  ProductPage,
 } from "./routesLazyExports.ts";
 import ShopFrontWrapper from "@/views/main/ShopFrontWrapper.tsx";
 
@@ -21,17 +21,9 @@ const publicRoutesInWrapper: RouteObject[] = [
     path: "/genre/:genre?",
     element: <GenrePage />,
   },
-  // {
-  //   path: "/format/:format?",
-  //   element: <FormatPage />,
-  // },
-
-  /**
-   * Footer
-   */
   {
-    path: "/contact",
-    element: <ContactPage />,
+    path: "/product/:productId",
+    element: <ProductPage />,
   },
 ];
 
