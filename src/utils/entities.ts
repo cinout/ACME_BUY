@@ -44,13 +44,14 @@ export interface GenreEntity extends Entity {
 export interface ProductEntity extends Entity {
   name: string;
   artist: string;
-  genre: string; //TODO: remoce this field
   stock: number;
   price: number;
   discount: number;
   description?: string;
-  genreId?: string;
-  userId?: string;
+  genreId: string;
+  genre?: GenreEntity;
+  userId: string;
+  user?: UserEntity;
   images: { id: string; file: string; name: string }[];
   rating?: number; // TODO: implement rating
 }

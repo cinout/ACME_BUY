@@ -34,6 +34,7 @@ export default function FullScreenImage({
               src={url}
               alt="image"
               ref={imageGridRef}
+              // className="border-8 gradient-border max-h-[90vh]"
               className="border-8 border-aqua-forest-300/50 max-h-[90vh]"
             />
             <div className="flex justify-between text-white">

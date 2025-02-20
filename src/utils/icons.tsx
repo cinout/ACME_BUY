@@ -10,10 +10,15 @@ import {
   FaFacebook,
   FaChevronCircleLeft,
   FaChevronCircleRight,
+  FaRegHeart,
+  FaHeart,
 } from "react-icons/fa";
 import { FaPeopleGroup, FaLocationDot, FaXTwitter } from "react-icons/fa6";
 import { GoArrowRight } from "react-icons/go";
 import { GiMoneyStack } from "react-icons/gi";
+
+import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi";
+
 import {
   IoIosLogOut,
   IoMdArrowDropdownCircle,
@@ -44,7 +49,6 @@ import { TbVinyl } from "react-icons/tb";
 export const iconMenuHamburger = (style?: string) => (
   <IoMenuSharp className={style} />
 );
-
 // https://react-icons.github.io/react-icons/search/#q=IoMdArrowDropdownCircle
 export const iconMoneyStack = (style?: string) => (
   <GiMoneyStack className={style} />
@@ -68,6 +72,21 @@ export const iconSearchMagnifier = (style?: string) => (
 // https://react-icons.github.io/react-icons/search/#q=CiShoppingCart
 export const iconShoppingCart = (style?: string) => (
   <CiShoppingCart className={style} />
+);
+// https://react-icons.github.io/react-icons/search/#q=FaRegHeart
+export const iconLoveEmpty = (style?: string) => (
+  <FaRegHeart className={style} />
+);
+// https://react-icons.github.io/react-icons/search/#q=FaHeart
+export const iconLoveFilled = (style?: string) => <FaHeart className={style} />;
+
+// https://react-icons.github.io/react-icons/search/#q=HiOutlinePlus
+export const iconPlusSimple = (style?: string) => (
+  <HiOutlinePlus className={style} />
+);
+// https://react-icons.github.io/react-icons/search/#q=HiOutlineMinus
+export const iconMinusSimple = (style?: string) => (
+  <HiOutlineMinus className={style} />
 );
 
 /**

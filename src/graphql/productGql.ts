@@ -109,10 +109,33 @@ export const GQL_PRODUCT_GET_MINT = gql`
 export const GQL_PRODUCT_GET_BY_ID = gql`
   query getById($id: ID!) {
     getById(id: $id) {
-      ...ProductDetails
+      id
+      name
+      artist
+      genre {
+        id
+        name
+      }
+      user {
+        id
+        shopName
+        imageUrl
+        country
+        state
+        city
+      }
+      stock
+      price
+      discount
+      images
+      rating
+      description
+      year
+      format
+      grading
+      region
     }
   }
-  ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
 /**
