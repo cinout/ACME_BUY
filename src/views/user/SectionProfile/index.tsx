@@ -17,6 +17,7 @@ import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
 import { useAppDispatch } from "@/redux/hooks";
 import { afterLogout } from "@/redux/reducers/authReducer";
 import { iconEmail, iconLocation } from "@/utils/icons";
+import { translateAddress } from "@/utils/strings";
 
 export default function SectionProfile() {
   /**
@@ -48,15 +49,12 @@ export default function SectionProfile() {
   const userInfo = client.readQuery({
     query: GQL_USER_GET_CURRENT,
   }).getCurrentUser as UserEntity;
-  const userCity = userInfo.city ? userInfo.city + ", " : "";
-  const userState = userInfo.state
-    ? State.getStateByCodeAndCountry(userInfo.state, userInfo.country)?.name +
-      ", "
-    : "";
-  const userCountry = userInfo.country
-    ? Country.getCountryByCode(userInfo.country)?.name
-    : "";
-  const userAddress = userCity + userState + userCountry;
+
+  const userAddress = translateAddress(
+    userInfo.city,
+    userInfo.state,
+    userInfo.country
+  );
 
   /**
    * RHF

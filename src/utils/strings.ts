@@ -1,3 +1,4 @@
+import { Country, State } from "country-state-city";
 /**
  * Album Cover Image
  */
@@ -75,6 +76,21 @@ export function capFirstLetter(input: string | undefined) {
   return input
     ? input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
     : "";
+}
+
+export function translateAddress(
+  city: string | undefined,
+  state: string | undefined,
+  country: string | undefined
+) {
+  const userCity = city ? city + ", " : "";
+  const userState =
+    state && country
+      ? State.getStateByCodeAndCountry(state, country)?.name + ", "
+      : "";
+  const userCountry = country ? Country.getCountryByCode(country)?.name : "";
+  const userAddress = userCity + userState + userCountry;
+  return userAddress;
 }
 
 export const VALID_NAME_PERSON = /^[a-z'-]+(?: [a-z'-]+)*$/i;

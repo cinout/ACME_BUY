@@ -1,5 +1,4 @@
 import useHookSingleImageLoading from "@/customHooks/useHookSingleImageLoading";
-import { usePrevious } from "@/customHooks/usePrevious";
 import { GQL_PRODUCT_GET_BY_ID } from "@/graphql/productGql";
 import { ProductEntity } from "@/utils/entities";
 import {
@@ -8,14 +7,20 @@ import {
   iconMinusSimple,
   iconPlusSimple,
 } from "@/utils/icons";
-import { albumCoverImageLarge } from "@/utils/strings";
+import { calculateDiscountedPrice } from "@/utils/numbers";
+import { albumCoverImageLarge, translateAddress } from "@/utils/strings";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import FullScreenImage from "@/views/shared_components/FullScreenImage";
 import { useQuery } from "@apollo/client";
 import { Dialog } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
+const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
+const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800";
+const styleRowContentWithLink =
+  "font-lato font-light border-b border-aqua-forest-100 hover:border-aqua-forest-200 transition";
+const styleRowContentWithoutLink = "font-lato font-light";
 export default function ProductPage() {
   /**
    * GQL
@@ -93,7 +98,7 @@ export default function ProductPage() {
         </div>
 
         {/* RIGHT */}
-        <div className="outline flex flex-col gap-y-1 md:gap-y-2">
+        <div className="outline flex flex-col">
           {/* Title */}
           <div className="text-2xl md:text-[2rem] font-arsenal-spaced-1 text-aqua-forest-800 font-bold flex justify-between">
             {product.name}
@@ -104,9 +109,31 @@ export default function ProductPage() {
             </button>
           </div>
 
+          {/* Artist */}
+          <div className="text font-lato text-aqua-forest-500">
+            {product.artist}
+          </div>
+
           {/* Price */}
-          <div className="text-xl font-arsenal-spaced-1 text-aqua-forest-700">
-            AU$ {product.price}
+          <div className="my-2 flex gap-x-2 items-center">
+            <span
+              className={`text-xl text-aqua-forest-700 font-arsenal-spaced-1 ${
+                product.discount > 0 && "line-through"
+              }`}
+            >
+              ${product.price}
+            </span>
+            {product.discount > 0 && (
+              <>
+                <div className="bg-rose-300 text-rose-800 px-1 font-lato">
+                  {product.discount}% off
+                </div>
+
+                <span className="text-xl text-rose-900 font-arsenal-spaced-1">
+                  ${calculateDiscountedPrice(product.price, product.discount)}
+                </span>
+              </>
+            )}
           </div>
 
           {/* Quantity Select + Add to Cart */}
@@ -173,13 +200,13 @@ export default function ProductPage() {
 
           {/* Seller */}
           {/* TODO:[3] click and lead to seller page */}
-          <div className="flex gap-x-2 items-center flex-wrap">
-            <span className="font-arsenal-spaced-1 text-aqua-forest-800">
-              Seller:
-            </span>
-            <button className="font-lato font-light border-b border-aqua-forest-100 hover:border-aqua-forest-200 transition">
+          <div className={styleRowContainer}>
+            <span className={styleRowTitle}>Seller:</span>
+
+            <button className={styleRowContentWithLink}>
               {product.user?.shopName}
             </button>
+
             <button className="h-6 w-6">
               <img
                 src={product.user?.imageUrl}
@@ -188,6 +215,21 @@ export default function ProductPage() {
               />
             </button>
           </div>
+
+          {/* Location */}
+          <div className={styleRowContainer}>
+            <span className={styleRowTitle}>Ships from:</span>
+
+            <button className={styleRowContentWithoutLink}>
+              {translateAddress(
+                product.user?.city,
+                product.user?.state,
+                product.user?.country
+              )}
+            </button>
+          </div>
+
+          {/*  */}
         </div>
 
         {/* Full-screen */}

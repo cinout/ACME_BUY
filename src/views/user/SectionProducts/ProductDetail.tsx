@@ -1,4 +1,8 @@
-import { imageMaxSizeMB, yearOptions } from "@/utils/numbers";
+import {
+  calculateDiscountedPrice,
+  imageMaxSizeMB,
+  yearOptions,
+} from "@/utils/numbers";
 import {
   VALID_NAME_GENERAL,
   VALID_NAME_GENERAL_ERROR_MSG,
@@ -431,7 +435,7 @@ export default function ProductDetail({
           {price >= 0 && discount >= 0 && (
             <div className="text-sm italic">
               discounted price is AUD{" "}
-              {((price * (100 - discount)) / 100).toFixed(2)}
+              {calculateDiscountedPrice(price, discount)}
             </div>
           )}
         </div>
