@@ -33,6 +33,8 @@ export interface UserEntity extends Entity {
 
   imageUrl?: string;
   imageName?: string;
+  rating: number; // TODO: implement rating
+  wishList?: string[];
 }
 
 export interface GenreEntity extends Entity {
@@ -48,12 +50,12 @@ export interface ProductEntity extends Entity {
   price: number;
   discount: number;
   description?: string;
-  genreId: string;
+  genreIds: string;
+  tracklist?: { id: string; title: string; indexDisplay: string }[];
   genre?: GenreEntity;
   userId: string;
   user?: UserEntity;
   images: { id: string; file: string; name: string }[];
-  rating?: number; // TODO: implement rating
 }
 
 interface OrderDetailsEntity extends Entity {

@@ -25,6 +25,7 @@ const userStats: UserEntity[] = Array.from({ length: 34 }, () => ({
   signupMethod: UserSignupMethodEnum.Default,
   shopName: faker.company.name(),
   role: RoleEnum.User,
+  rating: 0,
 
   image: faker.image.avatar(),
 }));

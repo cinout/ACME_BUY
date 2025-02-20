@@ -35,7 +35,8 @@ interface FormInputProps {
   id: string;
   name: string;
   artist: string;
-  genreId: string;
+  genreIds: string;
+  tracklist: { id: string; title: string; indexDisplay: string }[];
   stock: number;
   price: number;
   discount: number;
@@ -166,7 +167,8 @@ export default function ProductDetail({
             price: data.price,
             discount: data.discount,
             description: data.description,
-            genreId: data.genreId,
+            genreIds: data.genreIds,
+            tracklist: data.tracklist,
             stock: data.stock,
             images: data.images,
             year: data.year,
@@ -182,7 +184,8 @@ export default function ProductDetail({
           name: data.name,
           artist: data.artist,
           images: data.images,
-          genreId: data.genreId,
+          genreIds: data.genreIds,
+          tracklist: data.tracklist,
           stock: data.stock,
           price: data.price,
           discount: data.discount,
@@ -308,16 +311,18 @@ export default function ProductDetail({
         />
 
         <FormSelect
-          registration={register("genreId", {
+          registration={register("genreIds", {
             required: "Required",
           })}
           label="Genre"
           options={genreOptions}
           additionalStyleSelect="w-full sm:w-60 lg:w-80"
-          error={errors.genreId}
+          error={errors.genreIds}
           disabled={isDisabled}
-          currentValue={watch("genreId")}
+          currentValue={watch("genreIds")}
         />
+
+        {/* TODO: tracklist */}
 
         <FormSelect
           registration={register("year", {

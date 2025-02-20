@@ -5,13 +5,13 @@ const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
     id
     name
     artist
-    genreId
+    genreIds
+    tracklist
     userId
     stock
     price
     discount
     images
-    rating
     description
     year
     format
@@ -112,7 +112,7 @@ export const GQL_PRODUCT_GET_BY_ID = gql`
       id
       name
       artist
-      genre {
+      genres {
         id
         name
       }
@@ -128,12 +128,12 @@ export const GQL_PRODUCT_GET_BY_ID = gql`
       price
       discount
       images
-      rating
       description
       year
       format
       grading
       region
+      tracklist
     }
   }
 `;
@@ -146,7 +146,8 @@ export const GQL_PRODUCT_CREATE = gql`
     $name: String!
     $artist: String!
     $images: [ImageWithID!]!
-    $genreId: ID!
+    $tracklist: [TrackList!]!
+    $genreIds: [ID!]!
     $stock: Int!
     $price: Float!
     $discount: Float!
@@ -162,7 +163,8 @@ export const GQL_PRODUCT_CREATE = gql`
       price: $price
       discount: $discount
       description: $description
-      genreId: $genreId
+      genreIds: $genreIds
+      tracklist: $tracklist
       stock: $stock
       images: $images
       year: $year

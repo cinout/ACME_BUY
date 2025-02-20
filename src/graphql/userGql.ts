@@ -17,6 +17,8 @@ const GQL_FRAGMENT_USER_DETAILS = gql`
     imageUrl
     imageName
     role
+    rating
+    wishList
   }
 `;
 
