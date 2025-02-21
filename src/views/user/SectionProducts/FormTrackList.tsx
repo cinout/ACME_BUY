@@ -5,23 +5,17 @@ import { useState } from "react";
 import { Control, useFieldArray, UseFormRegister } from "react-hook-form";
 
 interface Props {
-  // registration: UseFormRegisterReturn;
   label: string; // default to registration.name
-  // id?: string; // default to registration.name
-  // errorMessage?: string | undefined;
-  // options: { id: string; value: number | string; display: string }[];
   disabled?: boolean;
   currentValue: { title: string; indexDisplay: string }[];
   additionalStyleWrapper?: string; // for the input field
   additionalStyleLabel?: string; // for the input field
-
   showLabel?: boolean;
-
   control: Control<FormProductProps, unknown>;
   register: UseFormRegister<FormProductProps>;
 }
 
-export default function FormList({
+export default function FormTrackList({
   label,
   showLabel = true,
   disabled,
@@ -72,7 +66,7 @@ export default function FormList({
                 <input
                   type="text"
                   {...register(`tracklist.${index}.indexDisplay`)}
-                  className={`${styleFormTypeArea} h-8 w-14 text-center`}
+                  className={`${styleFormTypeArea} h-8 w-20 text-center`}
                   placeholder="#"
                 />
 
@@ -105,7 +99,7 @@ export default function FormList({
                 indexDisplay: "",
               })
             }
-            className="group text-aqua-forest-600 bg-sky-50 hover:bg-aqua-forest-100 p-2 mt-2 h-8 w-14 text-xl border flex justify-center items-center rounded-md hover:brightness-110 transition"
+            className="group text-aqua-forest-600 bg-sky-50 hover:bg-aqua-forest-100 p-2 mt-2 h-8 w-20 text-xl border flex justify-center items-center rounded-md hover:brightness-110 transition"
           >
             {iconAddWithCircle("group-hover:scale-110 transition")}
           </button>

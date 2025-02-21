@@ -12,7 +12,7 @@ import FormMultipleImages from "@/views/shared_components/form/FormMultiImages";
 import FormSelect from "@/views/shared_components/form/FormSelect";
 import FormTextarea from "@/views/shared_components/form/FormTextarea";
 import { ChangeEvent, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { v7 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { styleCancelButton, styleSubmitButton } from "@/utils/styles";
@@ -31,13 +31,14 @@ import toast from "react-hot-toast";
 import { GradingEnum, MediaFormatEnum, ReleaseRegionEnum } from "@/utils/enums";
 import { iconGoLeftWithCircle } from "@/utils/icons";
 import FormMultiSelect from "@/views/shared_components/form/FormMultiSelect";
-import FormList from "@/views/shared_components/form/FormList";
+import FormTrackList from "@/views/user/SectionProducts/FormTrackList";
 
 interface ProductDetailProps {
   productId: string;
   productStats: ProductEntity[]; // TODO: pass in the product directly
 }
 
+// TODO:[2] why is form dirty? (Add new product leave and re-enter)
 export default function ProductDetail({
   productId,
   productStats,
@@ -76,7 +77,12 @@ export default function ProductDetail({
       : productStats.find((a) => a.id === productId),
   });
 
-  console.log(isDirty, dirtyFields);
+  // useEffect(() => {
+  //   console.log(watch());
+  //   console.log("isDirty:", isDirty);
+  //   console.log("dirtyFields:", dirtyFields);
+  //   console.log("=============");
+  // }, [isDirty, dirtyFields, watch]);
 
   const uploadedImages = watch("images");
   const currentGenreIds = watch("genreIds");
@@ -234,25 +240,6 @@ export default function ProductDetail({
         shouldDirty: true,
       }
     );
-  }
-
-  function handleAddTrack(tagId: string) {
-    // if (currentGenreIds.length < 3)
-    //   setValue("genreIds", currentGenreIds.concat(tagId as string), {
-    //     shouldValidate: true,
-    //     shouldDirty: true,
-    //   });
-  }
-
-  function handleRemoveTrack(tagId: string) {
-    // setValue(
-    //   "genreIds",
-    //   currentGenreIds.filter((a) => a !== tagId),
-    //   {
-    //     shouldValidate: true,
-    //     shouldDirty: true,
-    //   }
-    // );
   }
 
   function handleToggleEditButton() {
@@ -500,7 +487,7 @@ export default function ProductDetail({
           currentValue={watch("description")}
         />
 
-        <FormList
+        <FormTrackList
           register={register}
           currentValue={watch("tracklist")}
           disabled={isDisabled}
