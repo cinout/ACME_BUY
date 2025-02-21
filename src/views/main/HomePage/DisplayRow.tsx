@@ -139,7 +139,7 @@ export default function DisplayRow({ data, count, title }: Props) {
                   </div>
 
                   <div
-                    className={`absolute top-0 left-0 h-full right-full group-hover:right-0 overflow-x-hidden bg-aqua-forest-200/60 backdrop-blur-md flex flex-col justify-center items-center text-aqua-forest-950 font-arsenal transition-all duration-300 ${cssTextSizeWithScreen}`}
+                    className={`absolute top-0 left-0 h-full right-full group-hover:right-0 overflow-x-hidden bg-aqua-forest-200/60 backdrop-blur-md flex flex-col justify-center items-center text-center text-aqua-forest-950 font-arsenal transition-all duration-300 ${cssTextSizeWithScreen}`}
                   >
                     {/* TODO:[1] can you set differetn duration&delay for forward and backward transition? */}
                     <span

@@ -12,11 +12,11 @@ import FormMultipleImages from "@/views/shared_components/form/FormMultiImages";
 import FormSelect from "@/views/shared_components/form/FormSelect";
 import FormTextarea from "@/views/shared_components/form/FormTextarea";
 import { ChangeEvent, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { v7 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { styleCancelButton, styleSubmitButton } from "@/utils/styles";
-import { GenreEntity, ProductEntity } from "@/utils/entities";
+import { FormProductProps, GenreEntity, ProductEntity } from "@/utils/entities";
 import { useMutation, useQuery } from "@apollo/client";
 import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
@@ -30,23 +30,8 @@ import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import { GradingEnum, MediaFormatEnum, ReleaseRegionEnum } from "@/utils/enums";
 import { iconGoLeftWithCircle } from "@/utils/icons";
-
-interface FormInputProps {
-  id: string;
-  name: string;
-  artist: string;
-  genreIds: string;
-  tracklist: { id: string; title: string; indexDisplay: string }[];
-  stock: number;
-  price: number;
-  discount: number;
-  description: string;
-  images: { id: string; file: File | string; name: string }[];
-  year: number;
-  format: MediaFormatEnum;
-  grading: GradingEnum;
-  region: ReleaseRegionEnum;
-}
+import FormMultiSelect from "@/views/shared_components/form/FormMultiSelect";
+import FormList from "@/views/shared_components/form/FormList";
 
 interface ProductDetailProps {
   productId: string;
@@ -76,18 +61,25 @@ export default function ProductDetail({
     register,
     handleSubmit,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, dirtyFields },
     reset,
     setValue,
-  } = useForm<FormInputProps>({
+    control,
+  } = useForm<FormProductProps>({
     defaultValues: isCreatingNewProduct
       ? {
           discount: 0,
-          images: [],
+          // images: [],
+          // genreIds: [],
+          // tracklist: [],
         }
       : productStats.find((a) => a.id === productId),
   });
+
+  console.log(isDirty, dirtyFields);
+
   const uploadedImages = watch("images");
+  const currentGenreIds = watch("genreIds");
   const discount = watch("discount");
   const price = watch("price");
 
@@ -155,7 +147,7 @@ export default function ProductDetail({
   /**
    *  Functions
    */
-  function onSubmit(data: FormInputProps): void {
+  function onSubmit(data: FormProductProps): void {
     setShowLoader(true);
     if (editMode) {
       void updateProduct({
@@ -223,6 +215,44 @@ export default function ProductDetail({
         { shouldValidate: true, shouldDirty: true }
       );
     }
+  }
+
+  function handleAddGenre(tagId: string | number) {
+    if (currentGenreIds.length < 3)
+      setValue("genreIds", currentGenreIds.concat(tagId as string), {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+  }
+
+  function handleRemoveGenre(tagId: string | number) {
+    setValue(
+      "genreIds",
+      currentGenreIds.filter((a) => a !== tagId),
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+      }
+    );
+  }
+
+  function handleAddTrack(tagId: string) {
+    // if (currentGenreIds.length < 3)
+    //   setValue("genreIds", currentGenreIds.concat(tagId as string), {
+    //     shouldValidate: true,
+    //     shouldDirty: true,
+    //   });
+  }
+
+  function handleRemoveTrack(tagId: string) {
+    // setValue(
+    //   "genreIds",
+    //   currentGenreIds.filter((a) => a !== tagId),
+    //   {
+    //     shouldValidate: true,
+    //     shouldDirty: true,
+    //   }
+    // );
   }
 
   function handleToggleEditButton() {
@@ -310,19 +340,28 @@ export default function ProductDetail({
           currentValue={watch("artist")}
         />
 
-        <FormSelect
+        <FormMultiSelect
           registration={register("genreIds", {
-            required: "Required",
+            validate: {
+              required: (genreIds) => {
+                return genreIds?.length > 0 || "Require at least 1 genre";
+              },
+              max3: (genreIds) => {
+                return genreIds?.length <= 3 || "Can have at most 3 genres";
+              },
+            },
           })}
           label="Genre"
           options={genreOptions}
-          additionalStyleSelect="w-full sm:w-60 lg:w-80"
-          error={errors.genreIds}
+          errorMessage={errors.genreIds?.message}
           disabled={isDisabled}
-          currentValue={watch("genreIds")}
+          currentValue={currentGenreIds}
+          handleAddTag={handleAddGenre}
+          handleRemoveTag={handleRemoveGenre}
+          additionalStyleSelect="w-full sm:w-60 lg:w-80"
+          requirementText="select up to 3 genres"
+          countLimit={3}
         />
-
-        {/* TODO: tracklist */}
 
         <FormSelect
           registration={register("year", {
@@ -459,6 +498,15 @@ export default function ProductDetail({
           additionalStyleWrapper="col-span-1 sm:col-span-2 lg:col-span-3"
           disabled={isDisabled}
           currentValue={watch("description")}
+        />
+
+        <FormList
+          register={register}
+          currentValue={watch("tracklist")}
+          disabled={isDisabled}
+          control={control}
+          label="Tracklist"
+          additionalStyleWrapper="col-span-1 sm:col-span-2 lg:col-span-3 justify-self-start"
         />
 
         <FormMultipleImages

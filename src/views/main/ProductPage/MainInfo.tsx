@@ -1,5 +1,6 @@
 import { ProductEntity } from "@/utils/entities";
 import {
+  iconChat,
   iconLoveEmpty,
   iconLoveFilled,
   iconMinusSimple,
@@ -9,21 +10,18 @@ import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import { calculateDiscountedPrice } from "@/utils/numbers";
 import { translateAddress } from "@/utils/strings";
 import { useState } from "react";
+import InfoTabs from "./InfoTabs";
+import { Rating } from "@smastrom/react-rating";
+import { ratingStyle } from "@/utils/styles";
 
 const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
-const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800";
+const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800 font-bold";
 const styleRowContentWithLink =
-  "font-lato font-light border-b border-aqua-forest-100 hover:border-aqua-forest-200 transition";
+  "font-lato font-light border-b border-aqua-forest-200 hover:border-aqua-forest-300 transition hover:bg-aqua-forest-50";
 const styleRowContentWithoutLink = "font-lato font-light";
 
 interface Props {
   product: ProductEntity;
-}
-
-enum Tab {
-  Details,
-  Description,
-  TrackList,
 }
 
 export default function MainInfo({ product }: Props) {
@@ -31,12 +29,13 @@ export default function MainInfo({ product }: Props) {
    * State
    */
   const [requiredQuantity, setRequiredQuantity] = useState(1);
-  const [currentTab, setCurrentTab] = useState(Tab.Details);
 
   return (
-    <div className="outline flex flex-col">
+    <div className="justify-self-center flex flex-col w-full">
+      {/* <div className="flex flex-col max-w-[32rem] xl:max-w-[40rem] justify-self-center"> */}
+
       {/* Title */}
-      <div className="text-2xl md:text-[2rem] font-arsenal-spaced-1 text-aqua-forest-800 font-bold flex justify-between">
+      <div className="text-2xl md:text-[2rem] font-arsenal-spaced-1 text-aqua-forest-800 font-bold flex gap-x-8">
         {product.name}
         {/* TODO: implement wish list */}
         <button data-tooltip-id={`tooltip-wishlist`}>
@@ -136,39 +135,62 @@ export default function MainInfo({ product }: Props) {
 
       {/* Seller */}
       {/* TODO:[3] click and lead to seller page */}
-      <div className={styleRowContainer}>
+      <div className={"flex gap-x-2 flex-wrap my-[0.1rem]"}>
         <span className={styleRowTitle}>Shop:</span>
 
-        <button className={styleRowContentWithLink}>
-          {product.user?.shopName}
-        </button>
+        {product.user && (
+          <div className="flex flex-col gap-y-1">
+            <div className="flex gap-x-2 items-center">
+              <button className={styleRowContentWithLink}>
+                {product.user.shopName}
+              </button>
+              {/* <button className="h-6 w-6">
+                <img
+                  src={product.user.imageUrl}
+                  alt={product.user.shopName}
+                  className="h-full w-full object-cover rounded-full border border-sky-300 hover:shadow-md transition"
+                />
+              </button> */}
+            </div>
+            <div className="flex gap-x-2 items-center">
+              <Rating
+                style={{ width: 100 }}
+                value={product.user.rating}
+                readOnly
+                itemStyles={ratingStyle}
+              />
 
-        <button className="h-6 w-6">
-          <img
-            src={product.user?.imageUrl}
-            alt={product.user?.shopName}
-            className="h-full w-full object-cover rounded-full border border-sky-300 hover:shadow-md transition"
-          />
-        </button>
+              {/* TODO:[3] implement CHAT */}
+              <button
+                className="text-lg text-aqua-forest-700 hover:scale-110 transition"
+                data-tooltip-id={`tooltip-chat`}
+              >
+                {iconChat()}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Location */}
       <div className={styleRowContainer}>
         <span className={styleRowTitle}>Ships from:</span>
 
-        <button className={styleRowContentWithoutLink}>
+        <div className={styleRowContentWithoutLink}>
           {translateAddress(
             product.user?.city,
             product.user?.state,
             product.user?.country
           )}
-        </button>
+        </div>
       </div>
 
       {/* Tabs */}
+      <InfoTabs product={product} />
 
       {/* TODO: change content based on whether user has added it to wish list */}
       <CustomTooltip id={`tooltip-wishlist`} content={"add to wish list"} />
+      <CustomTooltip id={`tooltip-chat`} content={"chat with the seller"} />
     </div>
   );
 }

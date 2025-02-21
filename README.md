@@ -106,3 +106,4 @@
 - [ ] User and customer needs button to remove themselves from the website
 - [ ] Support track list info adding
 - [ ] update signupMethod for Google/Facebook login
+- [ ] support video upload

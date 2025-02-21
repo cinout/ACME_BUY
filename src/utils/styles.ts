@@ -6,8 +6,8 @@ import { ThinStar } from "@smastrom/react-rating";
 export const styleFormErrorMessage =
   "text-sm italic mt-2 text-rose-300 bg-black/70 px-2 w-fit";
 export const styleFormTypeArea =
-  "rounded-md outline-none bg-sky-50 text-sky-900 px-4 placeholder:text-sky-600 placeholder:italic placeholder:text-sm";
-export const styleFormLabel = "font-bold block mb-0.5";
+  "rounded-md outline-none bg-sky-50 text-sky-900 px-4 placeholder:text-slate-400 placeholder:italic placeholder:text-sm";
+export const styleFormLabel = "font-bold block mb-0.5 text-sky-200";
 /**
  * Form - Image
  */

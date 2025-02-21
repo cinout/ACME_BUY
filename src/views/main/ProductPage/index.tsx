@@ -3,10 +3,11 @@ import { ProductEntity } from "@/utils/entities";
 import FullScreenImage from "@/views/shared_components/FullScreenImage";
 import { useQuery } from "@apollo/client";
 import { Dialog } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MainInfo from "./MainInfo";
 import MainImage from "./MainImage";
+import GuessYouLike from "./GuessYouLike";
 
 export default function ProductPage() {
   /**
@@ -28,33 +29,44 @@ export default function ProductPage() {
     name: string | undefined;
   } | null>(null);
 
-  return product ? (
+  return (
     <div>
-      {/* Main Content */}
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-x-2">
-        {/* LEFT */}
-        <MainImage product={product} setFullScreenImage={setFullScreenImage} />
+      {/* PRoduct Panel */}
+      {product ? (
+        <div>
+          {/* Main Content */}
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-16">
+            {/* LEFT */}
+            <MainImage
+              product={product}
+              setFullScreenImage={setFullScreenImage}
+            />
 
-        {/* RIGHT */}
-        <MainInfo product={product} />
+            {/* RIGHT */}
+            <MainInfo product={product} />
 
-        {/* Full-screen */}
-        <Dialog
-          open={!!fullScreenImage}
-          onClose={() => {
-            setFullScreenImage(null);
-          }}
-          className="relative z-[60]"
-        >
-          <FullScreenImage
-            setFullScreenImage={setFullScreenImage}
-            url={fullScreenImage?.url}
-            name={fullScreenImage?.name}
-          />
-        </Dialog>
-      </div>
+            {/* Full-screen */}
+            <Dialog
+              open={!!fullScreenImage}
+              onClose={() => {
+                setFullScreenImage(null);
+              }}
+              className="relative z-[60]"
+            >
+              <FullScreenImage
+                setFullScreenImage={setFullScreenImage}
+                url={fullScreenImage?.url}
+                name={fullScreenImage?.name}
+              />
+            </Dialog>
+          </div>
+        </div>
+      ) : (
+        <div className="h-[100vh]"></div>
+      )}
+
+      {/* Guess you like */}
+      <GuessYouLike />
     </div>
-  ) : (
-    <div className="h-[100vh]"></div>
   );
 }

@@ -1,13 +1,33 @@
 // TODO: think about how to define each entity and their relationship
 // TODO: move each of them to their GQL file
 import {
+  GradingEnum,
+  MediaFormatEnum,
   OrderStatusEnum,
   PaymentStatusEnum,
+  ReleaseRegionEnum,
   RoleEnum,
   UserSignupMethodEnum,
   UserStatusEnum,
   WithdrawStatusEnum,
 } from "./enums";
+
+export interface FormProductProps {
+  id: string;
+  name: string;
+  artist: string;
+  genreIds: string[];
+  tracklist: { title: string; indexDisplay: string }[];
+  stock: number;
+  price: number;
+  discount: number;
+  description: string;
+  images: { id: string; file: File | string; name: string }[];
+  year: number;
+  format: MediaFormatEnum;
+  grading: GradingEnum;
+  region: ReleaseRegionEnum;
+}
 
 export interface Entity {
   id: string;
@@ -50,12 +70,16 @@ export interface ProductEntity extends Entity {
   price: number;
   discount: number;
   description?: string;
-  genreIds: string;
-  tracklist?: { id: string; title: string; indexDisplay: string }[];
-  genre?: GenreEntity;
+  genreIds: string[];
+  tracklist?: { title: string; indexDisplay: string }[];
+  genres: GenreEntity[];
   userId: string;
   user?: UserEntity;
   images: { id: string; file: string; name: string }[];
+  region: ReleaseRegionEnum;
+  grading: GradingEnum;
+  format: MediaFormatEnum;
+  year: number;
 }
 
 interface OrderDetailsEntity extends Entity {

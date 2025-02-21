@@ -105,6 +105,16 @@ export const GQL_PRODUCT_GET_MINT = gql`
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
+// TODO:[1] need to include current product
+export const GQL_PRODUCT_GET_SIMILAR = gql`
+  query getSimilar($count: Int!) {
+    getSimilar(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
 // Specific Product Query
 export const GQL_PRODUCT_GET_BY_ID = gql`
   query getById($id: ID!) {
@@ -123,6 +133,7 @@ export const GQL_PRODUCT_GET_BY_ID = gql`
         country
         state
         city
+        rating
       }
       stock
       price

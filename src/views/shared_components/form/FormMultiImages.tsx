@@ -56,7 +56,7 @@ export default function FormMultipleImages({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    uploadedImages.map((image) => image.id)
+    uploadedImages?.map((image) => image.id) || []
   );
 
   const [fullScreenImage, setFullScreenImage] = useState<{

@@ -13,6 +13,7 @@ export default function CustomTooltip({ id, content }: CustomTooltipProps) {
       content={content}
       style={{
         borderRadius: "6px",
+        backgroundColor: "#277453",
         fontSize: "0.8rem",
         padding: "2px 8px",
       }}

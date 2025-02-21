@@ -25,7 +25,7 @@ export default function MainImage({ product, setFullScreenImage }: Props) {
   const [selectedImage, setSelectedImage] = useState(0);
 
   return (
-    <div className="w-full tn:w-[24rem] sm:w-[24rem] lg:w-[28rem] flex flex-col gap-y-4 outline justify-self-center">
+    <div className="w-full tn:w-[24rem] sm:w-[24rem] lg:w-[28rem] flex flex-col gap-y-4 justify-self-center">
       {/* Display Image */}
       <button
         className="w-full aspect-square outline-none"
