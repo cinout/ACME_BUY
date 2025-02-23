@@ -4,7 +4,6 @@ import {
   UserSignup,
   HomePage,
   UnauthorizedPage,
-  GenrePage,
   ProductPage,
 } from "./routesLazyExports.ts";
 import ShopFrontWrapper from "@/views/main/ShopFrontWrapper.tsx";
@@ -13,13 +12,6 @@ const publicRoutesInWrapper: RouteObject[] = [
   {
     path: "/",
     element: <HomePage />,
-  },
-  /**
-   * NavBar
-   */
-  {
-    path: "/genre/:genre?",
-    element: <GenrePage />,
   },
   {
     path: "/product/:productId",
@@ -37,7 +29,6 @@ export const publicRoutes: RouteObject[] = [
     children: publicRoutesInWrapper,
   },
 
-  // TODO: add customer login/signup later
   /**
    * Sign Up & Log in
    */
