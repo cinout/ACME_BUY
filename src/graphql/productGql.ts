@@ -117,8 +117,8 @@ export const GQL_PRODUCT_GET_SIMILAR = gql`
 
 // Specific Product Query
 export const GQL_PRODUCT_GET_BY_ID = gql`
-  query getById($id: ID!) {
-    getById(id: $id) {
+  query getProductById($id: ID!) {
+    getProductById(id: $id) {
       id
       name
       artist

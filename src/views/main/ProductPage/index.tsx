@@ -14,11 +14,11 @@ export default function ProductPage() {
    * GQL
    */
   const { productId } = useParams();
-  const gqlProductGetById = useQuery(GQL_PRODUCT_GET_BY_ID, {
+  const gqlGetProductById = useQuery(GQL_PRODUCT_GET_BY_ID, {
     skip: !productId,
     variables: { id: productId },
   });
-  const product = gqlProductGetById?.data?.getById as ProductEntity;
+  const product = gqlGetProductById?.data?.getProductById as ProductEntity;
 
   /**
    * State
