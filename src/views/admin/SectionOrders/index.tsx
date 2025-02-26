@@ -84,6 +84,7 @@ export default function SectionOrders() {
           setCurrentPage={setCurrentPage}
           totalPages={Math.ceil(orderStats.length / itemsPerPage)}
           maxPageOptionsCount={5}
+          backgroundTheme={"dark"}
         />
       </div>
     </>

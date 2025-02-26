@@ -64,6 +64,7 @@
 - detect whether image is loading, and if so, show loader (check .onCOmplete attribute, and write custom hook)
 - Every page is responsive
 - All reusable components are modularized, including icons, ....
+- Handle invalid values in URL in pagination
 
 ## User Roles, User Authentication, and Routes Protection
 

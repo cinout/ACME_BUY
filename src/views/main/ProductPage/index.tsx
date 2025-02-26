@@ -3,7 +3,7 @@ import { ProductEntity } from "@/utils/entities";
 import FullScreenImage from "@/views/shared_components/FullScreenImage";
 import { useQuery } from "@apollo/client";
 import { Dialog } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import MainInfo from "./MainInfo";
 import MainImage from "./MainImage";

@@ -2,31 +2,50 @@ import { iconLeftPagination, iconRightPagination } from "@/utils/icons";
 
 interface PaginationProps {
   currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPage:
+    | React.Dispatch<React.SetStateAction<number>>
+    | ((page: number) => void);
+  // setCurrentPage: React.Dispatch<React.SetStateAction<number>> | ((page: number) => void);
   totalPages: number;
   maxPageOptionsCount: number; // ideal # of page options to be displayed
+  backgroundTheme: "light" | "dark";
 }
 
-// TODO: implement a quick go to page selector, and make it an optional choice
+const cssPageButton =
+  "h-6 w-6 flex justify-center items-center hover:scale-125 transition";
+
 export default function Pagination({
   currentPage,
   setCurrentPage,
   totalPages,
   maxPageOptionsCount,
+  backgroundTheme,
 }: PaginationProps) {
   // the actual # of page options to be displayed
   const actualPageOptionsCount =
     totalPages < maxPageOptionsCount ? totalPages : maxPageOptionsCount;
 
+  const nearEnd = currentPage + actualPageOptionsCount - 1 > totalPages;
+
   const pageOptions = Array.from(
     { length: actualPageOptionsCount },
-    currentPage + actualPageOptionsCount - 1 > totalPages
+    nearEnd
       ? (_, i) => i + totalPages - actualPageOptionsCount + 1
       : (_, i) => i + currentPage
   );
 
+  const showStartWithEllipsis =
+    totalPages > maxPageOptionsCount && currentPage > 1;
+  const showEndWithEllipsis =
+    totalPages > maxPageOptionsCount &&
+    currentPage + maxPageOptionsCount - 1 < totalPages;
+
   return (
-    <div className="flex justify-center items-center gap-4 text-white text-lg">
+    <div
+      className={`flex justify-center items-center gap-4 text-lg mt-10 ${
+        backgroundTheme === "dark" ? "text-white" : "text-aqua-forest-400"
+      }`}
+    >
       <button
         onClick={() => setCurrentPage(currentPage - 1)}
         disabled={currentPage === 1}
@@ -35,17 +54,45 @@ export default function Pagination({
         {iconLeftPagination()}
       </button>
 
+      {showStartWithEllipsis && (
+        <>
+          <button
+            className={`${cssPageButton} ${
+              currentPage === 1 && `font-bold underline`
+            }`}
+            onClick={() => setCurrentPage(1)}
+          >
+            {1}
+          </button>
+          <span>...</span>
+        </>
+      )}
+
       {pageOptions.map((pageValue) => (
         <button
           key={pageValue}
-          className={`h-6 w-6 flex justify-center items-center ${
-            pageValue === currentPage && "font-bold text-aqua-forest-300"
-          } hover:scale-125 transition`}
+          className={`${cssPageButton} ${
+            pageValue === currentPage && `font-bold underline`
+          }`}
           onClick={() => setCurrentPage(pageValue)}
         >
           {pageValue}
         </button>
       ))}
+
+      {showEndWithEllipsis && (
+        <>
+          <span>...</span>
+          <button
+            className={`${cssPageButton} ${
+              totalPages === currentPage && `font-bold underline`
+            }`}
+            onClick={() => setCurrentPage(totalPages)}
+          >
+            {totalPages}
+          </button>
+        </>
+      )}
 
       <button
         onClick={() => setCurrentPage(currentPage + 1)}

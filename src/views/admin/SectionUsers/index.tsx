@@ -115,6 +115,7 @@ export default function SectionUsers() {
           setCurrentPage={setCurrentPage}
           totalPages={Math.ceil(allUsersByStatus.length / itemsPerPage)}
           maxPageOptionsCount={5}
+          backgroundTheme={"dark"}
         />
       </div>
     </>

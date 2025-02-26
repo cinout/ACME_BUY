@@ -45,9 +45,7 @@ export default function MainInfo({ product }: Props) {
       </div>
 
       {/* Artist */}
-      <div className="text font-lato text-aqua-forest-500">
-        {product.artist}
-      </div>
+      <div className="font-lato text-aqua-forest-500">{product.artist}</div>
 
       {/* Price */}
       <div className="my-2 flex gap-x-2 items-center">

@@ -122,10 +122,12 @@ export const GQL_PRODUCT_GET_BY_ID = gql`
       id
       name
       artist
+      genreIds
       genres {
         id
         name
       }
+      userId
       user {
         id
         shopName
@@ -147,6 +149,29 @@ export const GQL_PRODUCT_GET_BY_ID = gql`
       tracklist
     }
   }
+`;
+
+// paginated collection-level query
+export const GQL_PRODUCT_GET_COLLECTION = gql`
+  query getCollection(
+    $take: Int! # number of items in a page
+    $skip: Int! # number of items to skip, default value is 0
+    $sorting: String # sorting method, default value is "featured"
+    $filters: FilterOptions # an object
+  ) {
+    getCollection(
+      take: $take
+      skip: $skip
+      sorting: $sorting
+      filters: $filters
+    ) {
+      products {
+        ...ProductDetails
+      }
+      count
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
 /**

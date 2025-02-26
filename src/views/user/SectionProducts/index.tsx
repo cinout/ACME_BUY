@@ -77,6 +77,7 @@ export default function SectionProducts() {
               setCurrentPage={setCurrentPage}
               totalPages={Math.ceil(allProductsByUser.length / itemsPerPage)}
               maxPageOptionsCount={5}
+              backgroundTheme={"dark"}
             />
           </div>
 

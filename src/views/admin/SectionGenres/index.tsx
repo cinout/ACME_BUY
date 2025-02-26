@@ -93,6 +93,7 @@ export default function SectionGenre() {
           setCurrentPage={setCurrentPage}
           totalPages={Math.ceil(allGenres.length / itemsPerPage)}
           maxPageOptionsCount={5}
+          backgroundTheme={"dark"}
         />
       </div>
     </>

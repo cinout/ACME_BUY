@@ -26,6 +26,7 @@ import {
   IoIosAddCircle,
   IoIosRemoveCircle,
   IoMdAdd,
+  IoMdRemove,
   IoIosSearch,
 } from "react-icons/io";
 import {
@@ -103,6 +104,10 @@ export const iconRemoveWithCircle = (style?: string) => (
 // https://react-icons.github.io/react-icons/search/#q=IoMdAdd
 export const iconAddWithoutCircle = (style?: string) => (
   <IoMdAdd className={style} />
+);
+// https://react-icons.github.io/react-icons/search/#q=IoMdRemove
+export const iconMinusWithoutCircle = (style?: string) => (
+  <IoMdRemove className={style} />
 );
 // https://react-icons.github.io/react-icons/search/#q=FaTrashAlt
 export const iconTrashCan = (style?: string) => (
