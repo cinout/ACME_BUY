@@ -65,6 +65,7 @@
 - Every page is responsive
 - All reusable components are modularized, including icons, ....
 - Handle invalid values in URL in pagination
+- check stock when add products to shopping cart
 
 ## User Roles, User Authentication, and Routes Protection
 

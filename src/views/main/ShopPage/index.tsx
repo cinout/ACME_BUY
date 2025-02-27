@@ -1,6 +1,6 @@
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import { GQL_PRODUCT_GET_BY_USER_ID } from "@/graphql/productGql";
-import { GET_USER_BY_ID } from "@/graphql/userGql";
+import { GQL_GET_USER_BY_ID } from "@/graphql/userGql";
 import { ProductEntity, UserEntity } from "@/utils/entities";
 import { iconChat, iconEmail, iconLocation } from "@/utils/icons";
 import { calculateDiscountedPrice } from "@/utils/numbers";
@@ -23,7 +23,7 @@ export default function ShopPage() {
    * GQL
    */
   const { shopId } = useParams();
-  const getUserById = useQuery(GET_USER_BY_ID, {
+  const getUserById = useQuery(GQL_GET_USER_BY_ID, {
     skip: !shopId,
     variables: { id: shopId },
   });

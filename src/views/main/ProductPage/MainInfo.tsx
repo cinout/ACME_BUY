@@ -5,6 +5,7 @@ import {
   iconLoveFilled,
   iconMinusSimple,
   iconPlusSimple,
+  iconShoppingCart,
 } from "@/utils/icons";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import { calculateDiscountedPrice } from "@/utils/numbers";
@@ -19,6 +20,7 @@ import { useMutation } from "@apollo/client";
 import { GQL_USER_UPDATE_CURRENT } from "@/graphql/userGql";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
+import { motion, AnimatePresence } from "motion/react";
 
 const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
 const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800 font-bold";
@@ -35,6 +37,7 @@ export default function MainInfo({ product }: Props) {
    * State
    */
   const [requiredQuantity, setRequiredQuantity] = useState(1);
+  const [flyingAnimation, setFlyingAnimation] = useState(false);
 
   /**
    * Hook
@@ -73,6 +76,39 @@ export default function MainInfo({ product }: Props) {
           input: { wishList: newWishList },
         },
       });
+    } else {
+      // use is not logged in
+      void navigate("/login");
+    }
+  }
+
+  function handleClickAddToCart() {
+    if (userInfo) {
+      const currentCart = userInfo.cart ?? [];
+      let newCart;
+      const matchedItemInCart = currentCart.find((a) => a.id === product.id); // check if item is already in cart
+      if (matchedItemInCart) {
+        const { quantity } = matchedItemInCart;
+        const maxAllowedQuantity = product.stock;
+        newCart = currentCart
+          .filter((a) => a.id !== product.id)
+          .concat({
+            id: product.id,
+            quantity: Math.min(quantity + requiredQuantity, maxAllowedQuantity),
+          });
+      } else {
+        newCart = currentCart.concat({
+          id: product.id,
+          quantity: requiredQuantity,
+        });
+      }
+      void updateUser({
+        variables: {
+          input: { cart: newCart },
+        },
+      });
+      setFlyingAnimation(true);
+      setTimeout(() => setFlyingAnimation(false), 600);
     } else {
       // use is not logged in
       void navigate("/login");
@@ -175,17 +211,41 @@ export default function MainInfo({ product }: Props) {
         </div>
 
         {/* Add to Cart */}
-        {/* TODO:[3] implement */}
-        <button
-          className="bg-aqua-forest-100 h-10 px-2 not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200 shadow-md"
-          disabled={product.stock === 0}
-        >
-          Add to cart
-        </button>
+        <div className="relative">
+          <button
+            className="bg-aqua-forest-100 h-10 px-2 not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200 shadow-md"
+            disabled={!product || product.stock === 0}
+            onClick={handleClickAddToCart}
+          >
+            Add to cart
+          </button>
+
+          <div className="absolute">
+            <AnimatePresence>
+              {flyingAnimation && (
+                <motion.div
+                  className="text-[2rem] text-sky-100 bg-sky-600 p-1 rounded-full absolute"
+                  initial={{ opacity: 1, left: 40, top: -40 }}
+                  animate={{
+                    left: [40, 100, 160, 210, 250, 300, 340, 370], // to the right
+                    top: [-40, -80, -130, -180, -220, -260, -310, -350], // upwards
+                    opacity: [1, 0.7, 0.5, 0], // Gradual fade-out
+                    transition: {
+                      duration: 0.6,
+                      ease: "linear",
+                    },
+                  }}
+                  exit={{ opacity: 0 }}
+                >
+                  {iconShoppingCart()}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
 
       {/* Seller */}
-      {/* TODO:[3] click and lead to seller page */}
       <div className={"flex gap-x-2 flex-wrap my-[0.1rem]"}>
         <span className={styleRowTitle}>Shop:</span>
 
@@ -247,7 +307,14 @@ export default function MainInfo({ product }: Props) {
       <InfoTabs product={product} />
 
       {/* TODO: change content based on whether user has added it to wish list */}
-      <CustomTooltip id={`tooltip-wishlist`} content={"add to wish list"} />
+      <CustomTooltip
+        id={`tooltip-wishlist`}
+        content={
+          userInfo?.wishList?.includes(product.id)
+            ? "remove from wish list"
+            : "add to wish list"
+        }
+      />
       <CustomTooltip id={`tooltip-chat`} content={"chat with the seller"} />
     </div>
   );

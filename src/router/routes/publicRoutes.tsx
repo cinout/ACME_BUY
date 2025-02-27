@@ -7,6 +7,7 @@ import {
   ProductPage,
   CollectionPage,
   ShopPage,
+  CartPage,
 } from "./routesLazyExports.ts";
 import ShopFrontWrapper from "@/views/main/ShopFrontWrapper.tsx";
 
@@ -26,6 +27,10 @@ const publicRoutesInWrapper: RouteObject[] = [
   {
     path: "/shop/:shopId",
     element: <ShopPage />,
+  },
+  {
+    path: "/cart",
+    element: <CartPage />,
   },
 ];
 

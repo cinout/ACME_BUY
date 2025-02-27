@@ -34,6 +34,7 @@ import {
   IoMenuSharp,
   IoArrowBackCircle,
   IoCloseOutline,
+  IoBagCheckOutline,
 } from "react-icons/io5";
 import {
   MdOutlinePayment,
@@ -73,6 +74,10 @@ export const iconSearchMagnifier = (style?: string) => (
 // https://react-icons.github.io/react-icons/search/#q=CiShoppingCart
 export const iconShoppingCart = (style?: string) => (
   <CiShoppingCart className={style} />
+);
+// https://react-icons.github.io/react-icons/search/#q=IoBagCheckOutline
+export const iconCheckout = (style?: string) => (
+  <IoBagCheckOutline className={style} />
 );
 // https://react-icons.github.io/react-icons/search/#q=FaRegHeart
 export const iconLoveEmpty = (style?: string) => (

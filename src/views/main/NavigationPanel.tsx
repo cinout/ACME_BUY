@@ -14,11 +14,7 @@ import {
   ReleaseYearRangeEnum,
   RoleEnum,
 } from "@/utils/enums";
-import {
-  iconProducts,
-  iconSearchMagnifier,
-  iconShoppingCart,
-} from "@/utils/icons";
+import { iconSearchMagnifier, iconShoppingCart } from "@/utils/icons";
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 
@@ -118,6 +114,10 @@ export default function NavigationPanel({ isScrollUp }: Props) {
       })),
     },
   ];
+  const numItemsInCart = userInfo?.cart?.reduce(
+    (accumulator, item) => accumulator + item.quantity,
+    0
+  );
 
   return (
     <>
@@ -180,7 +180,14 @@ export default function NavigationPanel({ isScrollUp }: Props) {
             )}
 
             {/* TODO:[2] implement shopping cart */}
-            <button className="text-[2rem]">{iconShoppingCart()}</button>
+            <Link className="relative flex items-center" to="/cart">
+              <div className="text-[2rem]">{iconShoppingCart()}</div>
+              {!!numItemsInCart && numItemsInCart > 0 && (
+                <div className="absolute -top-3 left-5 w-6 h-6 rounded-full bg-sky-700/90 text-sky-100 font-bold text-sm flex justify-center items-center">
+                  {numItemsInCart > 10 ? "10+" : numItemsInCart}
+                </div>
+              )}
+            </Link>
 
             {/* Menu Icon < md screen */}
             <div className="block md:hidden justify-self-end self-center">

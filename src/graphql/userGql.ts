@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client";
 
-// TODO:[2] each user should also have "rating", "wish list"
 const GQL_FRAGMENT_USER_DETAILS = gql`
   fragment UserDetails on User {
     id
@@ -19,6 +18,7 @@ const GQL_FRAGMENT_USER_DETAILS = gql`
     role
     rating
     wishList
+    cart
   }
 `;
 
@@ -43,13 +43,44 @@ export const GQL_USER_GET_ALL = gql`
   ${GQL_FRAGMENT_USER_DETAILS}
 `;
 
-export const GET_USER_BY_ID = gql`
+export const GQL_GET_USER_BY_ID = gql`
   query getUserById($id: ID!) {
     getUserById(id: $id) {
       ...UserDetails
     }
   }
   ${GQL_FRAGMENT_USER_DETAILS}
+`;
+
+export const GQL_GET_CURRENT_USER_CART_DETAILS = gql`
+  query {
+    getCurrentUserCartDetails {
+      cart
+      cartDetails {
+        id
+        name
+        artist
+        userId
+        user {
+          id
+          shopName
+          imageUrl
+          country
+          state
+          city
+          rating
+        }
+        stock
+        price
+        discount
+        images
+        year
+        format
+        grading
+        region
+      }
+    }
+  }
 `;
 
 /**
