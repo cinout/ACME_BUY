@@ -22,6 +22,9 @@ const GQL_FRAGMENT_USER_DETAILS = gql`
   }
 `;
 
+/**
+ * Queries
+ */
 export const GQL_USER_GET_CURRENT = gql`
   query {
     getCurrentUser {
@@ -40,6 +43,18 @@ export const GQL_USER_GET_ALL = gql`
   ${GQL_FRAGMENT_USER_DETAILS}
 `;
 
+export const GET_USER_BY_ID = gql`
+  query getUserById($id: ID!) {
+    getUserById(id: $id) {
+      ...UserDetails
+    }
+  }
+  ${GQL_FRAGMENT_USER_DETAILS}
+`;
+
+/**
+ * Mutation
+ */
 export const GQL_USER_UPDATE_CURRENT = gql`
   mutation updateCurrentUser($input: UpdateUserInput!) {
     updateCurrentUser(input: $input) {

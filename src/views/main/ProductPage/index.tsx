@@ -1,4 +1,4 @@
-import { GQL_PRODUCT_GET_BY_ID } from "@/graphql/productGql";
+import { GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID } from "@/graphql/productGql";
 import { ProductEntity } from "@/utils/entities";
 import FullScreenImage from "@/views/shared_components/FullScreenImage";
 import { useQuery } from "@apollo/client";
@@ -8,17 +8,22 @@ import { useParams } from "react-router-dom";
 import MainInfo from "./MainInfo";
 import MainImage from "./MainImage";
 import GuessYouLike from "./GuessYouLike";
+import { albumCoverImageLarge } from "@/utils/strings";
 
 export default function ProductPage() {
   /**
    * GQL
    */
   const { productId } = useParams();
-  const gqlGetProductById = useQuery(GQL_PRODUCT_GET_BY_ID, {
-    skip: !productId,
-    variables: { id: productId },
-  });
-  const product = gqlGetProductById?.data?.getProductById as ProductEntity;
+  const gqlgetProductAndRelatedDetailsById = useQuery(
+    GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID,
+    {
+      skip: !productId,
+      variables: { id: productId },
+    }
+  );
+  const product = gqlgetProductAndRelatedDetailsById?.data
+    ?.getProductAndRelatedDetailsById as ProductEntity;
 
   /**
    * State
@@ -55,7 +60,7 @@ export default function ProductPage() {
             >
               <FullScreenImage
                 setFullScreenImage={setFullScreenImage}
-                url={fullScreenImage?.url}
+                url={albumCoverImageLarge(fullScreenImage?.url)}
                 name={fullScreenImage?.name}
               />
             </Dialog>

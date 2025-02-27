@@ -221,7 +221,7 @@ export default function FormSingleImage({
       >
         <FullScreenImage
           setFullScreenImage={setFullScreenImage}
-          url={fullScreenImage?.url}
+          url={albumCoverImageLarge(fullScreenImage?.url)}
           name={fullScreenImage?.name}
         />
       </Dialog>

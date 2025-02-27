@@ -37,3 +37,13 @@ export const ratingStyle = {
   activeFillColor: "#f59e0b",
   inactiveFillColor: "#ffedd5",
 };
+
+/**
+ * Login/Signup Page
+ */
+
+export const styleLoginDialog =
+  "w-[21.875rem] max-w-full text-white bg-gradient-to-tr from-aqua-forest-500/70 to-sky-500/70 rounded-lg p-6 shadow-xl";
+export const styleLoginTitle = "text-xl mb-1 text-shadow-dark text-center";
+export const styleLoginSubmitButton =
+  "h-8 bg-aqua-forest-500 rounded-md p-1 w-full mt-4 font-black block hover:bg-aqua-forest-600 transition duration-200";

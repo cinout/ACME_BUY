@@ -13,6 +13,12 @@ import { useState } from "react";
 import InfoTabs from "./InfoTabs";
 import { Rating } from "@smastrom/react-rating";
 import { ratingStyle } from "@/utils/styles";
+import { Link, useNavigate } from "react-router-dom";
+import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
+import { useMutation } from "@apollo/client";
+import { GQL_USER_UPDATE_CURRENT } from "@/graphql/userGql";
+import { getErrorMessage } from "@/graphql";
+import toast from "react-hot-toast";
 
 const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
 const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800 font-bold";
@@ -30,6 +36,49 @@ export default function MainInfo({ product }: Props) {
    */
   const [requiredQuantity, setRequiredQuantity] = useState(1);
 
+  /**
+   * Hook
+   */
+  const userInfo = useHookGetUserInfo();
+
+  /**
+   * Routing
+   */
+  const navigate = useNavigate();
+
+  /**
+   * GQL
+   */
+  const [updateUser] = useMutation(GQL_USER_UPDATE_CURRENT, {
+    onError: (err) => {
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      //
+    },
+  });
+
+  function handleClickWishlistIcon() {
+    if (userInfo) {
+      // TODO: add or remove
+      let newWishList;
+      if (userInfo.wishList?.includes(product.id)) {
+        newWishList = userInfo.wishList.filter((a) => a !== product.id);
+      } else {
+        newWishList = (userInfo.wishList ?? []).concat(product.id);
+      }
+      void updateUser({
+        variables: {
+          input: { wishList: newWishList },
+        },
+      });
+    } else {
+      // use is not logged in
+      void navigate("/login");
+    }
+  }
+
   return (
     <div className="justify-self-center flex flex-col w-full">
       {/* <div className="flex flex-col max-w-[32rem] xl:max-w-[40rem] justify-self-center"> */}
@@ -37,10 +86,14 @@ export default function MainInfo({ product }: Props) {
       {/* Title */}
       <div className="text-2xl md:text-[2rem] font-arsenal-spaced-1 text-aqua-forest-800 font-bold flex gap-x-8">
         {product.name}
-        {/* TODO: implement wish list */}
-        <button data-tooltip-id={`tooltip-wishlist`}>
-          {iconLoveEmpty()}
-          {/* {iconLoveFilled()} */}
+        <button
+          data-tooltip-id={`tooltip-wishlist`}
+          onClick={handleClickWishlistIcon}
+          disabled={!product}
+        >
+          {userInfo?.wishList?.includes(product.id)
+            ? iconLoveFilled()
+            : iconLoveEmpty()}
         </button>
       </div>
 
@@ -139,9 +192,12 @@ export default function MainInfo({ product }: Props) {
         {product.user && (
           <div className="flex flex-col gap-y-1">
             <div className="flex gap-x-2 items-center">
-              <button className={styleRowContentWithLink}>
+              <Link
+                className={styleRowContentWithLink}
+                to={`/shop/${product.user.id}`}
+              >
                 {product.user.shopName}
-              </button>
+              </Link>
               {/* <button className="h-6 w-6">
                 <img
                   src={product.user.imageUrl}
@@ -157,6 +213,10 @@ export default function MainInfo({ product }: Props) {
                 readOnly
                 itemStyles={ratingStyle}
               />
+
+              <span className="font-lato font-light text-aqua-forest-700">
+                {product.user.rating}
+              </span>
 
               {/* TODO:[3] implement CHAT */}
               <button

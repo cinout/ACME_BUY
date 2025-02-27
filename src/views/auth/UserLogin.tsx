@@ -15,6 +15,11 @@ import {
   iconGoRightWithoutCircle,
 } from "@/utils/icons";
 import store from "@/redux/store";
+import {
+  styleLoginDialog,
+  styleLoginSubmitButton,
+  styleLoginTitle,
+} from "@/utils/styles";
 
 export default function UserLogin() {
   const dispatch = useAppDispatch();
@@ -53,7 +58,7 @@ export default function UserLogin() {
   }
 
   return (
-    <div className="bg-gradient-to-tr from-aqua-forest-100 to-sky-200 flex justify-center items-center min-w-full min-h-full relative font-arsenal-spaced-1">
+    <div className="bg-gradient-to-tr from-aqua-forest-200 to-sky-200 flex justify-center items-center min-w-full min-h-full relative font-arsenal-spaced-1">
       <Link className="absolute top-4 left-4 h-10" to="/">
         <img src={logo} className="h-full" />
       </Link>
@@ -70,10 +75,8 @@ export default function UserLogin() {
           </Link>
         </div>
       ) : (
-        <div className="w-[21.875rem] max-w-full text-white bg-sky-400 rounded-lg p-6 shadow-xl">
-          <div className="text-xl font-light mb-1 text-shadow-dark flex justify-center">
-            Log In
-          </div>
+        <div className={styleLoginDialog}>
+          <div className={styleLoginTitle}>Log In</div>
 
           {/* Form */}
 
@@ -100,10 +103,7 @@ export default function UserLogin() {
               additionalStyleInput="w-full"
             />
 
-            <button
-              className="bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200"
-              disabled={showLoader}
-            >
+            <button className={styleLoginSubmitButton} disabled={showLoader}>
               {showLoader ? <LoadingIndicator /> : "Log In"}
             </button>
           </form>

@@ -13,7 +13,12 @@ import LoadingIndicator from "../shared_components/LoadingIndicator";
 import { FormUserSignupProps, userSignup } from "@/redux/reducers/authReducer";
 import { RoleEnum, UserSignupMethodEnum } from "@/utils/enums";
 import toast from "react-hot-toast";
-import { styleFormErrorMessage } from "@/utils/styles";
+import {
+  styleFormErrorMessage,
+  styleLoginDialog,
+  styleLoginSubmitButton,
+  styleLoginTitle,
+} from "@/utils/styles";
 import { useState } from "react";
 import {
   iconFacebook,
@@ -53,7 +58,7 @@ export default function UserSignup() {
   }
 
   return (
-    <div className="bg-gradient-to-tr from-aqua-forest-100 to-sky-200 flex justify-center items-center min-w-full min-h-full relative font-arsenal-spaced-1">
+    <div className="bg-gradient-to-tr from-aqua-forest-200 to-sky-200 flex justify-center items-center min-w-full min-h-full relative font-arsenal-spaced-1">
       <Link className="absolute top-4 left-4 h-10" to="/">
         <img src={logo} className="h-full" />
       </Link>
@@ -70,10 +75,8 @@ export default function UserSignup() {
           </Link>
         </div>
       ) : (
-        <div className="w-[21.875rem] max-w-full text-white bg-sky-400 rounded-lg p-6 shadow-xl">
-          <div className="text-xl font-light mb-1 text-shadow-dark text-center">
-            Sign Up
-          </div>
+        <div className={styleLoginDialog}>
+          <div className={styleLoginTitle}>Sign Up</div>
           <div className="text-sm mb-4 text-center">
             Register now and become our member.
           </div>
@@ -198,10 +201,7 @@ export default function UserSignup() {
               <p className={styleFormErrorMessage}>{errors.agree?.message}</p>
             )}
 
-            <button
-              className="h-8 bg-sky-600 rounded-md p-1 w-full mt-4 font-black block hover:bg-sky-900 transition duration-200"
-              disabled={showLoader}
-            >
+            <button className={styleLoginSubmitButton} disabled={showLoader}>
               {showLoader ? <LoadingIndicator /> : "Sign Up"}
             </button>
           </form>

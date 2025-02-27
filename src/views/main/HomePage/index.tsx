@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 
 import {
   GQL_PRODUCT_GET_DISCOUNTED,
+  GQL_PRODUCT_GET_LOW_PRICE,
   GQL_PRODUCT_GET_MINT,
   GQL_PRODUCT_GET_NEW_RELEASE,
   GQL_PRODUCT_GET_NEWEST_CASSETTES,
@@ -16,6 +17,11 @@ import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import DisplayGenre from "./DisplayGenre";
 import Hero from "./Hero";
 import Testimonials from "./Testimonials";
+import {
+  GradingEnum,
+  MediaFormatEnum,
+  ReleaseYearRangeEnum,
+} from "@/utils/enums";
 
 const COUNT = 4;
 const endYear = new Date().getFullYear();
@@ -47,7 +53,7 @@ export default function HomePage() {
   const gqlProductGetOldReleases = useQuery(GQL_PRODUCT_GET_OLD_RELEASE, {
     variables: { count: COUNT },
   });
-  const getProductDiscounted = useQuery(GQL_PRODUCT_GET_DISCOUNTED, {
+  const getProductLowPrice = useQuery(GQL_PRODUCT_GET_LOW_PRICE, {
     variables: { count: COUNT },
   });
   const getProductMint = useQuery(GQL_PRODUCT_GET_MINT, {
@@ -64,12 +70,18 @@ export default function HomePage() {
         data={gqlProductGetNewCDs.data?.getNewCDs as ProductEntity[]}
         count={COUNT}
         title={"New CDs"}
+        goto={`/collection?format=${encodeURIComponent(
+          MediaFormatEnum.CD
+        )}&sorting=added-desc`}
       />
 
       <DisplayRow
         data={gqlProductgetNewVinyls.data?.getNewVinyls as ProductEntity[]}
         count={COUNT}
         title={"New Vinyls"}
+        goto={`/collection?format=${encodeURIComponent(
+          MediaFormatEnum.Vinyl_12
+        )}&sorting=added-desc`}
       />
       <DisplayRow
         data={
@@ -77,28 +89,37 @@ export default function HomePage() {
         }
         count={COUNT}
         title={"New Cassettes"}
+        goto={`/collection?format=${encodeURIComponent(
+          MediaFormatEnum.Cassette
+        )}&sorting=added-desc`}
       />
 
       <DisplayRow
         data={gqlProductGetNewReleases.data?.getNewReleases as ProductEntity[]}
         count={COUNT}
         title={`${endYear} Releases`}
+        goto={`/collection?sorting=year-desc`}
       />
 
       <DisplayRow
         data={gqlProductGetOldReleases.data?.getOldReleases as ProductEntity[]}
         count={COUNT}
         title={"Golden"}
+        goto={`/collection?year=${encodeURIComponent(
+          ReleaseYearRangeEnum.y1980s
+        )}`}
       />
       <DisplayRow
         data={getProductMint.data?.getMint as ProductEntity[]}
         count={COUNT}
         title={"Perfect Condition"}
+        goto={`/collection?grading=${encodeURIComponent(GradingEnum.Mint)}`}
       />
       <DisplayRow
-        data={getProductDiscounted.data?.getDiscounted as ProductEntity[]}
+        data={getProductLowPrice.data?.getLowPrice as ProductEntity[]}
         count={COUNT}
-        title={"On Discount"}
+        title={"Low Price"}
+        goto={`/collection?sorting=price-asc`}
       />
       {/* TODO:[2] products from best sellers */}
       {/* TODO:[1] Events & News */}

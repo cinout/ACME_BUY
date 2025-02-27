@@ -1,6 +1,8 @@
 import { ProductEntity } from "@/utils/entities";
+import { translateYearToYearRangeEnum } from "@/utils/enums";
 import { capFirstLetter } from "@/utils/strings";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   product: ProductEntity;
@@ -42,38 +44,66 @@ export default function InfoTabs({ product }: Props) {
         {currentTab === Tab.details && (
           // TODO:[3] implement the links
           <>
+            {/* Region */}
             <div className={styleRowContainer}>
               <span className={styleRowTitle}>Release Region:</span>
-              <button className={styleRowContentWithLink}>
+              <Link
+                className={styleRowContentWithLink}
+                to={`/collection?region=${encodeURIComponent(product.region)}`}
+              >
                 {product.region}
-              </button>
+              </Link>
             </div>
+
+            {/* Year */}
             <div className={styleRowContainer}>
               <span className={styleRowTitle}>Release Year:</span>
-              <button className={styleRowContentWithLink}>
+              <Link
+                className={styleRowContentWithLink}
+                to={`/collection?year=${encodeURIComponent(
+                  translateYearToYearRangeEnum(product.year)
+                )}`}
+              >
                 {product.year}
-              </button>
+              </Link>
             </div>
+
+            {/* Genre */}
             <div className={styleRowContainer}>
               <span className={styleRowTitle}>Genres:</span>
-
               {product.genres.map((genre) => (
-                <button className={styleRowContentWithLink} key={genre.id}>
+                <Link
+                  className={styleRowContentWithLink}
+                  key={genre.id}
+                  to={`/collection?genre=${encodeURIComponent(genre.name)}`}
+                >
                   {genre.name}
-                </button>
+                </Link>
               ))}
             </div>
+
+            {/* Format */}
             <div className={styleRowContainer}>
               <span className={styleRowTitle}>Format:</span>
-              <button className={styleRowContentWithLink}>
+              <Link
+                className={styleRowContentWithLink}
+                to={`/collection?format=${encodeURIComponent(product.format)}`}
+              >
                 {product.format}
-              </button>
+              </Link>
             </div>
+
+            {/* Grading */}
             <div className={styleRowContainer}>
               <span className={styleRowTitle}>Grading:</span>
-              <button className={styleRowContentWithLink}>
+              <Link
+                className={styleRowContentWithLink}
+                to={`/collection?grading=${encodeURIComponent(
+                  product.grading
+                )}`}
+              >
                 {product.grading}
-              </button>
+              </Link>
             </div>
           </>
         )}

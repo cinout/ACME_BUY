@@ -1,9 +1,10 @@
+import { MediaFormatEnum } from "@/utils/enums";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 interface NavBarItemProps {
-  dropdownOptions: { id: string; name: string }[];
+  dropdownOptions: { id: string; name: string; url: string }[];
   title: string;
 }
 
@@ -18,6 +19,12 @@ function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
    */
   const menuRef = useRef<HTMLDivElement>(null);
   const menuDropdownRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * Routing
+   */
+  const { pathname, search } = useLocation(); //pathname is main url part, search is query-parameters part
+  const fullUrl = pathname + search;
 
   /**
    * Effect
@@ -68,11 +75,11 @@ function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
             <div className="flex flex-col items-center">
               {dropdownOptions?.map((option) => (
                 <NavLink
-                  to={`/${title.toLowerCase()}/${option.name.toLowerCase()}`}
+                  to={option.url}
                   key={option.id}
-                  className={({ isActive }) =>
+                  className={() =>
                     `w-full flex justify-center items-center hover:bg-aqua-forest-500 h-6 overflow-x-hidden whitespace-nowrap ${
-                      isActive && "bg-aqua-forest-500 font-bold"
+                      fullUrl === option.url && "bg-aqua-forest-500 font-bold"
                     }`
                   }
                   end
@@ -98,6 +105,12 @@ function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
 }
 
 function ContentSmallSreen({ dropdownOptions, title }: NavBarItemProps) {
+  /**
+   * Routing
+   */
+  const { pathname, search } = useLocation(); //pathname is main url part, search is query-parameters part
+  const fullUrl = pathname + search;
+
   return (
     <div>
       <div
@@ -109,11 +122,11 @@ function ContentSmallSreen({ dropdownOptions, title }: NavBarItemProps) {
       <div className={`w-full text-aqua-forest-700 flex gap-2 flex-wrap`}>
         {dropdownOptions?.map((option) => (
           <NavLink
-            to={`/${title.toLowerCase()}/${option.name.toLowerCase()}`}
+            to={option.url}
             key={option.id}
-            className={({ isActive }) =>
+            className={() =>
               `p-[0.1rem] ${
-                isActive
+                fullUrl === option.url
                   ? "bg-aqua-forest-500 text-aqua-forest-50 font-bold"
                   : "text-aqua-forest-700"
               }`

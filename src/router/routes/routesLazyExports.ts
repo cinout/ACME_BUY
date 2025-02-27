@@ -20,6 +20,7 @@ const LazyMain = () => (
 export const HomePage = lazy(() => import("@/views/main/HomePage"));
 export const ProductPage = lazy(() => import("@/views/main/ProductPage"));
 export const CollectionPage = lazy(() => import("@/views/main/CollectionPage"));
+export const ShopPage = lazy(() => import("@/views/main/ShopPage"));
 
 /**
  * Login & Signup

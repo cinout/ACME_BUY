@@ -13,10 +13,11 @@ import {
   ReleaseYearRangeEnum,
 } from "@/utils/enums";
 import { iconCrossClose } from "@/utils/icons";
-import { useEffect } from "react";
 import Pagination from "@/views/shared_components/Pagination";
+import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 
 const styleContentPadding = "px-2 sm:px-4 lg:px-8";
+const cssPlaceholderContainer = "w-full aspect-square bg-aqua-forest-50";
 const sortingOptions = [
   // default
   { id: "featured", displayValue: "Featured" },
@@ -181,22 +182,11 @@ export default function CollectionPage() {
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   /**
-   * Effect
+   * Hooks
    */
-  // when filters and sorting is changed, need to remove the current page
-  useEffect(() => {
-    // TODO: how to avoid calling this when first loaded or user navigate back from other pages?
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete("page"); // reset page to default
-    setSearchParams(newParams); // Update the URL
-  }, [
-    finalGenre,
-    finalFormat,
-    finalYear,
-    finalGrading,
-    finalRegion,
-    finalSorting,
-  ]);
+  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
+    currentPageProducts?.map((a) => a.id) || []
+  );
 
   return (
     <>
@@ -255,7 +245,7 @@ export default function CollectionPage() {
                 <span className="font-bold"> {capFirstLetter(title)}: </span>
                 <span>{value}</span>
                 <button
-                  className="ml-2 text-xl bg-sky-100 text-sky-800 hover:scale-105 transition"
+                  className="ml-2 text-xl bg-sky-100 text-sky-800 rounded-sm hover:scale-105 transition"
                   onClick={() => {
                     const newParams = new URLSearchParams(searchParams);
                     newParams.delete(title); // Remove the parameter
@@ -269,22 +259,35 @@ export default function CollectionPage() {
           </div>
 
           {/* Contents */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 text-center">
             {currentPageProducts?.map((product) => (
               <div
                 key={product.id}
-                className={`w-full py-3 flex flex-col ${styleContentPadding}`}
+                className={`w-full py-3 flex flex-col items-center ${styleContentPadding}`}
               >
-                <Link
-                  to={`/product/${product.id}`}
-                  className="w-full aspect-square"
-                >
-                  <img
-                    src={albumCoverImageLarge(product.images[0]?.file)}
-                    alt={product.name}
-                    className="w-full aspect-square object-contain hover:scale-[102%] transition duration-300"
-                  />
-                </Link>
+                {imageGridOnLoad.get(product.id) ? (
+                  <div className={cssPlaceholderContainer} />
+                ) : (
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="w-full max-w-96 aspect-square"
+                  >
+                    <img
+                      src={albumCoverImageLarge(product.images[0]?.file)}
+                      alt={product.name}
+                      className="w-full max-w-96 aspect-square object-contain hover:scale-[102%] transition duration-300"
+                      ref={(node) => {
+                        const map = getImageRefMap();
+                        map.set(product.id, node);
+                        return () => {
+                          // called when removing
+                          map.delete(product.id);
+                        };
+                      }}
+                    />
+                  </Link>
+                )}
+
                 <span className="font-arsenal-spaced-1 text-aqua-forest-800">
                   {product.name}
                 </span>

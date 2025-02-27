@@ -6,6 +6,7 @@ import {
   UnauthorizedPage,
   ProductPage,
   CollectionPage,
+  ShopPage,
 } from "./routesLazyExports.ts";
 import ShopFrontWrapper from "@/views/main/ShopFrontWrapper.tsx";
 
@@ -21,6 +22,10 @@ const publicRoutesInWrapper: RouteObject[] = [
   {
     path: "/collection",
     element: <CollectionPage />,
+  },
+  {
+    path: "/shop/:shopId",
+    element: <ShopPage />,
   },
 ];
 

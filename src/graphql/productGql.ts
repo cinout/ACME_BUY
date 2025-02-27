@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
+export const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
   fragment ProductDetails on Product {
     id
     name
@@ -95,10 +95,27 @@ export const GQL_PRODUCT_GET_DISCOUNTED = gql`
   }
   ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
+export const GQL_PRODUCT_GET_LOW_PRICE = gql`
+  query getLowPrice($count: Int!) {
+    getLowPrice(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
 
 export const GQL_PRODUCT_GET_MINT = gql`
   query getMint($count: Int!) {
     getMint(count: $count) {
+      ...ProductDetails
+    }
+  }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
+`;
+
+export const GQL_PRODUCT_GET_BY_USER_ID = gql`
+  query getProductByUserId($id: ID!) {
+    getProductByUserId(id: $id) {
       ...ProductDetails
     }
   }
@@ -116,9 +133,9 @@ export const GQL_PRODUCT_GET_SIMILAR = gql`
 `;
 
 // Specific Product Query
-export const GQL_PRODUCT_GET_BY_ID = gql`
-  query getProductById($id: ID!) {
-    getProductById(id: $id) {
+export const GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID = gql`
+  query getProductAndRelatedDetailsById($id: ID!) {
+    getProductAndRelatedDetailsById(id: $id) {
       id
       name
       artist

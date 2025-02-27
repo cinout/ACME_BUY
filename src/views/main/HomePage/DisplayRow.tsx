@@ -10,6 +10,7 @@ interface Props {
   data: ProductEntity[];
   count: number;
   title: string;
+  goto: string;
 }
 
 const cssTextSizeWithScreen =
@@ -21,7 +22,7 @@ const cssContainerSizeWithScreen =
 const cssContainerPlaceholder = `h-full w-full bg-aqua-forest-50`;
 
 // TODO:[1] float fade in effect
-export default function DisplayRow({ data, count, title }: Props) {
+export default function DisplayRow({ data, count, title, goto }: Props) {
   const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
     data?.map((a) => a.id) || []
   );
@@ -50,10 +51,11 @@ export default function DisplayRow({ data, count, title }: Props) {
       ref={elementRef}
     >
       {/* Left-most title */}
-      <button
+      <Link
         className={`group bg-radial from-aqua-forest-400 via-aqua-forest-300 to-aqua-forest-100 rounded-none flex flex-col gap-y-4 justify-center items-center text-center transition-all duration-300 ${cssContainerSizeWithScreen} ${
           inView ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
         }`}
+        to={goto}
       >
         <div className="text-base md:text-xl xl:text-2xl text-aqua-forest-950 font-semibold">
           {title}
@@ -66,7 +68,7 @@ export default function DisplayRow({ data, count, title }: Props) {
           <div className="z-10">{iconGoRightWithoutCircle()}</div>
           <div className="absolute top-0 left-0 h-full w-0 group-hover:w-full group-hover:bg-sky-600 transition-all duration-300" />
         </div>
-      </button>
+      </Link>
 
       {/* Options */}
       <div className="flex-1 flex justify-around">

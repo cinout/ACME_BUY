@@ -18,7 +18,7 @@ import FormSelect from "@/views/shared_components/form/FormSelect";
 import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import { useEffect } from "react";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
-import { usePrevious } from "@/customHooks/usePrevious";
+import { useHookPrevious } from "@/customHooks/useHookPrevious";
 
 export interface UserFormInputProps {
   firstname: string;
@@ -69,8 +69,8 @@ export function UserProfileEdit({
   const currentState = watch("state");
   const currentCity = watch("city");
 
-  const prevCountry = usePrevious(currentCountry); // undefined on first render
-  const prevState = usePrevious(currentState); // undefined on first render
+  const prevCountry = useHookPrevious(currentCountry); // undefined on first render
+  const prevState = useHookPrevious(currentState); // undefined on first render
 
   const stateOptions = State.getStatesOfCountry(currentCountry).map((a) => ({
     id: a.name + " " + a.isoCode,

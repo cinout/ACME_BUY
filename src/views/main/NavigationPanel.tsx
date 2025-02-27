@@ -82,6 +82,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
       options: sortedGenres.map((a) => ({
         id: a.id,
         name: a.name,
+        url: `/collection?genre=${encodeURIComponent(a.name)}`,
       })),
     },
     {
@@ -89,6 +90,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
       options: Object.values(MediaFormatEnum).map((a) => ({
         id: a,
         name: a,
+        url: `/collection?format=${encodeURIComponent(a)}`,
       })),
     },
     {
@@ -96,6 +98,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
       options: Object.values(ReleaseYearRangeEnum).map((a) => ({
         id: a,
         name: a,
+        url: `/collection?year=${encodeURIComponent(a)}`,
       })),
     },
     {
@@ -103,6 +106,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
       options: Object.values(GradingEnum).map((a) => ({
         id: a,
         name: a,
+        url: `/collection?grading=${encodeURIComponent(a)}`,
       })),
     },
     {
@@ -110,6 +114,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
       options: Object.values(ReleaseRegionEnum).map((a) => ({
         id: a,
         name: a,
+        url: `/collection?region=${encodeURIComponent(a)}`,
       })),
     },
   ];
