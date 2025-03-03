@@ -1,6 +1,6 @@
 import { GQL_PRODUCT_GET_COLLECTION } from "@/graphql/productGql";
 import { GenreEntity, ProductEntity } from "@/utils/entities";
-import { calculateDiscountedPrice } from "@/utils/numbers";
+import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge, capFirstLetter } from "@/utils/strings";
 import { useQuery } from "@apollo/client";
 import { Link, useSearchParams } from "react-router-dom";
@@ -296,7 +296,11 @@ export default function CollectionPage() {
                   {product.artist}
                 </span>
                 <span className="text-aqua-forest-700 font-arsenal-spaced-1 text-lg mt-1">
-                  ${calculateDiscountedPrice(product.price, product.discount)}
+                  $
+                  {calculateDiscountedPriceAndReturnString(
+                    product.price,
+                    product.discount
+                  )}
                 </span>
               </div>
             ))}

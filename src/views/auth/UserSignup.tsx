@@ -48,6 +48,7 @@ export default function UserSignup() {
       .unwrap()
       .then(() => {
         // reset(); // reset form values
+        // TODO: if user comes from /product/pID page, should redirect back
         setShowLoader(false);
         void navigate("/user/dashboard", { replace: true });
       })

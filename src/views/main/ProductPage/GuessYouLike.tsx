@@ -1,7 +1,7 @@
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import { GQL_PRODUCT_GET_SIMILAR } from "@/graphql/productGql";
 import { ProductEntity } from "@/utils/entities";
-import { calculateDiscountedPrice } from "@/utils/numbers";
+import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge } from "@/utils/strings";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
@@ -73,7 +73,11 @@ export default function GuessYouLike() {
                     {product.name}
                   </div>
                   <div className="text-aqua-forest-700">
-                    ${calculateDiscountedPrice(product.price, product.discount)}
+                    $
+                    {calculateDiscountedPriceAndReturnString(
+                      product.price,
+                      product.discount
+                    )}
                   </div>
                 </>
               ) : (

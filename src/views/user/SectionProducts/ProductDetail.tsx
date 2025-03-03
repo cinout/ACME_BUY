@@ -1,5 +1,5 @@
 import {
-  calculateDiscountedPrice,
+  calculateDiscountedPriceAndReturnString,
   imageMaxSizeMB,
   yearOptions,
 } from "@/utils/numbers";
@@ -62,7 +62,7 @@ export default function ProductDetail({
     register,
     handleSubmit,
     watch,
-    formState: { errors, isDirty, dirtyFields },
+    formState: { errors, isDirty },
     reset,
     setValue,
     control,
@@ -466,7 +466,7 @@ export default function ProductDetail({
           {price >= 0 && discount >= 0 && (
             <div className="text-sm italic">
               discounted price is AUD{" "}
-              {calculateDiscountedPrice(price, discount)}
+              {calculateDiscountedPriceAndReturnString(price, discount)}
             </div>
           )}
         </div>

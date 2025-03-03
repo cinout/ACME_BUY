@@ -55,7 +55,7 @@ export interface UserEntity extends Entity {
   imageName?: string;
   rating: number; // TODO: implement rating
   wishList?: string[];
-  cart?: { id: string; quantity: number }[];
+  cart?: { productId: string; quantity: number }[];
 }
 
 export interface GenreEntity extends Entity {

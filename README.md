@@ -81,6 +81,7 @@
 
 - [ ] how to handle manually put-in routes that are not serviced by our site?
 - [ ] deactivated sellers products should not show in website
+- [ ] Show buyer comments on shop's page
 - [ ] each product can have up to 3 genres
 - [ ] Email Verfication after signup
 - [ ] Currently, when user is not logged in and refresh page, three API erros showing.

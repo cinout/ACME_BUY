@@ -179,15 +179,16 @@ export default function NavigationPanel({ isScrollUp }: Props) {
               </Link>
             )}
 
-            {/* TODO:[2] implement shopping cart */}
-            <Link className="relative flex items-center" to="/cart">
-              <div className="text-[2rem]">{iconShoppingCart()}</div>
-              {!!numItemsInCart && numItemsInCart > 0 && (
-                <div className="absolute -top-3 left-5 w-6 h-6 rounded-full bg-sky-700/90 text-sky-100 font-bold text-sm flex justify-center items-center">
-                  {numItemsInCart > 10 ? "10+" : numItemsInCart}
-                </div>
-              )}
-            </Link>
+            {userInfo && (
+              <Link className="relative flex items-center" to="/cart">
+                <div className="text-[2rem]">{iconShoppingCart()}</div>
+                {!!numItemsInCart && numItemsInCart > 0 && (
+                  <div className="absolute -top-3 left-5 w-6 h-6 rounded-full bg-sky-700/90 text-sky-100 font-bold text-sm flex justify-center items-center">
+                    {numItemsInCart > 10 ? "10+" : numItemsInCart}
+                  </div>
+                )}
+              </Link>
+            )}
 
             {/* Menu Icon < md screen */}
             <div className="block md:hidden justify-self-end self-center">

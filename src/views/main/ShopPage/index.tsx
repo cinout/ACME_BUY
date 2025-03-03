@@ -3,7 +3,7 @@ import { GQL_PRODUCT_GET_BY_USER_ID } from "@/graphql/productGql";
 import { GQL_GET_USER_BY_ID } from "@/graphql/userGql";
 import { ProductEntity, UserEntity } from "@/utils/entities";
 import { iconChat, iconEmail, iconLocation } from "@/utils/icons";
-import { calculateDiscountedPrice } from "@/utils/numbers";
+import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge, translateAddress } from "@/utils/strings";
 import { ratingStyle } from "@/utils/styles";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
@@ -155,7 +155,11 @@ export default function ShopPage() {
                 {product.artist}
               </span>
               <span className="text-aqua-forest-700 font-arsenal-spaced-1 text-lg mt-1">
-                ${calculateDiscountedPrice(product.price, product.discount)}
+                $
+                {calculateDiscountedPriceAndReturnString(
+                  product.price,
+                  product.discount
+                )}
               </span>
             </div>
           ))}

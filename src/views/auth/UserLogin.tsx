@@ -44,6 +44,7 @@ export default function UserLogin() {
         // reset(); // reset form values
         setShowLoader(false);
         const updatedRole = store.getState().auth.role;
+        // TODO: if user comes from /product/pID page, should redirect back
         void navigate(
           updatedRole === RoleEnum.User
             ? "/user/dashboard"

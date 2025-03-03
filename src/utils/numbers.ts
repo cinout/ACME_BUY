@@ -18,6 +18,16 @@ export const yearOptions = allYears.map((a) => ({
   display: a === 1899 ? "Before 1900" : a.toString(),
 }));
 
-export function calculateDiscountedPrice(price: number, discount: number) {
+export function calculateDiscountedPriceAndReturnString(
+  price: number,
+  discount: number
+) {
   return ((price * (100 - discount)) / 100).toFixed(2);
+}
+
+export function calculateDiscountedPriceAndReturnNumber(
+  price: number,
+  discount: number
+) {
+  return (price * (100 - discount)) / 100;
 }

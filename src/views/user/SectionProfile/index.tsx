@@ -12,7 +12,6 @@ import { ChangeEvent, useState } from "react";
 import UserStatusIndicator from "@/views/shared_components/UserStatusIndicator";
 import { UserFormInputProps, UserProfileEdit } from "./UserProfileEdit";
 import { getErrorMessage } from "@/graphql";
-import { Country, State } from "country-state-city";
 import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
 import { useAppDispatch } from "@/redux/hooks";
 import { afterLogout } from "@/redux/reducers/authReducer";

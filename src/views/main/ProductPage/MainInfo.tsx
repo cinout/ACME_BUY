@@ -8,7 +8,7 @@ import {
   iconShoppingCart,
 } from "@/utils/icons";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
-import { calculateDiscountedPrice } from "@/utils/numbers";
+import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { translateAddress } from "@/utils/strings";
 import { useState } from "react";
 import InfoTabs from "./InfoTabs";
@@ -86,19 +86,21 @@ export default function MainInfo({ product }: Props) {
     if (userInfo) {
       const currentCart = userInfo.cart ?? [];
       let newCart;
-      const matchedItemInCart = currentCart.find((a) => a.id === product.id); // check if item is already in cart
+      const matchedItemInCart = currentCart.find(
+        (a) => a.productId === product.id
+      ); // check if item is already in cart
       if (matchedItemInCart) {
         const { quantity } = matchedItemInCart;
         const maxAllowedQuantity = product.stock;
         newCart = currentCart
-          .filter((a) => a.id !== product.id)
+          .filter((a) => a.productId !== product.id)
           .concat({
-            id: product.id,
+            productId: product.id,
             quantity: Math.min(quantity + requiredQuantity, maxAllowedQuantity),
           });
       } else {
         newCart = currentCart.concat({
-          id: product.id,
+          productId: product.id,
           quantity: requiredQuantity,
         });
       }
@@ -152,7 +154,11 @@ export default function MainInfo({ product }: Props) {
             </div>
 
             <span className="text-xl text-rose-900 font-arsenal-spaced-1">
-              ${calculateDiscountedPrice(product.price, product.discount)}
+              $
+              {calculateDiscountedPriceAndReturnString(
+                product.price,
+                product.discount
+              )}
             </span>
           </>
         )}
@@ -214,7 +220,7 @@ export default function MainInfo({ product }: Props) {
         <div className="relative">
           <button
             className="bg-aqua-forest-100 h-10 px-2 not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200 shadow-md"
-            disabled={!product || product.stock === 0}
+            disabled={!product || product.stock === 0 || requiredQuantity === 0}
             onClick={handleClickAddToCart}
           >
             Add to cart
