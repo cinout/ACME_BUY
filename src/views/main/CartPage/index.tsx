@@ -172,6 +172,12 @@ export default function CartPage() {
     });
   }
 
+  function handleClickCheckoutButton() {
+    // TODO:[3] check stock again
+    // TODO:[3] show error if stock is lower than required
+    // TODO:[3] Otherwise, create an order Id and redirect
+  }
+
   return (
     <div>
       {/* Header */}
@@ -195,17 +201,18 @@ export default function CartPage() {
 
             {/* Go to checkout */}
             {/* TODO:[3] implement. Should be disabled when there is error in form */}
-            <Link
-              to={disabled ? "#" : ""}
+            <button
+              // to={disabled ? "#" : ""}
               className={`flex items-center gap-x-2 h-10 px-2 text-aqua-forest-50 shadow-md transition ${
                 disabled
                   ? "bg-slate-400 cursor-not-allowed"
                   : "bg-aqua-forest-400 hover:brightness-110"
               }`}
+              onClick={handleClickCheckoutButton}
             >
               {iconCheckout()}
               <span>Check out</span>
-            </Link>
+            </button>
           </div>
 
           {hasError && (

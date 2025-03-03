@@ -84,4 +84,15 @@ export const privateUserRoutes: PrivateUserRouteType[] = [
       UserStatusEnum.Pending,
     ],
   },
+  // Order
+  // {
+  //   path: "/order/:orderId",
+  //   // element: <OrderPage />,
+  //   accessRoles: [RoleEnum.User],
+  //   accessUserStatus: [
+  //     UserStatusEnum.Active,
+  //     // UserStatusEnum.Deactivated,
+  //     UserStatusEnum.Pending,
+  //   ],
+  // },
 ];

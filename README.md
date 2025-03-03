@@ -66,6 +66,11 @@
 - All reusable components are modularized, including icons, ....
 - Handle invalid values in URL in pagination
 - check stock when add products to shopping cart
+- shopping cart page:
+  - If stock is reduced and user required quantity exceeds the current stock, a warning is shown under both the product and the checkout button, to prevent further action.
+  - The stock is checked another time when click on Checkout button in case the stock is changed during the process
+- payment/order/checkout page:
+  -
 
 ## User Roles, User Authentication, and Routes Protection
 
