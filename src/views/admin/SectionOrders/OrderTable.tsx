@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { OrderEntity } from "@/utils/entities";
 import { joinUrl } from "@/utils/strings";
 import { iconDownWithCircle } from "@/utils/icons";
+import { OrderStatusEnum } from "@/utils/enums";
 
 interface OrderTableProps {
   orderStats: OrderEntity[];
@@ -29,9 +30,12 @@ export default function OrderTable({
       {orderStats.map((order) => (
         <Fragment key={order.id}>
           <span className="mt-2">{order.id}</span>
-          <span className="mt-2">{"AU$ " + order.price}</span>
-          <span className="mt-2">{order.payment_status}</span>
-          <span className="mt-2">{order.order_status}</span>
+          {/* TODO:[3] use real data */}
+          <span className="mt-2">{"AU$ 100"}</span>
+          {/* TODO:[3] use real data */}
+          <span className="mt-2">{"HAHA"}</span>
+          {/* TODO:[3] use real data */}
+          <span className="mt-2">{OrderStatusEnum.Canceled}</span>
           <span className="mt-2 text-xl">
             <button
               className={`hover:scale-125 transition ${
@@ -68,26 +72,27 @@ export default function OrderTable({
                   transition: { duration: 0.6 },
                 }}
               >
-                {order.details.map((product) => (
-                  <div
-                    key={order.id + "_" + product.product_id}
-                    className="flex gap-4"
-                  >
-                    {/* <span>{product.product_id}</span> */}
-                    <span>
-                      <strong> Product:</strong> {product.product_name}
-                    </span>
-                    {/* <span>{product.sellor_id}</span> */}
-                    <span>
-                      <strong> Sellor:</strong>
-                      {product.sellor_name}
-                    </span>
-                    <span>
-                      <strong> Price: AU$</strong>
-                      {product.price}
-                    </span>
-                  </div>
-                ))}
+                {/* TODO:[3] fix here */}
+
+                <div
+                  // key={order.id + "_" + product.product_id}
+                  className="flex gap-4"
+                >
+                  {/* <span>{product.product_id}</span> */}
+                  <span>
+                    <strong> Product:</strong> {"haha"}
+                  </span>
+                  {/* <span>{product.sellor_id}</span> */}
+                  <span>
+                    <strong> Sellor:</strong>
+                    {"haha"}
+                  </span>
+                  <span>
+                    <strong> Price: AU$</strong>
+                    {"haha"}
+                  </span>
+                </div>
+                {/* ))} */}
               </motion.div>
             )}
           </AnimatePresence>

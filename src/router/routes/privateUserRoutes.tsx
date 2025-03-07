@@ -12,7 +12,6 @@ import {
 } from "./routesLazyExports";
 import { RoleEnum, UserStatusEnum } from "@/utils/enums";
 
-// TODO: how to make each route only accessable to valid user?
 export type PrivateUserRouteType = RouteObject & {
   accessRoles: RoleEnum[];
   accessUserStatus: UserStatusEnum[];
@@ -84,15 +83,4 @@ export const privateUserRoutes: PrivateUserRouteType[] = [
       UserStatusEnum.Pending,
     ],
   },
-  // Order
-  // {
-  //   path: "/order/:orderId",
-  //   // element: <OrderPage />,
-  //   accessRoles: [RoleEnum.User],
-  //   accessUserStatus: [
-  //     UserStatusEnum.Active,
-  //     // UserStatusEnum.Deactivated,
-  //     UserStatusEnum.Pending,
-  //   ],
-  // },
 ];

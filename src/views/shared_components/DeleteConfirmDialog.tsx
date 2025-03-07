@@ -32,13 +32,13 @@ export default function DeleteConfirmDialog({
       const errorMessage = getErrorMessage(err);
       toast.error(errorMessage);
     },
+    update: (cache) => {
+      cache.evict({ id: cache.identify({ __typename: gqlType, id }) }); // Evicts (removes) the item from Apollo's cache
+      cache.gc(); // Garbage collection to remove dangling references (e.g., if a product was removed but still listed in a cart).
+    },
     onCompleted: () => {
       setShowLoader(false);
       onCloseDialog();
-    },
-    update: (cache) => {
-      cache.evict({ id: cache.identify({ __typename: gqlType, id }) });
-      cache.gc(); // Garbage collection to remove dangling references
     },
   });
 

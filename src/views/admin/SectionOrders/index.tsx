@@ -14,18 +14,20 @@ import OrderDetails from "./OrderDetails";
 const orderStats: OrderEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
   createdAt: faker.date.recent(),
-  price: faker.commerce.price(),
-  payment_status: PaymentStatusEnum.Pending,
-  order_status: OrderStatusEnum.Pending,
-  details: Array.from({ length: 3 }, () => ({
-    id: faker.string.uuid(),
-    createdAt: faker.date.recent(),
-    product_id: faker.string.uuid(),
-    product_name: faker.commerce.product(),
-    sellor_id: faker.string.uuid(),
-    sellor_name: faker.company.name(),
-    price: faker.commerce.price(),
-  })),
+  // price: faker.commerce.price(),
+  // payment_status: PaymentStatusEnum.Pending,
+  status: OrderStatusEnum.Pending,
+  items: [],
+  userId: "2222",
+  // details: Array.from({ length: 3 }, () => ({
+  //   id: faker.string.uuid(),
+  //   createdAt: faker.date.recent(),
+  //   product_id: faker.string.uuid(),
+  //   product_name: faker.commerce.product(),
+  //   sellor_id: faker.string.uuid(),
+  //   sellor_name: faker.company.name(),
+  //   price: faker.commerce.price(),
+  // })),
 }));
 
 const itemsPerPageOptions: number[] = [5, 10, 15, 20];

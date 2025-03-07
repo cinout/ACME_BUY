@@ -21,6 +21,7 @@ interface FormSelectProps {
   options: { id: string; value: number | string; display: string }[];
   disabled?: boolean;
   currentValue?: string | number;
+  placeholder?: string;
 }
 
 export default function FormSelect({
@@ -37,6 +38,7 @@ export default function FormSelect({
   additionalStyleContentWrapper,
   disabled,
   currentValue,
+  placeholder,
 }: FormSelectProps) {
   return (
     <div className={`${additionalStyleWrapper}`}>
@@ -63,7 +65,12 @@ export default function FormSelect({
               className={`${styleFormTypeArea} cursor-pointer h-8 ${additionalStyleSelect}`}
               disabled={disabled}
             >
-              <option value="">-- Select --</option>
+              <option
+                value=""
+                className="background-color: yellow; color: red;"
+              >
+                -- {placeholder ?? "Select"} --
+              </option>
               {options.map(({ id, value, display }) => (
                 <option key={id} value={value}>
                   {display}

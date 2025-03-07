@@ -11,6 +11,15 @@ export enum PaymentStatusEnum {
 // TODO: update them
 export enum OrderStatusEnum {
   Pending = "Pending",
+  Paid = "Paid",
+  Shipped = "Shipped",
+  Completed = "Completed",
+  Canceled = "Canceled",
+}
+
+export enum ProductStatusEnum {
+  Active = "Active",
+  Removed = "Removed",
 }
 
 // TODO: update them

@@ -17,6 +17,7 @@ export const GQL_FRAGMENT_PRODUCT_DETAILS = gql`
     format
     grading
     region
+    status
   }
 `;
 

@@ -9,8 +9,15 @@ import {
   iconPlusSimple,
   iconTrashCan,
 } from "@/utils/icons";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  QueryResult,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
+import { Link, useNavigate } from "react-router-dom";
 import groupBy from "lodash/groupBy";
 import { albumCoverImageSmall, translateAddress } from "@/utils/strings";
 import {
@@ -21,47 +28,19 @@ import { ChangeEvent, useEffect } from "react";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
+import { GQL_ORDER_INITIATE } from "@/graphql/orderGql";
 
-export default function CartPage() {
-  /**
-   * Hook
-   */
-  const userInfo = useHookGetUserInfo();
-  const skip = !userInfo;
-
-  /**
-   * GQL
-   */
-  // query
-  // TODO:[2] why is this queries when skip is true?
-  const gqlGetCurrentUserCartDetails = useQuery(
-    GQL_GET_CURRENT_USER_CART_DETAILS,
-    {
-      skip: skip,
-      // fetchPolicy: "standby", // Ensures Apollo does not automatically fetch. Ensures Apollo doesn't start the query unless explicitly told to.
-      // fetchPolicy: "network-only", // Ensures no cached results appear
-    }
-  );
-
+function processQuery(
+  gqlGetCurrentUserCartDetails: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | QueryResult<any, OperationVariables>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | ApolloQueryResult<any>,
+  userInfo: UserEntity | null
+) {
   const cartAndcartDetails = gqlGetCurrentUserCartDetails.data
     ?.getCurrentUserCartDetails as UserEntity & {
     cartDetails: ProductEntity[];
   };
-  // mutation
-  const [updateUser] = useMutation(GQL_USER_UPDATE_CURRENT, {
-    onError: (err) => {
-      const errorMessage = getErrorMessage(err);
-      toast.error(errorMessage);
-    },
-    onCompleted: () => {
-      //
-      void gqlGetCurrentUserCartDetails.refetch();
-    },
-  });
-
-  /**
-   * Calculated
-   */
   // merge quantity into product
   const mergedCartDetail = cartAndcartDetails?.cart?.map((cartItem) => {
     const product = cartAndcartDetails.cartDetails.find(
@@ -83,9 +62,73 @@ export default function CartPage() {
   const hasError = mergedCartDetail?.some((a) => a.quantity > a.stock);
   const disabled = hasError || !userInfo;
 
+  return {
+    cartAndcartDetails,
+    disabled,
+    hasError,
+    totalPrice,
+    cartDetailGroupedByShop,
+  };
+}
+
+export default function CartPage() {
   /**
-   * State
+   * Hook
    */
+  const userInfo = useHookGetUserInfo();
+  const skip = !userInfo;
+
+  /**
+   * Routing
+   */
+  const navigate = useNavigate();
+
+  /**
+   * GQL
+   */
+  // query
+  const gqlGetCurrentUserCartDetails = useQuery(
+    GQL_GET_CURRENT_USER_CART_DETAILS,
+    {
+      // TODO:[2] why is this queries when skip is true?
+      skip: skip,
+      // fetchPolicy: "standby", // Ensures Apollo does not automatically fetch. Ensures Apollo doesn't start the query unless explicitly told to.
+      // fetchPolicy: "network-only", // Ensures no cached results appear
+    }
+  );
+  // mutation
+  const [updateUser] = useMutation(GQL_USER_UPDATE_CURRENT, {
+    onError: (err) => {
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: () => {
+      //
+      void gqlGetCurrentUserCartDetails.refetch();
+    },
+  });
+  const [initiateOrder] = useMutation(GQL_ORDER_INITIATE, {
+    onError: (err) => {
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    onCompleted: (data) => {
+      // redirect to order page
+      const { id } = data.initiateOrder;
+      void navigate(`/order/${id}`);
+    },
+  });
+
+  /**
+   * Calculated
+   */
+  const {
+    cartAndcartDetails,
+    disabled,
+    hasError,
+    totalPrice,
+    cartDetailGroupedByShop,
+  } = processQuery(gqlGetCurrentUserCartDetails, userInfo);
 
   /**
    * Effect
@@ -173,9 +216,24 @@ export default function CartPage() {
   }
 
   function handleClickCheckoutButton() {
-    // TODO:[3] check stock again
-    // TODO:[3] show error if stock is lower than required
-    // TODO:[3] Otherwise, create an order Id and redirect
+    // check stock again
+    gqlGetCurrentUserCartDetails
+      .refetch()
+      .then((query) => {
+        const { hasError } = processQuery(query, userInfo);
+        if (!hasError) {
+          // TODO:[3]  create an order Id and redirect
+          void initiateOrder({
+            variables: {
+              items: cartAndcartDetails.cart,
+            },
+          });
+        }
+      })
+      .catch((e) => {
+        const errorMessage = getErrorMessage(e);
+        toast.error(errorMessage);
+      });
   }
 
   return (

@@ -5,6 +5,7 @@ import {
   MediaFormatEnum,
   OrderStatusEnum,
   PaymentStatusEnum,
+  ProductStatusEnum,
   ReleaseRegionEnum,
   RoleEnum,
   UserSignupMethodEnum,
@@ -81,21 +82,14 @@ export interface ProductEntity extends Entity {
   grading: GradingEnum;
   format: MediaFormatEnum;
   year: number;
-}
-
-interface OrderDetailsEntity extends Entity {
-  product_id?: string;
-  product_name?: string;
-  sellor_id?: string;
-  sellor_name?: string;
-  price?: string;
+  status: ProductStatusEnum;
 }
 
 export interface OrderEntity extends Entity {
-  price?: string;
-  payment_status?: PaymentStatusEnum;
-  order_status?: OrderStatusEnum;
-  details: OrderDetailsEntity[];
+  items: { productId: string; quantity: number }[];
+  itemDetails?: (ProductEntity & { user: UserEntity })[];
+  userId: string;
+  status: OrderStatusEnum;
 }
 
 export interface WithdrawRequestEntity extends Entity {
