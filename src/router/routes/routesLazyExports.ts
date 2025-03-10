@@ -96,3 +96,6 @@ export const UserDeactivated = lazy(
 );
 export const UserPending = lazy(() => import("@/views/user/UserPending"));
 export const OrderPage = lazy(() => import("@/views/main/OrderPage"));
+export const OrderSuccessPage = lazy(
+  () => import("@/views/main/OrderSuccessPage")
+);

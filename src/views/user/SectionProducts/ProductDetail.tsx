@@ -62,7 +62,7 @@ export default function ProductDetail({
     register,
     handleSubmit,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isSubmitted },
     reset,
     setValue,
     control,
@@ -207,7 +207,7 @@ export default function ProductDetail({
       }));
 
       setValue("images", uploadedImages.concat(images), {
-        shouldValidate: true,
+        shouldValidate: isSubmitted,
         shouldDirty: true,
       });
     }
@@ -218,7 +218,7 @@ export default function ProductDetail({
       setValue(
         "images",
         uploadedImages.filter((item) => item.id !== removeId),
-        { shouldValidate: true, shouldDirty: true }
+        { shouldValidate: isSubmitted, shouldDirty: true }
       );
     }
   }
@@ -226,7 +226,7 @@ export default function ProductDetail({
   function handleAddGenre(tagId: string | number) {
     if (currentGenreIds.length < 3)
       setValue("genreIds", currentGenreIds.concat(tagId as string), {
-        shouldValidate: true,
+        shouldValidate: isSubmitted,
         shouldDirty: true,
       });
   }
@@ -236,7 +236,7 @@ export default function ProductDetail({
       "genreIds",
       currentGenreIds.filter((a) => a !== tagId),
       {
-        shouldValidate: true,
+        shouldValidate: isSubmitted,
         shouldDirty: true,
       }
     );

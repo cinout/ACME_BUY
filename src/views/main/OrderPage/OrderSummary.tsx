@@ -39,67 +39,75 @@ export default function OrderSummary({ orderDetails, orderId }: Props) {
   );
 
   return (
-    <div className="bg-aqua-forest-50 p-4 md:min-h-[calc(100vh-5rem)]">
+    <div className="bg-aqua-forest-50 p-4 w-full md:w-[420px] md:h-[calc(100vh-5rem)] overflow-y-auto">
       {orderDetails?.items?.map((item) => {
         const product = productDetails?.find((a) => a.id === item.productId);
 
         return (
-          <div key={item.productId} className="flex mb-4">
-            <Link
-              to={`/product/${product?.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block w-20 h-20"
-            >
-              <img
-                src={albumCoverImageSmall(product?.images?.[0]?.file)}
-                alt={product?.name}
-                className="w-20 h-20 object-contain"
-              />
-            </Link>
-            <div className="flex-1 flex flex-col ml-2">
-              {/* Name */}
+          <div className="mb-4" key={item.productId}>
+            <div className="flex">
               <Link
                 to={`/product/${product?.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline"
+                className="inline-block w-20 h-20"
               >
-                <span className="text-sm font-arsenal-spaced-1">
-                  {product?.name}
-                </span>
+                <img
+                  src={albumCoverImageSmall(product?.images?.[0]?.file)}
+                  alt={product?.name}
+                  className="w-20 h-20 object-contain"
+                />
               </Link>
+              <div className="flex-1 flex flex-col ml-2">
+                {/* Name */}
+                <Link
+                  to={`/product/${product?.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  <span className="text-sm font-arsenal-spaced-1">
+                    {product?.name}
+                  </span>
+                </Link>
 
-              {/* Artist */}
-              <span className="text-xs font-lato text-aqua-forest-500">
-                {product?.artist}
-              </span>
+                {/* Artist */}
+                <span className="text-xs font-lato text-aqua-forest-500">
+                  {product?.artist}
+                </span>
 
-              {/* Price */}
-              <div className="mt-2 flex gap-x-2 items-center font-lato text-sm">
-                <span className="">
-                  $
-                  {product &&
-                    calculateDiscountedPriceAndReturnString(
-                      product?.price,
-                      product?.discount
-                    )}
-                </span>
-                <span>&times;</span>
-                <span>{item.quantity}</span>
-                <span>=</span>
-                <span>
-                  $
-                  {product &&
-                    (
-                      calculateDiscountedPriceAndReturnNumber(
-                        product.price,
-                        product.discount
-                      ) * item.quantity
-                    ).toFixed(2)}
-                </span>
+                {/* Price */}
+                <div className="mt-2 flex gap-x-2 items-center font-lato text-sm">
+                  <span className="">
+                    $
+                    {product &&
+                      calculateDiscountedPriceAndReturnString(
+                        product?.price,
+                        product?.discount
+                      )}
+                  </span>
+                  <span>&times;</span>
+                  <span>{item.quantity}</span>
+                  <span>=</span>
+                  <span>
+                    $
+                    {product &&
+                      (
+                        calculateDiscountedPriceAndReturnNumber(
+                          product.price,
+                          product.discount
+                        ) * item.quantity
+                      ).toFixed(2)}
+                  </span>
+                </div>
               </div>
             </div>
+            {!product ||
+              (item.quantity > product?.stock && (
+                <div className="text-sm text-rose-600 font-lato">
+                  This product&apos;s stock has been reduced!
+                </div>
+              ))}
           </div>
         );
       })}

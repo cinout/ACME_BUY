@@ -58,7 +58,7 @@ export default function GenreDialog({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isSubmitted },
     reset,
     clearErrors,
   } = useForm<FormNewGenreProps>({
@@ -140,7 +140,7 @@ export default function GenreDialog({
       setValue(
         "image",
         { file, name: file.name },
-        { shouldValidate: true, shouldDirty: true }
+        { shouldValidate: isSubmitted, shouldDirty: true }
       );
     }
   }

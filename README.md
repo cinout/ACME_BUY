@@ -70,7 +70,16 @@
   - If stock is reduced and user required quantity exceeds the current stock, a warning is shown under both the product and the checkout button, to prevent further action.
   - The stock is checked another time when click on Checkout button in case the stock is changed during the process
 - payment/order/checkout page:
-  -
+  - All form fields are validated, especially, the card inputs are cleaned and properly validated.
+  - Links in checkout page will open in a new tab, to avoid interrupting the current checkout session.
+  - Check stock levels again when (1) enter the pending order; (2) user click the pay now button. If stock is now lower than required quantity, show warning to ask user to adjust quantity.
+  - Use a protected route: Ensure only authenticated users can access it. Redirect unauthenticated users to login page
+  - verify that orderId belongs to userId on the server. If not, redirect to unauthorized page
+  - if the order is not pending (meaning it has been processed already), redirect to user's order history page
+  - Remove items from the cart after payment is completed.
+  - Reduce the stock of order items after payment is completed.
+- orderSuccess page:
+  - same security checks as above
 
 ## User Roles, User Authentication, and Routes Protection
 

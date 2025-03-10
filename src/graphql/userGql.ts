@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const GQL_FRAGMENT_USER_DETAILS = gql`
+export const GQL_FRAGMENT_USER_DETAILS = gql`
   fragment UserDetails on User {
     id
     firstname

@@ -3,6 +3,7 @@ import Router from "@/router/Router.tsx";
 import { publicRoutes } from "./router/routes/publicRoutes.tsx";
 import {
   getOrderRoute,
+  getOrderSuccessRoute,
   getPrivateAdminRoutes,
   getPrivateUserRoutes,
 } from "./router/routes/privateRoutes.tsx";
@@ -25,6 +26,7 @@ export default function App() {
         getPrivateAdminRoutes,
         getPrivateUserRoutes,
         getOrderRoute,
+        getOrderSuccessRoute,
       ]}
     />
   );

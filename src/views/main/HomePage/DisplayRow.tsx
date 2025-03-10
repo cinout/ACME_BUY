@@ -66,7 +66,7 @@ export default function DisplayRow({ data, count, title, goto }: Props) {
         >
           <div className="z-10">See all</div>
           <div className="z-10">{iconGoRightWithoutCircle()}</div>
-          <div className="absolute top-0 left-0 h-full w-0 group-hover:w-full group-hover:bg-sky-600 transition-all duration-300" />
+          <div className="absolute top-0 left-0 h-full w-0 group-hover:w-full group-hover:bg-sky-800 transition-all duration-300" />
         </div>
       </Link>
 

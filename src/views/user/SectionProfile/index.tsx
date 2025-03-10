@@ -62,7 +62,7 @@ export default function SectionProfile() {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isSubmitted },
     reset,
     setValue,
     clearErrors,
@@ -137,7 +137,7 @@ export default function SectionProfile() {
       setValue(
         "image",
         { file, name: file.name },
-        { shouldValidate: true, shouldDirty: true }
+        { shouldValidate: isSubmitted, shouldDirty: true }
       );
     }
   }

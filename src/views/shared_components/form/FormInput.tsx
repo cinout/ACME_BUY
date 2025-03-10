@@ -24,6 +24,17 @@ interface FormInputProps {
   step?: number;
   disabled?: boolean;
   currentValue?: string | number;
+  inputMode?:
+    | "text"
+    | "none"
+    | "search"
+    | "email"
+    | "tel"
+    | "url"
+    | "numeric"
+    | "decimal"
+    | undefined;
+  pattern?: string;
 }
 
 export default function FormInput({
@@ -44,6 +55,8 @@ export default function FormInput({
   step = 1,
   disabled = false,
   currentValue,
+  inputMode = "none",
+  pattern = undefined,
 }: FormInputProps) {
   return (
     <div className={`${additionalStyleWrapper}`}>
@@ -71,6 +84,8 @@ export default function FormInput({
               max={max}
               step={step}
               disabled={disabled}
+              inputMode={inputMode}
+              pattern={pattern}
             />
 
             {error && (

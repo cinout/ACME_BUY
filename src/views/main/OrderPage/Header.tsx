@@ -17,15 +17,15 @@ export default function Header() {
         target="_blank"
         rel="noopener noreferrer"
         className="text-[2rem]"
-        data-tooltip-id={`tooltip-checkout`}
+        data-tooltip-id={`tooltip-cart`}
       >
         {iconShoppingCart()}
       </Link>
 
       <Tooltip
-        id={"tooltip-checkout"}
+        id={"tooltip-cart"}
         place="left"
-        content={"Go back to checkout"}
+        content={"Go back to shopping cart"}
         style={{
           borderRadius: "6px",
           backgroundColor: "#277453",

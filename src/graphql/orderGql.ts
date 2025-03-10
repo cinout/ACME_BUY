@@ -1,4 +1,6 @@
 import { gql } from "@apollo/client";
+import { GQL_FRAGMENT_PRODUCT_DETAILS } from "./productGql";
+import { GQL_FRAGMENT_USER_DETAILS } from "./userGql";
 
 const GQL_FRAGMENT_ORDER_DETAILS = gql`
   fragment OrderDetails on Order {
@@ -6,6 +8,15 @@ const GQL_FRAGMENT_ORDER_DETAILS = gql`
     items # including id, quantity and so on
     userId
     status
+    shippingCountry
+    shippingState
+    shippingCity
+    shippingPostCode
+    shippingAddress
+    contactFirstname
+    contactLastname
+    contactPhone
+    contactEmail
   }
 `;
 
@@ -43,6 +54,29 @@ export const GQL_ORDER_INITIATE = gql`
     initiateOrder(items: $items) {
       id
       items
+    }
+  }
+`;
+export const GQL_UPDATE_ORDER = gql`
+  mutation updateOrder($id: ID!, $input: UpdateOrdertInput!) {
+    updateOrder(id: $id, input: $input) {
+      ...OrderDetails
+    }
+  }
+  ${GQL_FRAGMENT_ORDER_DETAILS}
+`;
+
+export const GQL_ON_ORDER_COMPLETED = gql`
+  mutation onOrderCompleted($id: ID!) {
+    onOrderCompleted(id: $id) {
+      products {
+        id
+        stock
+      }
+      user {
+        id
+        cart
+      }
     }
   }
 `;

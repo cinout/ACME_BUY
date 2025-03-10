@@ -147,9 +147,12 @@ export default function ShopPage() {
                 </Link>
               )}
 
-              <span className="font-arsenal-spaced-1 text-aqua-forest-800">
+              <Link
+                className="font-arsenal-spaced-1 text-aqua-forest-800 hover:underline"
+                to={`/product/${product.id}`}
+              >
                 {product.name}
-              </span>
+              </Link>
 
               <span className="font-lato text-aqua-forest-500 text-sm">
                 {product.artist}
@@ -161,6 +164,12 @@ export default function ShopPage() {
                   product.discount
                 )}
               </span>
+
+              {product.stock === 0 && (
+                <span className="text-rose-700 font-arsenal-spaced-1 text-sm bg-rose-100">
+                  Out of stock!
+                </span>
+              )}
             </div>
           ))}
         </div>

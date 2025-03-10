@@ -14,7 +14,7 @@ import {
   FaHeart,
 } from "react-icons/fa";
 import { FaPeopleGroup, FaLocationDot, FaXTwitter } from "react-icons/fa6";
-import { GoArrowRight } from "react-icons/go";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { GiMoneyStack } from "react-icons/gi";
 
 import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi";
@@ -154,6 +154,9 @@ export const iconGoLeftWithCircle = (style?: string) => (
 );
 export const iconGoRightWithoutCircle = (style?: string) => (
   <GoArrowRight className={style} />
+);
+export const iconGoLeftWithoutCircle = (style?: string) => (
+  <GoArrowLeft className={style} />
 );
 
 /**

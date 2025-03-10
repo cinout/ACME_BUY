@@ -2,7 +2,7 @@ import { privateAdminRoutes } from "./privateAdminRoutes.tsx";
 import { privateUserRoutes } from "./privateUserRoutes.tsx";
 import { RouteObject } from "react-router-dom";
 import ProtectPrivateRoute from "./ProtectPrivateRoute.tsx";
-import { Main, OrderPage } from "./routesLazyExports.ts";
+import { Main, OrderPage, OrderSuccessPage } from "./routesLazyExports.ts";
 
 export const getPrivateAdminRoutes: RouteObject = {
   path: "/admin",
@@ -30,5 +30,7 @@ export const getOrderRoute = {
   path: "/order/:orderId",
   element: <OrderPage />,
 };
-
-// TODO: what to do for customers?
+export const getOrderSuccessRoute = {
+  path: "/orderSuccess/:orderId",
+  element: <OrderSuccessPage />,
+};
