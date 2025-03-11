@@ -81,6 +81,7 @@
   - Reduce the stock of order items after payment is completed.
 - orderSuccess page:
   - same security checks as above
+- Collection page's filters are open by default on large screen, closed by default on small screen
 
 ## User Roles, User Authentication, and Routes Protection
 

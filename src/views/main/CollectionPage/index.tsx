@@ -110,7 +110,7 @@ export default function CollectionPage() {
 
       <div className="flex">
         {/* Left: Filters (Large Screen) */}
-        <div className="hidden sm:block w-[11rem] font-arsenal-spaced-1 text-aqua-forest-700">
+        <div className="hidden sm:block   w-[11rem] font-arsenal-spaced-1 text-aqua-forest-700">
           <FilterSection
             filterOptions={filterOptions}
             filtersWithOptions={filtersWithOptions}
@@ -118,7 +118,7 @@ export default function CollectionPage() {
         </div>
 
         {/* Right: Sorting + Content */}
-        <div className="flex-1">
+        <div className="flex-1 ">
           {/* Sort by */}
           <div
             className={`${styleContentPadding} flex items-center gap-x-2 font-lato mb-4`}
