@@ -1,6 +1,6 @@
 import logo from "@/assets/images/company_logo.png";
 import logoCircleOnly from "@/assets/images/company_logo_circleonly.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import { GenreEntity } from "@/utils/entities";
@@ -16,7 +16,8 @@ import {
 } from "@/utils/enums";
 import { iconSearchMagnifier, iconShoppingCart } from "@/utils/icons";
 import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHookQueryParams } from "@/customHooks/useHookQueryParams";
 
 interface Props {
   isScrollUp: boolean;
@@ -24,10 +25,31 @@ interface Props {
 
 const cssMenu = `block w-8 h-[0.12rem] bg-aqua-forest-600 transition duration-300`;
 
-{
-  /* TODO:[2] implement search function */
-}
 function SearchBar() {
+  /**
+   * GQL
+   */
+  // Genre
+  const gqlGenresGetAll = useQuery(GQL_GENRES_GET_ALL);
+  const allGenres = gqlGenresGetAll.data?.getAllGenres as GenreEntity[];
+
+  /**
+   * Routing
+   */
+  const navigate = useNavigate();
+
+  /**
+   * Hook
+   */
+  const { currentQuery } = useHookQueryParams(allGenres);
+
+  const [value, setValue] = useState(currentQuery || "");
+
+  // when query in url is changed (either caused by user input or clicking on navigation bar items), update the search value
+  useEffect(() => {
+    setValue(currentQuery || "");
+  }, [currentQuery]);
+
   return (
     <>
       <input
@@ -37,15 +59,24 @@ function SearchBar() {
         className={
           "h-8 w-48 tn:w-56 sm:w-64 bg-aqua-forest-50 border-aqua-forest-600 border-2 box-content rounded-md px-4 text-aqua-forest-700 outline-none placeholder:font-light placeholder:italic"
         }
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            void navigate(`/collection?query=${encodeURIComponent(value)}`);
+          }
+        }}
       />
-      <button className="cursor-pointer text-2xl text-aqua-forest-700 hover:scale-110 transition">
-        {iconSearchMagnifier()}
-      </button>
+      <Link
+        className="cursor-pointer text-2xl text-aqua-forest-700  rounded-full p-2 hover:bg-aqua-forest-100 group  transition-all duration-300"
+        to={`/collection?query=${encodeURIComponent(value)}`}
+      >
+        {iconSearchMagnifier("group-hover:scale-110 transition duration-300")}
+      </Link>
     </>
   );
 }
 
-// TODO:[2] show current steps (Home > Genre > Rock)
 export default function NavigationPanel({ isScrollUp }: Props) {
   /**
    * State
@@ -222,8 +253,6 @@ export default function NavigationPanel({ isScrollUp }: Props) {
         </div>
 
         {/* Second Row  */}
-        {/* TODO:[3] implement each page */}
-        {/* TODO:[1] hide when scroll up, show again when scroll down */}
 
         <AnimatePresence>
           {!isScrollUp && (

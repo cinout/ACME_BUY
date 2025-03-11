@@ -3,37 +3,21 @@ import { GenreEntity, ProductEntity } from "@/utils/entities";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge, capFirstLetter } from "@/utils/strings";
 import { useQuery } from "@apollo/client";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FilterSection from "./FilterSection";
 import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
-import {
-  GradingEnum,
-  MediaFormatEnum,
-  ReleaseRegionEnum,
-  ReleaseYearRangeEnum,
-} from "@/utils/enums";
 import { iconCrossClose } from "@/utils/icons";
 import Pagination from "@/views/shared_components/Pagination";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
+import { useEffect, useRef } from "react";
+import {
+  sortingOptions,
+  useHookQueryParams,
+} from "@/customHooks/useHookQueryParams";
 
 const styleContentPadding = "px-2 sm:px-4 lg:px-8";
 const cssPlaceholderContainer = "w-full aspect-square bg-aqua-forest-50";
-const sortingOptions = [
-  // default
-  { id: "featured", displayValue: "Featured" },
-  // recently added
-  { id: "added-desc", displayValue: "Added, new to old" },
-  { id: "added-asc", displayValue: "Added, old to new" },
-  // release year
-  { id: "year-desc", displayValue: "Release Year, new to old" },
-  { id: "year-asc", displayValue: "Release Year, old to new" },
-  // price
-  { id: "price-desc", displayValue: "Price, high to low" },
-  { id: "price-asc", displayValue: "Price, low to high" },
-  // title of the album
-  { id: "name-desc", displayValue: "Name, Z to A" },
-  { id: "name-asc", displayValue: "Name, A to Z" },
-];
+
 const ITEMS_PER_PAGE = 40;
 
 export default function CollectionPage() {
@@ -43,117 +27,17 @@ export default function CollectionPage() {
   // Genre
   const gqlGenresGetAll = useQuery(GQL_GENRES_GET_ALL);
   const allGenres = gqlGenresGetAll.data?.getAllGenres as GenreEntity[];
-  // Create a shallow copy and sort the copy
-  const sortedGenres =
-    allGenres && allGenres.length > 0
-      ? allGenres.slice().sort((a, b) => a.name.localeCompare(b.name))
-      : [];
 
-  /**
-   * Calculated Values
-   */
-  const filtersWithOptions: {
-    title: "genre" | "format" | "year" | "grading" | "region";
-    options: {
-      id: string;
-      displayValue: string;
-    }[];
-  }[] = [
-    {
-      title: "genre",
-      options: sortedGenres?.map((a) => ({
-        id: a.id,
-        displayValue: a.name,
-      })),
-    },
-    {
-      title: "format",
-      options: Object.values(MediaFormatEnum).map((a) => ({
-        id: a,
-        displayValue: a,
-      })),
-    },
-    {
-      title: "year",
-      options: Object.values(ReleaseYearRangeEnum).map((a) => ({
-        id: a,
-        displayValue: a,
-      })),
-    },
-    {
-      title: "grading",
-      options: Object.values(GradingEnum).map((a) => ({
-        id: a,
-        displayValue: a,
-      })),
-    },
-    {
-      title: "region",
-      options: Object.values(ReleaseRegionEnum).map((a) => ({
-        id: a,
-        displayValue: a,
-      })),
-    },
-  ];
-  const genreOptions = filtersWithOptions.find(
-    (a) => a.title === "genre"
-  )?.options;
-
-  /**
-   * Routing
-   */
-  const [searchParams, setSearchParams] = useSearchParams();
-  const genreInUrl = searchParams.get("genre");
-  const formatInUrl = searchParams.get("format");
-  const yearInUrl = searchParams.get("year");
-  const gradingInUrl = searchParams.get("grading");
-  const regionInUrl = searchParams.get("region");
-  const sortingInUrl = searchParams.get("sorting");
-  const pageInUrl = Number(searchParams.get("page"));
-
-  // handle invalid url param values
-  const finalGenre =
-    genreOptions &&
-    genreInUrl &&
-    genreOptions?.map((a) => a.displayValue).includes(genreInUrl)
-      ? genreInUrl
-      : null;
-  const finalFormat =
-    formatInUrl &&
-    Object.values(MediaFormatEnum).includes(formatInUrl as MediaFormatEnum)
-      ? formatInUrl
-      : null;
-  const finalYear =
-    yearInUrl &&
-    Object.values(ReleaseYearRangeEnum).includes(
-      yearInUrl as ReleaseYearRangeEnum
-    )
-      ? yearInUrl
-      : null;
-  const finalGrading =
-    gradingInUrl &&
-    Object.values(GradingEnum).includes(gradingInUrl as GradingEnum)
-      ? gradingInUrl
-      : null;
-  const finalRegion =
-    regionInUrl &&
-    Object.values(ReleaseRegionEnum).includes(regionInUrl as ReleaseRegionEnum)
-      ? regionInUrl
-      : null;
-  const finalSorting =
-    sortingInUrl && sortingOptions.map((a) => a.id).includes(sortingInUrl)
-      ? sortingInUrl
-      : "featured";
-  const currentPage =
-    Number.isInteger(pageInUrl) && pageInUrl > 0 ? pageInUrl : 1;
-
-  const filterOptions = {
-    genre: finalGenre,
-    format: finalFormat,
-    year: finalYear,
-    grading: finalGrading,
-    region: finalRegion,
-  };
+  const {
+    filterOptions,
+    searchParams,
+    setSearchParams,
+    currentPage,
+    currentQuery,
+    finalSorting,
+    genreOptions,
+    filtersWithOptions,
+  } = useHookQueryParams(allGenres);
 
   /**
    * GQL [2]
@@ -169,6 +53,7 @@ export default function CollectionPage() {
         genre:
           filterOptions.genre &&
           genreOptions?.find((a) => a.displayValue === filterOptions.genre)?.id,
+        query: currentQuery,
       },
     },
     skip: !allGenres,
@@ -182,6 +67,31 @@ export default function CollectionPage() {
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   /**
+   * Effect:
+   * if filter value changes, set page to 1
+   * */
+  // In STRICT MODE, this may have error
+  const hasMounted = useRef(false);
+  useEffect(() => {
+    if (!hasMounted.current) {
+      // First time: skip
+      hasMounted.current = true;
+      return;
+    }
+
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("page", "1");
+    setSearchParams(newParams);
+  }, [
+    filterOptions.genre,
+    filterOptions.format,
+    filterOptions.year,
+    filterOptions.grading,
+    filterOptions.region,
+    currentQuery,
+  ]);
+
+  /**
    * Hooks
    */
   const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
@@ -190,14 +100,16 @@ export default function CollectionPage() {
 
   return (
     <>
+      {/* Filters: Small Screen */}
       <div className="block sm:hidden font-arsenal-spaced-1 text-aqua-forest-700 mb-6">
         <FilterSection
           filterOptions={filterOptions}
           filtersWithOptions={filtersWithOptions}
         />
       </div>
+
       <div className="flex">
-        {/* Left: Filters */}
+        {/* Left: Filters (Large Screen) */}
         <div className="hidden sm:block w-[11rem] font-arsenal-spaced-1 text-aqua-forest-700">
           <FilterSection
             filterOptions={filterOptions}
@@ -259,61 +171,73 @@ export default function CollectionPage() {
           </div>
 
           {/* Contents */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 text-center">
-            {currentPageProducts?.map((product) => (
-              <div
-                key={product.id}
-                className={`w-full py-3 flex flex-col items-center ${styleContentPadding}`}
-              >
-                {imageGridOnLoad.get(product.id) ? (
-                  <div className={cssPlaceholderContainer} />
-                ) : (
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="w-full max-w-96 aspect-square"
-                  >
-                    <img
-                      src={albumCoverImageLarge(product.images[0]?.file)}
-                      alt={product.name}
-                      className="w-full max-w-96 aspect-square object-contain hover:scale-[102%] transition duration-300"
-                      ref={(node) => {
-                        const map = getImageRefMap();
-                        map.set(product.id, node);
-                        return () => {
-                          // called when removing
-                          map.delete(product.id);
-                        };
-                      }}
-                    />
-                  </Link>
-                )}
-
-                <Link
-                  className="font-arsenal-spaced-1 text-aqua-forest-800 hover:underline"
-                  to={`/product/${product.id}`}
-                >
-                  {product.name}
-                </Link>
-
-                <span className="font-lato text-aqua-forest-500 text-sm">
-                  {product.artist}
-                </span>
-                <span className="text-aqua-forest-700 font-arsenal-spaced-1 text-lg mt-1">
-                  $
-                  {calculateDiscountedPriceAndReturnString(
-                    product.price,
-                    product.discount
-                  )}
-                </span>
-
-                {product.stock === 0 && (
-                  <span className="text-rose-700 font-arsenal-spaced-1 text-sm bg-rose-100">
-                    Out of stock!
-                  </span>
-                )}
+          {totalCount === 0 ? (
+            <div className="flex justify-center mt-12 font-arsenal-spaced-1 text-aqua-forest-800">
+              No matching product.
+            </div>
+          ) : (
+            <>
+              <div className="my-4 text-sm font-lato italic text-sky-700 flex justify-end">
+                find {totalCount} {totalCount === 1 ? "product" : "products"}{" "}
+                ...
               </div>
-            ))}
-          </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 text-center">
+                {currentPageProducts?.map((product) => (
+                  <div
+                    key={product.id}
+                    className={`w-full py-3 flex flex-col items-center ${styleContentPadding}`}
+                  >
+                    {imageGridOnLoad.get(product.id) ? (
+                      <div className={cssPlaceholderContainer} />
+                    ) : (
+                      <Link
+                        to={`/product/${product.id}`}
+                        className="w-full max-w-96 aspect-square"
+                      >
+                        <img
+                          src={albumCoverImageLarge(product.images[0]?.file)}
+                          alt={product.name}
+                          className="w-full max-w-96 aspect-square object-contain hover:scale-[102%] transition duration-300"
+                          ref={(node) => {
+                            const map = getImageRefMap();
+                            map.set(product.id, node);
+                            return () => {
+                              // called when removing
+                              map.delete(product.id);
+                            };
+                          }}
+                        />
+                      </Link>
+                    )}
+
+                    <Link
+                      className="font-arsenal-spaced-1 text-aqua-forest-800 hover:underline"
+                      to={`/product/${product.id}`}
+                    >
+                      {product.name}
+                    </Link>
+
+                    <span className="font-lato text-aqua-forest-500 text-sm">
+                      {product.artist}
+                    </span>
+                    <span className="text-aqua-forest-700 font-arsenal-spaced-1 text-lg mt-1">
+                      $
+                      {calculateDiscountedPriceAndReturnString(
+                        product.price,
+                        product.discount
+                      )}
+                    </span>
+
+                    {product.stock === 0 && (
+                      <span className="text-rose-700 font-arsenal-spaced-1 text-sm bg-rose-100">
+                        Out of stock!
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
 
           {/* Pagination */}
           {!!totalCount && (

@@ -36,13 +36,16 @@ export default function FilterByCategory({
   return (
     <div className="flex flex-col">
       <hr className="my-1 sm:my-4" />
-      <div className="font-bold flex justify-between items-center mb-0 sm:mb-2">
+      <button
+        className="font-bold flex justify-between items-center mb-0 sm:mb-2"
+        onClick={() => setShowOptions((v) => !v)}
+      >
         <span>{capFirstLetter(title)}</span>
 
-        <button onClick={() => setShowOptions((v) => !v)}>
+        <div>
           {showOptions ? iconMinusWithoutCircle() : iconAddWithoutCircle()}
-        </button>
-      </div>
+        </div>
+      </button>
       <AnimatePresence>
         {showOptions && (
           <motion.div

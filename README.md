@@ -38,6 +38,7 @@
 - in the forms, image can be either string (read from server) or File ()
 - log out/ sign in, conflict between user status and navigate (redirects)
 - RHF's defaultValue in profile section is only initialized once, but need to be updated. Use reset({variable:watch(variable)}) to manually update it.
+- Search function
 
 ## 🦄 Unique Features
 
@@ -90,6 +91,21 @@
 - [ ] When logged in, do not show the log-in/sign-up buttons of their role. If user manually enter the route, show a message telling them they are already logged in, and offer buttons for redirect. User must first log out to log in or sign-up again.
 - [ ] When logged out, all the user authentication information, including localStorage token, cookie, and the Apollo client cache, are removed from browser.
 - [ ] Check all above points for customer role.
+
+## URL params
+
+- query
+  - On initial load, the search query will read value from url. If not available, then use empty string
+  - Users can type search value in the search bar without triggering url change.
+  - When users hit ENTER key or click on the search icon, url will gets updated, and other params (filters, page, sorting) will be removed.
+  - When query value in url gets updated (either caused by user input or clicking on navigation bar items), the value in search bar also gets updated
+- page
+  - when any filter value (see src/views/main/CollectionPage/index.tsx) is updated, page is reset to 1
+- filters (genre, format, year, grading, region)
+  - click on their option in navigation bar will clear other params in the url, and only the current filter value is present
+  - click on their option in collection page's Filters section will add the filter to the current url
+- sorting
+  - default value is "featured"
 
 ## 📋 Coming Next
 

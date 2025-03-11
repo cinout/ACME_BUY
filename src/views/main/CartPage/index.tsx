@@ -13,7 +13,6 @@ import {
   ApolloQueryResult,
   OperationVariables,
   QueryResult,
-  useLazyQuery,
   useMutation,
   useQuery,
 } from "@apollo/client";
@@ -29,7 +28,6 @@ import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { GQL_ORDER_INITIATE } from "@/graphql/orderGql";
-import { divide } from "lodash";
 
 function processQuery(
   gqlGetCurrentUserCartDetails: // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,7 +59,8 @@ function processQuery(
     0
   );
   const hasError = mergedCartDetail?.some((a) => a.quantity > a.stock);
-  const disabled = hasError || !userInfo;
+  const disabled =
+    hasError || !userInfo || cartAndcartDetails?.cart?.length === 0;
 
   return {
     cartAndcartDetails,
@@ -259,7 +258,6 @@ export default function CartPage() {
             </div>
 
             {/* Go to checkout */}
-            {/* TODO:[3] implement. Should be disabled when there is error in form */}
             <button
               // to={disabled ? "#" : ""}
               className={`flex items-center gap-x-2 h-10 px-2 text-aqua-forest-50 shadow-md transition ${
@@ -268,6 +266,7 @@ export default function CartPage() {
                   : "bg-aqua-forest-400 hover:brightness-110"
               }`}
               onClick={handleClickCheckoutButton}
+              disabled={disabled}
             >
               {iconCheckout()}
               <span>Check out</span>
@@ -285,7 +284,7 @@ export default function CartPage() {
       {/* Contents */}
       {userInfo ? (
         <div className="flex flex-col gap-y-6 mt-10">
-          {cartAndcartDetails.cart?.length === 0 ? (
+          {cartAndcartDetails?.cart?.length === 0 ? (
             <div className="text-center mt-10"> Your cart is empty.</div>
           ) : (
             Object.entries(cartDetailGroupedByShop)?.map(

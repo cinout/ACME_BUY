@@ -22,7 +22,7 @@ export default function Hero() {
             Swap it, Spin it, Love it.
           </span>
         </div>
-        <div className="text-sm md:text-base lg:text-xl max-w-[44rem] font-arsenal-spaced-1">
+        <div className="text-sm md:text-base lg:text-lg max-w-[44rem] font-lato font-light">
           Whether you are decluttering or hunting for your next favorite record,
           our marketplace connects passionate collectors for the ultimate music
           trade.
