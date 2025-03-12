@@ -2,8 +2,12 @@ import { useState } from "react";
 import { faker } from "@faker-js/faker";
 import Head from "./Head";
 import RequestTable from "./RequestTable";
-import { RoleEnum, UserSignupMethodEnum, UserStatusEnum } from "@/utils/enums";
-import { UserEntity } from "@/utils/entities";
+import {
+  RoleEnum,
+  UserEntity,
+  UserSignupMethodEnum,
+  UserStatusEnum,
+} from "@/graphql/userGql";
 
 // TODO: fetch from server
 const userRequestStats: UserEntity[] = Array.from({ length: 34 }, () => ({
@@ -25,15 +29,6 @@ const userRequestStats: UserEntity[] = Array.from({ length: 34 }, () => ({
   rating: 0,
 
   image: faker.image.avatar(),
-  // shops: Array.from(
-  //   { length: getRandomInt(0, 14) },
-  //   () =>
-  //     ({
-  //       id: faker.string.uuid(),
-  //       name: faker.company.name(),
-  //       image: faker.image.avatar(),
-  //     } as ShopEntity)
-  // ),
 }));
 
 export default function SectionUserRequests() {

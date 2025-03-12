@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/redux/hooks";
-import { RoleEnum, UserStatusEnum } from "@/utils/enums";
+import { RoleEnum, UserStatusEnum } from "@/graphql/userGql";
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { PrivateAdminRouteType } from "./privateAdminRoutes";

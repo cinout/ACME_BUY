@@ -16,3 +16,9 @@ export function getErrorMessage(err: ApolloError) {
   }
   return errorMessage;
 }
+
+export interface Entity {
+  id: string;
+  createdAt: Date;
+  updatedAt?: Date;
+}

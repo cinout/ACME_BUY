@@ -1,9 +1,9 @@
 import useHookCheckInView from "@/customHooks/useHookCheckInView";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
-import { ProductEntity } from "@/utils/entities";
+import { ProductEntity } from "@/graphql/productGql";
 import { iconGoRightWithoutCircle } from "@/utils/icons";
 import { albumCoverImageLarge, shortenMiddle } from "@/utils/strings";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {

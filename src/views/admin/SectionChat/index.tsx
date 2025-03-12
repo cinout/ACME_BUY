@@ -1,10 +1,14 @@
-import { UserEntity } from "@/utils/entities";
-import { RoleEnum, UserSignupMethodEnum, UserStatusEnum } from "@/utils/enums";
 import { faker } from "@faker-js/faker";
 import UserList from "./UserList";
 import RightMessageContainer from "./RightMessageContainer";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import {
+  RoleEnum,
+  UserEntity,
+  UserSignupMethodEnum,
+  UserStatusEnum,
+} from "@/graphql/userGql";
 
 // TODO: fetch from server
 const userStats: UserEntity[] = Array.from({ length: 34 }, () => ({

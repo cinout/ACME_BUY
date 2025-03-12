@@ -1,7 +1,9 @@
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
-import { GQL_PRODUCT_GET_BY_USER_ID } from "@/graphql/productGql";
-import { GQL_GET_USER_BY_ID } from "@/graphql/userGql";
-import { ProductEntity, UserEntity } from "@/utils/entities";
+import {
+  GQL_PRODUCT_GET_BY_USER_ID,
+  ProductEntity,
+} from "@/graphql/productGql";
+import { GQL_GET_USER_BY_ID, UserEntity } from "@/graphql/userGql";
 import { iconChat, iconEmail, iconLocation } from "@/utils/icons";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge, translateAddress } from "@/utils/strings";
@@ -16,6 +18,7 @@ const styleContentPadding = "px-2 sm:px-4 lg:px-8";
 const cssPlaceholderContainer = "w-full aspect-square bg-aqua-forest-50";
 
 // TODO:[2] add pagination if you want
+
 // TODO:[2] allow user to rate seller after purchasing product from their shop. Mahy need to have it in the orders page
 
 export default function ShopPage() {

@@ -1,8 +1,10 @@
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
-import { GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_ORDER_ID } from "@/graphql/orderGql";
+import {
+  GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_ORDER_ID,
+  OrderEntity,
+  OrderStatusEnum,
+} from "@/graphql/orderGql";
 import { useAppSelector } from "@/redux/hooks";
-import { OrderEntity } from "@/utils/entities";
-import { OrderStatusEnum } from "@/utils/enums";
 import LoadingPage from "@/views/LoadingPage";
 import { useQuery } from "@apollo/client";
 import { Link, Navigate, useParams } from "react-router-dom";

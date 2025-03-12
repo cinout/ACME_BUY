@@ -1,5 +1,5 @@
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
-import { ProductEntity } from "@/utils/entities";
+import { ProductEntity } from "@/graphql/productGql";
 import { iconTrashCan } from "@/utils/icons";
 import { albumCoverImageSmall, joinUrl } from "@/utils/strings";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
@@ -13,7 +13,6 @@ interface ProductTableProps {
 }
 
 // TODO: provide functionality of filtering products
-
 export default function ProductTable({
   productStats,
   setToDeleteItemId,

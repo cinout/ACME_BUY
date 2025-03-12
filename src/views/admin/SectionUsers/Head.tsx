@@ -1,4 +1,4 @@
-import { UserStatusEnum } from "@/utils/enums";
+import { UserStatusEnum } from "@/graphql/userGql";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import HeadSearch from "@/views/shared_components/HeadSearch";
 import HeadShowCount from "@/views/shared_components/HeadShowCount";

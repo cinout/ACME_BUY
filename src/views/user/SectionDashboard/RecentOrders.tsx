@@ -1,4 +1,5 @@
-import { OrderStatusEnum, PaymentStatusEnum } from "@/utils/enums";
+import { OrderStatusEnum } from "@/graphql/orderGql";
+import { PaymentStatusEnum } from "@/utils/enums";
 import { joinUrl } from "@/utils/strings";
 import { faker } from "@faker-js/faker";
 import { Link } from "react-router-dom";

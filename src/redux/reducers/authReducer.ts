@@ -1,5 +1,5 @@
 import api from "@/utils/api";
-import { RoleEnum, UserSignupMethodEnum } from "@/utils/enums";
+import { RoleEnum, UserSignupMethodEnum } from "@/graphql/userGql";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer";
 import { AxiosError } from "axios";

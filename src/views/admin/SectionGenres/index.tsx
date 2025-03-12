@@ -2,7 +2,7 @@ import { useState } from "react";
 import Pagination from "@/views/shared_components/Pagination";
 import Head from "./Head";
 import GenreTable from "./GenreTable";
-import { GenreEntity } from "@/utils/entities";
+import { GenreEntity } from "@/graphql/genreGql";
 import { useQuery } from "@apollo/client";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import { GQL_GENRES_GET_ALL, GQL_GENRE_DELETE } from "@/graphql/genreGql";

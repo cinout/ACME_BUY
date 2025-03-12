@@ -1,8 +1,11 @@
 import ShippingAddressForm, { checkHasError } from "./ShippingAddressForm";
 import OrderSummary from "./OrderSummary";
 import Header from "./Header";
-import { GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_ORDER_ID } from "@/graphql/orderGql";
-import { OrderEntity } from "@/utils/entities";
+import {
+  GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_ORDER_ID,
+  OrderEntity,
+  OrderStatusEnum,
+} from "@/graphql/orderGql";
 import {
   ApolloQueryResult,
   OperationVariables,
@@ -12,7 +15,6 @@ import { Navigate, useParams } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import LoadingPage from "@/views/LoadingPage";
-import { OrderStatusEnum } from "@/utils/enums";
 import { useEffect, useState } from "react";
 import { useHookPrevious } from "@/customHooks/useHookPrevious";
 

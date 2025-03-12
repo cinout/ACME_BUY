@@ -1,6 +1,27 @@
 import { gql } from "@apollo/client";
-import { GQL_FRAGMENT_PRODUCT_DETAILS } from "./productGql";
-import { GQL_FRAGMENT_USER_DETAILS } from "./userGql";
+import { ProductEntity } from "./productGql";
+import { UserEntity } from "./userGql";
+import { Entity } from ".";
+
+export enum OrderStatusEnum {
+  Pending = "Pending",
+  Paid = "Paid",
+  Shipped = "Shipped",
+  Completed = "Completed",
+  Canceled = "Canceled",
+}
+
+export interface OrderEntity extends Entity {
+  items: {
+    productId: string;
+    quantity: number;
+    priceSnapshot?: number;
+    discountSnapshot?: number;
+  }[];
+  itemDetails?: (ProductEntity & { user: UserEntity })[];
+  userId: string;
+  status: OrderStatusEnum;
+}
 
 const GQL_FRAGMENT_ORDER_DETAILS = gql`
   fragment OrderDetails on Order {

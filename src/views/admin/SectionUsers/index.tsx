@@ -4,7 +4,7 @@ import Head from "./Head";
 import UserTable from "./UserTable";
 import UserInfo from "./UserInfo";
 import { Navigate, useParams } from "react-router-dom";
-import { UserEntity } from "@/utils/entities";
+import { UserEntity, UserStatusEnum } from "@/graphql/userGql";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   GQL_USER_GET_ALL,
@@ -13,7 +13,6 @@ import {
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
-import { UserStatusEnum } from "@/utils/enums";
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 

@@ -1,10 +1,10 @@
 import circleLogo from "@/assets/images/company_logo_circleonly.png";
 import { Link } from "react-router-dom";
-import { RoleEnum } from "@/utils/enums";
 import { useAppSelector } from "@/redux/hooks";
 import { capFirstLetter } from "@/utils/strings";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { iconMenuHamburger } from "@/utils/icons";
+import { RoleEnum } from "@/graphql/userGql";
 
 interface Props {
   showSidebar: boolean;

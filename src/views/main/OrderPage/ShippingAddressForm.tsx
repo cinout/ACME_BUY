@@ -16,12 +16,15 @@ import {
   OperationVariables,
   useMutation,
 } from "@apollo/client";
-import { GQL_ON_ORDER_COMPLETED, GQL_UPDATE_ORDER } from "@/graphql/orderGql";
+import {
+  GQL_ON_ORDER_COMPLETED,
+  GQL_UPDATE_ORDER,
+  OrderEntity,
+  OrderStatusEnum,
+} from "@/graphql/orderGql";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
-import { OrderStatusEnum } from "@/utils/enums";
-import { OrderEntity } from "@/utils/entities";
 import { useNavigate } from "react-router-dom";
 
 interface FormProps {

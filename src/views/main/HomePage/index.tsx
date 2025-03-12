@@ -1,7 +1,5 @@
 import { useQuery } from "@apollo/client";
-
 import {
-  GQL_PRODUCT_GET_DISCOUNTED,
   GQL_PRODUCT_GET_LOW_PRICE,
   GQL_PRODUCT_GET_MINT,
   GQL_PRODUCT_GET_NEW_RELEASE,
@@ -9,19 +7,17 @@ import {
   GQL_PRODUCT_GET_NEWEST_CDS,
   GQL_PRODUCT_GET_NEWEST_VINYLS,
   GQL_PRODUCT_GET_OLD_RELEASE,
+  GradingEnum,
+  MediaFormatEnum,
+  ProductEntity,
+  ReleaseYearRangeEnum,
 } from "@/graphql/productGql";
-import { GenreEntity, ProductEntity } from "@/utils/entities";
 import DisplayRow from "./DisplayRow";
 
-import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
+import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import DisplayGenre from "./DisplayGenre";
 import Hero from "./Hero";
 import Testimonials from "./Testimonials";
-import {
-  GradingEnum,
-  MediaFormatEnum,
-  ReleaseYearRangeEnum,
-} from "@/utils/enums";
 
 const COUNT = 4;
 const endYear = new Date().getFullYear();

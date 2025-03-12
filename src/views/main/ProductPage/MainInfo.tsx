@@ -1,4 +1,3 @@
-import { ProductEntity } from "@/utils/entities";
 import {
   iconChat,
   iconLoveEmpty,
@@ -21,7 +20,7 @@ import { GQL_USER_UPDATE_CURRENT } from "@/graphql/userGql";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "motion/react";
-import { ProductStatusEnum } from "@/utils/enums";
+import { ProductEntity, ProductStatusEnum } from "@/graphql/productGql";
 
 const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
 const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800 font-bold";

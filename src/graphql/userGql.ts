@@ -1,4 +1,45 @@
 import { gql } from "@apollo/client";
+import { Entity } from ".";
+
+export enum RoleEnum {
+  Admin = "Admin",
+  User = "User",
+}
+
+export enum UserStatusEnum {
+  Pending = "Pending",
+  Deactivated = "Deactivated",
+  Active = "Active",
+}
+
+export enum UserSignupMethodEnum {
+  Default = "Default",
+  Google = "Google",
+  Facebook = "Facebook",
+}
+
+export interface UserEntity extends Entity {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+
+  country: string;
+  state: string; // equivalent to province / region
+  city: string;
+  zipCode: string;
+
+  status: UserStatusEnum;
+  signupMethod: UserSignupMethodEnum;
+  shopName?: string;
+  role: RoleEnum;
+
+  imageUrl?: string;
+  imageName?: string;
+  rating: number; // TODO: implement rating
+  wishList?: string[];
+  cart?: { productId: string; quantity: number }[];
+}
 
 export const GQL_FRAGMENT_USER_DETAILS = gql`
   fragment UserDetails on User {

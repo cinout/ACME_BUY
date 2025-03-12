@@ -2,22 +2,21 @@ import logo from "@/assets/images/company_logo.png";
 import logoCircleOnly from "@/assets/images/company_logo_circleonly.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
-import { GenreEntity } from "@/utils/entities";
+import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import NavBarItem from "../shared_components/NavBarItem";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { useAppSelector } from "@/redux/hooks";
+import { iconSearchMagnifier, iconShoppingCart } from "@/utils/icons";
+import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useState } from "react";
+import { useHookQueryParams } from "@/customHooks/useHookQueryParams";
 import {
   GradingEnum,
   MediaFormatEnum,
   ReleaseRegionEnum,
   ReleaseYearRangeEnum,
-  RoleEnum,
-} from "@/utils/enums";
-import { iconSearchMagnifier, iconShoppingCart } from "@/utils/icons";
-import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useState } from "react";
-import { useHookQueryParams } from "@/customHooks/useHookQueryParams";
+} from "@/graphql/productGql";
+import { RoleEnum } from "@/graphql/userGql";
 
 interface Props {
   isScrollUp: boolean;

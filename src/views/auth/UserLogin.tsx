@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
 import toast from "react-hot-toast";
 import { useState } from "react";
-import { RoleEnum } from "@/utils/enums";
 import {
   iconFacebook,
   iconGoogle,
@@ -20,6 +19,7 @@ import {
   styleLoginSubmitButton,
   styleLoginTitle,
 } from "@/utils/styles";
+import { RoleEnum } from "@/graphql/userGql";
 
 export default function UserLogin() {
   const dispatch = useAppDispatch();

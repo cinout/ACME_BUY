@@ -1,5 +1,5 @@
 import useHookCheckInView from "@/customHooks/useHookCheckInView";
-import { GenreEntity } from "@/utils/entities";
+import { GenreEntity } from "@/graphql/genreGql";
 import { Link } from "react-router-dom";
 
 const cssTextSizeWithScreen =

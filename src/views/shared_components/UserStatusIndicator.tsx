@@ -1,4 +1,4 @@
-import { UserStatusEnum } from "@/utils/enums";
+import { UserStatusEnum } from "@/graphql/userGql";
 
 interface UserStatusIndicatorProps {
   status: UserStatusEnum;

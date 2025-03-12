@@ -1,10 +1,10 @@
-import { GenreEntity } from "@/utils/entities";
+import { GenreEntity } from "@/graphql/genreGql";
 import {
   GradingEnum,
   MediaFormatEnum,
   ReleaseRegionEnum,
   ReleaseYearRangeEnum,
-} from "@/utils/enums";
+} from "@/graphql/productGql";
 import { useSearchParams } from "react-router-dom";
 
 export const sortingOptions = [

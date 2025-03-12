@@ -1,4 +1,4 @@
-import { OrderEntity } from "@/utils/entities";
+import { OrderEntity } from "@/graphql/orderGql";
 import {
   calculateDiscountedPriceAndReturnNumber,
   calculateDiscountedPriceAndReturnString,

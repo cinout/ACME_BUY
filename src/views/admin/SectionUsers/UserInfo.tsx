@@ -1,11 +1,10 @@
-import { UserEntity } from "@/utils/entities";
-import { UserStatusEnum } from "@/utils/enums";
 import { capFirstLetter } from "@/utils/strings";
 import PopupDialog from "@/views/shared_components/PopupDialog";
 import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import UserStatusIndicator from "@/views/shared_components/UserStatusIndicator";
 import { useNavigate } from "react-router-dom";
 import { Country, State } from "country-state-city";
+import { UserEntity, UserStatusEnum } from "@/graphql/userGql";
 
 interface AttributeDisplayProps {
   name: string;

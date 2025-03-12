@@ -3,8 +3,8 @@ import { useApolloClient, useMutation } from "@apollo/client";
 import {
   GQL_USER_GET_CURRENT,
   GQL_USER_UPDATE_CURRENT,
+  UserEntity,
 } from "@/graphql/userGql";
-import { UserEntity } from "@/utils/entities";
 import { useForm } from "react-hook-form";
 import FormSingleImage from "@/views/shared_components/form/FormSingleImages";
 import { imageMaxSizeMB } from "@/utils/numbers";

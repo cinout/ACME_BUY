@@ -1,4 +1,3 @@
-import { MediaFormatEnum } from "@/utils/enums";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";

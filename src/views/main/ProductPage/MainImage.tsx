@@ -1,5 +1,5 @@
 import useHookSingleImageLoading from "@/customHooks/useHookSingleImageLoading";
-import { ProductEntity } from "@/utils/entities";
+import { ProductEntity } from "@/graphql/productGql";
 import { albumCoverImageLarge } from "@/utils/strings";
 import { Dispatch, SetStateAction, useState } from "react";
 

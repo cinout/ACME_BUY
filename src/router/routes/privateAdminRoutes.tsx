@@ -8,7 +8,7 @@ import {
   AdminSectionChat,
   AdminSectionProfile,
 } from "./routesLazyExports";
-import { RoleEnum } from "@/utils/enums";
+import { RoleEnum } from "@/graphql/userGql";
 
 export type PrivateAdminRouteType = RouteObject & {
   accessRoles: RoleEnum[];

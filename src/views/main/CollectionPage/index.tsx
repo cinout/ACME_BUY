@@ -1,11 +1,13 @@
-import { GQL_PRODUCT_GET_COLLECTION } from "@/graphql/productGql";
-import { GenreEntity, ProductEntity } from "@/utils/entities";
+import {
+  GQL_PRODUCT_GET_COLLECTION,
+  ProductEntity,
+} from "@/graphql/productGql";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge, capFirstLetter } from "@/utils/strings";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import FilterSection from "./FilterSection";
-import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
+import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import { iconCrossClose } from "@/utils/icons";
 import Pagination from "@/views/shared_components/Pagination";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";

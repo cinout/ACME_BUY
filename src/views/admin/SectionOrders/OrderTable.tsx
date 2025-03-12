@@ -1,10 +1,9 @@
 import { Fragment } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link, useLocation } from "react-router-dom";
-import { OrderEntity } from "@/utils/entities";
 import { joinUrl } from "@/utils/strings";
 import { iconDownWithCircle } from "@/utils/icons";
-import { OrderStatusEnum } from "@/utils/enums";
+import { OrderEntity, OrderStatusEnum } from "@/graphql/orderGql";
 
 interface OrderTableProps {
   orderStats: OrderEntity[];

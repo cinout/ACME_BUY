@@ -1,4 +1,4 @@
-import { UserEntity } from "@/utils/entities";
+import { UserEntity } from "@/graphql/userGql";
 import { joinUrl } from "@/utils/strings";
 import { SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,7 @@
-import { ProductEntity } from "@/utils/entities";
-import { translateYearToYearRangeEnum } from "@/utils/enums";
+import {
+  ProductEntity,
+  translateYearToYearRangeEnum,
+} from "@/graphql/productGql";
 import { capFirstLetter } from "@/utils/strings";
 import { useState } from "react";
 import { Link } from "react-router-dom";

@@ -1,6 +1,5 @@
-import { GQL_USER_GET_CURRENT } from "@/graphql/userGql";
+import { GQL_USER_GET_CURRENT, UserEntity } from "@/graphql/userGql";
 import { useAppSelector } from "@/redux/hooks";
-import { UserEntity } from "@/utils/entities";
 import { useQuery } from "@apollo/client";
 
 // return user info based on role

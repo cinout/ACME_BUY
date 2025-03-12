@@ -1,4 +1,4 @@
-import { UserEntity } from "@/utils/entities";
+import { UserEntity } from "@/graphql/userGql";
 import { useEffect, useState } from "react";
 import { FixedSizeList } from "react-window";
 
@@ -27,6 +27,7 @@ export default function RequestTable({ userRequestStats }: RequestTableProps) {
     };
 
     updateItemSize(); // Initial call
+
     window.addEventListener("resize", updateItemSize); // Listen to window resize
     return () => window.removeEventListener("resize", updateItemSize); // Cleanup
   }, []);

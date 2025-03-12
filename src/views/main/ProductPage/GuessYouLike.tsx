@@ -1,6 +1,5 @@
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
-import { GQL_PRODUCT_GET_SIMILAR } from "@/graphql/productGql";
-import { ProductEntity } from "@/utils/entities";
+import { GQL_PRODUCT_GET_SIMILAR, ProductEntity } from "@/graphql/productGql";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge } from "@/utils/strings";
 import { useQuery } from "@apollo/client";

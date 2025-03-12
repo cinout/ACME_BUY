@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import LoadingPage from "./LoadingPage";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
-import { RoleEnum } from "@/utils/enums";
+import { RoleEnum } from "@/graphql/userGql";
 
 function Content() {
   const [showSidebar, setShowSidebar] = useState(false);

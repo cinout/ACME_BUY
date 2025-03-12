@@ -1,5 +1,8 @@
-import { GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID } from "@/graphql/productGql";
-import { ProductEntity } from "@/utils/entities";
+import {
+  GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID,
+  ProductEntity,
+} from "@/graphql/productGql";
+
 import FullScreenImage from "@/views/shared_components/FullScreenImage";
 import { useQuery } from "@apollo/client";
 import { Dialog } from "@headlessui/react";

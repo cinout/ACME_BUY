@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { faker } from "@faker-js/faker";
-import { OrderStatusEnum, PaymentStatusEnum } from "@/utils/enums";
+import { PaymentStatusEnum } from "@/utils/enums";
 import Pagination from "@/views/shared_components/Pagination";
 import Head from "./Head";
 import OrderTable from "./OrderTable";
-import { OrderEntity } from "@/utils/entities";
 import { useParams } from "react-router-dom";
 import OrderDetails from "./OrderDetails";
+import { OrderEntity, OrderStatusEnum } from "@/graphql/orderGql";
 
 // TODO: can also add images and things later
 

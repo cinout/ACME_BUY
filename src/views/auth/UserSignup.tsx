@@ -11,7 +11,6 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import LoadingIndicator from "../shared_components/LoadingIndicator";
 import { FormUserSignupProps, userSignup } from "@/redux/reducers/authReducer";
-import { RoleEnum, UserSignupMethodEnum } from "@/utils/enums";
 import toast from "react-hot-toast";
 import {
   styleFormErrorMessage,
@@ -25,6 +24,7 @@ import {
   iconGoogle,
   iconGoRightWithoutCircle,
 } from "@/utils/icons";
+import { RoleEnum, UserSignupMethodEnum } from "@/graphql/userGql";
 
 export default function UserSignup() {
   const dispatch = useAppDispatch();

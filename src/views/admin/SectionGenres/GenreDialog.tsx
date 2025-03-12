@@ -19,7 +19,7 @@ import {
   GQL_GENRE_UPDATE,
 } from "@/graphql/genreGql";
 import { getErrorMessage } from "@/graphql";
-import { GenreEntity } from "@/utils/entities";
+import { GenreEntity } from "@/graphql/genreGql";
 
 interface GenreDialogProps {
   isOpen: boolean;

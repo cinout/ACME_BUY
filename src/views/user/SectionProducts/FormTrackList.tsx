@@ -1,4 +1,4 @@
-import { FormProductProps } from "@/utils/entities";
+import { FormProductProps } from "@/graphql/productGql";
 import { iconAddWithCircle, iconTrashCan } from "@/utils/icons";
 import { styleFormLabel, styleFormTypeArea } from "@/utils/styles";
 import { useState } from "react";

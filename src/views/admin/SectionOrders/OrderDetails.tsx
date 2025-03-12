@@ -1,4 +1,4 @@
-import { OrderEntity } from "@/utils/entities";
+import { OrderEntity } from "@/graphql/orderGql";
 import PopupDialog from "@/views/shared_components/PopupDialog";
 import { useNavigate } from "react-router-dom";
 

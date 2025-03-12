@@ -16,19 +16,22 @@ import { useForm } from "react-hook-form";
 import { v7 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { styleCancelButton, styleSubmitButton } from "@/utils/styles";
-import { FormProductProps, GenreEntity, ProductEntity } from "@/utils/entities";
 import { useMutation, useQuery } from "@apollo/client";
-import { GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
+import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import {
+  FormProductProps,
   GQL_PRODUCT_CREATE,
   GQL_PRODUCT_GET_ALL_BY_USER,
   GQL_PRODUCT_UPDATE,
+  GradingEnum,
+  MediaFormatEnum,
+  ProductEntity,
+  ReleaseRegionEnum,
 } from "@/graphql/productGql";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
-import { GradingEnum, MediaFormatEnum, ReleaseRegionEnum } from "@/utils/enums";
 import { iconGoLeftWithCircle } from "@/utils/icons";
 import FormMultiSelect from "@/views/shared_components/form/FormMultiSelect";
 import FormTrackList from "@/views/user/SectionProducts/FormTrackList";

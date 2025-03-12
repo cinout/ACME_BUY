@@ -1,8 +1,8 @@
 import {
   GQL_GET_CURRENT_USER_CART_DETAILS,
   GQL_USER_UPDATE_CURRENT,
+  UserEntity,
 } from "@/graphql/userGql";
-import { ProductEntity, UserEntity } from "@/utils/entities";
 import {
   iconCheckout,
   iconMinusSimple,
@@ -28,6 +28,7 @@ import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { GQL_ORDER_INITIATE } from "@/graphql/orderGql";
+import { ProductEntity } from "@/graphql/productGql";
 
 function processQuery(
   gqlGetCurrentUserCartDetails: // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,4 +1,3 @@
-import { RoleEnum, UserStatusEnum } from "@/utils/enums";
 import { JSX } from "react";
 
 import {
@@ -11,9 +10,9 @@ import {
   iconProfile,
   iconUsers,
   iconSupportTeam,
-  iconLoveFilled,
   iconLoveEmpty,
 } from "@/utils/icons";
+import { RoleEnum, UserStatusEnum } from "@/graphql/userGql";
 
 export interface NavOptionsProps {
   name: string;

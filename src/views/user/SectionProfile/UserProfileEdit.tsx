@@ -1,4 +1,3 @@
-import { UserStatusEnum } from "@/utils/enums";
 import {
   VALID_NAME_GENERAL,
   VALID_NAME_GENERAL_ERROR_MSG,
@@ -19,6 +18,7 @@ import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import { useEffect } from "react";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { useHookPrevious } from "@/customHooks/useHookPrevious";
+import { UserStatusEnum } from "@/graphql/userGql";
 
 export interface UserFormInputProps {
   firstname: string;

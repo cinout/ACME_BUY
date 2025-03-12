@@ -1,10 +1,10 @@
-import { GenreEntity } from "@/utils/entities";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import { Dispatch, SetStateAction } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 import { joinUrl } from "@/utils/strings";
 import { iconEdit, iconTrashCan } from "@/utils/icons";
+import { GenreEntity } from "@/graphql/genreGql";
 
 interface GenreTableProps {
   genreStats: GenreEntity[];

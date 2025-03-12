@@ -1,7 +1,5 @@
 import { joinUrl, shortenMiddle } from "@/utils/strings";
 import { Link, useLocation } from "react-router-dom";
-import { UserEntity } from "@/utils/entities";
-import { UserStatusEnum } from "@/utils/enums";
 import UserStatusIndicator from "@/views/shared_components/UserStatusIndicator";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import {
@@ -11,6 +9,7 @@ import {
 } from "@/utils/icons";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
+import { UserEntity, UserStatusEnum } from "@/graphql/userGql";
 
 interface UserTableProps {
   userStats: UserEntity[];

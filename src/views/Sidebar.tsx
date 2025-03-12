@@ -1,7 +1,6 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
 import { navOptions, NavOptionsProps } from "@/views/allNavs";
-import { RoleEnum } from "@/utils/enums";
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -14,6 +13,7 @@ import { afterLogout } from "@/redux/reducers/authReducer";
 import { iconLogout } from "@/utils/icons";
 import groupBy from "lodash/groupBy";
 import { capFirstLetter } from "@/utils/strings";
+import { RoleEnum } from "@/graphql/userGql";
 
 function NavOption({
   item,

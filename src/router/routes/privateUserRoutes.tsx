@@ -11,7 +11,7 @@ import {
   UserSectionWishList,
   UserSectionProfile,
 } from "./routesLazyExports";
-import { RoleEnum, UserStatusEnum } from "@/utils/enums";
+import { RoleEnum, UserStatusEnum } from "@/graphql/userGql";
 
 export type PrivateUserRouteType = RouteObject & {
   accessRoles: RoleEnum[];

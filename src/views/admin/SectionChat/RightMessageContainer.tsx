@@ -1,8 +1,8 @@
-import { UserEntity } from "@/utils/entities";
 import { faker } from "@faker-js/faker";
 import { Fragment, SetStateAction, useEffect, useRef } from "react";
 import UserList from "./UserList";
 import { iconDownWithCircle, iconUpWithCircle } from "@/utils/icons";
+import { UserEntity } from "@/graphql/userGql";
 
 interface RightMessageContainerProps {
   userStats: UserEntity[];

@@ -3,12 +3,12 @@ import Head from "./Head";
 import { Navigate, useParams } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import ProductTable from "./ProductTable";
-import { ProductEntity } from "@/utils/entities";
 import Pagination from "@/views/shared_components/Pagination";
 import { useQuery } from "@apollo/client";
 import {
   GQL_PRODUCT_DELETE,
   GQL_PRODUCT_GET_ALL_BY_USER,
+  ProductEntity,
 } from "@/graphql/productGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";

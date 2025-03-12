@@ -1,4 +1,11 @@
 import { gql } from "@apollo/client";
+import { Entity } from ".";
+
+export interface GenreEntity extends Entity {
+  name: string;
+  imageUrl?: string;
+  imageName?: string;
+}
 
 const GQL_FRAGMENT_GENRE_DETAILS = gql`
   fragment GenreDetails on Genre {

@@ -1,7 +1,8 @@
-import { OrderStatusEnum, PaymentStatusEnum } from "@/utils/enums";
+import { PaymentStatusEnum } from "@/utils/enums";
+import { OrderStatusEnum } from "@/graphql/orderGql";
 import { joinUrl } from "@/utils/strings";
 import { faker } from "@faker-js/faker";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // TODO: fetch from backend
 const orderStats = [
