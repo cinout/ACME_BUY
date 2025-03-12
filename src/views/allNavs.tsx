@@ -18,7 +18,7 @@ export interface NavOptionsProps {
   icon: JSX.Element;
   accessRoles: string[];
   accessUserStatus?: UserStatusEnum[];
-  asRole?: "general" | "customer" | "seller";
+  asRole?: "general" | "as customer" | "as seller";
   goto: string;
 }
 
@@ -100,33 +100,6 @@ export const navOptions: NavOptionsProps[] = [
     ],
     asRole: "general",
   },
-  // As a seller
-  {
-    name: "Products",
-    icon: iconProducts(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/products",
-    accessUserStatus: [UserStatusEnum.Active],
-    asRole: "seller",
-  },
-
-  {
-    name: "Payments",
-    icon: iconPayment(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/payments",
-    accessUserStatus: [UserStatusEnum.Active],
-    asRole: "seller",
-  },
-  {
-    name: "Chat Customer",
-    icon: iconChat(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/chat-customer",
-    accessUserStatus: [UserStatusEnum.Active],
-    asRole: "seller",
-  },
-  // TODO:[3] incoming orders
 
   // As a customer
   {
@@ -135,7 +108,7 @@ export const navOptions: NavOptionsProps[] = [
     accessRoles: [RoleEnum.User],
     goto: "/user/orders",
     accessUserStatus: [UserStatusEnum.Active],
-    asRole: "customer",
+    asRole: "as customer",
   },
   {
     name: "Support",
@@ -147,7 +120,35 @@ export const navOptions: NavOptionsProps[] = [
       UserStatusEnum.Deactivated,
       UserStatusEnum.Pending,
     ],
-    asRole: "customer",
+    asRole: "as customer",
   },
   // TODO:[3] wishlist
+
+  // As a seller
+  {
+    name: "Products",
+    icon: iconProducts(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/products",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "as seller",
+  },
+
+  {
+    name: "Payments",
+    icon: iconPayment(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/payments",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "as seller",
+  },
+  {
+    name: "Chat Customer",
+    icon: iconChat(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/chat-customer",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "as seller",
+  },
+  // TODO:[3] incoming orders
 ];

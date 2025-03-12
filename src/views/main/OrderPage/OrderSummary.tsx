@@ -4,7 +4,6 @@ import {
   calculateDiscountedPriceAndReturnString,
 } from "@/utils/numbers";
 import { albumCoverImageSmall } from "@/utils/strings";
-import { divide } from "lodash";
 import { Link } from "react-router-dom";
 
 interface Props {

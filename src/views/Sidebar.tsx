@@ -7,26 +7,50 @@ import { motion, AnimatePresence } from "motion/react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useApolloClient, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
-import { UserEntity } from "@/utils/entities";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { GQL_AUTH_LOG_OUT } from "@/graphql/authGql";
 import { getErrorMessage } from "@/graphql";
 import { afterLogout } from "@/redux/reducers/authReducer";
 import { iconLogout } from "@/utils/icons";
+import groupBy from "lodash/groupBy";
+import { capFirstLetter } from "@/utils/strings";
 
-interface Props {
-  showSidebar: boolean;
-  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  menuButtonRef: React.RefObject<HTMLButtonElement | null>;
+function NavOption({
+  item,
+  setShowSidebar,
+}: {
+  item: NavOptionsProps;
+  setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  return (
+    <NavLink
+      to={item.goto}
+      className={({ isActive }) =>
+        `group block pl-5 py-2 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-0 ${
+          isActive
+            ? "bg-aqua-forest-500 text-aqua-forest-200 shadow-aqua-forest-200"
+            : "text-aqua-forest-600"
+        }`
+      }
+      onClick={() => setShowSidebar && setShowSidebar(false)}
+    >
+      <div className="duration-200 group-hover:translate-x-1 flex items-center">
+        <span className="mr-2 text-2xl">{item.icon}</span>
+        <span>{item.name}</span>
+      </div>
+    </NavLink>
+  );
 }
 
 function MenuContent({
   panelOptions,
   setShowSidebar,
+  role,
 }: {
   panelOptions: NavOptionsProps[];
   pathname: string;
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
+  role: RoleEnum | undefined;
 }) {
   /**
    * Redux
@@ -57,28 +81,35 @@ function MenuContent({
     void gqlAuthLogOut();
   }
 
+  const groupedByRole =
+    role === RoleEnum.User && groupBy(panelOptions, "asRole");
+
   return (
     <>
-      <div className="mt-8">
-        {panelOptions.map((item) => (
-          <NavLink
-            to={item.goto}
-            key={item.name}
-            className={({ isActive }) =>
-              `group block pl-5 py-3 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-0 ${
-                isActive
-                  ? "bg-aqua-forest-500 text-aqua-forest-200 shadow-aqua-forest-200"
-                  : "text-aqua-forest-600"
-              }`
-            }
-            onClick={() => setShowSidebar && setShowSidebar(false)}
-          >
-            <div className="duration-200 group-hover:translate-x-1 flex items-center">
-              <span className="mr-2 text-2xl">{item.icon}</span>
-              <span>{item.name}</span>
-            </div>
-          </NavLink>
-        ))}
+      <div className="mt-4">
+        {role === RoleEnum.User
+          ? Object.entries(groupedByRole).map(([roleName, navOptions]) => (
+              <div key={roleName}>
+                <div className="mt-2 mb-1 pl-4 font-semibold text-aqua-forest-700">
+                  {capFirstLetter(roleName)}
+                </div>
+                {(navOptions as NavOptionsProps[]).map((item) => (
+                  <NavOption
+                    key={item.name}
+                    item={item}
+                    setShowSidebar={setShowSidebar}
+                  />
+                ))}
+                {/* <hr className="bg-aqua-forest-600 text-aqua-forest-600" /> */}
+              </div>
+            ))
+          : panelOptions.map((item) => (
+              <NavOption
+                key={item.name}
+                item={item}
+                setShowSidebar={setShowSidebar}
+              />
+            ))}
       </div>
 
       {/* TODO: implement log out */}
@@ -93,11 +124,17 @@ function MenuContent({
   );
 }
 
+interface SidebarProps {
+  showSidebar: boolean;
+  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+  menuButtonRef: React.RefObject<HTMLButtonElement | null>;
+}
+
 export default function Sidebar({
   showSidebar,
   setShowSidebar,
   menuButtonRef,
-}: Props) {
+}: SidebarProps) {
   const { role } = useAppSelector((state) => state.auth);
   const userInfo = useHookGetUserInfo();
 
@@ -152,7 +189,11 @@ export default function Sidebar({
           <img src={logo} alt="company logo" className="w-[12.5rem]" />
         </Link>
 
-        <MenuContent panelOptions={panelOptions} pathname={pathname} />
+        <MenuContent
+          panelOptions={panelOptions}
+          pathname={pathname}
+          role={role}
+        />
       </div>
 
       {/* TODO: move to Header, and show it right next to the menu button, and the tl corner should be the circle curve */}
@@ -178,6 +219,7 @@ export default function Sidebar({
               panelOptions={panelOptions}
               pathname={pathname}
               setShowSidebar={setShowSidebar}
+              role={role}
             />
           </motion.div>
         )}
