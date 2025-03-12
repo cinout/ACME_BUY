@@ -100,6 +100,8 @@ export function checkHasError(order: OrderEntity) {
 interface Props {
   orderId: string | undefined;
   hasError: boolean;
+  orderDetails: OrderEntity;
+  priceChanged: string[];
   refetch: (
     variables?: Partial<OperationVariables>
   ) => Promise<
@@ -111,6 +113,8 @@ export default function ShippingAddressForm({
   orderId,
   hasError,
   refetch,
+  orderDetails,
+  priceChanged,
 }: Props) {
   /**
    *  State
@@ -189,7 +193,7 @@ export default function ShippingAddressForm({
     })
   );
 
-  // set initialValues of Form
+  // set initialValues of Form when userInfo is loaded
   useEffect(() => {
     if (userInfo) {
       reset({
@@ -204,7 +208,7 @@ export default function ShippingAddressForm({
     }
   }, [reset, userInfo]);
 
-  // countries and cities
+  // upon changes of countries and cities
   useEffect(() => {
     if (prevCountry && currentCountry !== prevCountry) {
       setValue("shippingState", "", {
@@ -232,15 +236,43 @@ export default function ShippingAddressForm({
     // TODO:[1] actually implement card payment??
 
     // check stock again (use same logic as cart page)
+    // TODO:[3] check price change before payment in order page
+
     refetch()
       .then((query) => {
+        // check if stock is reduce below required quantity
         const hasError = checkHasError(
           query.data?.getOrderAndProductDetailsByOrderId as OrderEntity
         );
 
-        if (hasError) {
+        // check if price has changed
+        const previousPrices = orderDetails.itemDetails?.map((a) => ({
+          id: a.id,
+          price: a.price,
+          discount: a.discount,
+        }));
+        const currentPrices = (
+          query.data?.getOrderAndProductDetailsByOrderId as OrderEntity
+        ).itemDetails?.map((a) => ({
+          id: a.id,
+          price: a.price,
+          discount: a.discount,
+        }));
+        const priceUpdatedProducts = [];
+        if (previousPrices && currentPrices) {
+          for (const { id, price, discount } of currentPrices) {
+            const { price: previousPrice, discount: previousDiscount } =
+              previousPrices.find((a) => a.id === id)!;
+            if (price !== previousPrice || discount !== previousDiscount) {
+              priceUpdatedProducts.push(id);
+            }
+          }
+        }
+
+        if (hasError || priceUpdatedProducts.length > 0) {
           setShowLoader(false);
         } else {
+          // if stock is not changed, update the order as Paid
           setTimeout(() => {
             void updateOrder({
               variables: {
@@ -255,7 +287,18 @@ export default function ShippingAddressForm({
                   shippingCountry: data.shippingCountry,
                   shippingPostCode: data.shippingPostCode,
                   shippingState: data.shippingState,
-                  status: OrderStatusEnum.Paid,
+                  status: OrderStatusEnum.Paid, // change to Paid
+                  items: orderDetails?.items.map((item) => {
+                    const product = orderDetails?.itemDetails?.find(
+                      (a) => a.id === item.productId
+                    );
+
+                    return {
+                      ...item,
+                      priceSnapshot: product!.price,
+                      discountSnapshot: product!.discount,
+                    };
+                  }),
                 },
               },
             });
@@ -576,7 +619,7 @@ export default function ShippingAddressForm({
           className="w-full bg-sky-800 disabled:bg-slate-400 font-bold text-white h-10 rounded-md not-disabled:hover:brightness-110 transition"
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleSubmit(onSubmit)}
-          disabled={showLoader || hasError}
+          disabled={showLoader || hasError || priceChanged.length > 0}
         >
           {showLoader ? <LoadingIndicator /> : "Pay Now"}
         </button>
@@ -584,6 +627,12 @@ export default function ShippingAddressForm({
           <div className="text-sm text-rose-600 font-lato">
             Some product&apos;s stock has been reduced. Please go back to your
             cart, adjust your required quantity, and create a new order.
+          </div>
+        )}
+        {priceChanged.length > 0 && (
+          <div className="text-sm text-rose-600 font-lato">
+            Some product&apos;s price has been updated, please leave this page
+            and create a new order.
           </div>
         )}
       </div>

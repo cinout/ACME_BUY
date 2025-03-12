@@ -137,15 +137,11 @@ export const GQL_PRODUCT_GET_SIMILAR = gql`
 export const GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID = gql`
   query getProductAndRelatedDetailsById($id: ID!) {
     getProductAndRelatedDetailsById(id: $id) {
-      id
-      name
-      artist
-      genreIds
+      ...ProductDetails
       genres {
         id
         name
       }
-      userId
       user {
         id
         shopName
@@ -155,18 +151,9 @@ export const GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID = gql`
         city
         rating
       }
-      stock
-      price
-      discount
-      images
-      description
-      year
-      format
-      grading
-      region
-      tracklist
     }
   }
+  ${GQL_FRAGMENT_PRODUCT_DETAILS}
 `;
 
 // paginated collection-level query

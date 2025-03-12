@@ -86,7 +86,12 @@ export interface ProductEntity extends Entity {
 }
 
 export interface OrderEntity extends Entity {
-  items: { productId: string; quantity: number }[];
+  items: {
+    productId: string;
+    quantity: number;
+    priceSnapshot?: number;
+    discountSnapshot?: number;
+  }[];
   itemDetails?: (ProductEntity & { user: UserEntity })[];
   userId: string;
   status: OrderStatusEnum;

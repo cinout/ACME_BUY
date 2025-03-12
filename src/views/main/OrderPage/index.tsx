@@ -14,6 +14,7 @@ import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import LoadingPage from "@/views/LoadingPage";
 import { OrderStatusEnum } from "@/utils/enums";
 import { useEffect, useState } from "react";
+import { useHookPrevious } from "@/customHooks/useHookPrevious";
 
 interface Props {
   orderId: string;
@@ -28,6 +29,32 @@ interface Props {
 function Content({ orderId, orderDetails, refetch }: Props) {
   const hasError = checkHasError(orderDetails);
 
+  // monitor price change
+  const [priceChanged, setPriceChanged] = useState<string[]>([]); // store the id of product
+  const currentPrices = orderDetails.itemDetails?.map((a) => ({
+    id: a.id,
+    price: a.price,
+    discount: a.discount,
+  }));
+  const previousPrices = useHookPrevious(currentPrices);
+  useEffect(() => {
+    const priceUpdatedProducts = [];
+
+    if (previousPrices && currentPrices) {
+      for (const { id, price, discount } of currentPrices) {
+        const { price: previousPrice, discount: previousDiscount } =
+          previousPrices.find((a) => a.id === id)!;
+        if (price !== previousPrice || discount !== previousDiscount) {
+          priceUpdatedProducts.push(id);
+        }
+      }
+    }
+
+    if (priceUpdatedProducts.length > 0) {
+      setPriceChanged(priceUpdatedProducts);
+    }
+  }, [currentPrices, previousPrices]);
+
   return (
     <div className="relative">
       <Header />
@@ -39,13 +66,19 @@ function Content({ orderId, orderDetails, refetch }: Props) {
         <div className="flex-1 p-4 md:h-[calc(100vh-5rem)] overflow-y-auto inline-flex flex-col items-center">
           <ShippingAddressForm
             orderId={orderId}
+            orderDetails={orderDetails}
             hasError={hasError}
             refetch={refetch}
+            priceChanged={priceChanged}
           />
         </div>
 
         {/* Right: order summary */}
-        <OrderSummary orderDetails={orderDetails} orderId={orderId} />
+        <OrderSummary
+          orderDetails={orderDetails}
+          orderId={orderId}
+          priceChanged={priceChanged}
+        />
       </div>
     </div>
   );

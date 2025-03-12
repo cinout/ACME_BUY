@@ -4,14 +4,20 @@ import {
   calculateDiscountedPriceAndReturnString,
 } from "@/utils/numbers";
 import { albumCoverImageSmall } from "@/utils/strings";
+import { divide } from "lodash";
 import { Link } from "react-router-dom";
 
 interface Props {
   orderDetails: OrderEntity;
   orderId: string | undefined;
+  priceChanged: string[];
 }
 
-export default function OrderSummary({ orderDetails, orderId }: Props) {
+export default function OrderSummary({
+  orderDetails,
+  orderId,
+  priceChanged,
+}: Props) {
   const productDetails = orderDetails?.itemDetails;
 
   /**
@@ -108,6 +114,11 @@ export default function OrderSummary({ orderDetails, orderId }: Props) {
                   This product&apos;s stock has been reduced!
                 </div>
               ))}
+            {priceChanged.includes(item.productId) && (
+              <div className="text-sm text-rose-600 font-lato">
+                This product&apos;s price has been updated!
+              </div>
+            )}
           </div>
         );
       })}

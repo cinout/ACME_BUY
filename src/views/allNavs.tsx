@@ -18,6 +18,7 @@ export interface NavOptionsProps {
   icon: JSX.Element;
   accessRoles: string[];
   accessUserStatus?: UserStatusEnum[];
+  asRole?: "general" | "customer" | "seller";
   goto: string;
 }
 
@@ -78,51 +79,14 @@ export const navOptions: NavOptionsProps[] = [
   /**
    * USER
    */
+  // General
   {
     name: "Dashboard",
     icon: iconDashboard(),
     accessRoles: [RoleEnum.User],
     goto: "/user/dashboard",
     accessUserStatus: [UserStatusEnum.Active],
-  },
-  {
-    name: "Products",
-    icon: iconProducts(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/products",
-    accessUserStatus: [UserStatusEnum.Active],
-  },
-  {
-    name: "Orders",
-    icon: iconDelivery(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/orders",
-    accessUserStatus: [UserStatusEnum.Active],
-  },
-  {
-    name: "Payments",
-    icon: iconPayment(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/payments",
-    accessUserStatus: [UserStatusEnum.Active],
-  },
-  {
-    name: "Chat Customer",
-    icon: iconChat(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/chat-customer",
-    accessUserStatus: [UserStatusEnum.Active],
-  },
-  {
-    name: "Support",
-    icon: iconSupportTeam(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/support",
-    accessUserStatus: [
-      UserStatusEnum.Active,
-      UserStatusEnum.Deactivated,
-      UserStatusEnum.Pending,
-    ],
+    asRole: "general",
   },
   {
     name: "Profile",
@@ -134,5 +98,56 @@ export const navOptions: NavOptionsProps[] = [
       UserStatusEnum.Deactivated,
       UserStatusEnum.Pending,
     ],
+    asRole: "general",
   },
+  // As a seller
+  {
+    name: "Products",
+    icon: iconProducts(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/products",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "seller",
+  },
+
+  {
+    name: "Payments",
+    icon: iconPayment(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/payments",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "seller",
+  },
+  {
+    name: "Chat Customer",
+    icon: iconChat(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/chat-customer",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "seller",
+  },
+  // TODO:[3] incoming orders
+
+  // As a customer
+  {
+    name: "Orders",
+    icon: iconDelivery(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/orders",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "customer",
+  },
+  {
+    name: "Support",
+    icon: iconSupportTeam(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/support",
+    accessUserStatus: [
+      UserStatusEnum.Active,
+      UserStatusEnum.Deactivated,
+      UserStatusEnum.Pending,
+    ],
+    asRole: "customer",
+  },
+  // TODO:[3] wishlist
 ];

@@ -13,7 +13,6 @@ import {
   calculateDiscountedPriceAndReturnString,
 } from "@/utils/numbers";
 import {
-  iconGoLeftWithCircle,
   iconGoLeftWithoutCircle,
   iconGoRightWithoutCircle,
 } from "@/utils/icons";
@@ -30,20 +29,16 @@ export function Content({ orderId, orderDetails }: Props) {
    * Calculated
    */
   const totalPrice = orderDetails?.items.reduce((acc, item) => {
-    const { productId, quantity } = item;
-    const product = productDetails?.find((a) => a.id === productId);
-    if (product) {
-      return (
-        acc +
-        calculateDiscountedPriceAndReturnNumber(
-          product?.price,
-          product?.discount
-        ) *
-          quantity
-      );
-    } else {
-      return 0;
-    }
+    const { quantity, priceSnapshot, discountSnapshot } = item;
+
+    return (
+      acc +
+      calculateDiscountedPriceAndReturnNumber(
+        priceSnapshot!,
+        discountSnapshot!
+      ) *
+        quantity
+    );
   }, 0);
   const totalQuantity = orderDetails?.items.reduce(
     (acc, item) => acc + item.quantity,
@@ -123,24 +118,22 @@ export function Content({ orderId, orderDetails }: Props) {
                   <div className="mt-2 flex gap-x-2 items-center font-lato text-sm">
                     <span className="">
                       $
-                      {product &&
-                        calculateDiscountedPriceAndReturnString(
-                          product?.price,
-                          product?.discount
-                        )}
+                      {calculateDiscountedPriceAndReturnString(
+                        item.priceSnapshot!,
+                        item.discountSnapshot!
+                      )}
                     </span>
                     <span>&times;</span>
                     <span>{item.quantity}</span>
                     <span>=</span>
                     <span>
                       $
-                      {product &&
-                        (
-                          calculateDiscountedPriceAndReturnNumber(
-                            product.price,
-                            product.discount
-                          ) * item.quantity
-                        ).toFixed(2)}
+                      {(
+                        calculateDiscountedPriceAndReturnNumber(
+                          item.priceSnapshot!,
+                          item.discountSnapshot!
+                        ) * item.quantity
+                      ).toFixed(2)}
                     </span>
                   </div>
                 </div>
