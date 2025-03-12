@@ -8,6 +8,7 @@ import {
   UserSectionSupport,
   UserDeactivated,
   UserPending,
+  UserSectionWishList,
   UserSectionProfile,
 } from "./routesLazyExports";
 import { RoleEnum, UserStatusEnum } from "@/utils/enums";
@@ -36,6 +37,12 @@ export const privateUserRoutes: PrivateUserRouteType[] = [
   {
     path: "/user/orders/:orderId?",
     element: <UserSectionOrders />,
+    accessRoles: [RoleEnum.User],
+    accessUserStatus: [UserStatusEnum.Active],
+  },
+  {
+    path: "/user/wishlist",
+    element: <UserSectionWishList />,
     accessRoles: [RoleEnum.User],
     accessUserStatus: [UserStatusEnum.Active],
   },

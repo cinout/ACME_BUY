@@ -11,6 +11,8 @@ import {
   iconProfile,
   iconUsers,
   iconSupportTeam,
+  iconLoveFilled,
+  iconLoveEmpty,
 } from "@/utils/icons";
 
 export interface NavOptionsProps {
@@ -100,15 +102,13 @@ export const navOptions: NavOptionsProps[] = [
     ],
     asRole: "general",
   },
-
-  // As a customer
   {
-    name: "Orders",
-    icon: iconDelivery(),
+    name: "Chat",
+    icon: iconChat(),
     accessRoles: [RoleEnum.User],
-    goto: "/user/orders",
+    goto: "/user/chat-customer",
     accessUserStatus: [UserStatusEnum.Active],
-    asRole: "as customer",
+    asRole: "general",
   },
   {
     name: "Support",
@@ -120,6 +120,25 @@ export const navOptions: NavOptionsProps[] = [
       UserStatusEnum.Deactivated,
       UserStatusEnum.Pending,
     ],
+    asRole: "general",
+  },
+
+  // As a customer
+  {
+    name: "Orders",
+    icon: iconDelivery(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/orders",
+    accessUserStatus: [UserStatusEnum.Active],
+    asRole: "as customer",
+  },
+
+  {
+    name: "Wish List",
+    icon: iconLoveEmpty(),
+    accessRoles: [RoleEnum.User],
+    goto: "/user/wishlist",
+    accessUserStatus: [UserStatusEnum.Active],
     asRole: "as customer",
   },
   // TODO:[3] wishlist
@@ -142,13 +161,6 @@ export const navOptions: NavOptionsProps[] = [
     accessUserStatus: [UserStatusEnum.Active],
     asRole: "as seller",
   },
-  {
-    name: "Chat Customer",
-    icon: iconChat(),
-    accessRoles: [RoleEnum.User],
-    goto: "/user/chat-customer",
-    accessUserStatus: [UserStatusEnum.Active],
-    asRole: "as seller",
-  },
+
   // TODO:[3] incoming orders
 ];

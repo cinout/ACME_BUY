@@ -18,15 +18,19 @@ import { capFirstLetter } from "@/utils/strings";
 function NavOption({
   item,
   setShowSidebar,
+  largeScreen,
 }: {
   item: NavOptionsProps;
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
+  largeScreen: boolean;
 }) {
   return (
     <NavLink
       to={item.goto}
       className={({ isActive }) =>
-        `group block pl-5 py-2 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-0 ${
+        `${
+          largeScreen ? "py-2" : "py-[0.4rem]"
+        } group block pl-5 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-0 ${
           isActive
             ? "bg-aqua-forest-500 text-aqua-forest-200 shadow-aqua-forest-200"
             : "text-aqua-forest-600"
@@ -46,11 +50,13 @@ function MenuContent({
   panelOptions,
   setShowSidebar,
   role,
+  largeScreen,
 }: {
   panelOptions: NavOptionsProps[];
   pathname: string;
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
   role: RoleEnum | undefined;
+  largeScreen: boolean;
 }) {
   /**
    * Redux
@@ -98,6 +104,7 @@ function MenuContent({
                     key={item.name}
                     item={item}
                     setShowSidebar={setShowSidebar}
+                    largeScreen={largeScreen}
                   />
                 ))}
                 {/* <hr className="bg-aqua-forest-600 text-aqua-forest-600" /> */}
@@ -108,6 +115,7 @@ function MenuContent({
                 key={item.name}
                 item={item}
                 setShowSidebar={setShowSidebar}
+                largeScreen={largeScreen}
               />
             ))}
       </div>
@@ -193,6 +201,7 @@ export default function Sidebar({
           panelOptions={panelOptions}
           pathname={pathname}
           role={role}
+          largeScreen={true}
         />
       </div>
 
@@ -201,7 +210,7 @@ export default function Sidebar({
       <AnimatePresence>
         {showSidebar && (
           <motion.div
-            className={`flex flex-col flex-1 xl:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[31.25rem] bg-aqua-forest-200 font-arsenal-spaced-2`}
+            className={`flex flex-col flex-1 xl:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[34rem] bg-aqua-forest-200 font-arsenal-spaced-2`}
             ref={menuRef}
             initial={{ translateY: "-0.625rem", opacity: 0 }}
             animate={{
@@ -220,6 +229,7 @@ export default function Sidebar({
               pathname={pathname}
               setShowSidebar={setShowSidebar}
               role={role}
+              largeScreen={false}
             />
           </motion.div>
         )}
