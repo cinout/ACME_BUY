@@ -12,7 +12,7 @@ import {
 // TODO: fetch from server
 const userRequestStats: UserEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
-  createdAt: faker.date.recent(),
+  createdAt: faker.date.recent().toDateString(),
 
   firstname: faker.person.firstName(),
   lastname: faker.person.lastName(),

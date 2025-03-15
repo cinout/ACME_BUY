@@ -1,3 +1,5 @@
+import { OrderEntity } from "@/graphql/orderGql";
+
 export function getRandomInt(min: number, max: number) {
   min = Math.ceil(min); // Ensure the minimum value is inclusive
   max = Math.floor(max); // Ensure the maximum value is inclusive
@@ -30,4 +32,42 @@ export function calculateDiscountedPriceAndReturnNumber(
   discount: number
 ) {
   return (price * (100 - discount)) / 100;
+}
+
+export function calculateNonPendingOrderTotalPrice(orderDetails: OrderEntity) {
+  const totalPrice = orderDetails?.items.reduce((acc, item) => {
+    const { quantity, priceSnapshot, discountSnapshot } = item;
+
+    return (
+      acc +
+      calculateDiscountedPriceAndReturnNumber(
+        priceSnapshot!,
+        discountSnapshot!
+      ) *
+        quantity
+    );
+  }, 0);
+
+  return totalPrice;
+}
+
+export function calculatePendingOrderTotalPrice(orderDetails: OrderEntity) {
+  const totalPrice = orderDetails?.items.reduce((acc, item) => {
+    const { productId, quantity } = item;
+    const product = orderDetails?.itemDetails?.find((a) => a.id === productId);
+    if (product) {
+      return (
+        acc +
+        calculateDiscountedPriceAndReturnNumber(
+          product?.price,
+          product?.discount
+        ) *
+          quantity
+      );
+    } else {
+      return 0;
+    }
+  }, 0);
+
+  return totalPrice;
 }

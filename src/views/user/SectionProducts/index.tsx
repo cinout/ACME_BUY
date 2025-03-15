@@ -13,7 +13,7 @@ import {
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";
 
-const itemsPerPageOptions = [10, 20, 30, 40];
+const itemsPerPageOptions = [20, 40];
 
 // TODO: provide filtering by discounted status
 export default function SectionProducts() {

@@ -2,49 +2,25 @@ import PopupDialog from "@/views/shared_components/PopupDialog";
 import PopupDialogButtons from "@/views/shared_components/PopupDialogButtons";
 import { Dispatch, SetStateAction, useState } from "react";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
-import toast from "react-hot-toast";
-import { DocumentNode, useMutation } from "@apollo/client";
-import { getErrorMessage } from "@/graphql";
 
-interface DeleteConfirmDialogProps {
+interface Props {
   isOpen: boolean;
   setToDeleteItemId: Dispatch<SetStateAction<string>>;
-  id: string;
   name: string;
-  deletionQuery: DocumentNode;
-  gqlType: string;
+  onClickDelete: () => void;
 }
 
-export default function DeleteConfirmDialog({
+export default function ItemRemoveConfirmationDialog({
   isOpen,
-  id,
   name,
   setToDeleteItemId,
-  deletionQuery,
-  gqlType,
-}: DeleteConfirmDialogProps) {
+  onClickDelete,
+}: Props) {
   const [showLoader, setShowLoader] = useState(false);
-
-  const [deleteQuery] = useMutation(deletionQuery, {
-    variables: { id },
-    onError: (err) => {
-      setShowLoader(false);
-      const errorMessage = getErrorMessage(err);
-      toast.error(errorMessage);
-    },
-    update: (cache) => {
-      cache.evict({ id: cache.identify({ __typename: gqlType, id }) }); // Evicts (removes) the item from Apollo's cache
-      cache.gc(); // Garbage collection to remove dangling references (e.g., if a product was removed but still listed in a cart).
-    },
-    onCompleted: () => {
-      setShowLoader(false);
-      onCloseDialog();
-    },
-  });
 
   function handleDelete() {
     setShowLoader(true);
-    void deleteQuery();
+    onClickDelete();
   }
 
   function onCloseDialog() {
@@ -59,7 +35,7 @@ export default function DeleteConfirmDialog({
       header="Deletion Confirmation"
     >
       <div>
-        Are you sure to delete {gqlType} <b>{name}</b>?
+        Are you sure to remove <b>{name}</b>?
       </div>
 
       {showLoader ? (

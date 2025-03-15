@@ -1,10 +1,11 @@
 import circleLogo from "@/assets/images/company_logo_circleonly.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { capFirstLetter } from "@/utils/strings";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { iconMenuHamburger } from "@/utils/icons";
 import { RoleEnum } from "@/graphql/userGql";
+import { navOptions } from "./allNavs";
 
 interface Props {
   showSidebar: boolean;
@@ -19,8 +20,25 @@ export default function Header({
 }: Props) {
   const { role } = useAppSelector((state) => state.auth);
   const userInfo = useHookGetUserInfo();
+  const panelOptions = navOptions.filter((a) => {
+    if (role === RoleEnum.User) {
+      return (
+        a.accessRoles.includes(RoleEnum.User) &&
+        a.accessUserStatus?.includes(userInfo!.status)
+      );
+    } else if (role === RoleEnum.Admin) {
+      return a.accessRoles.includes(RoleEnum.Admin);
+    }
+    return false;
+  });
+  const { pathname } = useLocation();
+
+  const sectionName = panelOptions.find((a) =>
+    pathname.startsWith(a.goto)
+  )?.name;
+
   return (
-    <div className="fixed top-4 left-4 right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-lg box-border h-header-height bg-aqua-forest-200 font-arsenal-spaced-1">
+    <div className="fixed top-0 md:top-4 left-0 md:left-4 right-0 md:right-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] z-40 flex items-center justify-between rounded-none md:rounded-lg box-border h-header-height bg-aqua-forest-200 font-arsenal-spaced-1">
       {/* Logo & Menu Button */}
       <div className="xl:hidden inline-flex items-center justify-center">
         <Link
@@ -47,17 +65,9 @@ export default function Header({
         </button>
       </div>
 
-      {/* Search Bar */}
-      {/* TODO: implement this? */}
-      <div className="inline-flex justify-start">
-        <input
-          placeholder="search ..."
-          name="search"
-          type="text"
-          className={
-            "h-[2.375rem] bg-sky-800 outline-none  rounded-full px-4 text-sky-100 w-40 lg:ml-10 sm:w-64"
-          }
-        />
+      {/* Section Title */}
+      <div className="w-48 sm:w-64 flex justify-center xl:justify-start xl:ml-10 font-bold text-aqua-forest-800 text-2xl">
+        {sectionName}
       </div>
 
       <div className="inline-flex justify-end items-center gap-3 mr-2 min-w-[3.25rem]">

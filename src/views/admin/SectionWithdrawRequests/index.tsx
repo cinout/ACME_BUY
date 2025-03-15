@@ -10,7 +10,7 @@ const requestStats: WithdrawRequestEntity[] = Array.from(
   { length: 100 },
   () => ({
     id: faker.string.uuid(),
-    createdAt: faker.date.recent(),
+    createdAt: faker.date.recent().toDateString(),
     amount: faker.commerce.price(),
     status: WithdrawStatusEnum.Pending,
     date: faker.date.recent(),

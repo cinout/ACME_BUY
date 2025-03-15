@@ -77,7 +77,7 @@ export default function RequestTable({ userRequestStats }: RequestTableProps) {
               </div>
 
               {/* Date */}
-              <span>{user?.createdAt.toDateString()}</span>
+              <span>{new Date().toDateString()}</span>
 
               {/* Action */}
               <span className="justify-self-center">

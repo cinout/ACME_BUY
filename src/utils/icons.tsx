@@ -12,6 +12,7 @@ import {
   FaChevronCircleRight,
   FaRegHeart,
   FaHeart,
+  FaEye,
 } from "react-icons/fa";
 import { FaPeopleGroup, FaLocationDot, FaXTwitter } from "react-icons/fa6";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
@@ -94,6 +95,7 @@ export const iconPlusSimple = (style?: string) => (
 export const iconMinusSimple = (style?: string) => (
   <HiOutlineMinus className={style} />
 );
+export const iconView = (style?: string) => <FaEye className={style} />;
 
 /**
  * Add and Remove

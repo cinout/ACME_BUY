@@ -13,6 +13,7 @@ import { albumCoverImageSmall } from "@/utils/strings";
 import {
   calculateDiscountedPriceAndReturnNumber,
   calculateDiscountedPriceAndReturnString,
+  calculateNonPendingOrderTotalPrice,
 } from "@/utils/numbers";
 import {
   iconGoLeftWithoutCircle,
@@ -30,18 +31,8 @@ export function Content({ orderId, orderDetails }: Props) {
   /**
    * Calculated
    */
-  const totalPrice = orderDetails?.items.reduce((acc, item) => {
-    const { quantity, priceSnapshot, discountSnapshot } = item;
+  const totalPrice = calculateNonPendingOrderTotalPrice(orderDetails);
 
-    return (
-      acc +
-      calculateDiscountedPriceAndReturnNumber(
-        priceSnapshot!,
-        discountSnapshot!
-      ) *
-        quantity
-    );
-  }, 0);
   const totalQuantity = orderDetails?.items.reduce(
     (acc, item) => acc + item.quantity,
     0

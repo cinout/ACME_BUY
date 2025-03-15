@@ -35,7 +35,7 @@ const userStats: UserEntity[] = Array.from({ length: 34 }, () => ({
 }));
 
 export default function SectionChat() {
-  const { userId } = useParams();
+  const { chatId } = useParams();
   const [showList, setShowList] = useState(false);
 
   return (
@@ -60,7 +60,7 @@ export default function SectionChat() {
       {/* Right: Messages */}
       <div className="flex-[4] h-full rounded-lg flex flex-col gap-y-4">
         <RightMessageContainer
-          userId={userId}
+          userId={chatId}
           userStats={userStats}
           showList={showList}
           setShowList={setShowList}

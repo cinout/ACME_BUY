@@ -78,6 +78,10 @@ export function capFirstLetter(input: string | undefined) {
     : "";
 }
 
+export function convertDateString(input: string | undefined | null) {
+  return input ? new Date(input).toLocaleDateString() : "";
+}
+
 export function translateAddress(
   city: string | undefined,
   state: string | undefined,

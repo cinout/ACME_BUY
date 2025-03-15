@@ -71,6 +71,7 @@
   - If stock is reduced and user required quantity exceeds the current stock, a warning is shown under both the product and the checkout button, to prevent further action.
   - The stock is checked another time when click on Checkout button in case the stock is changed during the process
 - payment/order/checkout page:
+  - order is initiated from clicking on the "Go to checkout" button on the cart page.
   - All form fields are validated, especially, the card inputs are cleaned and properly validated.
   - Links in checkout page will open in a new tab, to avoid interrupting the current checkout session.
   - Check stock levels again when (1) enter the pending order; (2) user click the pay now button. If stock is now lower than required quantity, show warning to ask user to adjust quantity.
@@ -86,6 +87,7 @@
 - Collection page's filters are open by default on large screen, closed by default on small screen
 - After order is Paid, record the snapshot of the product's price & discount, and show this price afterwards in order history
 - When product is deleted/removed by seller, the server soft-delete it, so that product is still visiable to customers who ordered it before. However, the soft-deleted product won't appear in seller's product list, and on the product's page, a warning is shown to indicate the product has been removed.
+- seller cannot buy or wishlist their own products
 
 ## User Roles, User Authentication, and Routes Protection
 
@@ -145,4 +147,6 @@
 - [ ] Support track list info adding
 - [ ] update signupMethod for Google/Facebook login
 - [ ] support video upload
+- [ ] customer/seller can rate each other if they arrived at an order
 - [ ] seller is limited to changing price/discount once a week
+- [ ] Password change in Udemy Section 75

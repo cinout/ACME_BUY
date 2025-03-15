@@ -25,7 +25,7 @@ function Content() {
       />
 
       {/* Loading different sections' panels */}
-      <div className="absolute top-[calc(theme('spacing.header-height')+1rem+1.25rem)] left-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] right-4 bottom-4 overflow-y-auto bg-sky-800 rounded-lg p-4">
+      <div className="absolute top-header-height md:top-[calc(theme('spacing.header-height')+1rem+1.25rem)] left-0 md:left-4 xl:left-[calc(theme('spacing.dashbord-width')+1rem)] right-0 md:right-4 bottom-0 md:bottom-4 overflow-y-auto bg-sky-800 rounded-none md:rounded-lg p-2 md:p-4 font-lato">
         <Outlet />
       </div>
     </div>

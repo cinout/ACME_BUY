@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { faker } from "@faker-js/faker";
-import { PaymentStatusEnum } from "@/utils/enums";
 import Pagination from "@/views/shared_components/Pagination";
 import Head from "./Head";
 import OrderTable from "./OrderTable";
@@ -13,7 +12,7 @@ import { OrderEntity, OrderStatusEnum } from "@/graphql/orderGql";
 // TODO: fetch from backend
 const orderStats: OrderEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
-  createdAt: faker.date.recent(),
+  createdAt: faker.date.recent().toDateString(),
   // price: faker.commerce.price(),
   // payment_status: PaymentStatusEnum.Pending,
   status: OrderStatusEnum.Pending,

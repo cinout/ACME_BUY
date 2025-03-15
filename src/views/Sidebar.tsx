@@ -189,7 +189,6 @@ export default function Sidebar({
     <>
       {/* Large Screen */}
       <div className="box-border fixed top-0 left-0 h-full w-dashbord-width bg-aqua-forest-200 z-50 hidden xl:block shadow-2xl font-arsenal-spaced-2">
-        {/* TODO: handle to="/" attribute */}
         <Link
           to="/"
           className="flex justify-center mt-6 mb-12 hover:brightness-90 transition"
@@ -210,7 +209,7 @@ export default function Sidebar({
       <AnimatePresence>
         {showSidebar && (
           <motion.div
-            className={`flex flex-col flex-1 xl:hidden fixed z-50 rounded-lg top-[calc(4.375rem+1rem)] left-4 w-dashbord-width h-[34rem] bg-aqua-forest-200 font-arsenal-spaced-2`}
+            className={`flex flex-col flex-1 xl:hidden fixed z-50 md:rounded-lg top-header-height md:top-[calc(theme('spacing.header-height')+1rem)] left-0 md:left-4 w-dashbord-width h-[34rem] bg-aqua-forest-200 font-arsenal-spaced-2`}
             ref={menuRef}
             initial={{ translateY: "-0.625rem", opacity: 0 }}
             animate={{

@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import {
   UserSectionDashboard,
-  UserSectionChatCustomer,
+  UserSectionChat,
   UserSectionOrders,
   UserSectionPayments,
   UserSectionProducts,
@@ -53,8 +53,8 @@ export const privateUserRoutes: PrivateUserRouteType[] = [
     accessUserStatus: [UserStatusEnum.Active],
   },
   {
-    path: "/user/chat-customer/:customerId?",
-    element: <UserSectionChatCustomer />,
+    path: "/user/chat/:chatId?",
+    element: <UserSectionChat />,
     accessRoles: [RoleEnum.User],
     accessUserStatus: [UserStatusEnum.Active],
   },

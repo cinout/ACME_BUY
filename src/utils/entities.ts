@@ -1,4 +1,4 @@
-// TODO: move each of them to their GQL file
+// TODO: remove them
 import { Entity } from "@/graphql";
 import { WithdrawStatusEnum } from "./enums";
 

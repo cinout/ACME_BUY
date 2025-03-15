@@ -108,11 +108,11 @@ export default function ShopPage() {
           </div>
 
           {/* Contact */}
-          <div className="text-sm font-light mt-4">
+          {/* <div className="text-sm font-light mt-4">
             {iconEmail("inline mr-2")}
             {seller?.email}
-          </div>
-          <div className="text-sm font-light">
+          </div> */}
+          <div className="text-sm font-light mt-5">
             {iconLocation("inline mr-1")} {userAddress}
           </div>
         </div>

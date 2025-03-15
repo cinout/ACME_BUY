@@ -2,6 +2,7 @@ import { OrderEntity } from "@/graphql/orderGql";
 import {
   calculateDiscountedPriceAndReturnNumber,
   calculateDiscountedPriceAndReturnString,
+  calculatePendingOrderTotalPrice,
 } from "@/utils/numbers";
 import { albumCoverImageSmall } from "@/utils/strings";
 import { Link } from "react-router-dom";
@@ -22,22 +23,8 @@ export default function OrderSummary({
   /**
    * Calculated
    */
-  const totalPrice = orderDetails?.items.reduce((acc, item) => {
-    const { productId, quantity } = item;
-    const product = productDetails?.find((a) => a.id === productId);
-    if (product) {
-      return (
-        acc +
-        calculateDiscountedPriceAndReturnNumber(
-          product?.price,
-          product?.discount
-        ) *
-          quantity
-      );
-    } else {
-      return 0;
-    }
-  }, 0);
+  const totalPrice = calculatePendingOrderTotalPrice(orderDetails);
+
   const totalQuantity = orderDetails?.items.reduce(
     (acc, item) => acc + item.quantity,
     0

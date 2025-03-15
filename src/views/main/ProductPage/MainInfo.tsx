@@ -124,15 +124,18 @@ export default function MainInfo({ product }: Props) {
       {/* Title */}
       <div className="text-2xl md:text-[2rem] font-arsenal-spaced-1 text-aqua-forest-800 font-bold flex gap-x-8">
         {product.name}
-        <button
-          data-tooltip-id={`tooltip-wishlist`}
-          onClick={handleClickWishlistIcon}
-          disabled={!product}
-        >
-          {userInfo?.wishList?.includes(product.id)
-            ? iconLoveFilled()
-            : iconLoveEmpty()}
-        </button>
+
+        {product.userId !== userInfo?.id && (
+          <button
+            data-tooltip-id={`tooltip-wishlist`}
+            onClick={handleClickWishlistIcon}
+            disabled={!product}
+          >
+            {userInfo?.wishList?.includes(product.id)
+              ? iconLoveFilled()
+              : iconLoveEmpty()}
+          </button>
+        )}
       </div>
 
       {/* Artist */}
@@ -142,6 +145,10 @@ export default function MainInfo({ product }: Props) {
       {product.status === ProductStatusEnum.Removed ? (
         <div className="bg-rose-50 text-rose-900 my-10 flex w-max p-2">
           This product is no longer available!
+        </div>
+      ) : product.userId === userInfo?.id ? (
+        <div className="bg-rose-50 text-rose-900 my-10 flex w-max p-2">
+          This is your own product.
         </div>
       ) : (
         <>

@@ -105,7 +105,7 @@ export const navOptions: NavOptionsProps[] = [
     name: "Chat",
     icon: iconChat(),
     accessRoles: [RoleEnum.User],
-    goto: "/user/chat-customer",
+    goto: "/user/chat",
     accessUserStatus: [UserStatusEnum.Active],
     asRole: "general",
   },

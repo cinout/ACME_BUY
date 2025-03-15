@@ -1,9 +1,7 @@
-// TODO: update them
+// TODO: remove them
 export enum PaymentStatusEnum {
   Pending = "Pending",
 }
-
-// TODO: update them
 export enum WithdrawStatusEnum {
   Pending = "Pending",
 }

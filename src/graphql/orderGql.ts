@@ -21,12 +21,23 @@ export interface OrderEntity extends Entity {
   itemDetails?: (ProductEntity & { user: UserEntity })[];
   userId: string;
   status: OrderStatusEnum;
+  shippingCountry?: string;
+  shippingState?: string;
+  shippingCity?: string;
+  shippingPostCode?: string;
+  shippingAddress?: string;
+  contactFirstname?: string;
+  contactLastname?: string;
+  contactPhone?: string;
+  contactEmail?: string;
 }
 
 const GQL_FRAGMENT_ORDER_DETAILS = gql`
   fragment OrderDetails on Order {
     id
-    items # including id, quantity and so on
+    createdAt
+    updatedAt
+    items # including id, quantity, priceSnapshot, discountSnapshot
     userId
     status
     shippingCountry
@@ -47,6 +58,30 @@ const GQL_FRAGMENT_ORDER_DETAILS = gql`
 export const GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_ORDER_ID = gql`
   query getOrderAndProductDetailsByOrderId($id: ID!) {
     getOrderAndProductDetailsByOrderId(id: $id) {
+      ...OrderDetails
+      itemDetails {
+        id
+        name
+        artist
+        userId
+        user {
+          id
+          shopName
+        }
+        stock
+        price
+        discount
+        images
+      }
+    }
+  }
+  ${GQL_FRAGMENT_ORDER_DETAILS}
+`;
+
+// for role as a customer
+export const GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_CUSTOMER_ID = gql`
+  query {
+    getOrderAndProductDetailsByCustomerId {
       ...OrderDetails
       itemDetails {
         id
@@ -99,5 +134,14 @@ export const GQL_ON_ORDER_COMPLETED = gql`
         cart
       }
     }
+  }
+`;
+
+/**
+ * Delete
+ */
+export const GQL_DELETE_ORDER = gql`
+  mutation deleteOrder($id: ID!) {
+    deleteOrder(id: $id)
   }
 `;

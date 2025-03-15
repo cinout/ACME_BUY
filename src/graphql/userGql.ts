@@ -66,6 +66,7 @@ export const GQL_FRAGMENT_USER_DETAILS = gql`
 /**
  * Queries
  */
+// get current user's basic details
 export const GQL_USER_GET_CURRENT = gql`
   query {
     getCurrentUser {
@@ -73,6 +74,40 @@ export const GQL_USER_GET_CURRENT = gql`
     }
   }
   ${GQL_FRAGMENT_USER_DETAILS}
+`;
+
+// get current user's wishList details
+export const GQL_GET_CURRENT_USER_WISHLIST_DETAILS = gql`
+  query {
+    getCurrentUserWishListDetails {
+      id
+      wishList
+      wishListDetails {
+        id
+        name
+        artist
+        userId
+        user {
+          id
+          shopName
+          imageUrl
+          country
+          state
+          city
+          rating
+        }
+        stock
+        price
+        discount
+        images
+        year
+        format
+        grading
+        region
+        status
+      }
+    }
+  }
 `;
 
 export const GQL_USER_GET_ALL = gql`

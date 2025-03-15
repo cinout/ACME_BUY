@@ -85,9 +85,7 @@ export const UserSectionWishList = lazy(
 export const UserSectionPayments = lazy(
   () => import("@/views/user/SectionPayments")
 );
-export const UserSectionChatCustomer = lazy(
-  () => import("@/views/user/SectionChatCustomer")
-);
+export const UserSectionChat = lazy(() => import("@/views/user/SectionChat"));
 export const UserSectionSupport = lazy(
   () => import("@/views/user/SectionSupport")
 );

@@ -63,7 +63,7 @@ export default function RecentMessages() {
     <div className="w-full lg:flex-1 bg-white/5 rounded-2xl px-4 py-2">
       <div className="text-white font-semibold flex justify-between">
         <span>Recent Customer Messages</span>
-        <Link to="/user/chat-customer">View all</Link>
+        <Link to="/user/chat">View all</Link>
       </div>
 
       <div>
