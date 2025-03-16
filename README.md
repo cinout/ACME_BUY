@@ -150,3 +150,7 @@
 - [ ] customer/seller can rate each other if they arrived at an order
 - [ ] seller is limited to changing price/discount once a week
 - [ ] Password change in Udemy Section 75
+- [ ] many-to-many:
+  - (1) genre vs product? [Maybe]
+  - (2) user vs wishlist? [Maybe]
+  - (3) product vs order? [NO, because order takes a snapshot of the product]

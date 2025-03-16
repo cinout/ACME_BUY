@@ -16,11 +16,20 @@ import { ratingStyle } from "@/utils/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { useMutation } from "@apollo/client";
-import { GQL_USER_UPDATE_CURRENT } from "@/graphql/userGql";
+import {
+  GQL_USER_GET_CURRENT,
+  GQL_USER_UPDATE_CURRENT,
+  UserEntity,
+} from "@/graphql/userGql";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "motion/react";
 import { ProductEntity, ProductStatusEnum } from "@/graphql/productGql";
+import {
+  GQL_ADD_ITEM_TO_WISHLIST_BY_USER,
+  GQL_REMOVE_WISHLIST_ITEM_BY_USER,
+  WishListEntity,
+} from "@/graphql/wishListGql";
 
 const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
 const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800 font-bold";
@@ -61,21 +70,71 @@ export default function MainInfo({ product }: Props) {
       //
     },
   });
+  const [addItemToWishList] = useMutation(GQL_ADD_ITEM_TO_WISHLIST_BY_USER, {
+    onError: (err) => {
+      const errorMessage = getErrorMessage(err);
+      toast.error(errorMessage);
+    },
+    update: (cache, result, third) => {
+      const newWishListItem = result.data
+        .addItemToWishListByUser as WishListEntity;
 
-  function handleClickWishlistIcon() {
+      cache.updateQuery(
+        { query: GQL_USER_GET_CURRENT },
+        ({ getCurrentUser }) => {
+          return {
+            getCurrentUser: {
+              ...getCurrentUser,
+              wishList: getCurrentUser.wishList.concat(newWishListItem),
+            },
+          };
+        }
+      );
+    },
+  });
+  const [removeItemFromWishList] = useMutation(
+    GQL_REMOVE_WISHLIST_ITEM_BY_USER,
+    {
+      onError: (err) => {
+        const errorMessage = getErrorMessage(err);
+        toast.error(errorMessage);
+      },
+      update: (cache, result, { variables }) => {
+        const { id } = variables as { id: string };
+        cache.evict({ id: cache.identify({ __typename: "WishList", id }) });
+        cache.gc();
+      },
+    }
+  );
+
+  /**
+   * Computed
+   */
+  // check if product is in wishlist
+  const inWishList = userInfo?.wishList?.some(
+    (item) => item.productId === product.id
+  );
+
+  function handleClickWishlistIcon(productId: string) {
     if (userInfo) {
-      // TODO: add or remove
-      let newWishList;
-      if (userInfo.wishList?.includes(product.id)) {
-        newWishList = userInfo.wishList.filter((a) => a !== product.id);
+      if (inWishList) {
+        // remove
+        const itemId = userInfo?.wishList?.find(
+          (item) => item.productId === product.id
+        )!.id;
+        void removeItemFromWishList({
+          variables: {
+            id: itemId,
+          },
+        });
       } else {
-        newWishList = (userInfo.wishList ?? []).concat(product.id);
+        //  add
+        void addItemToWishList({
+          variables: {
+            productId,
+          },
+        });
       }
-      void updateUser({
-        variables: {
-          input: { wishList: newWishList },
-        },
-      });
     } else {
       // use is not logged in
       void navigate("/login");
@@ -128,12 +187,10 @@ export default function MainInfo({ product }: Props) {
         {product.userId !== userInfo?.id && (
           <button
             data-tooltip-id={`tooltip-wishlist`}
-            onClick={handleClickWishlistIcon}
+            onClick={() => handleClickWishlistIcon(product.id)}
             disabled={!product}
           >
-            {userInfo?.wishList?.includes(product.id)
-              ? iconLoveFilled()
-              : iconLoveEmpty()}
+            {inWishList ? iconLoveFilled() : iconLoveEmpty()}
           </button>
         )}
       </div>
@@ -332,11 +389,7 @@ export default function MainInfo({ product }: Props) {
       {/* TODO: change content based on whether user has added it to wish list */}
       <CustomTooltip
         id={`tooltip-wishlist`}
-        content={
-          userInfo?.wishList?.includes(product.id)
-            ? "remove from wish list"
-            : "add to wish list"
-        }
+        content={inWishList ? "remove from wish list" : "add to wish list"}
       />
       <CustomTooltip id={`tooltip-chat`} content={"chat with the seller"} />
     </div>

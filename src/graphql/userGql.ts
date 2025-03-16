@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 import { Entity } from ".";
+import { WishListEntity } from "./wishListGql";
+import { ProductEntity } from "./productGql";
 
 export enum RoleEnum {
   Admin = "Admin",
@@ -37,7 +39,8 @@ export interface UserEntity extends Entity {
   imageUrl?: string;
   imageName?: string;
   rating: number; // TODO: implement rating
-  wishList?: string[];
+  wishList?: WishListEntity[];
+  wishListDetails?: (ProductEntity & { user: UserEntity })[];
   cart?: { productId: string; quantity: number }[];
 }
 
@@ -58,7 +61,12 @@ export const GQL_FRAGMENT_USER_DETAILS = gql`
     imageName
     role
     rating
-    wishList
+    wishList {
+      id
+      userId
+      productId
+      createdAt
+    }
     cart
   }
 `;
@@ -81,7 +89,6 @@ export const GQL_GET_CURRENT_USER_WISHLIST_DETAILS = gql`
   query {
     getCurrentUserWishListDetails {
       id
-      wishList
       wishListDetails {
         id
         name

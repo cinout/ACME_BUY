@@ -4,6 +4,7 @@ import { ProductEntity, ProductStatusEnum } from "@/graphql/productGql";
 import {
   GQL_GET_CURRENT_USER_WISHLIST_DETAILS,
   GQL_USER_UPDATE_CURRENT,
+  UserEntity,
 } from "@/graphql/userGql";
 import { iconTrashCan, iconView } from "@/utils/icons";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
@@ -14,6 +15,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import ItemRemoveConfirmationDialog from "./ItemRemoveConfirmationDialog";
+import { GQL_REMOVE_WISHLIST_ITEM_BY_USER } from "@/graphql/wishListGql";
+import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";
 
 const styleWarning =
   "text-rose-900 font-arsenal-spaced-1 text-sm bg-red-50 w-full text-center rounded-sm";
@@ -33,7 +36,6 @@ function Details({
   );
 }
 
-// TODO: implement (video Section 32)
 export default function SectionWishList() {
   /**
    * GQL
@@ -41,52 +43,44 @@ export default function SectionWishList() {
   const gqlGetCurrentUserWishListDetails = useQuery(
     GQL_GET_CURRENT_USER_WISHLIST_DETAILS
   );
-  const wishList = gqlGetCurrentUserWishListDetails.data
+  const wishListDetails = gqlGetCurrentUserWishListDetails.data
     ?.getCurrentUserWishListDetails as {
-    wishList: string[];
-    wishListDetails: ProductEntity[];
+    wishListDetails: (ProductEntity & { user: UserEntity })[];
   };
 
   /**
    * GQL
    */
-  const [updateUser] = useMutation(GQL_USER_UPDATE_CURRENT, {
-    onError: (err) => {
-      const errorMessage = getErrorMessage(err);
-      toast.error(errorMessage);
-    },
-    onCompleted: () => {
-      setToDeleteItemId("");
-    },
-  });
-
-  // delete ID
-  const [toDeleteItemId, setToDeleteItemId] = useState<string>("");
-  const toDeleteItem = wishList?.wishListDetails.find(
-    (a) => a.id === toDeleteItemId
-  );
+  // const [updateUser] = useMutation(GQL_USER_UPDATE_CURRENT, {
+  //   onError: (err) => {
+  //     const errorMessage = getErrorMessage(err);
+  //     toast.error(errorMessage);
+  //   },
+  //   onCompleted: () => {
+  //     setToDeleteItemId("");
+  //   },
+  // });
 
   /**
    * Hook
    */
   const userInfo = useHookGetUserInfo();
 
-  function removeWishlistItem(productId: string) {
-    if (userInfo) {
-      const newWishList = userInfo.wishList?.filter((a) => a !== productId);
-      void updateUser({
-        variables: {
-          input: { wishList: newWishList },
-        },
-      });
-    }
-  }
+  // delete ID
+  const [toDeleteItemId, setToDeleteItemId] = useState<string>("");
+  const toDeleteWishListItem = userInfo?.wishList?.find(
+    (a) => a.id === toDeleteItemId
+  );
+  const toDeleteProduct = wishListDetails?.wishListDetails.find(
+    (a) => a.id === toDeleteWishListItem?.productId
+  );
 
   return (
     <>
       <div className="text-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center gap-x-4">
-        {wishList?.wishList?.map((productId) => {
-          const product = wishList.wishListDetails?.find(
+        {userInfo?.wishList?.map((wishListItem) => {
+          const productId = wishListItem.productId;
+          const product = wishListDetails?.wishListDetails?.find(
             (a) => a.id === productId
           );
 
@@ -95,14 +89,6 @@ export default function SectionWishList() {
               className="mb-6 flex flex-col justify-between gap-y-2 w-80 bg-white/20 rounded-lg p-2"
               key={productId}
             >
-              {/* Out of Stock */}
-              {product?.status === ProductStatusEnum.Removed ? (
-                <div className={styleWarning}>Unavailable!</div>
-              ) : (
-                product?.stock === 0 && (
-                  <div className={styleWarning}>Out of stock!</div>
-                )
-              )}
               {/* Product Infos */}
               <div className="flex">
                 <Link
@@ -157,6 +143,15 @@ export default function SectionWishList() {
                 <Details label="Region" content={product?.region} />
               </div>
 
+              {/* Out of Stock */}
+              {product?.status === ProductStatusEnum.Removed ? (
+                <div className={styleWarning}>Unavailable!</div>
+              ) : (
+                product?.stock === 0 && (
+                  <div className={styleWarning}>Out of stock!</div>
+                )
+              )}
+
               {/* Actions */}
               <div className="flex justify-center gap-x-4">
                 <Link
@@ -171,7 +166,7 @@ export default function SectionWishList() {
                 <button
                   onClick={() => {
                     if (userInfo && product) {
-                      setToDeleteItemId(product.id);
+                      setToDeleteItemId(wishListItem.id);
                     }
                   }}
                   className="text-rose-600 hover:scale-105 w-24 transition flex justify-center items-center gap-x-2 bg-white/60 rounded-md"
@@ -185,13 +180,24 @@ export default function SectionWishList() {
         })}
       </div>
 
-      {toDeleteItem && (
+      {/* {toDeleteItem && (
         <ItemRemoveConfirmationDialog
           isOpen={!!toDeleteItemId}
           name={toDeleteItem.name}
           // deletionQuery={GQL_GENRE_DELETE}
           setToDeleteItemId={setToDeleteItemId}
           onClickDelete={() => removeWishlistItem(toDeleteItem.id)}
+        />
+      )} */}
+
+      {toDeleteItemId && toDeleteProduct && (
+        <DeleteConfirmDialog
+          isOpen={!!toDeleteItemId}
+          id={toDeleteItemId}
+          name={toDeleteProduct.name}
+          deletionQuery={GQL_REMOVE_WISHLIST_ITEM_BY_USER}
+          setToDeleteItemId={setToDeleteItemId}
+          gqlType="WishList"
         />
       )}
     </>

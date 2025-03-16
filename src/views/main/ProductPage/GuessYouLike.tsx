@@ -69,8 +69,14 @@ export default function GuessYouLike() {
                     </Link>
                   )}
                   <div className="text-aqua-forest-900 text-lg">
-                    {product.name}
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="w-full aspect-square hover:underline"
+                    >
+                      {product.name}
+                    </Link>
                   </div>
+
                   <div className="text-aqua-forest-700">
                     $
                     {calculateDiscountedPriceAndReturnString(
