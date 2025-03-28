@@ -75,7 +75,7 @@ export default function DisplayRow({ data, count, title, goto }: Props) {
         {(data || Array.from({ length: count }))?.map((product, index) => (
           <Link
             to={`/product/${product?.id}`}
-            key={product ? product.id : index}
+            key={product ? product.id : index} //TODO:[3] should I use index?
             className={`group relative overflow-hidden rounded-none bg-radial from-aqua-forest-400 via-aqua-forest-300 to-aqua-forest-100 transition-all duration-300 ${cssContainerSizeWithScreen} ${
               inView ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
             } ${index === 3 && "hidden sm:inline-block"} ${

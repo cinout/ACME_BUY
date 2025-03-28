@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 import react from "eslint-plugin-react";
 
 export default tseslint.config({
-  ignores: ["dist"],
+  ignores: ["dist", "node_modules", "build", "vite.config.js"],
   settings: {
     react: {
       version: "detect",
@@ -19,8 +19,8 @@ export default tseslint.config({
   ],
   files: ["**/*.{ts,tsx}"],
   languageOptions: {
-    ecmaVersion: 2021,
-    globals: globals.browser,
+    ecmaVersion: "latest", // ESLint will understand and properly lint the latest JavaScript syntax and features.
+    globals: { ...globals.browser }, // to allow browser specific global variables like window, and document
     parserOptions: {
       project: "./tsconfig.json",
       sourceType: "module",
@@ -32,7 +32,6 @@ export default tseslint.config({
     "react-hooks": reactHooks,
     "react-refresh": reactRefresh,
   },
-
   rules: {
     ...reactHooks.configs.recommended.rules,
     "react-refresh/only-export-components": [

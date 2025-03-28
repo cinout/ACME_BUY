@@ -151,7 +151,10 @@ export default function NavigationPanel({ isScrollUp }: Props) {
 
   return (
     <>
-      <div className="font-arsenal-spaced-1 z-40 w-full fixed">
+      <div
+        className="font-arsenal-spaced-1 z-40 w-full fixed"
+        data-testid="navigation-wrapper"
+      >
         {/* First Row: Logo, Search, Login */}
         <div
           className={`relative grid grid-cols-[1fr_1fr] md:grid-cols-[2fr_2fr_1fr] lg:grid-cols-3 py-6 px-8 h-navbar-top-height`}

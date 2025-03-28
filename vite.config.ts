@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc"; // enables JSX and React Fast Refresh
 import eslint from "vite-plugin-eslint"; // Vite does not run ESLint by default during development. Install this to enforce linting during dev and build
@@ -33,5 +34,10 @@ export default defineConfig({
   css: {
     postcss: "./postcss.config.js", // pointing to the postcss config file (optional, because Vite automatically detects postcss.config.js)
     devSourcemap: true, // enable sourcemap in development
+  },
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./testSetup.js",
   },
 });

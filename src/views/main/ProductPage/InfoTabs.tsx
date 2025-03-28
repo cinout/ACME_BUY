@@ -116,6 +116,7 @@ export default function InfoTabs({ product }: Props) {
           <div>
             {product.tracklist
               ? product.tracklist.map((a, index) => (
+                  //TODO:[3] should I use index?
                   <div key={index} className="flex gap-2">
                     <span>{a.indexDisplay}</span>
                     <span>{a.title}</span>

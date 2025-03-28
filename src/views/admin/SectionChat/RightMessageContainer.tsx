@@ -140,6 +140,7 @@ export default function RightMessageContainer({
           <div className="flex-1 bg-sky-950 rounded-2xl p-4 text-sky-50 overflow-y-auto flex flex-col gap-y-6">
             {/* TODO: use real data */}
             {/* TODO: show the latest messages in the container, and scroll down to see eallier messages, like WeChat */}
+            {/* TODO:[3] not use i as key */}
             {Array.from({ length: 12 }, (v, i) => (
               <Fragment key={i}>
                 <MessageUser

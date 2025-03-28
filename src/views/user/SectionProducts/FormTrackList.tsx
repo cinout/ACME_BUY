@@ -44,6 +44,7 @@ export default function FormTrackList({
       {/* Display selected options as items */}
       {disabled ? (
         currentValue?.map((value, index) => (
+          //TODO:[3] should I use index?
           <div key={index}>
             <div className="min-w-10 text-left inline-block">
               {value.indexDisplay}

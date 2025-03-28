@@ -39,7 +39,7 @@ export default function GuessYouLike() {
         {(similarProducts || Array.from({ length: COUNT })).map(
           (product, index) => (
             <div
-              key={product?.id ?? index}
+              key={product?.id ?? index} //TODO:[3] should I use index?
               className={`font-arsenal-spaced-1 text-left w-32 tn:w-40 sm:w-52 md:w-44 lg:w-52 xl:w-60 2xl:w-72 ${
                 product ? "bg-white" : "bg-aqua-forest-50"
               }`}

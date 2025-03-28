@@ -264,6 +264,7 @@ export const GQL_PRODUCT_GET_SIMILAR = gql`
 
 // Specific Product Query
 export const GQL_PRODUCT_GET_PRODUCT_AND_RELATED_DETAILS_BY_ID = gql`
+  # $id the the productId
   query getProductAndRelatedDetailsById($id: ID!) {
     getProductAndRelatedDetailsById(id: $id) {
       ...ProductDetails

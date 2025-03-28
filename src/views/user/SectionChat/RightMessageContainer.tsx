@@ -141,6 +141,7 @@ export default function RightMessageContainer({
             {/* TODO: use real data */}
             {/* TODO: show the latest messages in the container, and scroll down to see eallier messages, like WeChat */}
             {Array.from({ length: 12 }, (v, i) => (
+              //TODO:[3] should I use i?
               <Fragment key={i}>
                 <MessageUser
                   message={faker.lorem.text()}
