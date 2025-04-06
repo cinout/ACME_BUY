@@ -9,8 +9,8 @@ export function albumCoverImageLarge(image: string | undefined | null) {
   }
 
   if (image.includes("coverartarchive.org")) {
-    const parts = image.split(/.(jpg|png)$/);
-    return parts[0] + "-500" + parts[1];
+    const parts = image.split(/\.(jpg|png)$/);
+    return parts[0] + "-500." + parts[1];
   } else {
     return image;
   }
@@ -23,8 +23,8 @@ export function albumCoverImageSmall(image: string | undefined | null) {
   }
 
   if (image.includes("coverartarchive.org")) {
-    const parts = image.split(/.(jpg|png)$/);
-    return parts[0] + "-250" + parts[1];
+    const parts = image.split(/\.(jpg|png)$/);
+    return parts[0] + "-250." + parts[1];
   } else {
     return image;
   }

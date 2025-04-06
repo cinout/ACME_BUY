@@ -50,6 +50,7 @@ export default tseslint.config({
     "@typescript-eslint/prefer-nullish-coalescing": "warn",
     "prefer-const": "warn",
     "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+    "@typescript-eslint/no-explicit-any": "error",
   },
 });
 

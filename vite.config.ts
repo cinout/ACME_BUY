@@ -13,7 +13,16 @@ export default defineConfig({
       typescript: true, // e.g. use TypeScript check
     }),
     eslint({
-      include: ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"], // files to lint
+      include: [
+        "src/**/*.js",
+        "src/**/*.jsx",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "testsUnit/**/*.tsx",
+        "testsUnit/**/*.ts",
+        "testsE2E/**/*.tsx",
+        "testsE2E/**/*.ts",
+      ], // files to lint
       emitWarning: true, // Shows warnings in terminal
       emitError: true, // Shows errors in terminal
     }),

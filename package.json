@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "APOLLO_CLIENT_DEVTOOLS=false vite",
     "test": "vitest",
+    "test-playwright": "playwright test",
+    "test-playwright-open": "playwright test --ui",
+    "test-playwright-report": "playwright show-report",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -41,10 +44,12 @@
     "@apollo/client-devtools-vscode": "^4.19.6",
     "@eslint/js": "^9.17.0",
     "@faker-js/faker": "^9.4.0",
+    "@playwright/test": "^1.51.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/apollo-upload-client": "^18.0.0",
     "@types/lodash": "^4.17.15",
+    "@types/node": "^22.13.14",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@types/react-window": "^1.8.8",

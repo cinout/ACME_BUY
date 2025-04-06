@@ -47,6 +47,14 @@
     /* Debugging */
     "sourceMap": true // Generates a .js.map file next to the corresponding .js output file, allow debuggers and other tools to display the original TypeScript source code when actually working with the emitted JavaScript files.
   },
-  "include": ["src", "vite.config.ts", "types"],
+  "include": [
+    "src",
+    "vite.config.ts",
+    "types",
+    "testsE2E",
+    "testsUnit",
+    "playwright.config.ts",
+    "demo-todo-app.spec.ts"
+  ],
   "exclude": ["node_modules"]
 }

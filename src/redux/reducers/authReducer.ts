@@ -28,7 +28,7 @@ export const userSignup = createAsyncThunk<unknown, FormUserSignupProps>(
   "auth/userSignup",
   async (info, thunkAPI) => {
     try {
-      const result = await api.post("auth/user-signup", info);
+      const result = await api.post("auth/user-signup", info); // TODO:[1] try using .post<ReturnType>() to set the type for result. This is equivalent to type assert, so use with caution
       return thunkAPI.fulfillWithValue(result.data);
     } catch (e) {
       return thunkAPI.rejectWithValue(
