@@ -51,8 +51,8 @@
     "src",
     "vite.config.ts",
     "types",
-    "testsE2E",
-    "testsUnit",
+    "tests_e2e",
+    "tests_unit",
     "playwright.config.ts",
     "demo-todo-app.spec.ts"
   ],

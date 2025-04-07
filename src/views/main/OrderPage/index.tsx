@@ -14,7 +14,7 @@ import {
 import { Navigate, useParams } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
-import LoadingPage from "@/views/LoadingPage";
+import LoadingPage from "@/views/shared_components/private_section/LoadingPage";
 import { useEffect, useState } from "react";
 import { useHookPrevious } from "@/customHooks/useHookPrevious";
 

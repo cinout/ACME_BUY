@@ -19,7 +19,7 @@ export default defineConfig({
   // workers: process.env.CI ? 1 : undefined,
   workers: 1,
 
-  testDir: "./testsE2E",
+  testDir: "./tests_e2e",
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,

@@ -18,10 +18,10 @@ export default defineConfig({
         "src/**/*.jsx",
         "src/**/*.ts",
         "src/**/*.tsx",
-        "testsUnit/**/*.tsx",
-        "testsUnit/**/*.ts",
-        "testsE2E/**/*.tsx",
-        "testsE2E/**/*.ts",
+        "tests_unit/**/*.tsx",
+        "tests_unit/**/*.ts",
+        "tests_e2e/**/*.tsx",
+        "tests_e2e/**/*.ts",
       ], // files to lint
       emitWarning: true, // Shows warnings in terminal
       emitError: true, // Shows errors in terminal

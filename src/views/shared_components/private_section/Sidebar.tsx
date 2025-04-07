@@ -1,6 +1,9 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "@/assets/images/company_logo.png";
-import { navOptions, NavOptionsProps } from "@/views/allNavs";
+import {
+  navOptions,
+  NavOptionsProps,
+} from "@/views/shared_components/private_section/allNavs";
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";

@@ -39,7 +39,9 @@ export const UnauthorizedPage = lazy(
 /**
  * Private Pages
  */
-export const Main = lazy(() => import("@/views/Main")); // The user/admin dashboard overall layout
+export const Main = lazy(
+  () => import("@/views/shared_components/private_section/Main")
+); // The user/admin dashboard overall layout
 
 /**
  * ADMIN Dashboard
