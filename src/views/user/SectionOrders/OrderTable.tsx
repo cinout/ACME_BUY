@@ -178,7 +178,7 @@ export default function OrderTable({
                                 </Link>
 
                                 {/* Artist */}
-                                <span className="text-xs  text-sky-100">
+                                <span className="text-xs text-sky-100">
                                   {product?.artist}
                                 </span>
 
