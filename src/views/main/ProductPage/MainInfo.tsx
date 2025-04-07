@@ -12,14 +12,13 @@ import { translateAddress } from "@/utils/strings";
 import { useState } from "react";
 import InfoTabs from "./InfoTabs";
 import { Rating } from "@smastrom/react-rating";
-import { ratingStyle } from "@/utils/styles";
+import { ratingStyle, styleRowContentWithLink } from "@/utils/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { useMutation } from "@apollo/client";
 import {
   GQL_USER_GET_CURRENT,
   GQL_USER_UPDATE_CURRENT,
-  UserEntity,
 } from "@/graphql/userGql";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
@@ -33,8 +32,6 @@ import {
 
 const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
 const styleRowTitle = "font-arsenal-spaced-1 text-aqua-forest-800 font-bold";
-const styleRowContentWithLink =
-  "font-lato font-light border-b border-aqua-forest-200 hover:border-aqua-forest-300 transition hover:bg-aqua-forest-50";
 const styleRowContentWithoutLink = "font-lato font-light";
 
 interface Props {
@@ -333,7 +330,7 @@ export default function MainInfo({ product }: Props) {
           <div className="flex flex-col gap-y-1">
             <div className="flex gap-x-2 items-center">
               <Link
-                className={styleRowContentWithLink}
+                className={`font-lato font-light ${styleRowContentWithLink}`}
                 to={`/shop/${product.user.id}`}
               >
                 {product.user.shopName}

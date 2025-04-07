@@ -2,7 +2,9 @@ import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoadi
 import { GQL_PRODUCT_GET_SIMILAR, ProductEntity } from "@/graphql/productGql";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge } from "@/utils/strings";
+import { styleRowContentWithLink } from "@/utils/styles";
 import { useQuery } from "@apollo/client";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 const COUNT = 4;
@@ -17,15 +19,19 @@ export default function GuessYouLike() {
       count: COUNT,
     },
   });
+
   const similarProducts = gqlProductGetSimilar.data
     ?.getSimilar as ProductEntity[];
 
   /**
    * Hook
    */
-  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    similarProducts?.map((a) => a.id) || []
-  );
+  const imageIds = useMemo(() => {
+    return similarProducts?.map((a) => a.id) || [];
+  }, [similarProducts]);
+
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
 
   return (
     <div className="w-full my-24">
@@ -71,7 +77,7 @@ export default function GuessYouLike() {
                   <div className="text-aqua-forest-900 text-lg">
                     <Link
                       to={`/product/${product.id}`}
-                      className="w-full aspect-square hover:underline"
+                      className={styleRowContentWithLink}
                     >
                       {product.name}
                     </Link>

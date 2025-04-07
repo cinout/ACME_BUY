@@ -3,6 +3,7 @@ import {
   translateYearToYearRangeEnum,
 } from "@/graphql/productGql";
 import { capFirstLetter } from "@/utils/strings";
+import { styleRowContentWithLink } from "@/utils/styles";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -17,8 +18,6 @@ enum Tab {
 }
 const styleRowContainer = "flex gap-x-2 items-center flex-wrap my-[0.1rem]";
 const styleRowTitle = "font-medium";
-const styleRowContentWithLink =
-  "border-b border-aqua-forest-200 hover:border-aqua-forest-300 transition hover:bg-aqua-forest-50";
 
 export default function InfoTabs({ product }: Props) {
   const [currentTab, setCurrentTab] = useState(Tab.details);

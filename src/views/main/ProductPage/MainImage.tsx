@@ -1,7 +1,8 @@
+import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import useHookSingleImageLoading from "@/customHooks/useHookSingleImageLoading";
 import { ProductEntity } from "@/graphql/productGql";
 import { albumCoverImageLarge } from "@/utils/strings";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 interface Props {
   product: ProductEntity;
@@ -13,11 +14,24 @@ interface Props {
   >;
 }
 
+const cssPlaceholderContainer =
+  "w-full h-full object-contain bg-aqua-forest-50";
+
 export default function MainImage({ product, setFullScreenImage }: Props) {
   /**
    * Hooks
    */
-  const { imageGridRef, imageGridRefOnLoad } = useHookSingleImageLoading();
+  const {
+    imageGridRef: singleImageGridRef,
+    imageGridRefOnLoad: singleImageGridRefOnLoad,
+  } = useHookSingleImageLoading();
+
+  const imageIds = useMemo(() => {
+    return product.images.map((image) => image.id) || [];
+  }, [product]);
+
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
 
   /**
    * State
@@ -39,9 +53,11 @@ export default function MainImage({ product, setFullScreenImage }: Props) {
         <img
           src={albumCoverImageLarge(product.images[selectedImage]?.file)}
           alt={"product image"}
-          ref={imageGridRef}
+          ref={singleImageGridRef}
           className={`w-full aspect-square object-contain ${
-            !product || imageGridRefOnLoad ? "bg-aqua-forest-50" : "bg-white"
+            !product || singleImageGridRefOnLoad
+              ? "bg-aqua-forest-50"
+              : "bg-white"
           }`}
         />
       </button>
@@ -56,11 +72,23 @@ export default function MainImage({ product, setFullScreenImage }: Props) {
             }`}
             onClick={() => setSelectedImage(index)}
           >
-            <img
-              src={albumCoverImageLarge(image.file)}
-              alt={image.name}
-              className="w-full h-full object-contain"
-            />
+            {imageGridOnLoad.get(image.id) ? (
+              <div className={cssPlaceholderContainer} />
+            ) : (
+              <img
+                src={albumCoverImageLarge(image.file)}
+                alt={image.name}
+                className="w-full h-full object-contain"
+                ref={(node) => {
+                  const map = getImageRefMap();
+                  map.set(image.id, node);
+                  return () => {
+                    // called when removing
+                    map.delete(product.id);
+                  };
+                }}
+              />
+            )}
           </button>
         ))}
       </div>

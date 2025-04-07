@@ -30,6 +30,13 @@ export const styleSecondSubmitButton =
   "text-white px-3 py-1 w-fit rounded-full border-2 border-sky-100 bg-aqua-forest-600 not-disabled:hover:brightness-110 not-disabled:hover:scale-105 transition shadow-2xl disabled:cursor-not-allowed disabled:bg-slate-300 h-9";
 
 /**
+ * Home Page Elements
+ */
+// link, hover to show background color
+export const styleRowContentWithLink =
+  "border-b border-aqua-forest-200 hover:border-aqua-forest-300 transition hover:bg-aqua-forest-50";
+
+/**
  * Rating
  */
 export const ratingStyle = {
@@ -41,7 +48,6 @@ export const ratingStyle = {
 /**
  * Login/Signup Page
  */
-
 export const styleLoginDialog =
   "w-[21.875rem] max-w-full text-white bg-gradient-to-tr from-aqua-forest-500/70 to-sky-500/70 rounded-lg p-6 shadow-xl";
 export const styleLoginTitle = "text-xl mb-1 text-shadow-dark text-center";

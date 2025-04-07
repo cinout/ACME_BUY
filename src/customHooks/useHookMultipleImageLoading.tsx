@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function useHookMultipleImageLoading(imageIds: string[]) {
   const imagesRef = useRef<Map<string, HTMLImageElement | null>>(null);
+
   function getImageRefMap() {
     if (!imagesRef.current) {
       // Initialize the Map on first usage.
@@ -20,6 +21,7 @@ export default function useHookMultipleImageLoading(imageIds: string[]) {
     imageIds.forEach((id) => {
       const imageRef = map.get(id);
 
+      // img.complete:	true if the image has finished loading, successfully or not.
       if (imageRef && !imageRef.complete) {
         setImageGridOnLoad((prevMap) => {
           const newMap = new Map(prevMap); // Create a new Map instance
@@ -44,8 +46,8 @@ export default function useHookMultipleImageLoading(imageIds: string[]) {
         };
 
         // Attach event listeners
-        imageRef.onload = handleLoad;
-        imageRef.onerror = handleError;
+        imageRef.onload = handleLoad; // The image has been fully loaded
+        imageRef.onerror = handleError; // The image fails to load (e.g., 404 error, CORS issues, broken URL).
       }
     });
 

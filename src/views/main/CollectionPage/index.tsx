@@ -11,11 +11,12 @@ import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import { iconCrossClose } from "@/utils/icons";
 import Pagination from "@/views/shared_components/Pagination";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import {
   sortingOptions,
   useHookQueryParams,
 } from "@/customHooks/useHookQueryParams";
+import { styleRowContentWithLink } from "@/utils/styles";
 
 const styleContentPadding = "px-2 sm:px-4 lg:px-8";
 const cssPlaceholderContainer = "w-full aspect-square bg-aqua-forest-50";
@@ -96,9 +97,12 @@ export default function CollectionPage() {
   /**
    * Hooks
    */
-  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    currentPageProducts?.map((a) => a.id) || []
-  );
+  const imageIds = useMemo(() => {
+    return currentPageProducts?.map((a) => a.id) || [];
+  }, [currentPageProducts]);
+
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
 
   return (
     <>
@@ -213,7 +217,7 @@ export default function CollectionPage() {
                     )}
 
                     <Link
-                      className="font-arsenal-spaced-1 text-aqua-forest-800 hover:underline"
+                      className={`font-arsenal-spaced-1 text-aqua-forest-800 hover:underline`}
                       to={`/product/${product.id}`}
                     >
                       {product.name}

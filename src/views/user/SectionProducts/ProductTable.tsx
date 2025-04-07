@@ -4,7 +4,7 @@ import { iconTrashCan } from "@/utils/icons";
 import { albumCoverImageSmall, joinUrl } from "@/utils/strings";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 interface ProductTableProps {
@@ -19,9 +19,11 @@ export default function ProductTable({
 }: ProductTableProps) {
   const { pathname } = useLocation();
 
-  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    productStats.map((a) => a.id)
-  );
+  const imageIds = useMemo(() => {
+    return productStats.map((a) => a.id);
+  }, [productStats]);
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
 
   return (
     <div className="grid grid-cols-1 stn:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 w-full text-sm text-left mt-5 text-white content-start items-start">

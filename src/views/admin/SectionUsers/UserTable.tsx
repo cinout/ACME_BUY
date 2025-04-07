@@ -10,6 +10,7 @@ import {
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
 import LoadingIndicator from "@/views/shared_components/LoadingIndicator";
 import { UserEntity, UserStatusEnum } from "@/graphql/userGql";
+import { useMemo } from "react";
 
 interface UserTableProps {
   userStats: UserEntity[];
@@ -22,9 +23,12 @@ export default function UserTable({
 }: UserTableProps) {
   const { pathname } = useLocation();
 
-  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    userStats.map((a) => a.id)
-  );
+  const imageIds = useMemo(() => {
+    return userStats.map((a) => a.id);
+  }, [userStats]);
+
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
 
   // TODO:[2] Show a functionality to sort users
   // TODO:[1] Show a confirmation dialog when admin changes the user status

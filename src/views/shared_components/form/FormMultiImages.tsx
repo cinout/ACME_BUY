@@ -10,7 +10,7 @@ import {
   styleImagePreview,
   styleImageUploadIndicator,
 } from "@/utils/styles";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useMemo, useRef, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { Dialog } from "@headlessui/react";
 import FullScreenImage from "../FullScreenImage";
@@ -55,9 +55,11 @@ export default function FormMultipleImages({
 }: FormInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    uploadedImages?.map((image) => image.id) || []
-  );
+  const imageIds = useMemo(() => {
+    return uploadedImages?.map((image) => image.id) || [];
+  }, [uploadedImages]);
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
 
   const [fullScreenImage, setFullScreenImage] = useState<{
     url: string | undefined;

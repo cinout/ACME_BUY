@@ -4,21 +4,21 @@ import {
   ProductEntity,
 } from "@/graphql/productGql";
 import { GQL_GET_USER_BY_ID, UserEntity } from "@/graphql/userGql";
-import { iconChat, iconEmail, iconLocation } from "@/utils/icons";
+import { iconChat, iconLocation } from "@/utils/icons";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge, translateAddress } from "@/utils/strings";
-import { ratingStyle } from "@/utils/styles";
+import { ratingStyle, styleRowContentWithLink } from "@/utils/styles";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import UserStatusIndicator from "@/views/shared_components/UserStatusIndicator";
 import { useQuery } from "@apollo/client";
 import { Rating } from "@smastrom/react-rating";
+import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const styleContentPadding = "px-2 sm:px-4 lg:px-8";
 const cssPlaceholderContainer = "w-full aspect-square bg-aqua-forest-50";
 
 // TODO:[2] add pagination if you want
-
 // TODO:[2] allow user to rate seller after purchasing product from their shop. Mahy need to have it in the orders page
 
 export default function ShopPage() {
@@ -41,9 +41,11 @@ export default function ShopPage() {
   /**
    * Hooks
    */
-  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    products?.map((a) => a.id) || []
-  );
+  const imageIds = useMemo(() => {
+    return products?.map((a) => a.id) || [];
+  }, [products]);
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
 
   /**
    * Calculated
@@ -137,7 +139,7 @@ export default function ShopPage() {
                   <img
                     src={albumCoverImageLarge(product.images[0]?.file)}
                     alt={product.name}
-                    className="w-full max-w-96 aspect-square object-contain hover:scale-[102%] transition duration-300"
+                    className={`w-full max-w-96 aspect-square object-contain hover:scale-[102%] transition duration-300`}
                     ref={(node) => {
                       const map = getImageRefMap();
                       map.set(product.id, node);
@@ -151,7 +153,7 @@ export default function ShopPage() {
               )}
 
               <Link
-                className="font-arsenal-spaced-1 text-aqua-forest-800 hover:underline"
+                className={`font-arsenal-spaced-1 text-aqua-forest-800 hover:underline`}
                 to={`/product/${product.id}`}
               >
                 {product.name}

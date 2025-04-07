@@ -117,6 +117,7 @@ export default function HomePage() {
         title={"Low Price"}
         goto={`/collection?sorting=price-asc`}
       />
+
       {/* TODO:[2] products from best sellers */}
       {/* TODO:[1] Events & News */}
 

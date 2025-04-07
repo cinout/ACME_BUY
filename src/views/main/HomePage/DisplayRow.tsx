@@ -3,7 +3,7 @@ import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoadi
 import { ProductEntity } from "@/graphql/productGql";
 import { iconGoRightWithoutCircle } from "@/utils/icons";
 import { albumCoverImageLarge, shortenMiddle } from "@/utils/strings";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -23,27 +23,32 @@ const cssContainerPlaceholder = `h-full w-full bg-aqua-forest-50`;
 
 // TODO:[1] float fade in effect
 export default function DisplayRow({ data, count, title, goto }: Props) {
-  const { getImageRefMap, imageGridOnLoad } = useHookMultipleImageLoading(
-    data?.map((a) => a.id) || []
-  );
+  const imageIds = useMemo(() => {
+    return data?.map((a) => a.id) || [];
+  }, [data]);
+  const { getImageRefMap, imageGridOnLoad } =
+    useHookMultipleImageLoading(imageIds);
+
   const { elementRef, inView } = useHookCheckInView();
 
-  const spanTitleRefs = useRef<Map<string, HTMLSpanElement | null>>(null);
-  function getSpanTitleRefMap() {
-    if (!spanTitleRefs.current) {
-      // Initialize the Map on first usage.
-      spanTitleRefs.current = new Map();
-    }
-    return spanTitleRefs.current;
-  }
-  const spanArtistRefs = useRef<Map<string, HTMLSpanElement | null>>(null);
-  function getSpanArtistRefMap() {
-    if (!spanArtistRefs.current) {
-      // Initialize the Map on first usage.
-      spanArtistRefs.current = new Map();
-    }
-    return spanArtistRefs.current;
-  }
+  // const spanTitleRefs = useRef<Map<string, HTMLSpanElement | null>>(null);
+  // function getSpanTitleRefMap() {
+  //   if (!spanTitleRefs.current) {
+  //     // Initialize the Map on first usage.
+  //     spanTitleRefs.current = new Map();
+  //   }
+  //   return spanTitleRefs.current;
+  // }
+  // const spanArtistRefs = useRef<Map<string, HTMLSpanElement | null>>(null);
+  // function getSpanArtistRefMap() {
+  //   if (!spanArtistRefs.current) {
+  //     // Initialize the Map on first usage.
+  //     spanArtistRefs.current = new Map();
+  //   }
+  //   return spanArtistRefs.current;
+  // }
+
+  // console.log(imageGridOnLoad.get("67b8253238e019e3793fc951"));
 
   return (
     <div
@@ -126,6 +131,7 @@ export default function DisplayRow({ data, count, title, goto }: Props) {
                     className={`w-full h-full bg-white flex justify-center items-center`}
                   >
                     <img
+                      // src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg"
                       src={albumCoverImageLarge(product.images[0]?.file)}
                       alt={product.name}
                       className="rounded-none object-contain transition-all duration-300"
@@ -145,28 +151,28 @@ export default function DisplayRow({ data, count, title, goto }: Props) {
                     {/* TODO:[1] can you set differetn duration&delay for forward and backward transition? */}
                     <span
                       className="opacity-0 group-hover:opacity-100 transition duration-300 delay-300"
-                      ref={(node) => {
-                        const map = getSpanTitleRefMap();
-                        map.set(product.id, node);
-                        return () => {
-                          // called when removing
-                          map.delete(product.id);
-                        };
-                      }}
+                      // ref={(node) => {
+                      //   const map = getSpanTitleRefMap();
+                      //   map.set(product.id, node);
+                      //   return () => {
+                      //     // called when removing
+                      //     map.delete(product.id);
+                      //   };
+                      // }}
                     >
                       {shortenMiddle(product.name, 40)}
                     </span>
                     {/* opacity-0 group-hover:opacity-100 transition duration-300 delay-300 */}
                     <span
                       className="text-xs md:text-sm opacity-0 group-hover:opacity-100 transition duration-300 delay-300"
-                      ref={(node) => {
-                        const map = getSpanArtistRefMap();
-                        map.set(product.id, node);
-                        return () => {
-                          // called when removing
-                          map.delete(product.id);
-                        };
-                      }}
+                      // ref={(node) => {
+                      //   const map = getSpanArtistRefMap();
+                      //   map.set(product.id, node);
+                      //   return () => {
+                      //     // called when removing
+                      //     map.delete(product.id);
+                      //   };
+                      // }}
                     >
                       {shortenMiddle(product.artist, 40)}
                     </span>
