@@ -108,7 +108,7 @@ export default function HomePage() {
       <DisplayRow
         data={getProductMint.data?.getMint as ProductEntity[]}
         count={COUNT}
-        title={"Perfect Condition"}
+        title={"Mint"}
         goto={`/collection?grading=${encodeURIComponent(GradingEnum.Mint)}`}
       />
       <DisplayRow

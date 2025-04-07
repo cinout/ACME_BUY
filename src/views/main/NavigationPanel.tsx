@@ -1,5 +1,5 @@
 import logo from "@/assets/images/company_logo.png";
-import logoCircleOnly from "@/assets/images/company_logo_circleonly.png";
+import logoCircleOnly from "@/assets/images/company_logo_circleonly.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";

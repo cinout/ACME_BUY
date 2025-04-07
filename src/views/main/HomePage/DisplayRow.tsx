@@ -57,7 +57,7 @@ export default function DisplayRow({ data, count, title, goto }: Props) {
     >
       {/* Left-most title */}
       <Link
-        className={`group bg-radial from-aqua-forest-400 via-aqua-forest-300 to-aqua-forest-100 rounded-none flex flex-col gap-y-4 justify-center items-center text-center transition-all duration-300 ${cssContainerSizeWithScreen} ${
+        className={`group bg-gradient-to-br from-sky-200 via-aqua-forest-100 to-aqua-forest-200  rounded-full overflow-hidden flex flex-col gap-y-4 justify-center items-center text-center transition-all duration-300 ${cssContainerSizeWithScreen} ${
           inView ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
         }`}
         to={goto}
@@ -71,7 +71,7 @@ export default function DisplayRow({ data, count, title, goto }: Props) {
         >
           <div className="z-10">See all</div>
           <div className="z-10">{iconGoRightWithoutCircle()}</div>
-          <div className="absolute top-0 left-0 h-full w-0 group-hover:w-full group-hover:bg-sky-800 transition-all duration-300" />
+          <div className="absolute top-0 left-0 h-full w-0 group-hover:w-full group-hover:bg-aqua-forest-600 transition-all duration-300" />
         </div>
       </Link>
 

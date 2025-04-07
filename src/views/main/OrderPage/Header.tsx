@@ -1,6 +1,6 @@
 import { iconShoppingCart } from "@/utils/icons";
 import { Link } from "react-router-dom";
-import logoCircleOnly from "@/assets/images/company_logo_circleonly.png";
+import logoCircleOnly from "@/assets/images/company_logo_circleonly.svg";
 import { Tooltip } from "react-tooltip";
 
 export default function Header() {

@@ -70,6 +70,7 @@ export default {
       },
       animation: {
         // winnerJump: "winnerJump infinite 1s",
+        rollRightIn: "rollRightIn 1500ms ease-out",
       },
       keyframes: {
         // winnerJump: {
@@ -82,6 +83,14 @@ export default {
         //     "animation-timing-function": "cubic-bezier(0,0,0.2,1)",
         //   },
         // },
+        rollRightIn: {
+          "0%": {
+            transform: "rotate(-300deg)",
+          },
+          "100%": {
+            transform: "rotate(0)" /* move left + rotate */,
+          },
+        },
       },
       fontFamily: {
         arsenal: ["Arsenal", "serif"], // Add the Arsenal font

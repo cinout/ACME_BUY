@@ -1,4 +1,4 @@
-import circleLogo from "@/assets/images/company_logo_circleonly.png";
+import circleLogo from "@/assets/images/company_logo_circleonly.svg";
 import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { capFirstLetter } from "@/utils/strings";
