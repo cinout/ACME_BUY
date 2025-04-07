@@ -16,7 +16,6 @@ import {
   sortingOptions,
   useHookQueryParams,
 } from "@/customHooks/useHookQueryParams";
-import { styleRowContentWithLink } from "@/utils/styles";
 
 const styleContentPadding = "px-2 sm:px-4 lg:px-8";
 const cssPlaceholderContainer = "w-full aspect-square bg-aqua-forest-50";
@@ -184,7 +183,7 @@ export default function CollectionPage() {
           ) : (
             <>
               <div className="my-4 text-sm font-lato italic text-sky-700 flex justify-end">
-                find {totalCount} {totalCount === 1 ? "product" : "products"}{" "}
+                found {totalCount} {totalCount === 1 ? "product" : "products"}{" "}
                 ...
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 text-center">

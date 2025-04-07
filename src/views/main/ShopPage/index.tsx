@@ -7,7 +7,7 @@ import { GQL_GET_USER_BY_ID, UserEntity } from "@/graphql/userGql";
 import { iconChat, iconLocation } from "@/utils/icons";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageLarge, translateAddress } from "@/utils/strings";
-import { ratingStyle, styleRowContentWithLink } from "@/utils/styles";
+import { ratingStyle } from "@/utils/styles";
 import CustomTooltip from "@/views/shared_components/CustomTooltip";
 import UserStatusIndicator from "@/views/shared_components/UserStatusIndicator";
 import { useQuery } from "@apollo/client";

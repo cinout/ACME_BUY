@@ -29,6 +29,7 @@ import toast from "react-hot-toast";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { GQL_ORDER_INITIATE } from "@/graphql/orderGql";
 import { ProductEntity } from "@/graphql/productGql";
+import { styleRowContentWithLink } from "@/utils/styles";
 
 function processQuery(
   gqlGetCurrentUserCartDetails: // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -301,7 +302,7 @@ export default function CartPage() {
                       <span>Shop:</span>
                       <Link
                         to={`/shop/${shopId}`}
-                        className="underline font-light"
+                        className={`font-light ${styleRowContentWithLink} hover:!bg-aqua-forest-100`}
                       >
                         {shopDetails?.shopName}
                       </Link>
