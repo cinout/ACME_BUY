@@ -1,10 +1,16 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 interface NavBarItemProps {
-  dropdownOptions: { id: string; name: string; url: string }[];
+  dropdownOptions: {
+    id: string;
+    name: string;
+    // urlFragment: string;
+    url: string;
+  }[];
   title: string;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
@@ -22,8 +28,7 @@ function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
   /**
    * Routing
    */
-  const { pathname, search } = useLocation(); //pathname is main url part, search is query-parameters part
-  const fullUrl = pathname + search;
+  const searchParams = new URLSearchParams(location.search);
 
   /**
    * Effect
@@ -78,7 +83,8 @@ function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
                   key={option.id}
                   className={() =>
                     `w-full flex justify-center items-center hover:bg-aqua-forest-500 h-6 overflow-x-hidden whitespace-nowrap ${
-                      fullUrl === option.url && "bg-aqua-forest-500 font-bold"
+                      searchParams.get(title.toLowerCase()) === option.name &&
+                      "bg-aqua-forest-500 font-bold"
                     }`
                   }
                   end
@@ -103,12 +109,15 @@ function ContentLargeScreen({ dropdownOptions, title }: NavBarItemProps) {
   );
 }
 
-function ContentSmallSreen({ dropdownOptions, title }: NavBarItemProps) {
+function ContentSmallSreen({
+  dropdownOptions,
+  title,
+  setIsOpen,
+}: NavBarItemProps) {
   /**
    * Routing
    */
-  const { pathname, search } = useLocation(); //pathname is main url part, search is query-parameters part
-  const fullUrl = pathname + search;
+  const searchParams = new URLSearchParams(location.search);
 
   return (
     <div>
@@ -125,12 +134,17 @@ function ContentSmallSreen({ dropdownOptions, title }: NavBarItemProps) {
             key={option.id}
             className={() =>
               `p-[0.1rem] ${
-                fullUrl === option.url
+                searchParams.get(title.toLowerCase()) === option.name
                   ? "bg-aqua-forest-500 text-aqua-forest-50 font-bold"
                   : "text-aqua-forest-700"
               }`
             }
             end
+            onClick={() => {
+              if (setIsOpen) {
+                setIsOpen(false);
+              }
+            }}
           >
             {option.name}
           </NavLink>
@@ -143,7 +157,9 @@ function ContentSmallSreen({ dropdownOptions, title }: NavBarItemProps) {
 export default function NavBarItem({
   dropdownOptions,
   title,
+  setIsOpen,
 }: NavBarItemProps) {
+  // console.log("dropdownOptions", dropdownOptions);
   return (
     <>
       {/* >= md screen */}
@@ -153,7 +169,11 @@ export default function NavBarItem({
 
       {/* <md screen */}
       <div className="block md:hidden relative w-full">
-        <ContentSmallSreen dropdownOptions={dropdownOptions} title={title} />
+        <ContentSmallSreen
+          dropdownOptions={dropdownOptions}
+          title={title}
+          setIsOpen={setIsOpen}
+        />
       </div>
     </>
   );

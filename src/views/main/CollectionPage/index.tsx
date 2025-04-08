@@ -7,7 +7,6 @@ import { albumCoverImageLarge, capFirstLetter } from "@/utils/strings";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import FilterSection from "./FilterSection";
-import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import { iconCrossClose } from "@/utils/icons";
 import Pagination from "@/views/shared_components/Pagination";
 import useHookMultipleImageLoading from "@/customHooks/useHookMultipleImageLoading";
@@ -26,9 +25,6 @@ export default function CollectionPage() {
   /**
    * GQL [1]
    */
-  // Genre
-  const gqlGenresGetAll = useQuery(GQL_GENRES_GET_ALL);
-  const allGenres = gqlGenresGetAll.data?.getAllGenres as GenreEntity[];
 
   const {
     filterOptions,
@@ -39,7 +35,8 @@ export default function CollectionPage() {
     finalSorting,
     genreOptions,
     filtersWithOptions,
-  } = useHookQueryParams(allGenres);
+    allGenres,
+  } = useHookQueryParams();
 
   /**
    * GQL [2]
@@ -152,27 +149,29 @@ export default function CollectionPage() {
           <div
             className={`${styleContentPadding} flex flex-wrap gap-2 my-3 font-lato`}
           >
-            {Object.entries(filterOptions).map(([title, value]) => (
-              <div
-                key={title}
-                className={`bg-sky-800 text-sky-100 py-1 px-2 rounded-[0.24rem] ${
-                  value ? "inline-flex items-center gap-1" : "hidden"
-                }`}
-              >
-                <span className="font-bold"> {capFirstLetter(title)}: </span>
-                <span>{value}</span>
-                <button
-                  className="ml-2 text-xl bg-sky-100 text-sky-800 rounded-sm hover:scale-105 transition"
-                  onClick={() => {
-                    const newParams = new URLSearchParams(searchParams);
-                    newParams.delete(title); // Remove the parameter
-                    setSearchParams(newParams); // Update the URL
-                  }}
+            {[["query", currentQuery]]
+              .concat(Object.entries(filterOptions))
+              .map(([title, value]) => (
+                <div
+                  key={title}
+                  className={`bg-sky-800 text-sky-100 py-1 px-2 rounded-[0.24rem] ${
+                    value ? "inline-flex items-center gap-1" : "hidden"
+                  }`}
                 >
-                  {iconCrossClose()}
-                </button>
-              </div>
-            ))}
+                  <span className="font-bold"> {capFirstLetter(title)}: </span>
+                  <span>{value}</span>
+                  <button
+                    className="ml-2 text-xl bg-sky-100 text-sky-800 rounded-sm hover:scale-105 transition"
+                    onClick={() => {
+                      const newParams = new URLSearchParams(searchParams);
+                      newParams.delete(title!); // Remove the parameter
+                      setSearchParams(newParams); // Update the URL
+                    }}
+                  >
+                    {iconCrossClose()}
+                  </button>
+                </div>
+              ))}
           </div>
 
           {/* Contents */}

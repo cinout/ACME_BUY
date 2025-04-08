@@ -1,10 +1,11 @@
-import { GenreEntity } from "@/graphql/genreGql";
+import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
 import {
   GradingEnum,
   MediaFormatEnum,
   ReleaseRegionEnum,
   ReleaseYearRangeEnum,
 } from "@/graphql/productGql";
+import { useQuery } from "@apollo/client";
 import { useSearchParams } from "react-router-dom";
 
 export const sortingOptions = [
@@ -25,7 +26,11 @@ export const sortingOptions = [
 ];
 
 // Get the previous value
-export function useHookQueryParams(allGenres: GenreEntity[]) {
+export function useHookQueryParams() {
+  // Genre
+  const gqlGenresGetAll = useQuery(GQL_GENRES_GET_ALL);
+  const allGenres = gqlGenresGetAll.data?.getAllGenres as GenreEntity[];
+
   // Create a shallow copy and sort the copy
   const sortedGenres =
     allGenres && allGenres.length > 0
@@ -148,5 +153,6 @@ export function useHookQueryParams(allGenres: GenreEntity[]) {
     finalSorting,
     genreOptions,
     filtersWithOptions,
+    allGenres,
   };
 }

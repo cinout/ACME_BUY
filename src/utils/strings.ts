@@ -72,7 +72,7 @@ export function joinUrl(...args: string[]) {
     .join("/");
 }
 
-export function capFirstLetter(input: string | undefined) {
+export function capFirstLetter(input: string | undefined | null) {
   return input
     ? input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
     : "";

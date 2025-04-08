@@ -3,12 +3,12 @@ import logoCircleOnly from "@/assets/images/company_logo_circleonly.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GenreEntity, GQL_GENRES_GET_ALL } from "@/graphql/genreGql";
-import NavBarItem from "../shared_components/NavBarItem";
+import NavBarItem from "./NavBarItem";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { useAppSelector } from "@/redux/hooks";
 import { iconSearchMagnifier, iconShoppingCart } from "@/utils/icons";
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useHookQueryParams } from "@/customHooks/useHookQueryParams";
 import {
   GradingEnum,
@@ -24,14 +24,11 @@ interface Props {
 
 const cssMenu = `block w-8 h-[0.12rem] bg-aqua-forest-600 transition duration-300`;
 
-function SearchBar() {
-  /**
-   * GQL
-   */
-  // Genre
-  const gqlGenresGetAll = useQuery(GQL_GENRES_GET_ALL);
-  const allGenres = gqlGenresGetAll.data?.getAllGenres as GenreEntity[];
-
+function SearchBar({
+  setIsOpen,
+}: {
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+}) {
   /**
    * Routing
    */
@@ -40,8 +37,7 @@ function SearchBar() {
   /**
    * Hook
    */
-  const { currentQuery } = useHookQueryParams(allGenres);
-
+  const { currentQuery } = useHookQueryParams();
   const [value, setValue] = useState(currentQuery || "");
 
   // when query in url is changed (either caused by user input or clicking on navigation bar items), update the search value
@@ -63,12 +59,20 @@ function SearchBar() {
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             void navigate(`/collection?query=${encodeURIComponent(value)}`);
+            if (setIsOpen) {
+              setIsOpen(false);
+            }
           }
         }}
       />
       <Link
         className="cursor-pointer text-2xl text-aqua-forest-700  rounded-full p-2 hover:bg-aqua-forest-100 group  transition-all duration-300"
         to={`/collection?query=${encodeURIComponent(value)}`}
+        onClick={() => {
+          if (setIsOpen) {
+            setIsOpen(false);
+          }
+        }}
       >
         {iconSearchMagnifier("group-hover:scale-110 transition duration-300")}
       </Link>
@@ -102,13 +106,22 @@ export default function NavigationPanel({ isScrollUp }: Props) {
   /**
    * Computed
    */
-  const navbarOptions = [
+  const navbarOptions: {
+    title: string;
+    options: {
+      id: string;
+      name: string;
+      url: string;
+      // urlFragment: string;
+    }[];
+  }[] = [
     {
       title: "Genre",
       options: sortedGenres.map((a) => ({
         id: a.id,
         name: a.name,
         url: `/collection?genre=${encodeURIComponent(a.name)}`,
+        // urlFragment: `genre=${encodeURIComponent(a.name)}`,
       })),
     },
     {
@@ -117,6 +130,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
         id: a,
         name: a,
         url: `/collection?format=${encodeURIComponent(a)}`,
+        // urlFragment: `format=${encodeURIComponent(a)}`,
       })),
     },
     {
@@ -125,6 +139,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
         id: a,
         name: a,
         url: `/collection?year=${encodeURIComponent(a)}`,
+        // urlFragment: `year=${encodeURIComponent(a)}`,
       })),
     },
     {
@@ -133,6 +148,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
         id: a,
         name: a,
         url: `/collection?grading=${encodeURIComponent(a)}`,
+        // urlFragment: `grading=${encodeURIComponent(a)}`,
       })),
     },
     {
@@ -141,6 +157,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
         id: a,
         name: a,
         url: `/collection?region=${encodeURIComponent(a)}`,
+        // urlFragment: `region=${encodeURIComponent(a)}`,
       })),
     },
   ];
@@ -184,7 +201,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
             />
           </Link>
 
-          {/* Middle */}
+          {/* Middle: Search bar, only shown on >md screen */}
           <div className="hidden md:flex gap-x-4 justify-self-center items-center">
             <SearchBar />
           </div>
@@ -254,8 +271,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
           </div>
         </div>
 
-        {/* Second Row  */}
-
+        {/* Second Row, >md screen  */}
         <AnimatePresence>
           {!isScrollUp && (
             <motion.div
@@ -279,51 +295,11 @@ export default function NavigationPanel({ isScrollUp }: Props) {
                   dropdownOptions={a.options}
                 />
               ))}
-              {/* <NavBarItem
-                title="Genre"
-                dropdownOptions={sortedGenres.map((a) => ({
-                  id: a.id,
-                  name: a.name,
-                }))}
-              />
-
-              <NavBarItem
-                title="Format"
-                dropdownOptions={Object.values(MediaFormatEnum).map((a) => ({
-                  id: a,
-                  name: a,
-                }))}
-              />
-
-              <NavBarItem
-                title="Year"
-                dropdownOptions={Object.values(ReleaseYearRangeEnum).map(
-                  (a) => ({
-                    id: a,
-                    name: a,
-                  })
-                )}
-              />
-
-              <NavBarItem
-                title="Grading"
-                dropdownOptions={Object.values(GradingEnum).map((a) => ({
-                  id: a,
-                  name: a,
-                }))}
-              />
-
-              <NavBarItem
-                title="Region"
-                dropdownOptions={Object.values(ReleaseRegionEnum).map((a) => ({
-                  id: a,
-                  name: a,
-                }))}
-              /> */}
             </motion.div>
           )}
         </AnimatePresence>
 
+        {/* <md screen, dropdown items */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -342,7 +318,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
               }}
             >
               <div className="flex items-center justify-center w-full gap-x-4">
-                <SearchBar />
+                <SearchBar setIsOpen={setIsOpen} />
               </div>
 
               <div className="flex flex-col mt-4 gap-y-2">
@@ -351,6 +327,7 @@ export default function NavigationPanel({ isScrollUp }: Props) {
                     key={a.title}
                     title={a.title}
                     dropdownOptions={a.options}
+                    setIsOpen={setIsOpen}
                   />
                 ))}
               </div>

@@ -186,21 +186,30 @@ export default function OrderTable({
                                 <div className="mt-2 flex gap-x-2 items-center  text-sm">
                                   <span className="">
                                     $
-                                    {calculateDiscountedPriceAndReturnString(
-                                      item.priceSnapshot!,
-                                      item.discountSnapshot!
-                                    )}
+                                    {order.status === OrderStatusEnum.Pending
+                                      ? calculateDiscountedPriceAndReturnString(
+                                          product!.price,
+                                          product!.discount
+                                        )
+                                      : calculateDiscountedPriceAndReturnString(
+                                          item.priceSnapshot!,
+                                          item.discountSnapshot!
+                                        )}
                                   </span>
                                   <span>&times;</span>
                                   <span>{item.quantity}</span>
                                   <span>=</span>
                                   <span>
                                     $
-                                    {(
-                                      calculateDiscountedPriceAndReturnNumber(
-                                        item.priceSnapshot!,
-                                        item.discountSnapshot!
-                                      ) * item.quantity
+                                    {(order.status === OrderStatusEnum.Pending
+                                      ? calculateDiscountedPriceAndReturnNumber(
+                                          product!.price,
+                                          product!.discount
+                                        ) * item.quantity
+                                      : calculateDiscountedPriceAndReturnNumber(
+                                          item.priceSnapshot!,
+                                          item.discountSnapshot!
+                                        ) * item.quantity
                                     ).toFixed(2)}
                                   </span>
                                 </div>

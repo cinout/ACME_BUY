@@ -164,7 +164,7 @@ export default function DisplayRow({ data, count, title, goto }: Props) {
                     </span>
                     {/* opacity-0 group-hover:opacity-100 transition duration-300 delay-300 */}
                     <span
-                      className="text-xs md:text-sm opacity-0 group-hover:opacity-100 transition duration-300 delay-300"
+                      className="font-lato font-light text-xs md:text-sm opacity-0 group-hover:opacity-100 transition duration-300 delay-300"
                       // ref={(node) => {
                       //   const map = getSpanArtistRefMap();
                       //   map.set(product.id, node);
