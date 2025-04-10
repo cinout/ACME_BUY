@@ -1,3 +1,5 @@
+import LoadingPage from "@/views/LoadingPage";
+import { Suspense } from "react";
 import { useRoutes } from "react-router-dom";
 import { RouteObject } from "react-router-dom"; // for typing
 
@@ -6,6 +8,6 @@ interface RouterProps {
 }
 
 export default function Router({ allRoutes }: RouterProps) {
-  const routes = useRoutes([...allRoutes]); //TODO: what is useRoutes?
-  return routes;
+  const routes = useRoutes([...allRoutes]);
+  return <Suspense fallback={<LoadingPage />}> {routes}</Suspense>;
 }

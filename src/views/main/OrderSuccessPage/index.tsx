@@ -5,7 +5,7 @@ import {
   OrderStatusEnum,
 } from "@/graphql/orderGql";
 import { useAppSelector } from "@/redux/hooks";
-import LoadingPage from "@/views/shared_components/private_section/LoadingPage";
+import LoadingPage from "@/views/LoadingPage";
 import { useQuery } from "@apollo/client";
 import { Link, Navigate, useParams } from "react-router-dom";
 import orderSuccessImage from "@/assets/images/orderSuccess.svg";

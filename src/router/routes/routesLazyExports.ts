@@ -1,20 +1,6 @@
 import { lazy } from "react";
 
 /**
- * TODO: do I need to wrap all lazy-load components with Suspense?
-------------------------------
-import { lazy, Suspense } from "react";
-const Main = lazy(() => import("@/views/Main"));
-
-const LazyMain = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <Main />
-  </Suspense>
-);
-------------------------------
-*/
-
-/**
  * Shop Front
  */
 export const HomePage = lazy(() => import("@/views/main/HomePage"));
@@ -35,6 +21,7 @@ export const UserSignup = lazy(() => import("@/views/auth/UserSignup"));
 export const UnauthorizedPage = lazy(
   () => import("@/views/auth/UnauthorizedPage")
 );
+export const UnfoundPage = lazy(() => import("@/views/UnfoundPage"));
 
 /**
  * Private Pages

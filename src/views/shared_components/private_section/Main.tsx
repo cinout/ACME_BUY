@@ -3,7 +3,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { useRef, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import LoadingPage from "./LoadingPage";
+import LoadingPage from "../../LoadingPage";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { RoleEnum } from "@/graphql/userGql";
 

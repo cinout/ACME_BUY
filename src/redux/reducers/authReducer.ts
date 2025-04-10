@@ -92,11 +92,11 @@ interface CustomJwtPayload {
 function getUserBasicInfo() {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
-    const { exp, email, role } = jwtDecode<CustomJwtPayload>(accessToken);
-    const expireTime = new Date(exp * 1000); // TODO: double check this code
+    const { exp, email, role } = jwtDecode<CustomJwtPayload>(accessToken); // exp is a Unix timestamp (in seconds, not milliseconds). It represents the exact moment the token expires, based on when it was created + expiresIn
+    const expireTime = new Date(exp * 1000); // multiply by 1000 to convert seconds to ms
     if (new Date() > expireTime) {
       localStorage.removeItem("accessToken"); // remove if expired
-      return; // TODO: need to do anything else?
+      return;
     } else {
       return { email, role };
     }
@@ -126,7 +126,7 @@ const initialState: AuthState = {
   updateUserRoleDoneOnFirstRender: false,
 };
 
-// TODO: should I move this to GQL as well?
+// TODO:[1] should I move this to GQL as well?
 const authReducer = createSlice({
   name: "auth",
   initialState,
@@ -155,7 +155,6 @@ const authReducer = createSlice({
       .addCase(userLogin.fulfilled, (state, action) => {
         afterSignupOrLogin(state, action);
       });
-    // TODO:[2] what if there is error getting user info? (probably redirect to a page asking to login as either
   },
 });
 

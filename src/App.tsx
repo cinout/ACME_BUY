@@ -10,7 +10,6 @@ import {
 import { useAppDispatch } from "./redux/hooks.ts";
 import { updateUserRole } from "./redux/reducers/authReducer.ts";
 
-// TODO: this shows Invalid hook call error when you just signed in as admin and then flip back to previous pages using navigate???
 export default function App() {
   const dispatch = useAppDispatch();
 
@@ -18,7 +17,6 @@ export default function App() {
     dispatch(updateUserRole()); // update role locally
   }, [dispatch]);
 
-  // TODO: what to do for customer routes?
   return (
     <Router
       allRoutes={[

@@ -7,8 +7,6 @@ export default function useHookSingleImageLoading() {
   useEffect(() => {
     let imgElement: HTMLImageElement;
 
-    // TODO:[2] this is weird
-    // if (imageGridRef.current && !imageGridRef.current.complete) {
     if (imageGridRef.current) {
       setImageGridRefOnLoad(true);
       imgElement = imageGridRef.current;

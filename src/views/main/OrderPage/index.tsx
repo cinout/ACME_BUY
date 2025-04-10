@@ -14,7 +14,7 @@ import {
 import { Navigate, useParams } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
-import LoadingPage from "@/views/shared_components/private_section/LoadingPage";
+import LoadingPage from "@/views/LoadingPage";
 import { useEffect, useState } from "react";
 import { useHookPrevious } from "@/customHooks/useHookPrevious";
 
@@ -146,7 +146,7 @@ export default function OrderPage() {
       } else {
         // user is logged in
         if (gqlQueryOrder.error) {
-          // query has error (such as the order does not belong to the user)
+          // query has error (such as the order does not belong to the user or invalid order id)
           return <Navigate to="/unauthorized" replace />;
         } else if (gqlQueryOrder.data) {
           // query is successful

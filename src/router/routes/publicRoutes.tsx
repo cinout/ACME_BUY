@@ -4,6 +4,7 @@ import {
   UserSignup,
   HomePage,
   UnauthorizedPage,
+  UnfoundPage,
   ProductPage,
   CollectionPage,
   ShopPage,
@@ -64,5 +65,8 @@ export const publicRoutes: RouteObject[] = [
     path: "/unauthorized",
     element: <UnauthorizedPage />,
   },
-  // TODO: we also need a page when the route user entered is not available
+  {
+    path: "*",
+    element: <UnfoundPage />,
+  },
 ];

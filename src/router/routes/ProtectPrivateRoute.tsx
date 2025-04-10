@@ -11,7 +11,7 @@ interface ProtectPrivateRouteProps {
   route: PrivateAdminRouteType | PrivateUserRouteType;
 }
 
-// TODO: why is this component loaded three times?
+// TODO:[1] why is this component loaded three times?
 export default function ProtectPrivateRoute({
   children,
   route,

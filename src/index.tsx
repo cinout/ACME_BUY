@@ -13,7 +13,7 @@ import "@smastrom/react-rating/style.css"; // react rating
 
 const client = new ApolloClient({
   link: createUploadLink({
-    uri: "http://localhost:8000/api/graphql", //TODO: what to do when prod env?
+    uri: "http://localhost:8000/api/graphql", //[TODO:[3] what to do when prod env?
     headers: {
       "Apollo-Require-Preflight": "true",
     },
@@ -23,7 +23,7 @@ const client = new ApolloClient({
   connectToDevTools: false, // Suppress the DevTools message
 });
 
-// TODO: we recommend wrapping this statement in a check for e.g. process.env.NODE_ENV === "development"
+// TODO:[3] we recommend wrapping this statement in a check for e.g. process.env.NODE_ENV === "development"
 const devtoolsRegistration = connectApolloClientToVSCodeDevTools(
   client,
   "ws://localhost:7095" // the default port of the VSCode DevTools is 7095

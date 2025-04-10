@@ -12,6 +12,7 @@ import MainInfo from "./MainInfo";
 import MainImage from "./MainImage";
 import GuessYouLike from "./GuessYouLike";
 import { albumCoverImageLarge } from "@/utils/strings";
+import { styleUnableToFind } from "@/utils/styles";
 
 export default function ProductPage() {
   /**
@@ -37,44 +38,39 @@ export default function ProductPage() {
     name: string | undefined;
   } | null>(null);
 
-  return (
+  return product ? (
     <div>
-      {/* PRoduct Panel */}
-      {product ? (
-        <div>
-          {/* Main Content */}
-          <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-16">
-            {/* LEFT */}
-            <MainImage
-              product={product}
-              setFullScreenImage={setFullScreenImage}
-            />
+      {/* Main Content */}
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-16">
+        {/* LEFT */}
+        <MainImage product={product} setFullScreenImage={setFullScreenImage} />
 
-            {/* RIGHT */}
-            <MainInfo product={product} />
+        {/* RIGHT */}
+        <MainInfo product={product} />
 
-            {/* Full-screen */}
-            <Dialog
-              open={!!fullScreenImage}
-              onClose={() => {
-                setFullScreenImage(null);
-              }}
-              className="relative z-[60]"
-            >
-              <FullScreenImage
-                setFullScreenImage={setFullScreenImage}
-                url={albumCoverImageLarge(fullScreenImage?.url)}
-                name={fullScreenImage?.name}
-              />
-            </Dialog>
-          </div>
-        </div>
-      ) : (
-        <div className="h-[100vh]"></div>
-      )}
+        {/* Full-screen */}
+        <Dialog
+          open={!!fullScreenImage}
+          onClose={() => {
+            setFullScreenImage(null);
+          }}
+          className="relative z-[60]"
+        >
+          <FullScreenImage
+            setFullScreenImage={setFullScreenImage}
+            url={albumCoverImageLarge(fullScreenImage?.url)}
+            name={fullScreenImage?.name}
+          />
+        </Dialog>
+      </div>
 
       {/* Guess you like */}
       <GuessYouLike />
     </div>
+  ) : gqlgetProductAndRelatedDetailsById.error ? (
+    <div className={styleUnableToFind}>Unable to find the product.</div>
+  ) : (
+    // still loading query
+    <div className="min-h-[100vh]" />
   );
 }

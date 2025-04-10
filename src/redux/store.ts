@@ -9,17 +9,16 @@ const store = configureStore({
     // app: appReducer,
   },
 
-  // TODO: how to understand
-  middleware: (defaultMiddleware) => {
-    return defaultMiddleware({
-      serializableCheck: false,
-    });
-  },
+  // middleware: (defaultMiddleware) => {
+  //   return defaultMiddleware({
+  //     serializableCheck: false,
+  //   });
+  // },
 });
 
 export default store;
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>; // TODO: how to understand this syntax
+export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

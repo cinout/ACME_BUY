@@ -29,7 +29,7 @@ import toast from "react-hot-toast";
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
 import { GQL_ORDER_INITIATE } from "@/graphql/orderGql";
 import { ProductEntity } from "@/graphql/productGql";
-import { styleRowContentWithLink } from "@/utils/styles";
+import { styleRowContentWithLink, styleUnableToFind } from "@/utils/styles";
 
 function processQuery(
   gqlGetCurrentUserCartDetails: // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -287,7 +287,7 @@ export default function CartPage() {
       {userInfo ? (
         <div className="flex flex-col gap-y-6 mt-10">
           {cartAndcartDetails?.cart?.length === 0 ? (
-            <div className="text-center mt-10"> Your cart is empty.</div>
+            <div className={styleUnableToFind}> Your cart is empty.</div>
           ) : (
             Object.entries(cartDetailGroupedByShop)?.map(
               ([shopId, productsFromShop]) => {

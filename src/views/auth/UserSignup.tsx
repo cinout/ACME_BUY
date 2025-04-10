@@ -13,6 +13,7 @@ import LoadingIndicator from "../shared_components/LoadingIndicator";
 import { FormUserSignupProps, userSignup } from "@/redux/reducers/authReducer";
 import toast from "react-hot-toast";
 import {
+  styleCompanyLogoPosition,
   styleFormErrorMessage,
   styleLoginDialog,
   styleLoginSubmitButton,
@@ -60,7 +61,7 @@ export default function UserSignup() {
 
   return (
     <div className="bg-gradient-to-tr from-aqua-forest-200 to-sky-200 flex justify-center items-center min-w-full min-h-full relative font-arsenal-spaced-1">
-      <Link className="absolute top-4 left-4 h-10" to="/">
+      <Link className={styleCompanyLogoPosition} to="/">
         <img src={logo} className="h-full" />
       </Link>
       {role && !didSubmit ? (

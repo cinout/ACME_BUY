@@ -35,6 +35,8 @@ export const styleSecondSubmitButton =
 // link, hover to show background color
 export const styleRowContentWithLink =
   "border-b border-aqua-forest-200 hover:border-aqua-forest-300 transition hover:bg-aqua-forest-50";
+export const styleUnableToFind = "flex justify-center mt-10 font-lato";
+export const styleCompanyLogoPosition = "absolute top-6 left-8 w-[13.5rem]";
 
 /**
  * Rating

@@ -80,7 +80,8 @@ export default function CollectionPage() {
 
     const newParams = new URLSearchParams(searchParams);
     newParams.set("page", "1");
-    setSearchParams(newParams);
+
+    setSearchParams(newParams); // this makes invalid url parts (collection?query=value/invalidUrlPart) disappear
   }, [
     filterOptions.genre,
     filterOptions.format,
@@ -91,7 +92,7 @@ export default function CollectionPage() {
   ]);
 
   /**
-   * Hooks
+   * Image Loading Hook
    */
   const imageIds = useMemo(() => {
     return currentPageProducts?.map((a) => a.id) || [];
