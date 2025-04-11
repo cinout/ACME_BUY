@@ -150,15 +150,23 @@ export const navOptions: NavOptionsProps[] = [
     accessUserStatus: [UserStatusEnum.Active],
     asRole: "as seller",
   },
-
   {
-    name: "Payments",
-    icon: iconPayment(),
+    name: "Incoming Orders",
+    icon: iconProducts(),
     accessRoles: [RoleEnum.User],
-    goto: "/user/payments",
+    goto: "/user/incoming-orders",
     accessUserStatus: [UserStatusEnum.Active],
     asRole: "as seller",
   },
+
+  // {
+  //   name: "Payments",
+  //   icon: iconPayment(),
+  //   accessRoles: [RoleEnum.User],
+  //   goto: "/user/payments",
+  //   accessUserStatus: [UserStatusEnum.Active],
+  //   asRole: "as seller",
+  // },
 
   // TODO:[3] incoming orders
 ];

@@ -14,6 +14,7 @@ export enum OrderStatusEnum {
 export interface OrderEntity extends Entity {
   items: {
     productId: string;
+    sellerId: string;
     quantity: number;
     priceSnapshot?: number;
     discountSnapshot?: number;
@@ -37,7 +38,7 @@ const GQL_FRAGMENT_ORDER_DETAILS = gql`
     id
     createdAt
     updatedAt
-    items # including id, quantity, priceSnapshot, discountSnapshot
+    items
     userId
     status
     shippingCountry

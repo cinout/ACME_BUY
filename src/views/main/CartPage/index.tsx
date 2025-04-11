@@ -224,10 +224,15 @@ export default function CartPage() {
       .then((query) => {
         const { hasError } = processQuery(query, userInfo);
         if (!hasError) {
-          // TODO:[3]  create an order Id and redirect
           void initiateOrder({
             variables: {
-              items: cartAndcartDetails.cart,
+              items: cartAndcartDetails.cart?.map((a) => {
+                const product = cartAndcartDetails.cartDetails.find(
+                  (b) => b.id === a.productId
+                )!;
+
+                return { ...a, sellerId: product.userId };
+              }),
             },
           });
         }

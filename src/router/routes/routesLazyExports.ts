@@ -68,12 +68,15 @@ export const UserSectionProducts = lazy(
 export const UserSectionOrders = lazy(
   () => import("@/views/user/SectionOrders")
 );
+export const UserSectionIncomingOrders = lazy(
+  () => import("@/views/user/SectionIncomingOrders")
+);
 export const UserSectionWishList = lazy(
   () => import("@/views/user/SectionWishList")
 );
-export const UserSectionPayments = lazy(
-  () => import("@/views/user/SectionPayments")
-);
+// export const UserSectionPayments = lazy(
+//   () => import("@/views/user/SectionIncomingOrders")
+// );
 export const UserSectionChat = lazy(() => import("@/views/user/SectionChat"));
 export const UserSectionSupport = lazy(
   () => import("@/views/user/SectionSupport")

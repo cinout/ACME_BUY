@@ -161,3 +161,4 @@
 - [ ] Home page's DisplayRows can use different layout (left/right) based on odd/even index
 - [ ] proper pagination for all sections using pages
 - [ ] change password / forget password / email verification
+- [ ] user can rate seller on completed orders
