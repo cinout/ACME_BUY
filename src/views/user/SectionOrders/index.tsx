@@ -38,7 +38,7 @@ export default function SectionOrders() {
     });
   }
 
-  // TODO:[2] provide filter/sort function, e.g., sort by time/price, fitler by order/payment status
+  // TODO:[3] provide filter/sort function, e.g., sort by time/price, fitler by order/payment status
 
   return (
     <>
@@ -51,7 +51,7 @@ export default function SectionOrders() {
       />
 
       {/* Pagination */}
-      {/* TODO: is there a more efficient way to retrieve and display information according to current page? */}
+      {/* TODO:[3] is there a more efficient way to retrieve and display information according to current page? */}
       <div className="mt-12">
         <Pagination
           currentPage={currentPage}

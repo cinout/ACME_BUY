@@ -41,7 +41,7 @@ export default function SectionProfile() {
     },
     onCompleted: () => {
       dispatch(afterLogout());
-      void client.clearStore(); // TODO: should I leave something in cache?
+      void client.clearStore(); // TODO:[1] should I leave something in cache?
       // redirected to login page due to ProtectRoute
     },
   });
@@ -181,7 +181,7 @@ export default function SectionProfile() {
           error={errors.image}
           hideImageName={true}
           showLabel={false}
-          disabled={!editProfileMode} // TODO: update when changing password is implement
+          disabled={!editProfileMode} // TODO:[2] update when changing password is implement
         />
 
         <div className="flex flex-col justify-between text-white">
@@ -213,7 +213,7 @@ export default function SectionProfile() {
 
       {/* Buttons */}
       <div className="flex justify-center gap-2 mt-4">
-        {/* // TODO: update when changing password is implement */}
+        {/* // TODO:[2] update when changing password is implement */}
         {!editProfileMode && (
           <>
             <button
@@ -239,7 +239,7 @@ export default function SectionProfile() {
         )}
       </div>
 
-      {/* // TODO: update when changing password is implement */}
+      {/* // TODO:[2] update when changing password is implement */}
       {editProfileMode && (
         <UserProfileEdit
           register={register}
@@ -256,5 +256,5 @@ export default function SectionProfile() {
     </>
   );
 
-  // TODO: change password functionality
+  // TODO:[2] change password functionality
 }

@@ -8,8 +8,7 @@ interface UserListProps {
   setShowList?: React.Dispatch<SetStateAction<boolean>>;
 }
 
-// TODO: implement search User */}
-// TODO: need to have a X button */}
+// TODO:[3] implement search User */}
 
 const baseUrl = "/user/chat";
 
@@ -23,7 +22,7 @@ export default function UserList({ userStats, setShowList }: UserListProps) {
     void navigate(joinUrl(baseUrl, id));
   }
 
-  // TODO: Sort them based on recent message
+  // TODO:[3] Sort them based on recent message
 
   return (
     <>

@@ -8,5 +8,5 @@ export default function LoadingPage() {
 
       <PropagateLoader color="#488062" size={6} />
     </div>
-  ); // TODO:: improve UI
+  );
 }

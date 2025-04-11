@@ -81,7 +81,7 @@ export default function Header({
           </span>
         </div>
 
-        {/* TODO: see video Section 33 */}
+        {/* TODO:[1] see video Section 33 */}
         <Link to={role === RoleEnum.User ? "/user/profile" : "/admin/profile"}>
           <div className="w-[3rem]">
             <img

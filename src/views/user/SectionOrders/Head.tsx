@@ -18,7 +18,7 @@ export default function Head({
 HeadProps) {
   return (
     <div className="flex justify-between flex-wrap items-end gap-3">
-      {/* TODO: implement search function */}
+      {/* TODO:[3] implement search function */}
 
       <HeadSearch
         placeholder="search orders ..."

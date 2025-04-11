@@ -44,12 +44,12 @@ export default function UserSignup() {
     setShowLoader(true);
     setDidSubmit(true);
     dispatch(
-      userSignup({ ...data, signupMethod: UserSignupMethodEnum.Default }) // TODO: update signupMethod for Google/Facebook login
+      userSignup({ ...data, signupMethod: UserSignupMethodEnum.Default }) // TODO:[3] update signupMethod for Google/Facebook login
     )
       .unwrap()
       .then(() => {
         // reset(); // reset form values
-        // TODO: if user comes from /product/pID page, should redirect back
+        // TODO:[3] if user comes from /product/pID page, should redirect back
         setShowLoader(false);
         void navigate("/user/dashboard", { replace: true });
       })
@@ -84,7 +84,6 @@ export default function UserSignup() {
           </div>
 
           {/* Form */}
-          {/* // TODO: add validation to the field values */}
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormInput
@@ -195,7 +194,7 @@ export default function UserSignup() {
               />
               <label htmlFor="agree" className="text-sm">
                 {`By ticking this box, I agree to SWAP SOUND's privacy policy & terms.`}
-                {/* TODO: add link to some random template privacy policy & terms  */}
+                {/* TODO:[1] add link to some random template privacy policy & terms  */}
               </label>
             </div>
 
@@ -210,7 +209,7 @@ export default function UserSignup() {
 
           <hr className="my-4" />
 
-          {/* TODO: provide real sign in options for Gmail and Facebook */}
+          {/* TODO:[3] provide real sign in options for Gmail and Facebook */}
           <div className="flex items-center justify-around text-sm mb-3">
             Already have an account? Sign in with:
           </div>

@@ -22,8 +22,8 @@ export default function SectionProfile() {
     },
     onCompleted: () => {
       dispatch(afterLogout());
-      void client.clearStore(); // TODO: should I leave something in cache?
-      // redirected to login page due to ProtectRoute
+      void client.clearStore(); // TODO:[1] should I leave something in cache?
+      // get redirected to login page due to ProtectRoute
     },
   });
 
@@ -34,7 +34,7 @@ export default function SectionProfile() {
     void gqlAuthLogOut();
   }
 
-  // TODO: update UI
+  // TODO:[3] update UI
   return (
     <div>
       Admin Profile

@@ -16,8 +16,7 @@ import toast from "react-hot-toast";
 
 const itemsPerPageOptions = [10, 20, 30, 40];
 
-// TODO: need to provide filter/sort functionalities
-// TODO: only show activated and deactivated users, pending users are in User Request tab
+// TODO:[3] need to provide filter/sort functionalities
 export default function SectionUsers() {
   /**
    * State
@@ -107,7 +106,7 @@ export default function SectionUsers() {
       )}
 
       {/* Pagination */}
-      {/* TODO: is there a more efficient way to retrieve and display information according to current page? */}
+      {/* TODO:[3] is there a more efficient way to retrieve and display information according to current page? */}
       <div className="mt-12">
         <Pagination
           currentPage={currentPage}

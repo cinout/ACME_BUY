@@ -12,7 +12,7 @@ interface ProductTableProps {
   setToDeleteItemId: Dispatch<SetStateAction<string>>;
 }
 
-// TODO: provide functionality of filtering products
+// TODO:[3] provide functionality of filtering products
 export default function ProductTable({
   productStats,
   setToDeleteItemId,
@@ -33,7 +33,6 @@ export default function ProductTable({
           className="flex flex-col justify-start items-center gap-2"
         >
           <Link to={joinUrl(pathname, product.id)}>
-            {/* TODO:[2] show stand-in effect when loading image */}
             {imageGridOnLoad.get(product.id) ? (
               <div className="inline-flex justify-center items-center h-20 w-20 mt-10 rounded-md outline ">
                 <LoadingIndicator />

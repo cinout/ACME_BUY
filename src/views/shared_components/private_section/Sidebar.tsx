@@ -78,7 +78,7 @@ function MenuContent({
     },
     onCompleted: () => {
       dispatch(afterLogout());
-      void client.clearStore(); // TODO: should I leave something in cache?
+      void client.clearStore(); // TODO:[1] should I leave something in cache?
       // redirected to login page due to ProtectRoute
     },
   });
@@ -123,7 +123,6 @@ function MenuContent({
             ))}
       </div>
 
-      {/* TODO: implement log out */}
       <button
         className="absolute bottom-6 left-0 pl-5 flex items-center text-aqua-forest-900 hover:bg-aqua-forest-500 hover:text-aqua-forest-200 transition-all duration-100 hover:translate-y-[0.0625rem] w-full"
         onClick={handleLogout}
@@ -207,7 +206,6 @@ export default function Sidebar({
         />
       </div>
 
-      {/* TODO: move to Header, and show it right next to the menu button, and the tl corner should be the circle curve */}
       {/* Smaller Screen */}
       <AnimatePresence>
         {showSidebar && (

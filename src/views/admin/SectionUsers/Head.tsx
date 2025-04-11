@@ -27,7 +27,7 @@ export default function Head({
 }: HeadProps) {
   return (
     <div className="flex justify-between items-end flex-wrap ">
-      {/* TODO: implement search function */}
+      {/* TODO:[3] implement search function */}
       <HeadSearch
         placeholder="search users ..."
         additionalStyle=""

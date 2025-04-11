@@ -38,14 +38,14 @@ export default function UserLogin() {
     setShowLoader(true);
     setDidSubmit(true);
     dispatch(
-      userLogin(data) // TODO: update signupMethod for Google/Facebook login
+      userLogin(data) // TODO:[3] update signupMethod for Google/Facebook login
     )
       .unwrap()
       .then(() => {
         // reset(); // reset form values
         setShowLoader(false);
         const updatedRole = store.getState().auth.role;
-        // TODO: if user comes from /product/pID page, should redirect back
+        // TODO:[3] if user comes from /product/pID page, should redirect back
         void navigate(
           updatedRole === RoleEnum.User
             ? "/user/dashboard"
@@ -113,7 +113,7 @@ export default function UserLogin() {
           <hr className="mt-8 mb-3" />
 
           {/* Sign In*/}
-          {/* TODO: provide real sign in options for Gmail and Facebook */}
+          {/* TODO:[3] provide real sign in options for Gmail and Facebook */}
           <div className="flex flex-col justify-center items-center text-sm mb-3">
             <div> Don&apos;t have an account?</div>
             <div>

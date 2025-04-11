@@ -1,27 +1,26 @@
-import { PaymentStatusEnum } from "@/utils/enums";
 import { OrderStatusEnum } from "@/graphql/orderGql";
 import { joinUrl } from "@/utils/strings";
 import { faker } from "@faker-js/faker";
 import { Link } from "react-router-dom";
 
-// TODO: fetch from backend
+// TODO:[3] fetch from backend
 const orderStats = [
   {
     id: faker.string.uuid(),
     price: faker.commerce.price(),
-    payment_status: PaymentStatusEnum.Pending,
+    payment_status: "pp",
     order_status: OrderStatusEnum.Pending,
   },
   {
     id: faker.string.uuid(),
     price: faker.commerce.price(),
-    payment_status: PaymentStatusEnum.Pending,
+    payment_status: "pp",
     order_status: OrderStatusEnum.Pending,
   },
   {
     id: faker.string.uuid(),
     price: faker.commerce.price(),
-    payment_status: PaymentStatusEnum.Pending,
+    payment_status: "pp",
     order_status: OrderStatusEnum.Pending,
   },
 ];
@@ -34,7 +33,7 @@ export default function RecentOrders() {
         <span>Recent Orders</span>
 
         <Link to="/admin/orders">View all</Link>
-        {/* TODO: implement View all */}
+        {/* TODO:[3] implement View all */}
       </div>
 
       {/* Table */}
@@ -46,7 +45,7 @@ export default function RecentOrders() {
             <th scope="col">Payment Status</th>
             <th scope="col">Order Status</th>
             <th scope="col">Action</th>
-            {/* TODO: what does Active mean? */}
+            {/* TODO:[3] what does Active mean? */}
           </tr>
         </thead>
 
@@ -67,7 +66,7 @@ export default function RecentOrders() {
                   View
                 </Link>
               </td>
-              {/* TODO: need to implement */}
+              {/* TODO:[3] need to implement */}
             </tr>
           ))}
         </tbody>

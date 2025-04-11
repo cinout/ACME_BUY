@@ -52,14 +52,14 @@ export const navOptions: NavOptionsProps[] = [
     accessRoles: [RoleEnum.Admin],
     goto: "/admin/orders",
   },
-  {
-    name: "Withdraw Requests (TODO:[1])",
-    icon: iconPayment(),
-    accessRoles: [RoleEnum.Admin],
-    goto: "/admin/withdraw-requests",
-  },
   // {
-  //   name: "User Requests (TODO:)",
+  //   name: "Withdraw Requests",
+  //   icon: iconPayment(),
+  //   accessRoles: [RoleEnum.Admin],
+  //   goto: "/admin/withdraw-requests",
+  // },
+  // {
+  //   name: "User Requests",
   //   icon: <FaPerson />,
   //   accessRoles: [RoleEnum.Admin],
   //   goto: "/admin/user-requests",
@@ -140,7 +140,6 @@ export const navOptions: NavOptionsProps[] = [
     accessUserStatus: [UserStatusEnum.Active],
     asRole: "as customer",
   },
-  // TODO:[3] wishlist
 
   // As a seller
   {

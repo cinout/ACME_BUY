@@ -45,9 +45,9 @@ export const AdminSectionGenres = lazy(
 export const AdminSectionUsers = lazy(
   () => import("@/views/admin/SectionUsers")
 );
-export const AdminSectionWithdrawRequests = lazy(
-  () => import("@/views/admin/SectionWithdrawRequests")
-);
+// export const AdminSectionWithdrawRequests = lazy(
+//   () => import("@/views/admin/SectionWithdrawRequests")
+// );
 // export const AdminSectionUserRequests = lazy(
 //   () => import("@/views/admin/SectionUserRequests")
 // );

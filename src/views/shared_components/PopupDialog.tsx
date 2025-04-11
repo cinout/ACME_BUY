@@ -9,7 +9,6 @@ export interface PopupDialogProps {
   header: string;
 }
 
-// TODO: change name
 export default function PopupDialog({
   children,
   isOpen,

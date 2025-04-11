@@ -92,7 +92,7 @@ export default function FormMultipleImages({
         id={id ?? registration.name}
       />
 
-      {/* TODO: support drag and re-roder */}
+      {/* TODO:[3] support drag and re-roder */}
       <div className="flex gap-2 flex-wrap">
         {/* Show Images */}
 
@@ -107,7 +107,6 @@ export default function FormMultipleImages({
                 type="button"
                 // disabled={disabled}
               >
-                {/* TODO:[2] Click on image to see details (not in edit mode) */}
                 {typeof file === "string" ? (
                   imageGridOnLoad.get(id) ? (
                     <div className="inline-flex justify-center items-center w-full aspect-square rounded-2xl outline">
@@ -219,7 +218,7 @@ export default function FormMultipleImages({
         )}
       </div>
 
-      {/* TODO: show error messages individually */}
+      {/* TODO:[2] show error messages individually */}
       {errorMessage && (
         <p className={`${styleFormErrorMessage} ${additionalStyleError}`}>
           {errorMessage}

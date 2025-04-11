@@ -4,7 +4,7 @@ import {
   AdminSectionOrders,
   AdminSectionGenres,
   AdminSectionUsers,
-  AdminSectionWithdrawRequests,
+  // AdminSectionWithdrawRequests,
   AdminSectionChat,
   AdminSectionProfile,
 } from "./routesLazyExports";
@@ -37,11 +37,11 @@ export const privateAdminRoutes: PrivateAdminRouteType[] = [
     element: <AdminSectionUsers />,
     accessRoles: [RoleEnum.Admin],
   },
-  {
-    path: "/admin/withdraw-requests",
-    element: <AdminSectionWithdrawRequests />,
-    accessRoles: [RoleEnum.Admin],
-  },
+  // {
+  //   path: "/admin/withdraw-requests",
+  //   element: <AdminSectionWithdrawRequests />,
+  //   accessRoles: [RoleEnum.Admin],
+  // },
   // {
   //   path: "/admin/user-requests",
   //   element: <AdminSectionUserRequests />,

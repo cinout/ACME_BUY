@@ -138,8 +138,8 @@ export default function RightMessageContainer({
       {user && (
         <>
           <div className="flex-1 bg-sky-950 rounded-2xl p-4 text-sky-50 overflow-y-auto flex flex-col gap-y-6">
-            {/* TODO: use real data */}
-            {/* TODO: show the latest messages in the container, and scroll down to see eallier messages, like WeChat */}
+            {/* TODO:[3] use real data */}
+            {/* TODO:[3] show the latest messages in the container, and scroll down to see eallier messages, like WeChat */}
             {Array.from({ length: 12 }, (v, i) => (
               //TODO:[3] should I use i?
               <Fragment key={i}>
@@ -158,7 +158,7 @@ export default function RightMessageContainer({
           </div>
 
           {/* Type Message */}
-          {/* TODO: implement message functionality */}
+          {/* TODO:[3] implement message functionality */}
           <div className="h-10 flex justify-start items-center gap-x-3">
             <input
               placeholder="Message..."

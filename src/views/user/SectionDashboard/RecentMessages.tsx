@@ -3,7 +3,7 @@ import { shortenEnd } from "@/utils/strings";
 import { faker } from "@faker-js/faker";
 import { Link } from "react-router-dom";
 
-// TODO: fetch from backend
+// TODO:[3] fetch from backend
 const messageStats = [
   {
     id: "sample_id_1",

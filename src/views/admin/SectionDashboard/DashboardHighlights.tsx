@@ -6,7 +6,7 @@ import {
   iconUsers,
 } from "@/utils/icons";
 
-// TODO: fetch value from backend
+// TODO:[3] fetch value from backend
 export const hightlightStats = [
   {
     name: "Sale",
@@ -41,7 +41,7 @@ interface DashboardHighlightProps {
   additionalStyle: string;
 }
 
-// TODO: make them interactive. Click on them triggers something
+// TODO:[3] make them interactive. Click on them triggers something
 function Highlight({
   name,
   value,

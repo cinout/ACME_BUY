@@ -10,7 +10,7 @@ import {
   UserStatusEnum,
 } from "@/graphql/userGql";
 
-// TODO: fetch from server
+// TODO:[3] fetch from server
 const userStats: UserEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
   createdAt: faker.date.recent().toDateString(),

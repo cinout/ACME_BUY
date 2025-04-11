@@ -38,10 +38,10 @@ import FormTrackList from "@/views/user/SectionProducts/FormTrackList";
 
 interface ProductDetailProps {
   productId: string;
-  productStats: ProductEntity[]; // TODO: pass in the product directly
+  productStats: ProductEntity[];
 }
 
-// TODO:[2] why is form dirty? (Add new product leave and re-enter)
+// TODO:[3] why is form dirty? (Add new product leave and re-enter)
 export default function ProductDetail({
   productId,
   productStats,
@@ -200,7 +200,7 @@ export default function ProductDetail({
     }
   }
 
-  // TODO: there is an error when add two same files consecutively
+  // TODO:[2] there is an error when add two same files consecutively
   function handleAddImages(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       const images = Array.from(e.target.files).map((item) => ({
@@ -258,7 +258,7 @@ export default function ProductDetail({
 
   return (
     <>
-      {/* TODO: pop up confirming if user needs to leave */}
+      {/* TODO:[1] pop up confirming if user needs to leave */}
       <div className="flex gap-x-8 items-center mb-8">
         <button
           type="button" // to prevent trigger form submission if PopupDialogButtons is wrapped in <form> tag
@@ -560,7 +560,7 @@ export default function ProductDetail({
             {showLoader ? (
               <LoadingIndicator />
             ) : editMode ? (
-              "Update Product" // TODO: disable if not dirty
+              "Update Product" // TODO:[3] disable if not dirty
             ) : (
               "Add Product"
             )}

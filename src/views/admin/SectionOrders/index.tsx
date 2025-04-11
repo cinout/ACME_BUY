@@ -7,9 +7,7 @@ import { useParams } from "react-router-dom";
 import OrderDetails from "./OrderDetails";
 import { OrderEntity, OrderStatusEnum } from "@/graphql/orderGql";
 
-// TODO: can also add images and things later
-
-// TODO: fetch from backend
+// TODO:[3] fetch from backend
 const orderStats: OrderEntity[] = Array.from({ length: 34 }, () => ({
   id: faker.string.uuid(),
   createdAt: faker.date.recent().toDateString(),
@@ -57,7 +55,7 @@ export default function SectionOrders() {
     // setDetailShown([]); // hide all shown details
   }
 
-  // TODO: provide filter/sort function, e.g., sort by time/price, fitler by order/payment status
+  // TODO:[3] provide filter/sort function, e.g., sort by time/price, fitler by order/payment status
 
   return (
     <>
@@ -78,7 +76,7 @@ export default function SectionOrders() {
       {currentOrder && <OrderDetails order={currentOrder} />}
 
       {/* Pagination */}
-      {/* TODO: is there a more efficient way to retrieve and display information according to current page? */}
+      {/* TODO:[1] is there a more efficient way to retrieve and display information according to current page? */}
       <div className="mt-12">
         <Pagination
           currentPage={currentPage}

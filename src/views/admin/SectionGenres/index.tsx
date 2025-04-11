@@ -86,7 +86,7 @@ export default function SectionGenre() {
       )}
 
       {/* Pagination */}
-      {/* TODO: is there a more efficient way to retrieve and display information according to current page? */}
+      {/* TODO:[1] is there a more efficient way to retrieve and display information according to current page? */}
       <div className="mt-12">
         <Pagination
           currentPage={currentPage}

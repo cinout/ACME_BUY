@@ -110,7 +110,7 @@ export const VALID_NAME_GENERAL_ERROR_MSG = "must not start or end with space";
 export const VALID_EMAIL =
   /^(([^<>()[]\\.,;:s@]+(.[^<>()[]\\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
 
-// TODO: add them later
+// TODO:[1] add them later
 export const VALID_URL =
   /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
 export const VALID_UUID_V4 =

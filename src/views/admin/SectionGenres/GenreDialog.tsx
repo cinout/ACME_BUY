@@ -87,7 +87,7 @@ export default function GenreDialog({
       toast.error(errorMessage);
     },
     update(cache, { data }) {
-      // TODO: update to updateQuery
+      // TODO:[1] update to updateQuery
       const existingData = cache.readQuery<{
         getAllGenres: FormNewGenreProps[];
       }>({
@@ -224,7 +224,6 @@ export default function GenreDialog({
               return true;
             },
           })}
-          // TODO: validate -- not duplicate with exisiting ones (case insensitive)
           error={errors.name}
           label="Genre Name"
           additionalStyleWrapper="flex gap-2 flex-wrap"

@@ -15,7 +15,7 @@ import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";
 
 const itemsPerPageOptions = [20, 40];
 
-// TODO: provide filtering by discounted status
+// TODO:[3] provide filtering by discounted status
 export default function SectionProducts() {
   // Page
   const [currentPage, setCurrentPage] = useState(1);

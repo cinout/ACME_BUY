@@ -91,6 +91,7 @@
 - A nice unfound page when user hits an url that is not specified in our routes.
 - If wrong shop/product id is provided in url, an unfound message is shown in the page.
 - If wrong order id is provided in the url, show unauthorized page.
+- When create new genre, its name is checked with exisiting ones to avoid duplication
 
 ## User Roles, User Authentication, and Routes Protection
 
@@ -158,3 +159,5 @@
   - (2) user vs wishlist? [Maybe]
   - (3) product vs order? [NO, because order takes a snapshot of the product]
 - [ ] Home page's DisplayRows can use different layout (left/right) based on odd/even index
+- [ ] proper pagination for all sections using pages
+- [ ] change password / forget password / email verification

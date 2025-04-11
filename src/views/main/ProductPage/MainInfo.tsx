@@ -383,7 +383,6 @@ export default function MainInfo({ product }: Props) {
       {/* Tabs */}
       <InfoTabs product={product} />
 
-      {/* TODO: change content based on whether user has added it to wish list */}
       <CustomTooltip
         id={`tooltip-wishlist`}
         content={inWishList ? "remove from wish list" : "add to wish list"}

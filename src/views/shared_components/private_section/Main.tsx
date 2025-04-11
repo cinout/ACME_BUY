@@ -48,7 +48,7 @@ export default function Main() {
     return <Navigate replace to="/user/dashboard" />;
   }
 
-  // TODO: double-check this logicc (correct so far)
+  // TODO:[3] double-check this logicc (correct so far)
   const conditionForShowingContent =
     updateUserRoleDoneOnFirstRender &&
     (role && role === RoleEnum.User ? userInfo?.status : true);

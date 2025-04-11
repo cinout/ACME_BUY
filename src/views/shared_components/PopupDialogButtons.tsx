@@ -26,7 +26,6 @@ interface PopupDialogButtonsProps {
   isDirty?: boolean;
 }
 
-// TODO: change name
 export default function PopupDialogButtons({
   onCancel,
   onSubmit,

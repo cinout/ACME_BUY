@@ -6,7 +6,7 @@ interface chartStatsProps {
   options: ApexOptions;
 }
 
-// TODO:  fetch value from backend
+// TODO:[3] fetch value from backend
 export const chartStats: chartStatsProps = {
   series: [
     {

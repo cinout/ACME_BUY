@@ -77,7 +77,7 @@ export default function FormSingleImage({
 
   const { imageGridRef, imageGridRefOnLoad } = useHookSingleImageLoading();
 
-  // TODO: there is an error when add two same files consecutively
+  // TODO:[2] there is an error when add two same files consecutively
   function handleClickImageUploadButton() {
     if (!uploadedImage.file) fileInputRef.current?.click();
   }
