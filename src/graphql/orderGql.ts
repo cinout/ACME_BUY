@@ -21,6 +21,7 @@ export interface OrderEntity extends Entity {
   }[];
   itemDetails?: (ProductEntity & { user: UserEntity })[];
   userId: string;
+  customer?: UserEntity;
   status: OrderStatusEnum;
   shippingCountry?: string;
   shippingState?: string;
@@ -97,6 +98,29 @@ export const GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_CUSTOMER_ID = gql`
         price
         discount
         images
+      }
+    }
+  }
+  ${GQL_FRAGMENT_ORDER_DETAILS}
+`;
+
+export const GQL_GET_ORDER_AND_PRODUCT_DETAILS_BY_SELLER_ID = gql`
+  query {
+    getOrderAndProductDetailsBySellerId {
+      ...OrderDetails
+      itemDetails {
+        id
+        name
+        artist
+        stock
+        price
+        discount
+        images
+      }
+      customer {
+        id
+        firstname
+        lastname
       }
     }
   }

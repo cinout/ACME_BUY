@@ -11,6 +11,7 @@ import {
   iconUsers,
   iconSupportTeam,
   iconLoveEmpty,
+  iconMoney,
 } from "@/utils/icons";
 import { RoleEnum, UserStatusEnum } from "@/graphql/userGql";
 
@@ -152,7 +153,7 @@ export const navOptions: NavOptionsProps[] = [
   },
   {
     name: "Incoming Orders",
-    icon: iconProducts(),
+    icon: iconMoney(),
     accessRoles: [RoleEnum.User],
     goto: "/user/incoming-orders",
     accessUserStatus: [UserStatusEnum.Active],
@@ -167,6 +168,4 @@ export const navOptions: NavOptionsProps[] = [
   //   accessUserStatus: [UserStatusEnum.Active],
   //   asRole: "as seller",
   // },
-
-  // TODO:[3] incoming orders
 ];

@@ -92,6 +92,7 @@
 - If wrong shop/product id is provided in url, an unfound message is shown in the page.
 - If wrong order id is provided in the url, show unauthorized page.
 - When create new genre, its name is checked with exisiting ones to avoid duplication
+- For incoming orders, no pending order is retrieved
 
 ## User Roles, User Authentication, and Routes Protection
 

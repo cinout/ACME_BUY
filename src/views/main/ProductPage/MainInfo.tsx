@@ -200,10 +200,6 @@ export default function MainInfo({ product }: Props) {
         <div className="bg-rose-50 text-rose-900 my-10 flex w-max p-2">
           This product is no longer available!
         </div>
-      ) : product.userId === userInfo?.id ? (
-        <div className="bg-rose-50 text-rose-900 my-10 flex w-max p-2">
-          This is your own product.
-        </div>
       ) : (
         <>
           <div className="my-2 flex gap-x-2 items-center">
@@ -232,93 +228,100 @@ export default function MainInfo({ product }: Props) {
           </div>
 
           {/* Quantity Select + Add to Cart */}
-          <div className="flex gap-x-6 my-4  font-arsenal-spaced-1">
-            {/*  Quantity Select */}
-            <div className="flex flex-col">
-              {/* quantity selector */}
-              <div className="flex">
-                <button
-                  className="bg-aqua-forest-100 text-aqua-forest-950 text-lg w-10 h-10 flex justify-center items-center group not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200"
-                  disabled={product.stock === 0 || requiredQuantity === 0}
-                  onClick={() => setRequiredQuantity((v) => v - 1)}
-                >
-                  {iconMinusSimple(`group-hover:scale-125 transition`)}
-                </button>
-                <input
-                  type="number"
-                  name="order quantity"
-                  id="order quantity"
-                  className="w-20 h-10 bg-aqua-forest-50 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none outline-none disabled:bg-slate-100"
-                  // defaultValue={product.stock > 0 ? 1 : 0}
-                  value={requiredQuantity}
-                  onChange={(e) => {
-                    const inputValue = parseInt(e.target.value || "0", 10);
-                    setRequiredQuantity(
-                      Math.max(0, Math.min(inputValue, product.stock)) // ensures value does not exceed max
-                    );
-                  }}
-                  disabled={product.stock === 0}
-                  min={0}
-                  max={product.stock}
-                  step={1}
-                />
-                <button
-                  className="bg-aqua-forest-100 text-aqua-forest-950 text-lg w-10 h-10 flex justify-center items-center group not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200"
-                  disabled={
-                    product.stock === 0 || requiredQuantity >= product.stock
-                  }
-                  onClick={() => setRequiredQuantity((v) => v + 1)}
-                >
-                  {iconPlusSimple("group-hover:scale-125 transition")}
-                </button>
-              </div>
 
-              {/* stock information */}
-              <div className="text-sm">
-                {product.stock > 0 ? (
-                  <span>Stock: {product.stock}</span>
-                ) : (
-                  <span className="text-rose-500">Out of stock!</span>
-                )}
-              </div>
+          {product.userId === userInfo?.id ? (
+            <div className="bg-rose-50 text-rose-900 my-10 flex w-max p-2">
+              This is your own product.
             </div>
+          ) : (
+            <div className="flex gap-x-6 my-4  font-arsenal-spaced-1">
+              {/*  Quantity Select */}
+              <div className="flex flex-col">
+                {/* quantity selector */}
+                <div className="flex">
+                  <button
+                    className="bg-aqua-forest-100 text-aqua-forest-950 text-lg w-10 h-10 flex justify-center items-center group not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200"
+                    disabled={product.stock === 0 || requiredQuantity === 0}
+                    onClick={() => setRequiredQuantity((v) => v - 1)}
+                  >
+                    {iconMinusSimple(`group-hover:scale-125 transition`)}
+                  </button>
+                  <input
+                    type="number"
+                    name="order quantity"
+                    id="order quantity"
+                    className="w-20 h-10 bg-aqua-forest-50 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none outline-none disabled:bg-slate-100"
+                    // defaultValue={product.stock > 0 ? 1 : 0}
+                    value={requiredQuantity}
+                    onChange={(e) => {
+                      const inputValue = parseInt(e.target.value || "0", 10);
+                      setRequiredQuantity(
+                        Math.max(0, Math.min(inputValue, product.stock)) // ensures value does not exceed max
+                      );
+                    }}
+                    disabled={product.stock === 0}
+                    min={0}
+                    max={product.stock}
+                    step={1}
+                  />
+                  <button
+                    className="bg-aqua-forest-100 text-aqua-forest-950 text-lg w-10 h-10 flex justify-center items-center group not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200"
+                    disabled={
+                      product.stock === 0 || requiredQuantity >= product.stock
+                    }
+                    onClick={() => setRequiredQuantity((v) => v + 1)}
+                  >
+                    {iconPlusSimple("group-hover:scale-125 transition")}
+                  </button>
+                </div>
 
-            {/* Add to Cart */}
-            <div className="relative">
-              <button
-                className="bg-aqua-forest-100 h-10 px-2 not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200 shadow-md"
-                disabled={
-                  !product || product.stock === 0 || requiredQuantity === 0
-                }
-                onClick={handleClickAddToCart}
-              >
-                Add to cart
-              </button>
-
-              <div className="absolute">
-                <AnimatePresence>
-                  {flyingAnimation && (
-                    <motion.div
-                      className="text-[2rem] text-sky-100 bg-sky-600 p-1 rounded-full absolute"
-                      initial={{ opacity: 1, left: 40, top: -40 }}
-                      animate={{
-                        left: [40, 100, 160, 210, 250, 300, 340, 370], // to the right
-                        top: [-40, -80, -130, -180, -220, -260, -310, -350], // upwards
-                        opacity: [1, 0.7, 0.5, 0], // Gradual fade-out
-                        transition: {
-                          duration: 0.6,
-                          ease: "linear",
-                        },
-                      }}
-                      exit={{ opacity: 0 }}
-                    >
-                      {iconShoppingCart()}
-                    </motion.div>
+                {/* stock information */}
+                <div className="text-sm">
+                  {product.stock > 0 ? (
+                    <span>Stock: {product.stock}</span>
+                  ) : (
+                    <span className="text-rose-500">Out of stock!</span>
                   )}
-                </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Add to Cart */}
+              <div className="relative">
+                <button
+                  className="bg-aqua-forest-100 h-10 px-2 not-disabled:hover:bg-aqua-forest-300 transition disabled:bg-slate-200 shadow-md"
+                  disabled={
+                    !product || product.stock === 0 || requiredQuantity === 0
+                  }
+                  onClick={handleClickAddToCart}
+                >
+                  Add to cart
+                </button>
+
+                <div className="absolute">
+                  <AnimatePresence>
+                    {flyingAnimation && (
+                      <motion.div
+                        className="text-[2rem] text-sky-100 bg-sky-600 p-1 rounded-full absolute"
+                        initial={{ opacity: 1, left: 40, top: -40 }}
+                        animate={{
+                          left: [40, 100, 160, 210, 250, 300, 340, 370], // to the right
+                          top: [-40, -80, -130, -180, -220, -260, -310, -350], // upwards
+                          opacity: [1, 0.7, 0.5, 0], // Gradual fade-out
+                          transition: {
+                            duration: 0.6,
+                            ease: "linear",
+                          },
+                        }}
+                        exit={{ opacity: 0 }}
+                      >
+                        {iconShoppingCart()}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </>
       )}
 

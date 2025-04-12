@@ -14,7 +14,12 @@ import {
   FaHeart,
   FaEye,
 } from "react-icons/fa";
-import { FaPeopleGroup, FaLocationDot, FaXTwitter } from "react-icons/fa6";
+import {
+  FaPeopleGroup,
+  FaLocationDot,
+  FaXTwitter,
+  FaMoneyBillTrendUp,
+} from "react-icons/fa6";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { GiMoneyStack } from "react-icons/gi";
 
@@ -96,6 +101,9 @@ export const iconMinusSimple = (style?: string) => (
   <HiOutlineMinus className={style} />
 );
 export const iconView = (style?: string) => <FaEye className={style} />;
+export const iconMoney = (style?: string) => (
+  <FaMoneyBillTrendUp className={style} />
+);
 
 /**
  * Add and Remove

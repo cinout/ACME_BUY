@@ -10,7 +10,6 @@ import {
   calculateDiscountedPriceAndReturnNumber,
   calculateDiscountedPriceAndReturnString,
   calculateNonPendingOrderTotalPrice,
-  calculatePendingOrderTotalPrice,
 } from "@/utils/numbers";
 import {
   albumCoverImageSmall,
@@ -32,10 +31,6 @@ export default function OrderTable({
   orderStats,
   detailShown,
 }: OrderTableProps) {
-  const orderStatsSortedByDate = orderStats
-    ?.slice()
-    .sort((a, b) => -a.createdAt.localeCompare(b.createdAt));
-
   /** State */
   const [toDeleteItemId, setToDeleteItemId] = useState<string>("");
   const toDeleteOrder = orderStats?.find((a) => a.id === toDeleteItemId);
@@ -57,12 +52,9 @@ export default function OrderTable({
           View
         </span>
 
-        {orderStatsSortedByDate?.map((order) => {
+        {orderStats?.map((order) => {
           const isDetailOpen = detailShown.includes(order.id);
-          const totalPrice =
-            order.status === OrderStatusEnum.Pending
-              ? calculatePendingOrderTotalPrice(order)
-              : calculateNonPendingOrderTotalPrice(order);
+          const totalPrice = calculateNonPendingOrderTotalPrice(order);
           return (
             <Fragment key={order.id}>
               <span className="hidden tn:inline mt-2">{order.id}</span>
@@ -72,8 +64,8 @@ export default function OrderTable({
 
               <span
                 className={`mt-2 italic ${
-                  order.status === OrderStatusEnum.Pending &&
-                  "font-bold text-rose-300"
+                  order.status === OrderStatusEnum.Paid &&
+                  "font-bold text-aqua-forest-300"
                 }`}
               >
                 {order.status}
@@ -186,30 +178,21 @@ export default function OrderTable({
                                 <div className="mt-2 flex gap-x-2 items-center  text-sm">
                                   <span className="">
                                     $
-                                    {order.status === OrderStatusEnum.Pending
-                                      ? calculateDiscountedPriceAndReturnString(
-                                          product!.price,
-                                          product!.discount
-                                        )
-                                      : calculateDiscountedPriceAndReturnString(
-                                          item.priceSnapshot!,
-                                          item.discountSnapshot!
-                                        )}
+                                    {calculateDiscountedPriceAndReturnString(
+                                      item.priceSnapshot!,
+                                      item.discountSnapshot!
+                                    )}
                                   </span>
                                   <span>&times;</span>
                                   <span>{item.quantity}</span>
                                   <span>=</span>
                                   <span>
                                     $
-                                    {(order.status === OrderStatusEnum.Pending
-                                      ? calculateDiscountedPriceAndReturnNumber(
-                                          product!.price,
-                                          product!.discount
-                                        ) * item.quantity
-                                      : calculateDiscountedPriceAndReturnNumber(
-                                          item.priceSnapshot!,
-                                          item.discountSnapshot!
-                                        ) * item.quantity
+                                    {(
+                                      calculateDiscountedPriceAndReturnNumber(
+                                        item.priceSnapshot!,
+                                        item.discountSnapshot!
+                                      ) * item.quantity
                                     ).toFixed(2)}
                                   </span>
                                 </div>
@@ -220,14 +203,15 @@ export default function OrderTable({
                       })}
                     </div>
 
-                    {/* Pending orders - Actions */}
-                    {order.status === OrderStatusEnum.Pending && (
+                    {/* Paid orders - Actions */}
+                    {order.status === OrderStatusEnum.Paid && (
+                      // TODO:[1] provide appropriate action for the order
                       <div className="flex gap-x-4 mt-4">
                         <button
                           className="bg-rose-600 rounded-md p-1 border-2 border-rose-400 hover:brightness-110 transition"
                           onClick={() => setToDeleteItemId(order.id)}
                         >
-                          Delete
+                          Cancel Order
                         </button>
                         <Link
                           to={`/order/${order.id}`}
@@ -235,52 +219,46 @@ export default function OrderTable({
                           rel="noopener noreferrer"
                           className="bg-aqua-forest-600 rounded-md p-1 border-2 border-aqua-forest-400 hover:brightness-110 transition"
                         >
-                          Continue to pay
+                          Ship Products
                         </Link>
                       </div>
                     )}
 
-                    {order.status !== OrderStatusEnum.Pending && (
-                      <div className="flex flex-wrap gap-x-3 mt-4">
-                        {/* Address */}
-                        <div className="gap-x-1">
-                          <span className="font-bold">Shipping Address: </span>
-                          <span className="font-light">
-                            {order.shippingAddress},&nbsp;
-                            {translateAddress(
-                              order.shippingCity,
-                              order.shippingState,
-                              order.shippingCountry
-                            )}
-                            &nbsp;
-                            {order.shippingPostCode}
-                          </span>
-                        </div>
-
-                        {/* Contact */}
-                        <div className="gap-x-1">
-                          <span className="font-bold">Customer Name: </span>
-                          <span className="font-light">
-                            {order.contactFirstname}&nbsp;
-                            {order.contactLastname}
-                          </span>
-                        </div>
-
-                        <div className="gap-x-1">
-                          <span className="font-bold">Phone: </span>
-                          <span className="font-light">
-                            {order.contactPhone}
-                          </span>
-                        </div>
-
-                        <div className="gap-x-1">
-                          <span className="font-bold">Email: </span>
-                          <span className="font-light">
-                            {order.contactEmail}
-                          </span>
-                        </div>
+                    <div className="flex flex-wrap gap-x-3 mt-4">
+                      {/* Address */}
+                      <div className="gap-x-1">
+                        <span className="font-bold">Shipping Address: </span>
+                        <span className="font-light">
+                          {order.shippingAddress},&nbsp;
+                          {translateAddress(
+                            order.shippingCity,
+                            order.shippingState,
+                            order.shippingCountry
+                          )}
+                          &nbsp;
+                          {order.shippingPostCode}
+                        </span>
                       </div>
-                    )}
+
+                      {/* Contact */}
+                      <div className="gap-x-1">
+                        <span className="font-bold">Customer Name: </span>
+                        <span className="font-light">
+                          {order.contactFirstname}&nbsp;
+                          {order.contactLastname}
+                        </span>
+                      </div>
+
+                      <div className="gap-x-1">
+                        <span className="font-bold">Phone: </span>
+                        <span className="font-light">{order.contactPhone}</span>
+                      </div>
+
+                      <div className="gap-x-1">
+                        <span className="font-bold">Email: </span>
+                        <span className="font-light">{order.contactEmail}</span>
+                      </div>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -1,4 +1,4 @@
-import { UserStatusEnum } from "@/graphql/userGql";
+import { OrderStatusEnum } from "@/graphql/orderGql";
 import {
   styleFilterLabel,
   styleFilterSelect,
@@ -12,29 +12,30 @@ import { Dispatch, SetStateAction } from "react";
 interface HeadProps {
   searchValue: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  orderStatusFilter: OrderStatusEnum | "All";
+  setOrderStatusFilter: Dispatch<SetStateAction<OrderStatusEnum | "All">>;
   itemsPerPage: number;
   handleItemsPerPageChange: (value: number) => void;
   itemsPerPageOptions: number[];
-  userStatusFilter: "All" | UserStatusEnum;
-  setUserStatusFilter: Dispatch<SetStateAction<"All" | UserStatusEnum>>;
-  numPendingUsers: number;
+  numPaidOrders: number;
 }
 
 export default function Head({
   searchValue,
   setSearchValue,
+  orderStatusFilter,
+  setOrderStatusFilter,
   itemsPerPage,
   handleItemsPerPageChange,
   itemsPerPageOptions,
-  userStatusFilter,
-  setUserStatusFilter,
-  numPendingUsers,
+  numPaidOrders,
 }: HeadProps) {
   return (
-    <div className="flex justify-between items-end flex-wrap ">
+    <div className="flex justify-between flex-wrap items-end gap-3">
       {/* TODO:[3] implement search function */}
+
       <HeadSearch
-        placeholder="search users ..."
+        placeholder="search orders ..."
         additionalStyle=""
         value={searchValue}
         onChangeValue={setSearchValue}
@@ -45,24 +46,29 @@ export default function Head({
         <select
           name="userStatusFilter"
           className={styleFilterSelect}
-          value={userStatusFilter}
+          value={orderStatusFilter}
           onChange={(e) => {
-            setUserStatusFilter(e.target.value as "All" | UserStatusEnum);
+            setOrderStatusFilter(e.target.value as "All" | OrderStatusEnum);
           }}
         >
-          {["All", ...Object.values(UserStatusEnum)].map((a) => (
+          {[
+            "All",
+            ...Object.values(OrderStatusEnum).filter(
+              (a) => a !== OrderStatusEnum.Pending
+            ),
+          ].map((a) => (
             <option value={a} key={a}>
               {a}
             </option>
           ))}
         </select>
-        {numPendingUsers > 0 && (
+        {numPaidOrders > 0 && (
           <div
             className={styleNotificationCircle}
-            data-tooltip-id={`tooltip-pending-users`}
-            onClick={() => setUserStatusFilter(UserStatusEnum.Pending)}
+            data-tooltip-id={`tooltip-pending-orders`}
+            onClick={() => setOrderStatusFilter(OrderStatusEnum.Paid)}
           >
-            {numPendingUsers > 99 ? "99+" : numPendingUsers}
+            {numPaidOrders > 99 ? "99+" : numPaidOrders}
           </div>
         )}
       </label>
@@ -74,8 +80,8 @@ export default function Head({
       />
 
       <CustomTooltip
-        id={`tooltip-pending-users`}
-        content={`${numPendingUsers} pending users`}
+        id={`tooltip-pending-orders`}
+        content={`${numPaidOrders} paid orders`}
       />
     </div>
   );

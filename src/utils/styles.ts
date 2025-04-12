@@ -8,6 +8,7 @@ export const styleFormErrorMessage =
 export const styleFormTypeArea =
   "rounded-md outline-none bg-sky-50 text-sky-900 px-4 placeholder:text-slate-400 placeholder:italic placeholder:text-sm";
 export const styleFormLabel = "font-semibold block mb-0.5 text-sky-200";
+
 /**
  * Form - Image
  */
@@ -18,7 +19,7 @@ export const styleImageUploadIndicator =
   "group flex flex-col justify-center items-center w-28 h-28 bg-sky-50 rounded-2xl text-sky-700 gap-y-2 hover:brightness-75 transition";
 
 /**
- * Dialog Buttons
+ * Popup Dialog Buttons
  */
 export const styleCancelButton =
   "text-white cursor-pointer w-fit bg-sky-900 px-3 py-1 rounded-full border-2 border-sky-100 not-disabled:hover:bg-sky-800 not-disabled:hover:scale-105 transition disabled:cursor-not-allowed disabled:bg-slate-300 shadow-2xl h-9";
@@ -55,3 +56,12 @@ export const styleLoginDialog =
 export const styleLoginTitle = "text-xl mb-1 text-shadow-dark text-center";
 export const styleLoginSubmitButton =
   "h-8 bg-aqua-forest-500 rounded-md p-1 w-full mt-4 font-black block hover:bg-aqua-forest-600 transition duration-200";
+
+/**
+ * Private Section
+ */
+export const styleFilterSelect =
+  "ml-2 bg-transparent border-b-[1px] cursor-pointer";
+export const styleFilterLabel = "text-white font-light";
+export const styleNotificationCircle =
+  "bg-pending-400 text-pending-950 h-6 w-6 rounded-full text-sm font-bold inline-flex justify-center items-center ml-2 cursor-pointer";

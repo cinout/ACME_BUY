@@ -1,3 +1,4 @@
+import { styleFilterLabel, styleFilterSelect } from "@/utils/styles";
 import { Select } from "@headlessui/react";
 
 interface HeadShowCountProps {
@@ -14,11 +15,11 @@ export default function HeadShowCount({
   additionalStyle,
 }: HeadShowCountProps) {
   return (
-    <div className={`text-white font-light ${additionalStyle}`}>
+    <div className={`${styleFilterLabel} ${additionalStyle}`}>
       <span>Show</span>
       <Select
         name="itemsPerPage"
-        className="ml-2 bg-transparent border-b-[1px] cursor-pointer"
+        className={styleFilterSelect}
         value={itemsPerPage}
         onChange={(e) => {
           handleItemsPerPageChange(parseInt(e.target.value));

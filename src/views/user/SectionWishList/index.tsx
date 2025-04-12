@@ -1,20 +1,15 @@
 import { useHookGetUserInfo } from "@/customHooks/useHookGetUserInfo";
-import { getErrorMessage } from "@/graphql";
 import { ProductEntity, ProductStatusEnum } from "@/graphql/productGql";
 import {
   GQL_GET_CURRENT_USER_WISHLIST_DETAILS,
-  GQL_USER_UPDATE_CURRENT,
   UserEntity,
 } from "@/graphql/userGql";
 import { iconTrashCan, iconView } from "@/utils/icons";
 import { calculateDiscountedPriceAndReturnString } from "@/utils/numbers";
 import { albumCoverImageSmall } from "@/utils/strings";
-
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import ItemRemoveConfirmationDialog from "./ItemRemoveConfirmationDialog";
 import { GQL_REMOVE_WISHLIST_ITEM_BY_USER } from "@/graphql/wishListGql";
 import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";
 
@@ -179,16 +174,6 @@ export default function SectionWishList() {
           );
         })}
       </div>
-
-      {/* {toDeleteItem && (
-        <ItemRemoveConfirmationDialog
-          isOpen={!!toDeleteItemId}
-          name={toDeleteItem.name}
-          // deletionQuery={GQL_GENRE_DELETE}
-          setToDeleteItemId={setToDeleteItemId}
-          onClickDelete={() => removeWishlistItem(toDeleteItem.id)}
-        />
-      )} */}
 
       {toDeleteItemId && toDeleteProduct && (
         <DeleteConfirmDialog
