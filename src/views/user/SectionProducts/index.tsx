@@ -12,16 +12,20 @@ import {
 } from "@/graphql/productGql";
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import DeleteConfirmDialog from "@/views/shared_components/DeleteConfirmDialog";
-
-const itemsPerPageOptions = [20, 40];
+import useHookPageSwitch from "@/customHooks/useHookPageSwitch";
 
 // TODO:[3] provide filtering by discounted status
 export default function SectionProducts() {
   // Page
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
-  const start_index = (currentPage - 1) * itemsPerPage;
-  const end_index = currentPage * itemsPerPage;
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    handleItemsPerPageChange,
+    start_index,
+    end_index,
+    itemsPerPageOptions,
+  } = useHookPageSwitch();
   // Search Value
   const [searchValue, setSearchValue] = useState("");
   // delete ID
@@ -39,12 +43,6 @@ export default function SectionProducts() {
   const allProductsByUser = gql_query_result.data
     .getAllProductsByUser as ProductEntity[];
   const toDeleteProduct = allProductsByUser.find((a) => a.id == toDeleteItemId);
-
-  // Functions
-  function handleItemsPerPageChange(value: number) {
-    setItemsPerPage(value); // set value
-    setCurrentPage(1); // default to page 1
-  }
 
   return (
     <>

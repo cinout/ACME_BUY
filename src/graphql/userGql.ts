@@ -40,7 +40,7 @@ export interface UserEntity extends Entity {
   imageName?: string;
   rating: number; // TODO:[3] implement rating
   wishList?: WishListEntity[];
-  wishListDetails?: (ProductEntity & { user: UserEntity })[];
+  wishListDetails?: (ProductEntity & { user: UserEntity })[]; // the user is the seller of the product
   cart?: { productId: string; quantity: number }[];
 }
 

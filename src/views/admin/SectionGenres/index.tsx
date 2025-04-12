@@ -9,8 +9,7 @@ import { GQL_GENRES_GET_ALL, GQL_GENRE_DELETE } from "@/graphql/genreGql";
 import DeleteConfirmDialog from "../../shared_components/DeleteConfirmDialog";
 import { useParams } from "react-router-dom";
 import GenreDialog from "./GenreDialog";
-
-const itemsPerPageOptions = [10, 20, 30, 40];
+import useHookPageSwitch from "@/customHooks/useHookPageSwitch";
 
 export default function SectionGenre() {
   /**
@@ -21,10 +20,16 @@ export default function SectionGenre() {
   // delete ID
   const [toDeleteItemId, setToDeleteItemId] = useState<string>("");
   // page
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
-  const start_index = (currentPage - 1) * itemsPerPage;
-  const end_index = currentPage * itemsPerPage;
+
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    handleItemsPerPageChange,
+    start_index,
+    end_index,
+    itemsPerPageOptions,
+  } = useHookPageSwitch();
 
   /**
    * Route
@@ -41,14 +46,6 @@ export default function SectionGenre() {
   const allGenres = gql_result.data.getAllGenres as GenreEntity[];
   const toDeleteGenre = allGenres.find((a) => a.id == toDeleteItemId);
   const validGenre = allGenres.find((a) => a.id == genreId);
-
-  /**
-   * Functions
-   */
-  function handleItemsPerPageChange(value: number) {
-    setItemsPerPage(value); // set value
-    setCurrentPage(1); // default to page 1
-  }
 
   return (
     <>

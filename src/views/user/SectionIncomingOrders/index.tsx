@@ -8,19 +8,25 @@ import {
   OrderStatusEnum,
 } from "@/graphql/orderGql";
 import { useQuery } from "@apollo/client";
-
-const itemsPerPageOptions = [10, 20, 30, 40];
+import useHookPageSwitch from "@/customHooks/useHookPageSwitch";
 
 export default function SectionIncomingOrders() {
   /**
    * State
    */
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
   const [detailShown, setDetailShown] = useState<string[]>([]); // stored the order ids whose detail is revealed
-  const start_index = (currentPage - 1) * itemsPerPage;
-  const end_index = currentPage * itemsPerPage;
+
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    handleItemsPerPageChange,
+    start_index,
+    end_index,
+    itemsPerPageOptions,
+  } = useHookPageSwitch();
+
   // filter
   const [orderStatusFilter, setOrderStatusFilter] = useState<
     OrderStatusEnum | "All"
@@ -53,11 +59,6 @@ export default function SectionIncomingOrders() {
   const numPaidOrders = orders?.filter(
     (a) => a.status === OrderStatusEnum.Paid
   ).length;
-
-  function handleItemsPerPageChange(value: number) {
-    setItemsPerPage(value); // set value
-    setCurrentPage(1); // default to page 1
-  }
 
   useEffect(() => {
     if (orders && orders.length > 0) {

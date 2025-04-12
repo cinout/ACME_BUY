@@ -6,6 +6,7 @@ import OrderTable from "./OrderTable";
 import { useParams } from "react-router-dom";
 import OrderDetails from "./OrderDetails";
 import { OrderEntity, OrderStatusEnum } from "@/graphql/orderGql";
+import useHookPageSwitch from "@/customHooks/useHookPageSwitch";
 
 // TODO:[3] fetch from backend
 const orderStats: OrderEntity[] = Array.from({ length: 34 }, () => ({
@@ -27,16 +28,19 @@ const orderStats: OrderEntity[] = Array.from({ length: 34 }, () => ({
   // })),
 }));
 
-const itemsPerPageOptions: number[] = [5, 10, 15, 20];
-
 export default function SectionOrders() {
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
   const [detailShown, setDetailShown] = useState<string[]>([]); // stored the order ids whose detail is revealed
 
-  const start_index = (currentPage - 1) * itemsPerPage;
-  const end_index = currentPage * itemsPerPage;
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    handleItemsPerPageChange,
+    start_index,
+    end_index,
+    itemsPerPageOptions,
+  } = useHookPageSwitch();
 
   const { orderId } = useParams();
   const currentOrder = orderStats.find((a) => a.id === orderId);
@@ -47,12 +51,6 @@ export default function SectionOrders() {
         ? currentlyShown.filter((a) => a !== order_id)
         : [...currentlyShown, order_id];
     });
-  }
-
-  function handleItemsPerPageChange(value: number) {
-    setItemsPerPage(value); // set value
-    setCurrentPage(1); // default to page 1
-    // setDetailShown([]); // hide all shown details
   }
 
   // TODO:[3] provide filter/sort function, e.g., sort by time/price, fitler by order/payment status

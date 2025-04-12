@@ -13,8 +13,7 @@ import {
 import LoadingIndicatorWithDiv from "@/views/shared_components/LoadingIndicatorWithDiv";
 import { getErrorMessage } from "@/graphql";
 import toast from "react-hot-toast";
-
-const itemsPerPageOptions = [10, 20, 30, 40];
+import useHookPageSwitch from "@/customHooks/useHookPageSwitch";
 
 // TODO:[3] need to provide filter/sort functionalities
 export default function SectionUsers() {
@@ -22,10 +21,16 @@ export default function SectionUsers() {
    * State
    */
   // page
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]!); // show #orders per page
-  const start_index = (currentPage - 1) * itemsPerPage;
-  const end_index = currentPage * itemsPerPage;
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    handleItemsPerPageChange,
+    start_index,
+    end_index,
+    itemsPerPageOptions,
+  } = useHookPageSwitch();
+
   // search value
   const [searchValue, setSearchValue] = useState("");
   // filter
@@ -70,12 +75,6 @@ export default function SectionUsers() {
         status: targetStatus,
       },
     });
-  }
-
-  function handleItemsPerPageChange(value: number) {
-    setItemsPerPage(value); // set value
-    setCurrentPage(1); // default to page 1
-    // setDetailShown([]); // hide all shown details
   }
 
   // redirect if wrong id
